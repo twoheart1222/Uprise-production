@@ -25,7 +25,7 @@
   @keyframes expandWidth { from { width: 0px; opacity: 0; } to { width: 80px; opacity: 1; } }
 
   .team-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 40px; max-width: 1200px; margin: 0 auto 100px; padding: 0 20px; }
-  .card { width: 100%; max-width: 300px; border-radius: 24px 24px 12px 12px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-bottom: none; padding: 40px 20px 10px; backdrop-filter: blur(10px); transition: transform 0.4s ease; opacity: 0; animation: fadeUp 0.8s forwards; display: flex; flex-direction: column; align-items: center; text-align: center; }
+  .card { width: 100%; max-width: 300px; border-radius: 24px 24px 12px 12px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-bottom: none; padding: 40px 20px 20px; backdrop-filter: blur(10px); transition: transform 0.4s ease; opacity: 0; animation: fadeUp 0.8s forwards; display: flex; flex-direction: column; align-items: center; text-align: center; }
   .card:hover { transform: translateY(-5px); background: rgba(255, 255, 255, 0.08); border-color: rgba(255, 61, 0, 0.3); }
   .avatar-box { width: 140px; height: 140px; margin: 0 auto 20px; border-radius: 50%; padding: 3px; background: linear-gradient(135deg, #333, #111); transition: 0.4s ease; }
   .card:hover .avatar-box { background: linear-gradient(135deg, #FFB800, #FF3D00); transform: scale(1.05); }
@@ -33,9 +33,24 @@
   .card h3 { font-size: 1.4rem; margin: 0 0 8px; color: #fff; font-weight: 700; }
   .role { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px; background: linear-gradient(90deg, #FFB800, #FF3D00); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 15px; display: block; font-weight: 700; }
   .bio { font-size: 0.9rem; color: #a1a1a6; line-height: 1.6; margin: 0; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; margin-bottom: 15px; }
-  .portfolio-link { font-size: 0.75rem; color: #fff; text-decoration: none; background: rgba(255,255,255,0.1); padding: 6px 14px; border-radius: 20px; margin-top: auto; margin-bottom: 10px; transition: 0.3s; }
+  
+  /* --- 修改這裡：箭頭樣式 --- */
+  .arrow-down { 
+    font-size: 12px; color: #555; 
+    margin-top: auto; /* 讓箭頭自動推到底部 */
+    margin-bottom: 10px; 
+    animation: bounce 2s infinite; 
+  }
+  
+  /* --- 修改這裡：按鈕樣式 --- */
+  .portfolio-link { 
+    font-size: 0.75rem; color: #fff; text-decoration: none; 
+    background: rgba(255,255,255,0.1); padding: 6px 14px; border-radius: 20px; 
+    /* 移除原本的 margin-top: auto */
+    transition: 0.3s; 
+  }
   .portfolio-link:hover { background: var(--orange); }
-  .arrow-down { margin-top: 5px; font-size: 12px; color: #555; animation: bounce 2s infinite; }
+  
   @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(3px); } }
 
   footer { position: relative; z-index: 10; padding: 80px 20px 40px; background: #000; text-align: center; display: flex; justify-content: center; margin-top: 50px; }
@@ -97,7 +112,17 @@
         data.members.forEach(m => {
           const avatar = m.avatar || 'https://dummyimage.com/150x150/333/fff&text=No+Img';
           const portfolioBtn = m.portfolio_url ? `<a href="${m.portfolio_url}" target="_blank" class="portfolio-link">查看個人作品</a>` : '';
-          html += `<div class="card"><div class="avatar-box"><img src="${avatar}" class="avatar-img" alt="${m.name}"></div><h3>${m.name}</h3><span class="role">${m.role}</span><p class="bio">${m.bio}</p>${portfolioBtn}<div class="arrow-down">▼</div></div>`;
+          
+          // 修改了這裡：把 arrow-down 放在 portfolioBtn 前面
+          html += `
+          <div class="card">
+            <div class="avatar-box"><img src="${avatar}" class="avatar-img" alt="${m.name}"></div>
+            <h3>${m.name}</h3>
+            <span class="role">${m.role}</span>
+            <p class="bio">${m.bio}</p>
+            <div class="arrow-down">▼</div>
+            ${portfolioBtn}
+          </div>`;
         });
         container.innerHTML = html;
       } else {

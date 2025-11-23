@@ -13,8 +13,8 @@
   /* 導覽列 */
   .site-header{position:fixed;top:0;left:0;right:0;height:72px;display:flex;align-items:center;justify-content:space-between;padding:0 28px;z-index:30;background:rgba(15,15,15,0.9);backdrop-filter:blur(8px);border-bottom:1px solid rgba(255,255,255,0.1);}
   
-  /* 🔴 Logo 樣式修改：強制圖片高度為 32px */
-  .logo { display: flex; align-items: center; text-decoration: none; color: #fff; font-weight: 800; font-size: 1.2rem; }
+  /* Logo 樣式 */
+  .logo { display: flex; align-items: center; text-decoration: none; color: #fff; font-weight: 800; font-size: 1.1rem; letter-spacing: 1px; }
   .logo img { height: 32px; width: auto; display: block; } 
 
   .nav{display:flex;gap:20px;}
@@ -27,6 +27,8 @@
   .header-container h1 { font-size: clamp(2rem, 6vw, 4rem); font-weight: 800; margin: 0 0 20px 0; line-height: 1.1; background: linear-gradient(135deg, #FFB800 0%, #FF3D00 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; opacity: 0; animation: fadeUp 0.8s ease 0.2s forwards; word-break: break-word; }
   .header-container p { font-size: clamp(1rem, 3.5vw, 1.2rem); color: #f5f5f7; font-weight: 400; margin: 0 auto 40px; max-width: 600px; line-height: 1.6; opacity: 0; animation: fadeUp 0.8s ease 0.4s forwards; }
   .divider-line { width: 80px; height: 4px; margin: 0 auto; background: linear-gradient(90deg, #FFB800, #FF3D00); border-radius: 4px; opacity: 0; animation: expandWidth 1s cubic-bezier(0.2, 0.8, 0.2, 1) 0.6s forwards; }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes expandWidth { from { width: 0px; opacity: 0; } to { width: 80px; opacity: 1; } }
 
   /* --- 雙欄佈局 --- */
   .contact-wrapper {
@@ -125,7 +127,7 @@
 
     <div class="glass-card form-card">
       <form action="https://formspree.io/f/movbylbl" method="POST">
-        <input type="hidden" name="_next" value="https://visionary-daifuku-4b4698.netlify.app/success.html">
+        <input type="hidden" name="_next" id="redirect-target" value="">
         <input type="hidden" name="_subject" value="新客戶詢問單 - 來自官網">
 
         <div class="input-group">
@@ -163,19 +165,9 @@
   </footer>
 
   <script>
-    // 🔴 關鍵修改：讀取首頁設定來顯示 Logo 圖片
-    fetch('content/index.md').then(res => res.text()).then(text => {
-        const parts = text.split('---');
-        if (parts.length > 1) {
-            const data = jsyaml.load(parts[1]);
-            const logoContainer = document.getElementById('nav-logo');
-            if (data.logo_image) {
-                logoContainer.innerHTML = `<img src="${data.logo_image}" alt="${data.title || 'Logo'}">`;
-            } else {
-                logoContainer.innerText = data.title || 'Uprise-Production';
-            }
-        }
-    });
+    // 🔴 新增：自動設定跳轉網址 (這樣就不會 404 了)
+    // 它會自動抓取目前的網域 (不管是 .netlify.app 還是 .com) 加上 /success.html
+    document.getElementById('redirect-target').value = window.location.origin + '/success.html';
 
     fetch('content/contact.md').then(r => r.text()).then(text => {
       const parts = text.split('---');
@@ -195,6 +187,20 @@
         el.innerText = data.phone;
         el.href = `tel:${data.phone.replace(/\D/g,'')}`; 
       }
+    });
+
+    // 讀取 Logo
+    fetch('content/index.md').then(res => res.text()).then(text => {
+        const parts = text.split('---');
+        if (parts.length > 1) {
+            const data = jsyaml.load(parts[1]);
+            const logoContainer = document.getElementById('nav-logo');
+            if (data.logo_image) {
+                logoContainer.innerHTML = `<img src="${data.logo_image}" alt="${data.title || 'Logo'}">`;
+            } else {
+                logoContainer.innerText = data.title || 'Uprise-Production';
+            }
+        }
     });
   </script>
 </body>

@@ -24,7 +24,7 @@
   .header-container p { font-size: clamp(1rem, 3.5vw, 1.2rem); color: #f5f5f7; font-weight: 400; margin: 0 auto 40px; max-width: 600px; line-height: 1.6; opacity: 0; animation: fadeUp 0.8s ease 0.4s forwards; }
   .divider-line { width: 80px; height: 4px; margin: 0 auto; background: linear-gradient(90deg, #FFB800, #FF3D00); border-radius: 4px; opacity: 0; animation: expandWidth 1s cubic-bezier(0.2, 0.8, 0.2, 1) 0.6s forwards; }
 
-  /* --- 雙欄佈局 (你的設計整合) --- */
+  /* --- 雙欄佈局 --- */
   .contact-wrapper {
     display: flex; justify-content: center; gap: 40px;
     max-width: 1000px; margin: 0 auto 100px; padding: 0 20px;
@@ -120,11 +120,8 @@
     </div>
 
     <div class="glass-card form-card">
-      
       <form action="https://formspree.io/f/movbylbl" method="POST">
-        
-        <input type="hidden" name="_next" value="https://visionary-daifuku-4b4698.netlify.app/success">
-
+        <input type="hidden" name="_next" value="https://visionary-daifuku-4b4698.netlify.app/success.html">
         <input type="hidden" name="_subject" value="新客戶詢問單 - 來自官網">
 
         <div class="input-group">
@@ -149,8 +146,8 @@
         
         <button type="submit">送出詢問</button>
       </form>
-      
     </div>
+  </div>
 
   <footer>
     <div class="footer-content">
@@ -180,7 +177,7 @@
       if(data.phone) {
         const el = document.getElementById('info-phone');
         el.innerText = data.phone;
-        el.href = `tel:${data.phone.replace(/\D/g,'')}`; // 自動移除括號空格，變成可撥打格式
+        el.href = `tel:${data.phone.replace(/\D/g,'')}`; // 自動移除括號空格
       }
     });
   </script>

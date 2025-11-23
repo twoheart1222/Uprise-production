@@ -3,13 +3,15 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Uprise-Production</title> <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+<title>Uprise-Production</title>
+<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Noto+Sans+TC:wght@300;500;700&display=swap" rel="stylesheet">
 <style>
   :root{ --yellow:#FFB800; --orange:#FF7A00; --bg:#0F0F0F; }
   *{box-sizing:border-box}
-  html,body{margin:0;font-family:'Inter', 'Noto Sans TC', sans-serif;background:var(--bg);color:#f5f5f7; overflow-x: hidden;}
+  /* 背景設定為黑色，避免影片載入前透出白色 */
+  html,body{margin:0;font-family:'Inter', 'Noto Sans TC', sans-serif;background:#000;color:#f5f5f7; overflow-x: hidden;}
   
   /* --- 導覽列 --- */
   .site-header{
@@ -22,17 +24,18 @@
   .nav a{color:#fff;text-decoration:none;font-weight:600;font-size: 0.9rem; transition:0.3s;}
   .nav a:hover, .nav a.active { color: var(--yellow); opacity: 1; }
 
-  /* --- 影片背景樣式 --- */
+  /* --- 🔴 新版影片背景樣式 (HTML5 Video) --- */
   .video-background {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
     overflow: hidden; z-index: -1;
-    pointer-events: none; 
   }
   #bg-video {
-    position: absolute; top: 50%; left: 50%;
-    transform: translate(-50%, -50%);
     width: 100%; height: 100%;
+    object-fit: cover; /* 這行 CSS 直接搞定滿版縮放，不需要 JS 計算 */
+    opacity: 0; transition: opacity 1s ease; /* 載入時淡入 */
   }
+  #bg-video.loaded { opacity: 1; }
+
   .overlay {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
     background: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.8) 100%);
@@ -117,7 +120,8 @@
 <body>
 
 <header class="site-header">
-  <a href="index.html" class="logo" id="nav-logo">Uprise-Production</a> <nav class="nav">
+  <a href="index.html" class="logo" id="nav-logo">Uprise-Production</a>
+  <nav class="nav">
     <a href="index.html" class="active">首頁</a>
     <a href="works.html">作品</a>
     <a href="team.html">團隊</a>
@@ -127,7 +131,7 @@
 </header>
 
 <div class="video-background">
-  <div id="bg-video"></div> 
+  <video id="bg-video" autoplay loop muted playsinline></video>
 </div>
 <div class="overlay"></div>
 
@@ -158,74 +162,67 @@
 <footer>
   <div class="footer-content">
     <div class="divider"></div>
-    <h2><span class="gradient-text">Uprise-Production</span></h2> <p class="manifesto">我們不僅是影像的製造者，更是品牌價值的推動者。<br>致力於將抽象的意念，轉化為具象的視覺衝擊。<br>從腳本企劃、電影級拍攝到後期特效，<br>推手影像以極致的職人精神，訴說每一個值得被看見的故事。</p>
-    <div class="copyright">Copyright © 2025 Uprise-Production. All rights reserved.<br>臺中市西區民龍里臺灣大道二段285號31樓 | +886 937672279</div> </div>
+    <h2><span class="gradient-text">Uprise-Production</span></h2>
+    <p class="manifesto">我們不僅是影像的製造者，更是品牌價值的推動者。<br>致力於將抽象的意念，轉化為具象的視覺衝擊。<br>從腳本企劃、電影級拍攝到後期特效，<br>推手影像以極致的職人精神，訴說每一個值得被看見的故事。</p>
+    <div class="copyright">Copyright © 2025 Uprise-Production. All rights reserved.<br>臺中市西區民龍里臺灣大道二段285號31樓 | +886 937672279</div>
+  </div>
 </footer>
 
 <script>
-  var tag = document.createElement('script');
-  tag.src = "https://www.youtube.com/iframe_api";
-  var firstScriptTag = document.getElementsByTagName('script')[0];
-  firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
-  var player;
-  var isMuted = true;
-
-  function onYouTubeIframeAPIReady() {
-    player = new YT.Player('bg-video', {
-      videoId: 'gtDsl8sPLmk',
-      playerVars: {
-        'autoplay': 1, 'controls': 0, 'showinfo': 0, 'modestbranding': 1, 'loop': 1, 'playlist': 'gtDsl8sPLmk', 'mute': 1, 'rel': 0, 'playsinline': 1
-      },
-      events: { 'onReady': onPlayerReady }
-    });
-  }
-
-  function onPlayerReady(event) {
-    event.target.playVideo(); event.target.mute(); resizeVideo();
-  }
-
+  // --- 聲音控制邏輯 (HTML5 Video) ---
   const soundBtn = document.getElementById('sound-btn');
+  const videoPlayer = document.getElementById('bg-video');
+  let isMuted = true;
+
   soundBtn.addEventListener('click', function() {
-    if (player && typeof player.isMuted === 'function') {
-      if (isMuted) { player.unMute(); soundBtn.innerText = '🔊'; isMuted = false; } 
-      else { player.mute(); soundBtn.innerText = '🔇'; isMuted = true; }
+    if (videoPlayer) {
+      if (isMuted) {
+        videoPlayer.muted = false; // 開啟聲音
+        soundBtn.innerText = '🔊';
+        isMuted = false;
+      } else {
+        videoPlayer.muted = true; // 靜音
+        soundBtn.innerText = '🔇';
+        isMuted = true;
+      }
     }
   });
 
-  function resizeVideo() {
-    const iframe = document.querySelector('.video-background iframe');
-    if (!iframe) return;
-    const w = window.innerWidth; const h = window.innerHeight;
-    const videoRatio = 16 / 9; const screenRatio = w / h;
-    if (screenRatio > videoRatio) { iframe.style.width = '100vw'; iframe.style.height = (100 * 9 / 16) + 'vw'; } 
-    else { iframe.style.height = '100vh'; iframe.style.width = (100 * 16 / 9) + 'vh'; }
-  }
-  window.addEventListener('resize', resizeVideo);
-
+  // --- CMS 資料載入 ---
   document.addEventListener("DOMContentLoaded", function() {
       fetch('content/index.md').then(res => res.text()).then(text => {
           const parts = text.split('---');
           if (parts.length < 2) return;
           const data = jsyaml.load(parts[1]);
           
-          // 更新 Logo
+          // 1. 載入影片 (如果有上傳的話)
+          if (data.hero_video) {
+            videoPlayer.src = data.hero_video;
+            videoPlayer.addEventListener('loadeddata', () => {
+               videoPlayer.classList.add('loaded'); // 載入完成後顯示
+            });
+          } else {
+            // 如果沒影片，可以設一個預設圖或暫時留黑
+            console.log('後台未上傳影片');
+          }
+
+          // 2. Logo
           const logoContainer = document.getElementById('nav-logo');
           if (data.logo_image) {
               logoContainer.innerHTML = `<img src="${data.logo_image}" alt="${data.title || 'Uprise-Production'}">`;
           } else {
-              logoContainer.innerText = data.title || 'Uprise-Production'; // 修改處 5
+              logoContainer.innerText = data.title || 'Uprise-Production';
           }
 
-          // 更新標題
+          // 3. Hero Text
           if(data.hero_text) {
               const el = document.getElementById('hero-text'); el.innerText = data.hero_text; el.classList.remove('loading'); el.classList.add('loaded');
               const titleEl = document.getElementById('hero-title');
-              // 備案文字也改成新的
-              titleEl.innerHTML = (data.title || 'Uprise-Production').replace('\n', '<br>'); // 修改處 6
+              titleEl.innerHTML = (data.title || 'Uprise-Production').replace('\n', '<br>');
               titleEl.classList.remove('loading'); titleEl.classList.add('loaded');
           }
 
+          // 4. Services
           const serviceContainer = document.getElementById('services-container');
           if (data.services && data.services.length > 0) {
               let html = '';

@@ -1,6 +1,6 @@
 backend:
   name: git-gateway
-  branch: main 
+  branch: main
 
 media_folder: "images/uploads"
 public_folder: "/images/uploads"
@@ -9,16 +9,19 @@ collections:
   - name: "pages"
     label: "頁面管理"
     files:
-      # --- 1. 首頁 (已更新：加入 Logo 與 服務項目) ---
+      # --- 1. 首頁 (新增 hero_video 欄位) ---
       - label: "首頁 (Home)"
         name: "home"
         file: "content/index.md"
         fields:
-          - {label: "網站標題 (文字備案)", name: "title", widget: "string", default: "Uprise-Production"}
-          - {label: "網站 Logo (圖片)", name: "logo_image", widget: "image", required: false, hint: "上傳透明背景的 PNG 檔案效果最佳"}
+          - {label: "網站標題 (Logo文字)", name: "title", widget: "string", default: "Uprise-Production"}
+          - {label: "網站 Logo (圖片)", name: "logo_image", widget: "image", required: false}
+          
+          # 這裡是新增的影片上傳欄位
+          - {label: "背景影片 (請上傳小於 20MB 的 MP4)", name: "hero_video", widget: "file", required: false}
+          
           - {label: "主視覺標語", name: "hero_text", widget: "string", default: "看見故事的力量"}
           
-          # 新增：服務項目列表
           - label: "服務項目介紹"
             name: "services"
             widget: "list"
@@ -68,14 +71,12 @@ collections:
           - {label: "標題", name: "title", widget: "string", default: "關於我們"}
           - {label: "內文", name: "body", widget: "markdown"}
 
-      # 聯絡頁 (Contact)
+      # --- 5. 聯絡頁 ---
       - label: "聯絡我們 (Contact)"
         name: "contact"
         file: "content/contact.md"
         fields:
-          - {label: "頁面主標題", name: "title", widget: "string", default: "聯絡我們"}
-          - {label: "頁面副標題", name: "subtitle", widget: "text", default: "準備好開始您的影像計畫了嗎？"}
-          - {label: "公司地址", name: "address", widget: "string"}
-          - {label: "聯絡 Email", name: "email", widget: "string"}
-          - {label: "聯絡電話", name: "phone", widget: "string"}
-          - {label: "其他說明文字", name: "info", widget: "markdown"}
+          - {label: "標題", name: "title", widget: "string", default: "聯絡我們"}
+          - {label: "Email", name: "email", widget: "string"}
+          - {label: "電話", name: "phone", widget: "string"}
+          - {label: "其他資訊", name: "info", widget: "markdown"}

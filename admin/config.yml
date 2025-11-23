@@ -14,7 +14,7 @@ collections:
         name: "home"
         file: "content/index.md"
         fields:
-          - {label: "網站標題 (文字備案)", name: "title", widget: "string", default: "PUSHER STUDIO"}
+          - {label: "網站標題 (文字備案)", name: "title", widget: "string", default: "Uprise-Production"}
           - {label: "網站 Logo (圖片)", name: "logo_image", widget: "image", required: false, hint: "上傳透明背景的 PNG 檔案效果最佳"}
           - {label: "主視覺標語", name: "hero_text", widget: "string", default: "看見故事的力量"}
           

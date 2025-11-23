@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
-  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js">
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>推手影像製作</title>
-<link rel="stylesheet" href="css/style.css">
-  </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>推手影像製作</title>
+  
+  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+  
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 <header>
@@ -33,6 +34,33 @@
     <li>社群短片</li>
   </ul>
 </section>
+
+<script>
+  // 1. 去讀取 content/index.md 檔案
+  fetch('content/index.md')
+    .then(response => {
+      if (!response.ok) throw new Error('找不到檔案');
+      return response.text();
+    })
+    .then(text => {
+      // 2. 檔案讀回來了，現在要找 "title:" 在哪裡
+      // 這行是用來抓取 title: 後面的文字
+      const match = text.match(/^title:\s*(.*)$/m);
+      
+      if (match) {
+        // 3. 抓到了！把引號去掉 (如果有引號的話)
+        let titleText = match[1].replace(/^["']|["']$/g, '');
+        
+        // 4. 把字貼到網頁上的 h1 標籤裡
+        document.getElementById('my-title').innerText = titleText;
+      }
+    })
+    .catch(error => {
+      console.error('讀取失敗:', error);
+      // 如果讀取失敗，顯示預設文字
+      document.getElementById('my-title').innerText = "推手影像製作";
+    });
+</script>
 
 </body>
 </html>

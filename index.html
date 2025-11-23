@@ -12,35 +12,90 @@
   *{box-sizing:border-box}
   html,body{margin:0;font-family:'Inter', 'Noto Sans TC', sans-serif;background:var(--bg);color:#f5f5f7; overflow-x: hidden;}
   
-  .site-header{position:fixed;left:0;right:0;top:0;height:72px;display:flex;align-items:center;justify-content:space-between;padding:0 28px;z-index:30;background:rgba(15,15,15,0.9);backdrop-filter: blur(8px);border-bottom:1px solid rgba(255,255,255,0.1);}
-  .logo { font-weight: 800; font-size: 1.2rem; color: #fff; letter-spacing: 1px; text-decoration: none;}
+  /* --- 導覽列 --- */
+  .site-header{
+    position:fixed;left:0;right:0;top:0;height:72px;display:flex;align-items:center;justify-content:space-between;padding:0 28px;z-index:30;
+    background:rgba(15,15,15,0.9);backdrop-filter: blur(8px);border-bottom:1px solid rgba(255,255,255,0.1);
+  }
+  
+  /* Logo 樣式調整：限制高度，保持比例 */
+  .logo { display: flex; align-items: center; text-decoration: none; color: #fff; font-weight: 800; font-size: 1.2rem; letter-spacing: 1px; }
+  .logo img { height: 40px; width: auto; display: block; } 
+  
   .nav{display:flex;gap:20px;align-items:center}
   .nav a{color:#fff;text-decoration:none;font-weight:600;font-size: 0.9rem; transition:0.3s;}
   .nav a:hover, .nav a.active { color: var(--yellow); opacity: 1; }
 
+  /* --- Hero 區塊 --- */
   .hero{position:relative;height:100vh;display:flex;align-items:center;justify-content:center;padding:0 24px;z-index:2}
   .hero-content{max-width:1200px;text-align:center;color:#fff}
-  .hero h1{font-size:clamp(36px,8vw,84px);line-height:1.1;margin:0;font-weight:800; white-space: pre-wrap;}
-  .hero p{margin-top:18px;font-size:1.2rem;opacity:0.9;}
+  .hero h1{font-size:clamp(36px,8vw,84px);line-height:1.1;margin:0;font-weight:800; white-space: pre-wrap; text-shadow: 0 4px 20px rgba(0,0,0,0.5);}
+  .hero p{margin-top:18px;font-size:1.2rem;opacity:0.9; text-shadow: 0 2px 10px rgba(0,0,0,0.5);}
   .hero-ctas{margin-top:28px;display:flex;gap:14px;justify-content:center}
   
   .btn{padding:12px 25px;border-radius:30px;font-weight:700;border:none;cursor:pointer; text-decoration: none; display: inline-block; transition: 0.3s;}
   .btn.primary{background:linear-gradient(90deg,var(--yellow),var(--orange));color:#111}
-  .btn.primary:hover { transform: translateY(-3px); }
+  .btn.primary:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(255, 122, 0, 0.3); }
   .btn.ghost{background:transparent;color:#fff;border:1px solid rgba(255,255,255,0.3)}
   .btn.ghost:hover { background: rgba(255,255,255,0.1); }
 
   .bg-wrap{position:fixed;inset:0;z-index:0;overflow:hidden}
   .bg-wrap video{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);min-width:100%;min-height:100%;width:auto;height:auto;object-fit:cover;filter:brightness(0.4)}
 
-  /* 頁尾樣式 (全站共用) */
-  footer { position: relative; z-index: 10; padding: 80px 20px 40px; background: linear-gradient(180deg, transparent, #000 30%); text-align: center; display: flex; justify-content: center; }
+  /* --- 服務項目區塊 (新設計) --- */
+  #services {
+    position: relative; z-index: 2;
+    background: linear-gradient(180deg, rgba(0,0,0,0.9), #0a0a0a); /* 深色背景 */
+    padding: 100px 20px;
+  }
+  .container { max-width: 1200px; margin: 0 auto; }
+  
+  .section-title { text-align: center; margin-bottom: 60px; }
+  .section-title h2 { font-size: 2.5rem; margin: 0; background: linear-gradient(90deg, #fff, #aaa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  .section-title span { display: block; width: 60px; height: 4px; background: var(--yellow); margin: 20px auto; border-radius: 2px;}
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+  }
+
+  .service-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 20px;
+    padding: 40px 30px;
+    transition: 0.4s ease;
+    display: flex; flex-direction: column; align-items: flex-start;
+  }
+  
+  .service-card:hover {
+    transform: translateY(-10px);
+    background: rgba(255, 255, 255, 0.06);
+    border-color: var(--yellow);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+  }
+
+  .service-icon {
+    width: 60px; height: 60px; margin-bottom: 20px;
+    border-radius: 12px; overflow: hidden;
+    background: linear-gradient(135deg, #222, #111);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .service-icon img { width: 100%; height: 100%; object-fit: cover; }
+  
+  .service-card h3 { font-size: 1.5rem; margin: 0 0 15px; color: #fff; }
+  .service-card p { color: #aaa; line-height: 1.6; margin: 0; font-size: 1rem; }
+
+  /* --- 頁尾樣式 --- */
+  footer { position: relative; z-index: 10; padding: 80px 20px 40px; background: #000; text-align: center; display: flex; justify-content: center; }
   .footer-content { max-width: 800px; width: 100%; }
   .divider { width: 60px; height: 4px; margin: 0 auto 30px; background: linear-gradient(90deg, #FFB800, #FF3D00); border-radius: 4px; animation: expand 1s forwards; }
   footer h2 { font-size: 1.8rem; font-weight: 700; margin: 0 0 20px; letter-spacing: 1px; color: #fff; }
   .gradient-text { background: linear-gradient(135deg, #FFB800, #FF3D00); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
   p.manifesto { font-size: 1.1rem; line-height: 1.8; color: #a1a1a6; margin-bottom: 40px; opacity: 0; animation: fadeUp 1s ease 0.3s forwards; }
   .copyright { font-size: 0.8rem; color: #555; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px; margin-top: 20px; opacity: 0; animation: fadeUp 1s ease 0.6s forwards; }
+  
   @keyframes expand { from { width: 0; opacity: 0; } to { width: 60px; opacity: 1; } }
   @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
   .loading { opacity: 0; }
@@ -51,6 +106,7 @@
 
 <header class="site-header">
   <a href="index.html" class="logo" id="nav-logo">PUSHER</a>
+  
   <nav class="nav">
     <a href="index.html" class="active">首頁</a>
     <a href="works.html">作品</a>
@@ -73,6 +129,19 @@
       </div>
     </div>
   </section>
+
+  <section id="services">
+    <div class="container">
+      <div class="section-title">
+        <h2>OUR SERVICES</h2>
+        <span></span>
+      </div>
+      
+      <div class="services-grid" id="services-container">
+        <p style="text-align:center; color:#666; width:100%;">服務項目載入中...</p>
+      </div>
+    </div>
+  </section>
 </main>
 
 <footer>
@@ -90,10 +159,46 @@ document.addEventListener("DOMContentLoaded", function() {
         const parts = text.split('---');
         if (parts.length < 2) return;
         const data = jsyaml.load(parts[1]);
-        if(data.title) { document.getElementById('nav-logo').innerText = data.title; document.title = data.title; }
+        
+        // --- 1. 更新 Logo ---
+        const logoContainer = document.getElementById('nav-logo');
+        if (data.logo_image) {
+            // 如果有上傳圖片，顯示圖片
+            logoContainer.innerHTML = `<img src="${data.logo_image}" alt="${data.title || 'Logo'}">`;
+        } else {
+            // 如果沒圖片，顯示文字
+            logoContainer.innerText = data.title || 'PUSHER';
+        }
+
+        // --- 2. 更新 Hero 文字 ---
         if(data.hero_text) {
             const el = document.getElementById('hero-text'); el.innerText = data.hero_text; el.classList.remove('loading'); el.classList.add('loaded');
-            document.getElementById('hero-title').innerText = data.title; document.getElementById('hero-title').classList.remove('loading'); document.getElementById('hero-title').classList.add('loaded');
+            // 如果標題沒圖片，也可以用文字更新 Hero Title
+            document.getElementById('hero-title').innerText = data.title || 'PUSHER STUDIO'; 
+            document.getElementById('hero-title').classList.remove('loading'); document.getElementById('hero-title').classList.add('loaded');
+        }
+
+        // --- 3. 生成服務項目卡片 ---
+        const serviceContainer = document.getElementById('services-container');
+        if (data.services && data.services.length > 0) {
+            let html = '';
+            data.services.forEach(svc => {
+                // 檢查有無圖示，沒有就用預設圖
+                const iconHtml = svc.icon 
+                    ? `<div class="service-icon"><img src="${svc.icon}" alt="icon"></div>` 
+                    : `<div class="service-icon" style="font-size:24px; color:#fff;">✦</div>`; // 預設星星符號
+
+                html += `
+                <div class="service-card">
+                    ${iconHtml}
+                    <h3>${svc.title}</h3>
+                    <p>${svc.description}</p>
+                </div>
+                `;
+            });
+            serviceContainer.innerHTML = html;
+        } else {
+            serviceContainer.innerHTML = '<p style="text-align:center; color:#666;">請至後台「首頁」新增服務項目。</p>';
         }
     });
 });

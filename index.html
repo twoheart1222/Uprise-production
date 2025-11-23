@@ -10,7 +10,6 @@
 <style>
   :root{ --yellow:#FFB800; --orange:#FF7A00; --bg:#0F0F0F; }
   *{box-sizing:border-box}
-  /* 背景設定為黑色，避免影片載入前透出白色 */
   html,body{margin:0;font-family:'Inter', 'Noto Sans TC', sans-serif;background:#000;color:#f5f5f7; overflow-x: hidden;}
   
   /* --- 導覽列 --- */
@@ -18,32 +17,34 @@
     position:fixed;left:0;right:0;top:0;height:72px;display:flex;align-items:center;justify-content:space-between;padding:0 28px;z-index:30;
     background:rgba(15,15,15,0.9);backdrop-filter: blur(8px);border-bottom:1px solid rgba(255,255,255,0.1);
   }
-  .logo { display: flex; align-items: center; text-decoration: none; color: #fff; font-weight: 800; font-size: 1.2rem; letter-spacing: 1px; }
-  .logo img { height: 40px; width: auto; display: block; } 
+  
+  /* 🔴 Logo 樣式修改：強制圖片高度為 32px，讓它看起來縮小一點 */
+  .logo { display: flex; align-items: center; text-decoration: none; color: #fff; font-weight: 800; font-size: 1.2rem; }
+  .logo img { height: 32px; width: auto; display: block; } 
+
   .nav{display:flex;gap:20px;align-items:center}
   .nav a{color:#fff;text-decoration:none;font-weight:600;font-size: 0.9rem; transition:0.3s;}
   .nav a:hover, .nav a.active { color: var(--yellow); opacity: 1; }
 
-  /* --- 🔴 新版影片背景樣式 (HTML5 Video) --- */
+  /* --- 影片背景樣式 --- */
   .video-background {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
     overflow: hidden; z-index: -1;
   }
   #bg-video {
     width: 100%; height: 100%;
-    object-fit: cover; /* 這行 CSS 直接搞定滿版縮放，不需要 JS 計算 */
-    opacity: 0; transition: opacity 1s ease; /* 載入時淡入 */
+    object-fit: cover;
+    opacity: 0; transition: opacity 1s ease;
   }
   #bg-video.loaded { opacity: 1; }
 
   .overlay {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
     background: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.8) 100%);
-    z-index: 0;
-    pointer-events: none;
+    z-index: 0; pointer-events: none;
   }
 
-  /* --- 聲音開關按鈕 --- */
+  /* --- 聲音按鈕 --- */
   #sound-btn {
     position: fixed; bottom: 30px; right: 30px; z-index: 20;
     background: rgba(255, 255, 255, 0.1);
@@ -55,10 +56,7 @@
     transition: 0.3s; backdrop-filter: blur(5px);
   }
   #sound-btn:hover {
-    background: rgba(255, 255, 255, 0.2);
-    border-color: var(--yellow);
-    color: var(--yellow);
-    transform: scale(1.1);
+    background: rgba(255, 255, 255, 0.2); border-color: var(--yellow); color: var(--yellow); transform: scale(1.1);
   }
 
   /* --- Hero 區塊 --- */
@@ -82,7 +80,6 @@
   .btn.ghost{background:transparent;color:#fff;border:1px solid rgba(255,255,255,0.3)}
   .btn.ghost:hover { background: rgba(255,255,255,0.1); }
 
-  /* 底部箭頭動畫 */
   .arrow-down { 
     position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%);
     font-size: 24px; color: #fff; opacity: 0.6; animation: bounce 2s infinite; 
@@ -92,150 +89,155 @@
   .loading { opacity: 0; }
   .loaded { opacity: 1; animation: fadeUp 1s cubic-bezier(0.2, 1, 0.3, 1) forwards; }
 
-  /* 服務項目區塊 */
+  /* 服務項目 */
   #services { position: relative; z-index: 2; background: linear-gradient(180deg, rgba(0,0,0,0.9), #0a0a0a); padding: 100px 20px; }
   .container { max-width: 1200px; margin: 0 auto; }
   .section-title { text-align: center; margin-bottom: 60px; }
   .section-title h2 { font-size: 2.5rem; margin: 0; background: linear-gradient(90deg, #fff, #aaa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
   .section-title span { display: block; width: 60px; height: 4px; background: var(--yellow); margin: 20px auto; border-radius: 2px;}
   .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
-  .service-card { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 20px; padding: 40px 30px; transition: 0.4s ease; display: flex; flex-direction: column; align-items: flex-start; }
-  .service-card:hover { transform: translateY(-10px); background: rgba(255, 255, 255, 0.06); border-color: var(--yellow); box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
-  .service-icon { width: 60px; height: 60px; margin-bottom: 20px; border-radius: 12px; overflow: hidden; background: linear-gradient(135deg, #222, #111); display: flex; align-items: center; justify-content: center; }
-  .service-icon img { width: 100%; height: 100%; object-fit: cover; }
+  .service-card { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 16px; padding: 40px 30px; transition: 0.3s; backdrop-filter: blur(10px); }
+  .service-card:hover { background: rgba(255, 255, 255, 0.06); border-color: var(--orange); transform: translateY(-5px); }
+  .service-icon { font-size: 3rem; margin-bottom: 20px; }
   .service-card h3 { font-size: 1.5rem; margin: 0 0 15px; color: #fff; }
-  .service-card p { color: #aaa; line-height: 1.6; margin: 0; font-size: 1rem; }
+  .service-card p { color: #aaa; line-height: 1.6; margin: 0; }
 
   /* 頁尾 */
   footer { position: relative; z-index: 10; padding: 80px 20px 40px; background: #000; text-align: center; display: flex; justify-content: center; }
   .footer-content { max-width: 800px; width: 100%; }
-  .divider { width: 60px; height: 4px; margin: 0 auto 30px; background: linear-gradient(90deg, #FFB800, #FF3D00); border-radius: 4px; animation: expand 1s forwards; }
+  .divider { width: 60px; height: 4px; margin: 0 auto 30px; background: linear-gradient(90deg, #FFB800, #FF3D00); border-radius: 4px; }
   footer h2 { font-size: 1.8rem; font-weight: 700; margin: 0 0 20px; letter-spacing: 1px; color: #fff; }
   .gradient-text { background: linear-gradient(135deg, #FFB800, #FF3D00); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-  p.manifesto { font-size: 1.1rem; line-height: 1.8; color: #a1a1a6; margin-bottom: 40px; opacity: 0; animation: fadeUp 1s ease 0.3s forwards; }
-  .copyright { font-size: 0.8rem; color: #555; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px; margin-top: 20px; opacity: 0; animation: fadeUp 1s ease 0.6s forwards; }
-  @keyframes expand { from { width: 0; opacity: 0; } to { width: 60px; opacity: 1; } }
+  p.manifesto { font-size: 1.1rem; line-height: 1.8; color: #a1a1a6; margin-bottom: 40px; }
+  .copyright { font-size: 0.8rem; color: #555; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px; margin-top: 20px; }
+
 </style>
 </head>
 <body>
 
-<header class="site-header">
-  <a href="index.html" class="logo" id="nav-logo">Uprise-Production</a>
-  <nav class="nav">
-    <a href="index.html" class="active">首頁</a>
-    <a href="works.html">作品</a>
-    <a href="team.html">團隊</a>
-    <a href="about.html">關於</a>
-    <a href="contact.html">聯絡</a>
-  </nav>
-</header>
-
-<div class="video-background">
-  <video id="bg-video" autoplay loop muted playsinline></video>
-</div>
-<div class="overlay"></div>
-
-<button id="sound-btn" title="開啟/關閉聲音">🔇</button>
-
-<main>
-  <section class="hero">
-    <div class="hero-content">
-      <h1 id="hero-title" class="loading">Loading...</h1>
-      <p id="hero-text" class="loading">...</p>
-      <div class="arrow-down">⌄</div>
-    </div>
-  </section>
-
-  <section id="services">
-    <div class="container">
-      <div class="section-title">
-        <h2>OUR SERVICES</h2>
-        <span></span>
-      </div>
-      <div class="services-grid" id="services-container">
-        <p style="text-align:center; color:#666; width:100%;">服務項目載入中...</p>
-      </div>
-    </div>
-  </section>
-</main>
-
-<footer>
-  <div class="footer-content">
-    <div class="divider"></div>
-    <h2><span class="gradient-text">Uprise-Production</span></h2>
-    <p class="manifesto">我們不僅是影像的製造者，更是品牌價值的推動者。<br>致力於將抽象的意念，轉化為具象的視覺衝擊。<br>從腳本企劃、電影級拍攝到後期特效，<br>推手影像以極致的職人精神，訴說每一個值得被看見的故事。</p>
-    <div class="copyright">Copyright © 2025 Uprise-Production. All rights reserved.<br>臺中市西區民龍里臺灣大道二段285號31樓 | +886 937672279</div>
+  <div class="video-background">
+    <video id="bg-video" playsinline autoplay muted loop>
+      <source src="" type="video/mp4">
+    </video>
+    <div class="overlay"></div>
   </div>
-</footer>
 
-<script>
-  // --- 聲音控制邏輯 (HTML5 Video) ---
-  const soundBtn = document.getElementById('sound-btn');
-  const videoPlayer = document.getElementById('bg-video');
-  let isMuted = true;
+  <div id="sound-btn">🔊</div>
 
-  soundBtn.addEventListener('click', function() {
-    if (videoPlayer) {
-      if (isMuted) {
-        videoPlayer.muted = false; // 開啟聲音
-        soundBtn.innerText = '🔊';
-        isMuted = false;
-      } else {
-        videoPlayer.muted = true; // 靜音
-        soundBtn.innerText = '🔇';
-        isMuted = true;
-      }
-    }
-  });
+  <header class="site-header">
+    <a href="index.html" class="logo" id="nav-logo">Uprise-Production</a>
+    <nav class="nav">
+      <a href="index.html" class="active">首頁</a>
+      <a href="works.html">作品</a>
+      <a href="team.html">團隊</a>
+      <a href="about.html">關於</a>
+      <a href="contact.html">聯絡</a>
+    </nav>
+  </header>
 
-  // --- CMS 資料載入 ---
-  document.addEventListener("DOMContentLoaded", function() {
-      fetch('content/index.md').then(res => res.text()).then(text => {
-          const parts = text.split('---');
-          if (parts.length < 2) return;
+  <main>
+    <section class="hero">
+      <div class="hero-content loading" id="hero-content">
+        <h1 id="hero-title">Loading...</h1>
+        <p id="hero-subtitle"></p>
+        <div class="hero-ctas">
+          <a href="works.html" class="btn primary">查看作品</a>
+          <a href="contact.html" class="btn ghost">聯絡我們</a>
+        </div>
+      </div>
+      <div class="arrow-down">▼</div>
+    </section>
+
+    <section id="services">
+      <div class="container">
+        <div class="section-title">
+          <h2>我們的服務</h2>
+          <span></span>
+        </div>
+        <div class="services-grid" id="services-grid">
+          </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-content">
+      <div class="divider"></div>
+      <h2><span class="gradient-text">Uprise-Production</span></h2>
+      <p class="manifesto">我們不僅是影像的製造者，更是品牌價值的推動者。<br>致力於將抽象的意念，轉化為具象的視覺衝擊。<br>從腳本企劃、電影級拍攝到後期特效，<br>推手影像以極致的職人精神，訴說每一個值得被看見的故事。</p>
+      <div class="copyright">Copyright © 2025 推手影像製作有限公司 Uprise-Production. All rights reserved.<br>臺中市西區民龍里臺灣大道二段285號31樓 | +886 937672279</div>
+    </div>
+  </footer>
+
+  <script>
+    // 處理聲音開關
+    const video = document.getElementById('bg-video');
+    const soundBtn = document.getElementById('sound-btn');
+    soundBtn.addEventListener('click', () => {
+      video.muted = !video.muted;
+      soundBtn.textContent = video.muted ? '🔊' : '🔈';
+    });
+
+    // 讀取後台資料 (content/index.md)
+    fetch('content/index.md')
+      .then(response => response.text())
+      .then(text => {
+        const parts = text.split('---');
+        if (parts.length > 1) {
           const data = jsyaml.load(parts[1]);
           
-          // 1. 載入影片 (如果有上傳的話)
-          if (data.hero_video) {
-            videoPlayer.src = data.hero_video;
-            videoPlayer.addEventListener('loadeddata', () => {
-               videoPlayer.classList.add('loaded'); // 載入完成後顯示
-            });
-          } else {
-            // 如果沒影片，可以設一個預設圖或暫時留黑
-            console.log('後台未上傳影片');
-          }
-
-          // 2. Logo
+          // 🔴 關鍵修改：讀取並顯示 Logo 圖片
           const logoContainer = document.getElementById('nav-logo');
           if (data.logo_image) {
-              logoContainer.innerHTML = `<img src="${data.logo_image}" alt="${data.title || 'Uprise-Production'}">`;
+              // 如果有圖片，就插入 img 標籤
+              logoContainer.innerHTML = `<img src="${data.logo_image}" alt="${data.title || 'Logo'}">`;
           } else {
+              // 如果沒圖片，才顯示文字 (備用)
               logoContainer.innerText = data.title || 'Uprise-Production';
           }
 
-          // 3. Hero Text
-          if(data.hero_text) {
-              const el = document.getElementById('hero-text'); el.innerText = data.hero_text; el.classList.remove('loading'); el.classList.add('loaded');
-              const titleEl = document.getElementById('hero-title');
-              titleEl.innerHTML = (data.title || 'Uprise-Production').replace('\n', '<br>');
-              titleEl.classList.remove('loading'); titleEl.classList.add('loaded');
+          // 更新文字內容
+          document.getElementById('hero-title').textContent = data.hero_title || 'Welcome';
+          document.getElementById('hero-subtitle').textContent = data.hero_subtitle || '';
+          document.getElementById('hero-content').classList.remove('loading');
+          document.getElementById('hero-content').classList.add('loaded');
+
+          // 更新背景影片
+          if (data.hero_video) {
+            const source = video.querySelector('source');
+            source.src = data.hero_video;
+            video.load();
+            video.onloadeddata = () => {
+              video.classList.add('loaded');
+              video.play();
+            };
           }
 
-          // 4. Services
-          const serviceContainer = document.getElementById('services-container');
+          // 更新服務項目
+          const servicesGrid = document.getElementById('services-grid');
           if (data.services && data.services.length > 0) {
-              let html = '';
-              data.services.forEach(svc => {
-                  const iconHtml = svc.icon ? `<div class="service-icon"><img src="${svc.icon}"></div>` : `<div class="service-icon" style="font-size:24px; color:#fff;">✦</div>`;
-                  html += `<div class="service-card">${iconHtml}<h3>${svc.title}</h3><p>${svc.description}</p></div>`;
-              });
-              serviceContainer.innerHTML = html;
-          } else {
-              serviceContainer.innerHTML = '<p style="text-align:center; color:#666;">請至後台「首頁」新增服務項目。</p>';
+            servicesGrid.innerHTML = data.services.map(service => `
+              <div class="service-card">
+                <div class="service-icon">${service.icon || '✨'}</div>
+                <h3>${service.title}</h3>
+                <p>${service.description}</p>
+              </div>
+            `).join('');
           }
+        }
+      })
+      .catch(error => console.error('Error loading content:', error));
+
+    // Netlify Identity 重定向處理
+    if (window.netlifyIdentity) {
+      window.netlifyIdentity.on("init", user => {
+        if (!user) {
+          window.netlifyIdentity.on("login", () => {
+            document.location.href = "/admin/";
+          });
+        }
       });
-  });
-</script>
+    }
+  </script>
 </body>
 </html>

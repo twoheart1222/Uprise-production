@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>成員介紹 | Uprise-Production</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/2.1.0/showdown.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Noto+Sans+TC:wght@300;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{ --yellow:#FFB800; --orange:#FF7A00; --bg:#0F0F0F; }
+  body { margin:0; font-family:'Inter', 'Noto Sans TC', sans-serif; background:var(--bg); color:#fff; overflow-x: hidden; display: block;}
+  
+  /* 導覽列 */
+  .site-header{position:fixed;top:0;left:0;right:0;height:72px;display:flex;align-items:center;justify-content:space-between;padding:0 28px;z-index:30;background:rgba(15,15,15,0.9);backdrop-filter:blur(8px);border-bottom:1px solid rgba(255,255,255,0.1);}
+  .logo { display: flex; align-items: center; text-decoration: none; color: #fff; font-weight: 800; font-size: 1.1rem; letter-spacing: 1px; }
+  .logo img { height: 32px; width: auto; display: block; } 
+  .nav{display:flex;gap:20px;}
+  .nav a{color:#fff;text-decoration:none;font-weight:600;font-size:0.9rem;opacity:0.7;transition:0.3s;}
+  .nav a:hover, .nav a.active { color:var(--yellow); opacity:1; }
+
+  /* --- 🔴 新增：你的標題區塊樣式 --- */
+  .header-container {
+    text-align: center; max-width: 800px; width: 100%;
+    margin: 100px auto 20px; /* 調整位置，避開導覽列 */
+    padding: 30px 20px 10px;
+  }
+  .label {
+    font-size: 0.8rem; font-weight: 700; letter-spacing: 3px;
+    text-transform: uppercase; color: #86868b;
+    margin-bottom: 5px; display: block;
+    opacity: 0; animation: fadeUp 0.8s ease forwards;
+  }
+  .header-container h1 {
+    font-size: 3.5rem; font-weight: 800; margin: 0 0 10px 0; line-height: 1.1;
+    background: linear-gradient(135deg, #FFB800 0%, #FF3D00 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    opacity: 0; animation: fadeUp 0.8s ease 0.2s forwards;
+  }
+  .header-container p {
+    font-size: 1.2rem; color: #f5f5f7; font-weight: 400; margin: 0 auto 25px;
+    max-width: 600px; line-height: 1.4;
+    opacity: 0; animation: fadeUp 0.8s ease 0.4s forwards;
+  }
+  .divider-line {
+    width: 60px; height: 4px; margin: 0 auto;
+    background: linear-gradient(90deg, #FFB800, #FF3D00);
+    border-radius: 4px;
+    opacity: 0; animation: expandWidth 1s cubic-bezier(0.2, 0.8, 0.2, 1) 0.6s forwards;
+  }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes expandWidth { from { width: 0px; opacity: 0; } to { width: 60px; opacity: 1; } }
+
+  /* --- 個人資料容器 --- */
+  .profile-container {
+    display: flex; flex-wrap: wrap; max-width: 1000px; width: 100%; 
+    gap: 60px; align-items: center; margin: 40px auto 100px; padding: 0 20px;
+  }
+
+  /* 左側：照片區 */
+  .photo-section { flex: 1; min-width: 300px; display: flex; justify-content: center; }
+  .photo-frame {
+    width: 100%; max-width: 360px; aspect-ratio: 3/4; border-radius: 24px; padding: 6px;
+    background: linear-gradient(135deg, #333, #111);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+    opacity: 0; animation: slideInLeft 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) 0.4s forwards; /* 延遲一點，等標題出來 */
+    overflow: hidden; position: relative;
+  }
+  .profile-img {
+    width: 100%; height: 100%; object-fit: cover; object-position: center top;
+    border-radius: 18px; display: block;
+  }
+
+  /* 右側：文字區 */
+  .info-section {
+    flex: 1.2; min-width: 300px; opacity: 0; 
+    animation: slideInRight 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) 0.6s forwards;
+    display: flex; flex-direction: column; justify-content: center;
+  }
+  .member-name { /* 改名避免跟上面標題衝突 */
+    font-size: 3.5rem; font-weight: 800; margin: 0 0 10px;
+    background: linear-gradient(135deg, #fff 0%, #a1a1a6 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .job-title {
+    font-size: 1.2rem; text-transform: uppercase; letter-spacing: 2px;
+    background: linear-gradient(90deg, #FFB800, #FF3D00);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    font-weight: 700; margin-bottom: 30px; display: inline-block;
+  }
+  .bio-text {
+    color: #a1a1a6; font-size: 1.1rem; line-height: 1.8; margin-bottom: 30px; text-align: justify;
+  }
+  .info-divider {
+    width: 100%; height: 1px;
+    background: linear-gradient(90deg, rgba(255,255,255,0.1), rgba(255, 61, 0, 0.5), rgba(255,255,255,0.1));
+    margin: 20px 0;
+  }
+
+  /* 按鈕區 */
+  .action-buttons { display: flex; gap: 15px; margin-top: 10px; }
+  .btn-back, .btn-portfolio {
+    padding: 12px 24px; border-radius: 50px; font-weight: 600; text-decoration: none;
+    transition: 0.3s; display: inline-flex; align-items: center; gap: 8px; font-size: 0.95rem;
+  }
+  .btn-back {
+    background: rgba(255,255,255,0.1); color: #fff; border: 1px solid rgba(255,255,255,0.1);
+  }
+  .btn-back:hover { background: rgba(255,255,255,0.2); }
+  
+  .btn-portfolio {
+    background: linear-gradient(90deg, var(--yellow), var(--orange)); color: #000; border: none;
+  }
+  .btn-portfolio:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(255, 122, 0, 0.2); }
+  
+  @keyframes slideInLeft { from { opacity: 0; transform: translateX(-40px); } to { opacity: 1; transform: translateX(0); } }
+  @keyframes slideInRight { from { opacity: 0; transform: translateX(40px); } to { opacity: 1; transform: translateX(0); } }
+
+  @media (max-width: 768px) {
+    .header-container { padding: 20px 10px 10px; }
+    .header-container h1 { font-size: 2.5rem; }
+    .header-container p { font-size: 1rem; }
+    .profile-container { flex-direction: column; gap: 30px; text-align: center; margin-top: 40px;}
+    .photo-frame { max-width: 280px; }
+    .bio-text { text-align: left; }
+    .info-section { align-items: center; }
+    .action-buttons { justify-content: center; }
+  }
+
+  /* 頁尾 */
+  footer { position: relative; z-index: 10; padding: 80px 20px 40px; background: #000; text-align: center; display: flex; justify-content: center; }
+  .footer-content { max-width: 800px; width: 100%; }
+  .divider-foot { width: 60px; height: 4px; margin: 0 auto 30px; background: linear-gradient(90deg, #FFB800, #FF3D00); border-radius: 4px; }
+  footer h2 { font-size: 1.8rem; font-weight: 700; margin: 0 0 20px; letter-spacing: 1px; color: #fff; }
+  .gradient-text { background: linear-gradient(135deg, #FFB800, #FF3D00); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  .copyright { font-size: 0.8rem; color: #555; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px; margin-top: 20px; }
+  p.manifesto { font-size: 1.1rem; line-height: 1.8; color: #a1a1a6; margin-bottom: 40px; }
+</style>
+</head>
+<body>
+
+  <header class="site-header">
+    <a href="index.html" class="logo" id="nav-logo">Uprise-Production</a>
+    <nav class="nav">
+      <a href="index.html">首頁</a>
+      <a href="works.html">作品</a>
+      <a href="team.html" class="active">團隊</a>
+      <a href="about.html">關於</a>
+      <a href="contact.html">聯絡</a>
+    </nav>
+  </header>
+
+  <div class="header-container">
+    <span class="label">MEMBER PROFILE</span>
+    <h1>成員介紹</h1>
+    <p>認識我們團隊<br>隨時準備為您的故事拍攝。</p>
+    <div class="divider-line"></div>
+  </div>
+
+  <div class="profile-container" id="profile-content">
+    <p style="width:100%; text-align:center; color:#666;">Loading...</p>
+  </div>
+
+  <footer>
+    <div class="footer-content">
+      <div class="divider-foot"></div>
+      <h2><span class="gradient-text">Uprise-Production</span></h2>
+      <p class="manifesto">我們不僅是影像的製造者，更是品牌價值的推動者。<br>致力於將抽象的意念，轉化為具象的視覺衝擊。<br>從腳本企劃、電影級拍攝到後期特效，<br>推手影像以極致的職人精神，訴說每一個值得被看見的故事。</p>
+      <div class="copyright">Copyright © 2025 Uprise-Production. All rights reserved.<br>臺中市西區民龍里臺灣大道二段285號31樓 | +886 937672279</div>
+    </div>
+  </footer>
+
+  <script>
+    // 1. 讀取 Logo
+    fetch('content/index.md').then(res => res.text()).then(text => {
+        const parts = text.split('---');
+        if (parts.length > 1) {
+            const data = jsyaml.load(parts[1]);
+            const logoContainer = document.getElementById('nav-logo');
+            if (data.logo_image) {
+                logoContainer.innerHTML = `<img src="${data.logo_image}" alt="${data.title || 'Logo'}">`;
+            } else {
+                logoContainer.innerText = data.title || 'Uprise-Production';
+            }
+        }
+    });
+
+    // 2. 讀取成員資料
+    const urlParams = new URLSearchParams(window.location.search);
+    const memberId = urlParams.get('id');
+
+    fetch('content/team.md').then(r => r.text()).then(text => {
+      const parts = text.split('---');
+      const data = jsyaml.load(parts.length > 1 ? parts[1] : text);
+      
+      const container = document.getElementById('profile-content');
+
+      if(data.members && memberId !== null && data.members[memberId]) {
+        const m = data.members[memberId];
+        const avatar = m.avatar || 'https://dummyimage.com/400x500/333/fff';
+        const bioHtml = new showdown.Converter().makeHtml(m.bio || '');
+        
+        const portfolioBtn = m.portfolio_url 
+            ? `<a href="${m.portfolio_url}" target="_blank" class="btn-portfolio">查看作品集 ↗</a>` 
+            : '';
+
+        container.innerHTML = `
+            <div class="photo-section">
+              <div class="photo-frame">
+                <img src="${avatar}" class="profile-img" alt="${m.name}">
+              </div>
+            </div>
+
+            <div class="info-section">
+              <h2 class="member-name">${m.name}</h2>
+              <span class="job-title">${m.role}</span>
+              
+              <div class="bio-text">${bioHtml}</div>
+              
+              <div class="info-divider"></div>
+              
+              <div class="action-buttons">
+                <a href="team.html" class="btn-back">← 返回團隊</a>
+                ${portfolioBtn}
+              </div>
+            </div>
+        `;
+      } else {
+        container.innerHTML = '<p style="text-align:center; width:100%;">找不到該成員資料，請返回團隊頁面。</p>';
+      }
+    });
+  </script>
+</body>
+</html>

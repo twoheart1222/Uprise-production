@@ -12,7 +12,11 @@
   
   /* 導覽列 */
   .site-header{position:fixed;top:0;left:0;right:0;height:72px;display:flex;align-items:center;justify-content:space-between;padding:0 28px;z-index:30;background:rgba(15,15,15,0.9);backdrop-filter:blur(8px);border-bottom:1px solid rgba(255,255,255,0.1);}
-  .logo { font-weight:800; font-size:1.2rem; color:#fff; text-decoration:none; letter-spacing:1px; }
+  
+  /* 🔴 Logo 樣式修改：強制圖片高度為 32px */
+  .logo { display: flex; align-items: center; text-decoration: none; color: #fff; font-weight: 800; font-size: 1.2rem; }
+  .logo img { height: 32px; width: auto; display: block; } 
+
   .nav{display:flex;gap:20px;}
   .nav a{color:#fff;text-decoration:none;font-weight:600;font-size:0.9rem;opacity:0.7;transition:0.3s;}
   .nav a:hover, .nav a.active { color:var(--yellow); opacity:1; }
@@ -82,7 +86,7 @@
 <body>
 
   <header class="site-header">
-    <a href="index.html" class="logo">Uprise-Production</a>
+    <a href="index.html" class="logo" id="nav-logo">Uprise-Production</a>
     <nav class="nav">
       <a href="index.html">首頁</a>
       <a href="works.html">作品</a>
@@ -159,15 +163,27 @@
   </footer>
 
   <script>
+    // 🔴 關鍵修改：讀取首頁設定來顯示 Logo 圖片
+    fetch('content/index.md').then(res => res.text()).then(text => {
+        const parts = text.split('---');
+        if (parts.length > 1) {
+            const data = jsyaml.load(parts[1]);
+            const logoContainer = document.getElementById('nav-logo');
+            if (data.logo_image) {
+                logoContainer.innerHTML = `<img src="${data.logo_image}" alt="${data.title || 'Logo'}">`;
+            } else {
+                logoContainer.innerText = data.title || 'Uprise-Production';
+            }
+        }
+    });
+
     fetch('content/contact.md').then(r => r.text()).then(text => {
       const parts = text.split('---');
       const data = jsyaml.load(parts.length > 1 ? parts[1] : text);
       
-      // 更新標題
       if(data.title) document.getElementById('page-title').innerText = data.title;
       if(data.subtitle) document.getElementById('page-subtitle').innerText = data.subtitle;
       
-      // 更新左側卡片資訊
       if(data.address) document.getElementById('info-address').innerText = data.address;
       if(data.email) {
         const el = document.getElementById('info-email');
@@ -177,7 +193,7 @@
       if(data.phone) {
         const el = document.getElementById('info-phone');
         el.innerText = data.phone;
-        el.href = `tel:${data.phone.replace(/\D/g,'')}`; // 自動移除括號空格
+        el.href = `tel:${data.phone.replace(/\D/g,'')}`; 
       }
     });
   </script>

@@ -1,0 +1,36 @@
+backend:
+  name: git-gateway
+  branch: main
+
+media_folder: "media"
+public_folder: "/media"
+
+collections:
+  - name: "pages"
+    label: "頁面"
+    files:
+      - label: "首頁"
+        name: "index"
+        file: "index.html"
+        fields:
+          - {label: "標題", name: "title", widget: "string"}
+      - label: "關於我們"
+        name: "about"
+        file: "about.html"
+        fields:
+          - {label: "內容", name: "body", widget: "markdown"}
+      - label: "作品"
+        name: "works"
+        file: "works.html"
+        fields:
+          - {label: "YouTube影片連結", name: "youtube", widget: "list", field: {label: "連結", name: "url", widget: "string"}}
+      - label: "團隊"
+        name: "team"
+        file: "team.html"
+        fields:
+          - {label: "成員", name: "members", widget: "list", fields: [{label: "姓名", name: "name", widget: "string"}, {label: "介紹", name: "bio", widget: "markdown"}]}
+      - label: "聯絡"
+        name: "contact"
+        file: "contact.html"
+        fields:
+          - {label: "內容", name: "body", widget: "markdown"}

@@ -10,7 +10,7 @@
 <style>
   :root{ --yellow:#FFB800; --orange:#FF7A00; --bg:#0F0F0F; }
   *{box-sizing:border-box}
-  /* 背景預設黑 */
+  /* 背景預設黑，避免影片載入前閃白 */
   html,body{margin:0;font-family:'Inter', 'Noto Sans TC', sans-serif;background:#000;color:#f5f5f7; overflow-x: hidden;}
   
   /* --- 導覽列 --- */
@@ -34,7 +34,7 @@
     transform: translate(-50%, -50%);
     min-width: 100%; min-height: 100%;
     width: auto; height: auto;
-    object-fit: cover;
+    object-fit: cover; /* 確保滿版 */
     opacity: 0; transition: opacity 1.5s ease; /* 淡入效果 */
   }
   #bg-video.loaded { opacity: 1; }
@@ -55,7 +55,7 @@
     display: flex; justify-content: center; align-items: center;
     font-size: 20px; cursor: pointer;
     transition: 0.3s; backdrop-filter: blur(5px);
-    display: none; /* 預設隱藏，有影片才顯示 */
+    display: none; /* 載入成功才顯示 */
   }
   #sound-btn:hover {
     background: rgba(255, 255, 255, 0.2); border-color: var(--yellow); color: var(--yellow); transform: scale(1.1);
@@ -91,6 +91,7 @@
   .loading { opacity: 0; }
   .loaded { opacity: 1; animation: fadeUp 1s cubic-bezier(0.2, 1, 0.3, 1) forwards; }
 
+  /* 服務項目區塊 */
   #services { position: relative; z-index: 2; background: linear-gradient(180deg, rgba(0,0,0,0.9), #0a0a0a); padding: 100px 20px; }
   .container { max-width: 1200px; margin: 0 auto; }
   .section-title { text-align: center; margin-bottom: 60px; }
@@ -104,6 +105,7 @@
   .service-card h3 { font-size: 1.5rem; margin: 0 0 15px; color: #fff; }
   .service-card p { color: #aaa; line-height: 1.6; margin: 0; font-size: 1rem; }
 
+  /* 頁尾 */
   footer { position: relative; z-index: 10; padding: 80px 20px 40px; background: #000; text-align: center; display: flex; justify-content: center; }
   .footer-content { max-width: 800px; width: 100%; }
   .divider { width: 60px; height: 4px; margin: 0 auto 30px; background: linear-gradient(90deg, #FFB800, #FF3D00); border-radius: 4px; animation: expand 1s forwards; }
@@ -167,73 +169,84 @@
   </footer>
 
   <script>
-    // 聲音控制
-    const video = document.getElementById('bg-video');
+    // --- 1. 聲音與影片控制 ---
     const soundBtn = document.getElementById('sound-btn');
-    
-    video.muted = true; // 強制預設靜音
+    const videoPlayer = document.getElementById('bg-video');
+    let isMuted = true;
 
-    soundBtn.addEventListener('click', () => {
-      video.muted = !video.muted;
-      soundBtn.textContent = video.muted ? '🔊' : '🔈';
+    // 預設靜音
+    if (videoPlayer) { videoPlayer.muted = true; }
+
+    soundBtn.addEventListener('click', function() {
+      if (videoPlayer) {
+        if (isMuted) {
+          videoPlayer.muted = false; // 開啟聲音
+          soundBtn.innerText = '🔊';
+          isMuted = false;
+        } else {
+          videoPlayer.muted = true; // 靜音
+          soundBtn.innerText = '🔇';
+          isMuted = true;
+        }
+      }
     });
 
-    fetch('content/index.md')
-      .then(response => response.text())
-      .then(text => {
-        const parts = text.split('---');
-        if (parts.length > 1) {
-          const data = jsyaml.load(parts[1]);
-          
-          // 🔴 1. 影片處理邏輯 (重要修正)
-          if (data.hero_video) {
-            // 確保路徑正確 (如果後台存的是相對路徑，這裡不做額外處理，通常是對的)
-            // 但如果是存成 "images/uploads/..." 前面要加 "/"
-            let videoPath = data.hero_video;
-            if (!videoPath.startsWith('/') && !videoPath.startsWith('http')) {
-              videoPath = '/' + videoPath;
-            }
-            
-            console.log("正在載入影片:", videoPath); // 方便除錯
-            
-            video.src = videoPath;
-            
-            // 強制播放策略
-            video.addEventListener('loadeddata', () => {
-                video.classList.add('loaded');
-                document.getElementById('sound-btn').style.display = 'flex'; // 載入成功才顯示按鈕
-                video.play().catch(e => console.error("自動播放被阻擋:", e));
+    document.addEventListener("DOMContentLoaded", function() {
+        
+        // ✅ 強制使用你的 Cloudinary 影片連結
+        const myVideoUrl = 'https://res.cloudinary.com/dfnfcyglu/video/upload/v1763893930/hero_bg_ickrbe.mp4'; 
+
+        if (videoPlayer) {
+            videoPlayer.src = myVideoUrl;
+            videoPlayer.addEventListener('loadeddata', () => {
+               videoPlayer.classList.add('loaded');
+               // 載入成功後，顯示聲音按鈕
+               soundBtn.style.display = 'flex';
+               videoPlayer.play().catch(e => console.log("自動播放受阻:", e));
             });
-          }
-
-          // Logo
-          const logoContainer = document.getElementById('nav-logo');
-          if (data.logo_image) {
-              logoContainer.innerHTML = `<img src="${data.logo_image}" alt="${data.title || 'Logo'}">`;
-          } else {
-              logoContainer.innerText = data.title || 'Uprise-Production';
-          }
-
-          // Hero Text
-          document.getElementById('hero-title').textContent = data.hero_title || data.title || 'Welcome';
-          document.getElementById('hero-subtitle').textContent = data.hero_text || '';
-          document.getElementById('hero-content').classList.remove('loading');
-          document.getElementById('hero-content').classList.add('loaded');
-
-          // Services
-          const servicesGrid = document.getElementById('services-grid');
-          if (data.services && data.services.length > 0) {
-            servicesGrid.innerHTML = data.services.map(service => `
-              <div class="service-card">
-                <div class="service-icon">${service.icon ? `<img src="${service.icon}">` : '✦'}</div>
-                <h3>${service.title}</h3>
-                <p>${service.description}</p>
-              </div>
-            `).join('');
-          }
         }
-      })
-      .catch(error => console.error('CMS 讀取錯誤:', error));
+
+        // --- 2. CMS 內容讀取 ---
+        fetch('content/index.md').then(res => res.text()).then(text => {
+            const parts = text.split('---');
+            if (parts.length < 2) return;
+            const data = jsyaml.load(parts[1]);
+            
+            // Logo
+            const logoContainer = document.getElementById('nav-logo');
+            if (data.logo_image) {
+                logoContainer.innerHTML = `<img src="${data.logo_image}" alt="${data.title || 'Logo'}">`;
+            } else {
+                logoContainer.innerText = data.title || 'Uprise-Production';
+            }
+
+            // Hero Text
+            const el = document.getElementById('hero-title');
+            const sub = document.getElementById('hero-subtitle');
+            const wrap = document.getElementById('hero-content');
+
+            el.innerHTML = (data.title || 'Uprise-Production').replace(/\n/g, '<br>');
+            sub.innerText = data.hero_text || '看見故事的力量';
+            
+            wrap.classList.remove('loading');
+            wrap.classList.add('loaded');
+
+            // Services
+            const serviceContainer = document.getElementById('services-grid');
+            if (data.services && data.services.length > 0) {
+                let html = '';
+                data.services.forEach(svc => {
+                    const iconHtml = svc.icon ? `<div class="service-icon"><img src="${svc.icon}"></div>` : `<div class="service-icon" style="font-size:24px; color:#fff;">✦</div>`;
+                    html += `<div class="service-card">${iconHtml}<h3>${svc.title}</h3><p>${svc.description}</p></div>`;
+                });
+                serviceContainer.innerHTML = html;
+            }
+        }).catch(err => {
+            console.error("CMS Error:", err);
+            // 即使 CMS 讀取失敗，影片和標題也已經有預設值，確保頁面不壞掉
+            document.getElementById('hero-content').classList.add('loaded');
+        });
+    });
   </script>
 </body>
 </html>

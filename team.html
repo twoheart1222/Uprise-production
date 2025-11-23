@@ -10,11 +10,8 @@
   :root{ --yellow:#FFB800; --orange:#FF7A00; --bg:#0F0F0F; }
   body { margin:0; font-family:'Inter', 'Noto Sans TC', sans-serif; background:var(--bg); color:#fff; overflow-x: hidden;}
   .site-header{position:fixed;top:0;left:0;right:0;height:72px;display:flex;align-items:center;justify-content:space-between;padding:0 28px;z-index:30;background:rgba(15,15,15,0.9);backdrop-filter:blur(8px);border-bottom:1px solid rgba(255,255,255,0.1);}
-  
-  /* 🔴 Logo 樣式修改：強制圖片高度為 32px */
-  .logo { display: flex; align-items: center; text-decoration: none; color: #fff; font-weight: 800; font-size: 1.2rem; }
+  .logo { display: flex; align-items: center; text-decoration: none; color: #fff; font-weight: 800; font-size: 1.1rem; letter-spacing: 1px; }
   .logo img { height: 32px; width: auto; display: block; } 
-
   .nav{display:flex;gap:20px;}
   .nav a{color:#fff;text-decoration:none;font-weight:600;font-size:0.9rem;opacity:0.7;transition:0.3s;}
   .nav a:hover, .nav a.active { color:var(--yellow); opacity:1; }
@@ -28,7 +25,12 @@
   @keyframes expandWidth { from { width: 0px; opacity: 0; } to { width: 80px; opacity: 1; } }
 
   .team-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 40px; max-width: 1200px; margin: 0 auto 100px; padding: 0 20px; }
-  .card { width: 100%; max-width: 300px; border-radius: 24px 24px 12px 12px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-bottom: none; padding: 40px 20px 20px; backdrop-filter: blur(10px); transition: transform 0.4s ease; opacity: 0; animation: fadeUp 0.8s forwards; display: flex; flex-direction: column; align-items: center; text-align: center; }
+  
+  /* 🔴 修改：加入 cursor: pointer 讓使用者知道可以點 */
+  .card { 
+    width: 100%; max-width: 300px; cursor: pointer;
+    border-radius: 24px 24px 12px 12px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-bottom: none; padding: 40px 20px 20px; backdrop-filter: blur(10px); transition: transform 0.4s ease; opacity: 0; animation: fadeUp 0.8s forwards; display: flex; flex-direction: column; align-items: center; text-align: center; 
+  }
   .card:hover { transform: translateY(-5px); background: rgba(255, 255, 255, 0.08); border-color: rgba(255, 61, 0, 0.3); }
   .avatar-box { width: 140px; height: 140px; margin: 0 auto 20px; border-radius: 50%; padding: 3px; background: linear-gradient(135deg, #333, #111); transition: 0.4s ease; }
   .card:hover .avatar-box { background: linear-gradient(135deg, #FFB800, #FF3D00); transform: scale(1.05); }
@@ -36,9 +38,9 @@
   .card h3 { font-size: 1.4rem; margin: 0 0 8px; color: #fff; font-weight: 700; }
   .role { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px; background: linear-gradient(90deg, #FFB800, #FF3D00); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 15px; display: block; font-weight: 700; }
   .bio { font-size: 0.9rem; color: #a1a1a6; line-height: 1.6; margin: 0; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; margin-bottom: 15px; }
-  .portfolio-link { font-size: 0.75rem; color: #fff; text-decoration: none; background: rgba(255,255,255,0.1); padding: 6px 14px; border-radius: 20px; transition: 0.3s; }
+  .portfolio-link { font-size: 0.75rem; color: #fff; text-decoration: none; background: rgba(255,255,255,0.1); padding: 6px 14px; border-radius: 20px; transition: 0.3s; margin-top: auto; margin-bottom: 10px; position: relative; z-index: 10; }
   .portfolio-link:hover { background: var(--orange); }
-  .arrow-down { font-size: 12px; color: #555; margin-top: auto; margin-bottom: 10px; animation: bounce 2s infinite; }
+  .arrow-down { margin-top: 5px; font-size: 12px; color: #555; animation: bounce 2s infinite; }
   @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(3px); } }
 
   footer { position: relative; z-index: 10; padding: 80px 20px 40px; background: #000; text-align: center; display: flex; justify-content: center; margin-top: 50px; }
@@ -80,12 +82,12 @@
       <div class="divider"></div>
       <h2><span class="gradient-text">Uprise-Production</span></h2>
       <p class="manifesto" style="animation: fadeUp 1s ease 0.3s forwards;">我們不僅是影像的製造者，更是品牌價值的推動者。<br>致力於將抽象的意念，轉化為具象的視覺衝擊。<br>從腳本企劃、電影級拍攝到後期特效，<br>推手影像以極致的職人精神，訴說每一個值得被看見的故事。</p>
-      <div class="copyright" style="animation: fadeUp 1s ease 0.6s forwards;">Copyright © 2025 推手影像製作有限公司 Uprise-Production. All rights reserved.<br>臺中市西區民龍里臺灣大道二段285號31樓 | +886 937672279</div>
+      <div class="copyright" style="animation: fadeUp 1s ease 0.6s forwards;">Copyright © 2025 Uprise-Production. All rights reserved.<br>臺中市西區民龍里臺灣大道二段285號31樓 | +886 937672279</div>
     </div>
   </footer>
 
   <script>
-    // 🔴 關鍵修改：讀取首頁設定來顯示 Logo 圖片
+    // Logo 讀取
     fetch('content/index.md').then(res => res.text()).then(text => {
         const parts = text.split('---');
         if (parts.length > 1) {
@@ -101,8 +103,7 @@
 
     fetch('content/team.md').then(r => r.text()).then(text => {
       const parts = text.split('---');
-      const yamlContent = parts.length > 1 ? parts[1] : text;
-      const data = jsyaml.load(yamlContent);
+      const data = jsyaml.load(parts.length > 1 ? parts[1] : text);
       
       if(data.title) document.getElementById('page-title').innerText = data.title;
       if(data.subtitle) document.getElementById('page-subtitle').innerText = data.subtitle;
@@ -110,11 +111,17 @@
       const container = document.getElementById('team-container');
       if(data.members && data.members.length > 0) {
         let html = '';
-        data.members.forEach(m => {
+        // 🔴 關鍵修改：index 用來傳遞參數
+        data.members.forEach((m, index) => {
           const avatar = m.avatar || 'https://dummyimage.com/150x150/333/fff&text=No+Img';
-          const portfolioBtn = m.portfolio_url ? `<a href="${m.portfolio_url}" target="_blank" class="portfolio-link">查看個人作品</a>` : '';
+          // 作品集按鈕加上 event.stopPropagation() 防止點到按鈕時也觸發卡片跳轉
+          const portfolioBtn = m.portfolio_url 
+            ? `<a href="${m.portfolio_url}" target="_blank" class="portfolio-link" onclick="event.stopPropagation()">查看個人作品</a>` 
+            : '';
+          
+          // 🔴 關鍵修改：整張卡片加上 onclick 跳轉
           html += `
-          <div class="card">
+          <div class="card" onclick="location.href='member.html?id=${index}'">
             <div class="avatar-box"><img src="${avatar}" class="avatar-img" alt="${m.name}"></div>
             <h3>${m.name}</h3>
             <span class="role">${m.role}</span>

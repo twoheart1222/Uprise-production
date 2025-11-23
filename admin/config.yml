@@ -55,13 +55,13 @@ collections:
               - {label: "影片連結 (YouTube)", name: "link", widget: "string", hint: "請貼上 YouTube 完整連結"}
               - {label: "封面圖片 (選填)", name: "image", widget: "image", required: false, hint: "不填寫會自動抓取 YouTube 封面"}
 
-      # --- 3. 團隊頁 (Team) ---
+      # --- 3. 團隊頁 ---
       - label: "團隊介紹 (Team)"
         name: "team"
         file: "content/team.md"
         fields:
           - {label: "頁面主標題", name: "title", widget: "string", default: "專業團隊"}
-          - {label: "頁面副標題", name: "subtitle", widget: "text", default: "一群對影像充滿熱情的職人，為您打造極致視覺。"}
+          - {label: "頁面副標", name: "subtitle", widget: "text", default: "一群對影像充滿熱情的職人"}
           
           - label: "成員列表"
             name: "members"
@@ -70,9 +70,12 @@ collections:
               - {label: "姓名", name: "name", widget: "string"}
               - {label: "職稱", name: "role", widget: "string"}
               - {label: "頭像", name: "avatar", widget: "image"}
-              - {label: "簡介", name: "bio", widget: "text"}
-              # 這裡是你需要的作品集連結欄位
-              - {label: "個人作品集連結", name: "portfolio_url", widget: "string", required: false, hint: "輸入網址，例如 https://be.net/..."}
+              
+              # 🔴 修改：區分「卡片簡介」和「詳細介紹」
+              - {label: "卡片簡介 (短)", name: "bio", widget: "text", hint: "顯示在團隊列表卡片上，建議 30 字以內"}
+              - {label: "詳細介紹 (個人頁)", name: "full_bio", widget: "markdown", required: false, hint: "點擊進入個人頁後顯示的長文內容"}
+              
+              - {label: "個人作品集連結", name: "portfolio_url", widget: "string", required: false}
 
       # --- 4. 關於頁 (About) ---
       - label: "關於我們 (About)"

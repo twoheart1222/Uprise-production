@@ -4,9 +4,6 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Uprise-Production</title>
-
-<meta name="view-transition" content="same-origin" />
-
 <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Noto+Sans+TC:wght@300;500;700&display=swap" rel="stylesheet">
@@ -19,38 +16,12 @@
   body {
     margin: 0; padding: 0;
     font-family: 'Inter', 'Noto Sans TC', sans-serif;
-    background-color: transparent;
+    background-color: transparent; /* 確保透明 */
     color: #f5f5f7; 
     width: 100%;
     overflow-x: hidden;
   }
   
-  /* --- 🔴 關鍵 2：雜誌堆疊轉場動畫 CSS --- */
-  
-  /* 舊頁面：退後 + 變暗 */
-  ::view-transition-old(root) {
-    animation: scaleDown 0.6s cubic-bezier(0.7, 0, 0.3, 1) forwards;
-    z-index: 1;
-    transform-origin: center top;
-    filter: brightness(0.4); /* 變暗 */
-  }
-
-  /* 新頁面：從下方滑入 */
-  ::view-transition-new(root) {
-    animation: slideUp 0.6s cubic-bezier(0.7, 0, 0.3, 1) forwards;
-    z-index: 2;
-    box-shadow: 0 -20px 50px rgba(0,0,0,0.5); /* 加上陰影增加立體感 */
-  }
-
-  @keyframes scaleDown {
-    to { transform: scale(0.9) translateY(-50px); opacity: 0; }
-  }
-
-  @keyframes slideUp {
-    from { transform: translateY(100%); }
-    to { transform: translateY(0); }
-  }
-
   /* --- 導覽列 --- */
   .site-header{
     position:fixed;left:0;right:0;top:0;height:72px;display:flex;align-items:center;justify-content:space-between;padding:0 28px;z-index:30;
@@ -62,19 +33,24 @@
   .nav a{color:#fff;text-decoration:none;font-weight:600;font-size: 0.9rem; transition:0.3s;}
   .nav a:hover, .nav a.active { color: var(--yellow); opacity: 1; }
 
-  /* --- 影片背景樣式 --- */
+  /* --- 🔴 影片背景 (修正版) --- */
   .video-background {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    z-index: -1; overflow: hidden;
+    position: fixed; 
+    top: 0; left: 0; 
+    width: 100%; height: 100%;
+    z-index: -1; 
+    overflow: hidden;
   }
+  
   #bg-video {
-    position: absolute; top: 50%; left: 50%;
-    transform: translate(-50%, -50%);
-    min-width: 100%; min-height: 100%;
-    width: auto; height: auto;
-    object-fit: cover;
-    object-position: center;
-    opacity: 0; transition: opacity 1.5s ease;
+    /* 🔴 刪除所有定位語法，改用單純的滿版設定 */
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* 讓影片像背景圖一樣填滿容器，不會變形 */
+    object-position: center; /* 確保影片中心對齊螢幕中心 */
+    
+    opacity: 0; 
+    transition: opacity 1.5s ease;
   }
   #bg-video.loaded { opacity: 1; }
 
@@ -172,11 +148,9 @@
   </header>
 
   <div class="video-background">
-    <video id="bg-video" playsinline muted loop autoplay>
-      <source src="" type="video/mp4">
-    </video>
-    <div class="overlay"></div>
+    <video id="bg-video" playsinline muted loop autoplay></video>
   </div>
+  <div class="overlay"></div>
 
   <div id="sound-btn">🔊</div>
 
@@ -220,6 +194,7 @@
     
     video.muted = true;
 
+    // 影片載入後顯示聲音按鈕，並淡入
     video.addEventListener('loadeddata', () => {
       soundBtn.style.display = 'flex';
       video.classList.add('loaded');
@@ -238,15 +213,19 @@
         if (parts.length > 1) {
           const data = jsyaml.load(parts[1]);
           
-          // 影片讀取
+          // 1. 優先讀取後台設定的影片
           let videoPath = data.hero_video;
+          
+          // 如果後台沒設定，使用預設的 Cloudinary 連結
           if (!videoPath) {
               videoPath = 'https://res.cloudinary.com/dfnfcyglu/video/upload/v1763893930/hero_bg_ickrbe.mp4';
           } else {
+              // 確保路徑正確
               if (!videoPath.startsWith('/') && !videoPath.startsWith('http')) {
                 videoPath = '/' + videoPath;
               }
           }
+          
           video.src = videoPath;
           
           // Logo

@@ -120,27 +120,33 @@
     </div>
 
     <div class="glass-card form-card">
-      <form name="contact" method="POST" data-netlify="true" action="/success.html">
+      
+      <form action="https://formspree.io/f/movbylbl" method="POST">
+        
         <div class="input-group">
           <label>姓名 / 公司名稱</label>
           <input type="text" name="name" required placeholder="例如：陳先生 / 推手影像">
         </div>
+        
         <div class="input-group">
           <label>聯絡電話</label>
           <input type="tel" name="phone" required placeholder="09xx-xxx-xxx">
         </div>
+        
         <div class="input-group">
-          <label>Email 或 Line ID</label>
-          <input type="text" name="contact_method" required placeholder="方便我們回覆您的方式">
+          <label>Email (重要：這是回信用)</label>
+          <input type="email" name="email" required placeholder="您的 Email">
         </div>
+        
         <div class="input-group">
           <label>合作需求簡述</label>
           <textarea name="message" rows="4" required placeholder="請簡述您的拍攝需求..."></textarea>
         </div>
+        
         <button type="submit">送出詢問</button>
       </form>
+      
     </div>
-  </div>
 
   <footer>
     <div class="footer-content">

@@ -4,6 +4,9 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Uprise-Production</title>
+
+<meta name="view-transition" content="same-origin" />
+
 <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Noto+Sans+TC:wght@300;500;700&display=swap" rel="stylesheet">
@@ -11,17 +14,47 @@
   :root{ --yellow:#FFB800; --orange:#FF7A00; --bg:#0F0F0F; }
   *{box-sizing:border-box}
   
-  /* --- 基礎設定 --- */
+  /* --- 🔴 關鍵 2：轉場動畫設定 --- */
+  
+  /* 1. 網頁剛載入時的進場動畫：模糊浮現 */
   html { background-color: #000; }
   body {
     margin: 0; padding: 0;
     font-family: 'Inter', 'Noto Sans TC', sans-serif;
-    background-color: transparent; /* 確保透明 */
+    background-color: transparent;
     color: #f5f5f7; 
     width: 100%;
     overflow-x: hidden;
+    /* 進場動畫設定 */
+    animation: pageFadeIn 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
   }
-  
+
+  @keyframes pageFadeIn {
+    from { opacity: 0; transform: translateY(20px); filter: blur(10px); }
+    to { opacity: 1; transform: translateY(0); filter: blur(0); }
+  }
+
+  /* 2. 頁面切換時的轉場特效 (View Transitions) */
+  /* 舊頁面離開：變暗 + 縮小 */
+  ::view-transition-old(root) {
+    animation: fadeOutScale 0.5s cubic-bezier(0.7, 0, 0.3, 1) forwards;
+    z-index: 1;
+    filter: brightness(0.5);
+  }
+  /* 新頁面進入：放大 + 淡入 */
+  ::view-transition-new(root) {
+    animation: fadeInScale 0.5s cubic-bezier(0.7, 0, 0.3, 1) forwards;
+    z-index: 2;
+  }
+
+  @keyframes fadeOutScale {
+    to { opacity: 0; transform: scale(0.95); filter: blur(5px); }
+  }
+  @keyframes fadeInScale {
+    from { opacity: 0; transform: scale(1.05); filter: blur(5px); }
+    to { opacity: 1; transform: scale(1); filter: blur(0); }
+  }
+
   /* --- 導覽列 --- */
   .site-header{
     position:fixed;left:0;right:0;top:0;height:72px;display:flex;align-items:center;justify-content:space-between;padding:0 28px;z-index:30;
@@ -33,24 +66,15 @@
   .nav a{color:#fff;text-decoration:none;font-weight:600;font-size: 0.9rem; transition:0.3s;}
   .nav a:hover, .nav a.active { color: var(--yellow); opacity: 1; }
 
-  /* --- 🔴 影片背景 (修正版) --- */
+  /* --- 影片背景樣式 --- */
   .video-background {
-    position: fixed; 
-    top: 0; left: 0; 
-    width: 100%; height: 100%;
-    z-index: -1; 
-    overflow: hidden;
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    z-index: -1; overflow: hidden;
   }
-  
   #bg-video {
-    /* 🔴 刪除所有定位語法，改用單純的滿版設定 */
-    width: 100%;
-    height: 100%;
-    object-fit: cover; /* 讓影片像背景圖一樣填滿容器，不會變形 */
-    object-position: center; /* 確保影片中心對齊螢幕中心 */
-    
-    opacity: 0; 
-    transition: opacity 1.5s ease;
+    width: 100%; height: 100%;
+    object-fit: cover; object-position: center;
+    opacity: 0; transition: opacity 1.5s ease;
   }
   #bg-video.loaded { opacity: 1; }
 
@@ -102,9 +126,10 @@
     font-size: 24px; color: #fff; opacity: 0.6; animation: bounce 2s infinite; 
   }
   @keyframes bounce { 0%, 100% { transform: translate(-50%, 0); } 50% { transform: translate(-50%, 10px); } }
-  @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+  
+  /* Loading 動畫 */
   .loading { opacity: 0; }
-  .loaded { opacity: 1; animation: fadeUp 1s cubic-bezier(0.2, 1, 0.3, 1) forwards; }
+  .loaded { opacity: 1; animation: pageFadeIn 1s cubic-bezier(0.2, 1, 0.3, 1) forwards; }
 
   /* 服務項目 */
   #services { 
@@ -130,8 +155,9 @@
   .divider { width: 60px; height: 4px; margin: 0 auto 30px; background: linear-gradient(90deg, #FFB800, #FF3D00); border-radius: 4px; animation: expand 1s forwards; }
   footer h2 { font-size: 1.8rem; font-weight: 700; margin: 0 0 20px; letter-spacing: 1px; color: #fff; }
   .gradient-text { background: linear-gradient(135deg, #FFB800, #FF3D00); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-  p.manifesto { font-size: 1.1rem; line-height: 1.8; color: #a1a1a6; margin-bottom: 40px; opacity: 0; animation: fadeUp 1s ease 0.3s forwards; }
-  .copyright { font-size: 0.8rem; color: #555; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px; margin-top: 20px; opacity: 0; animation: fadeUp 1s ease 0.6s forwards; }
+  p.manifesto { font-size: 1.1rem; line-height: 1.8; color: #a1a1a6; margin-bottom: 40px; opacity: 0; animation: pageFadeIn 1s ease 0.3s forwards; }
+  .copyright { font-size: 0.8rem; color: #555; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px; margin-top: 20px; opacity: 0; animation: pageFadeIn 1s ease 0.6s forwards; }
+  @keyframes expand { from { width: 0; opacity: 0; } to { width: 60px; opacity: 1; } }
 </style>
 </head>
 <body>
@@ -188,19 +214,14 @@
   </footer>
 
   <script>
-    // 聲音控制
     const video = document.getElementById('bg-video');
     const soundBtn = document.getElementById('sound-btn');
-    
     video.muted = true;
-
-    // 影片載入後顯示聲音按鈕，並淡入
     video.addEventListener('loadeddata', () => {
       soundBtn.style.display = 'flex';
       video.classList.add('loaded');
-      video.play().catch(e => console.log("Autoplay:", e));
+      video.play().catch(e => console.log("Auto-play failed:", e));
     });
-
     soundBtn.addEventListener('click', () => {
       video.muted = !video.muted;
       soundBtn.textContent = video.muted ? '🔊' : '🔈';
@@ -213,22 +234,16 @@
         if (parts.length > 1) {
           const data = jsyaml.load(parts[1]);
           
-          // 1. 優先讀取後台設定的影片
           let videoPath = data.hero_video;
-          
-          // 如果後台沒設定，使用預設的 Cloudinary 連結
           if (!videoPath) {
               videoPath = 'https://res.cloudinary.com/dfnfcyglu/video/upload/v1763893930/hero_bg_ickrbe.mp4';
           } else {
-              // 確保路徑正確
               if (!videoPath.startsWith('/') && !videoPath.startsWith('http')) {
                 videoPath = '/' + videoPath;
               }
           }
-          
           video.src = videoPath;
           
-          // Logo
           const logoContainer = document.getElementById('nav-logo');
           if (data.logo_image) {
               logoContainer.innerHTML = `<img src="${data.logo_image}" alt="${data.title || 'Logo'}">`;
@@ -236,13 +251,11 @@
               logoContainer.innerText = data.title || 'Uprise-Production';
           }
 
-          // Hero Text
           document.getElementById('hero-title').textContent = data.hero_title || data.title || 'Welcome';
           document.getElementById('hero-subtitle').textContent = data.hero_text || '';
           document.getElementById('hero-content').classList.remove('loading');
           document.getElementById('hero-content').classList.add('loaded');
 
-          // Services
           const servicesGrid = document.getElementById('services-grid');
           if (data.services && data.services.length > 0) {
             servicesGrid.innerHTML = data.services.map(service => `

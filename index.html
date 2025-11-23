@@ -11,14 +11,17 @@
   :root{ --yellow:#FFB800; --orange:#FF7A00; --bg:#0F0F0F; }
   *{box-sizing:border-box}
   
-  /* --- 基礎設定 --- */
-  html, body {
+  /* 🔴 關鍵修改 1：html 給底色，但 body 必須透明！ */
+  html {
+    background-color: #000; /* 最底層是黑的 (防閃爍) */
+  }
+  body {
     margin: 0; padding: 0;
     font-family: 'Inter', 'Noto Sans TC', sans-serif;
-    background: #000; /* 底色黑 */
+    background-color: transparent; /* 🔴 這裡一定要透明，影片才看得到 */
     color: #f5f5f7; 
     width: 100%;
-    overflow-x: hidden; /* 禁止左右捲動 */
+    overflow-x: hidden;
   }
   
   /* --- 導覽列 --- */
@@ -32,34 +35,30 @@
   .nav a{color:#fff;text-decoration:none;font-weight:600;font-size: 0.9rem; transition:0.3s;}
   .nav a:hover, .nav a.active { color: var(--yellow); opacity: 1; }
 
-  /* --- 🔴 影片背景 (關鍵修正) --- */
+  /* --- 🔴 影片背景 (確保層級正確) --- */
   .video-background {
-    position: fixed; /* 固定在視窗，不隨捲動跑 */
+    position: fixed; 
     top: 0; left: 0; 
-    width: 100vw; height: 100vh; /* 強制滿版 */
+    width: 100vw; height: 100vh;
+    z-index: -1; /* 放在 body 下面 */
     overflow: hidden; 
-    z-index: -1; /* 最底層 */
   }
   
   #bg-video {
     position: absolute;
     top: 50%; left: 50%;
-    transform: translate(-50%, -50%); /* 絕對置中 */
-    
-    /* 讓影片永遠填滿，不管螢幕比例 */
+    transform: translate(-50%, -50%);
     min-width: 100%; 
     min-height: 100%;
     width: auto; 
     height: auto;
-    
-    /* 這是重點：像背景圖一樣裁切，不變形 */
     object-fit: cover; 
-    
-    opacity: 0; transition: opacity 1.5s ease;
+    opacity: 0; 
+    transition: opacity 1.5s ease;
   }
+  /* 載入完成後顯示 */
   #bg-video.loaded { opacity: 1; }
 
-  /* 黑色遮罩 (讓文字清楚) */
   .overlay {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
     background: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.8) 100%);
@@ -112,7 +111,7 @@
   .loading { opacity: 0; }
   .loaded { opacity: 1; animation: fadeUp 1s cubic-bezier(0.2, 1, 0.3, 1) forwards; }
 
-  /* 服務項目 (背景要深色，不然會看到影片) */
+  /* 服務項目 */
   #services { 
     position: relative; z-index: 2; 
     background: linear-gradient(180deg, rgba(0,0,0,0.9), #0a0a0a 20%, #0a0a0a); 

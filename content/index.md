@@ -1,4 +1,4 @@
 ---
-title: /Users/linyouzi/Downloads/logo.png
-hero_text: 推手影像製作有限公司
+title: 推手影像製作
+hero_text: 推動故事的力量
 ---

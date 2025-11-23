@@ -24,45 +24,33 @@
     overflow-x: hidden;
   }
 
-  /* --- 🍎 Apple 級質感轉場 (Blur + Scale) --- */
+  /* --- 🚀 2. 強烈滑動轉場 (Slide Over) --- */
   
-  /* 網頁首次載入：優雅浮現 */
-  body {
-    animation: appleEntry 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  }
-  @keyframes appleEntry {
-    from { opacity: 0; filter: blur(10px); transform: scale(1.02); }
-    to { opacity: 1; filter: blur(0); transform: scale(1); }
-  }
-
-  /* 舊頁面離開：模糊 + 稍微縮小 (像 iOS App 關閉) */
+  /* 舊頁面：稍微變暗，向左退後 */
   ::view-transition-old(root) {
-    animation: appleFadeOut 0.5s cubic-bezier(0.32, 0, 0.67, 0) forwards;
-    z-index: 1;
+    animation: slideOut 0.6s cubic-bezier(0.7, 0, 0.3, 1) forwards;
+    filter: brightness(0.5);
   }
-  /* 新頁面進入：從模糊中清晰 (像 iOS App 開啟) */
+  /* 新頁面：從右邊滑入 */
   ::view-transition-new(root) {
-    animation: appleFadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    z-index: 2;
-    mix-blend-mode: normal;
+    animation: slideIn 0.6s cubic-bezier(0.7, 0, 0.3, 1) forwards;
+    box-shadow: -20px 0 50px rgba(0,0,0,0.5); /* 左側陰影增加立體感 */
   }
 
-  @keyframes appleFadeOut {
-    from { opacity: 1; filter: blur(0); transform: scale(1); }
-    to { opacity: 0; filter: blur(10px); transform: scale(0.98); }
+  @keyframes slideOut {
+    from { transform: translateX(0); opacity: 1; }
+    to { transform: translateX(-30%); opacity: 0; }
   }
-  @keyframes appleFadeIn {
-    from { opacity: 0; filter: blur(10px); transform: scale(1.02); }
-    to { opacity: 1; filter: blur(0); transform: scale(1); }
+  @keyframes slideIn {
+    from { transform: translateX(100%); }
+    to { transform: translateX(0); }
   }
 
-  /* --- 導覽列 (增加毛玻璃效果) --- */
+  /* --- 導覽列 --- */
   .site-header{
     position:fixed;left:0;right:0;top:0;height:72px;display:flex;align-items:center;justify-content:space-between;padding:0 28px;z-index:30;
-    background:rgba(0,0,0,0.5); /* 降低透明度 */
-    backdrop-filter: blur(20px); /* 強力毛玻璃 */
-    -webkit-backdrop-filter: blur(20px);
-    border-bottom:1px solid rgba(255,255,255,0.08);
+    background:rgba(0,0,0,0.6); /* 加深背景 */
+    backdrop-filter: blur(10px); border-bottom:1px solid rgba(255,255,255,0.1);
   }
   .logo { display: flex; align-items: center; text-decoration: none; color: #fff; font-weight: 800; font-size: 1.2rem; letter-spacing: 1px; }
   .logo img { height: 32px; width: auto; display: block; } 
@@ -70,62 +58,50 @@
   .nav a{color:#fff;text-decoration:none;font-weight:600;font-size: 0.9rem; transition:0.3s;}
   .nav a:hover, .nav a.active { color: var(--yellow); opacity: 1; }
 
-  /* --- 📹 影片背景 (完美置中修正) --- */
+  /* --- 🔴 3. 影片背景修正 (完整顯示不裁切) --- */
   .video-background {
-    position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
     z-index: -1; overflow: hidden;
+    background: #000; /* 影片旁边的留白設為全黑 */
+    display: flex; align-items: center; justify-content: center;
   }
   #bg-video {
-    /* 強制置中大法 */
-    position: absolute;
-    top: 50%; left: 50%;
-    transform: translate(-50%, -50%);
-    
-    /* 保證不留黑邊，優先填滿 */
-    min-width: 100%; 
-    min-height: 100%;
-    
-    /* 保持比例，自動裁切多餘部分 */
-    width: auto; 
+    /* 限制最大寬高，確保完整顯示 */
+    max-width: 100%; 
+    max-height: 100%;
+    width: auto;
     height: auto;
     
-    /* 讓寬度至少覆蓋螢幕 */
-    object-fit: cover; 
+    /* 🔴 關鍵：contain = 完整顯示 (會有黑邊) / cover = 填滿 (會裁切) */
+    object-fit: contain; 
     
-    opacity: 0; transition: opacity 1.5s ease;
+    opacity: 0; transition: opacity 1s ease;
   }
   #bg-video.loaded { opacity: 1; }
 
   .overlay {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: linear-gradient(to bottom, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.6) 100%);
+    background: linear-gradient(to bottom, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.7) 100%);
     z-index: 0; pointer-events: none;
   }
 
-  /* --- 🔊 聲音按鈕 (移至左下角 + Apple 風格) --- */
+  /* --- 🔴 4. 聲音按鈕 (移至右下角) --- */
   #sound-btn {
     position: fixed; 
-    bottom: 40px; left: 40px; /* 改到左下角 */
+    bottom: 30px; right: 30px; /* 右下角 */
     z-index: 20;
     
-    /* 毛玻璃質感 */
-    background: rgba(255, 255, 255, 0.15);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
     color: #fff;
-    width: 44px; height: 44px; border-radius: 50%;
+    width: 50px; height: 50px; border-radius: 50%;
     display: flex; justify-content: center; align-items: center;
-    font-size: 18px; cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    font-size: 20px; cursor: pointer;
+    transition: 0.3s; backdrop-filter: blur(5px);
     display: none;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
   }
   #sound-btn:hover {
-    background: rgba(255, 255, 255, 0.3);
-    transform: scale(1.05);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+    background: rgba(255, 255, 255, 0.2); border-color: var(--yellow); color: var(--yellow); transform: scale(1.1);
   }
 
   /* --- Hero 區塊 --- */
@@ -155,7 +131,6 @@
   }
   @keyframes bounce { 0%, 100% { transform: translate(-50%, 0); } 50% { transform: translate(-50%, 10px); } }
   
-  /* Loading */
   .loading { opacity: 0; filter: blur(10px); transition: 1s; }
   .loaded { opacity: 1; filter: blur(0); }
 
@@ -183,8 +158,8 @@
   .divider { width: 60px; height: 4px; margin: 0 auto 30px; background: linear-gradient(90deg, #FFB800, #FF3D00); border-radius: 4px; animation: expand 1s forwards; }
   footer h2 { font-size: 1.8rem; font-weight: 700; margin: 0 0 20px; letter-spacing: 1px; color: #fff; }
   .gradient-text { background: linear-gradient(135deg, #FFB800, #FF3D00); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-  p.manifesto { font-size: 1.1rem; line-height: 1.8; color: #a1a1a6; margin-bottom: 40px; opacity: 0; animation: appleFadeIn 1s ease 0.3s forwards; }
-  .copyright { font-size: 0.8rem; color: #555; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px; margin-top: 20px; opacity: 0; animation: appleFadeIn 1s ease 0.6s forwards; }
+  p.manifesto { font-size: 1.1rem; line-height: 1.8; color: #a1a1a6; margin-bottom: 40px; }
+  .copyright { font-size: 0.8rem; color: #555; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px; margin-top: 20px; }
 </style>
 </head>
 <body>
@@ -236,22 +211,20 @@
       <div class="divider"></div>
       <h2><span class="gradient-text">Uprise-Production</span></h2>
       <p class="manifesto">我們不僅是影像的製造者，更是品牌價值的推動者。<br>致力於將抽象的意念，轉化為具象的視覺衝擊。<br>從腳本企劃、電影級拍攝到後期特效，<br>推手影像以極致的職人精神，訴說每一個值得被看見的故事。</p>
-      <div class="copyright">Copyright © 2025 Uprise-Production. All rights reserved.<br>臺中市西區民龍里臺灣大道二段285號31樓 | +886 937672279</div>
+      <div class="copyright">Copyright © 2025 推手影像製作有限公司 Uprise-Production. All rights reserved.<br>臺中市西區民龍里臺灣大道二段285號31樓 | +886 937672279</div>
     </div>
   </footer>
 
   <script>
-    // 聲音控制
     const video = document.getElementById('bg-video');
     const soundBtn = document.getElementById('sound-btn');
     
     video.muted = true;
 
-    // 影片載入後顯示聲音按鈕
     video.addEventListener('loadeddata', () => {
       soundBtn.style.display = 'flex';
       video.classList.add('loaded');
-      video.play().catch(e => console.log("Auto-play failed:", e));
+      video.play().catch(e => console.log("Autoplay:", e));
     });
 
     soundBtn.addEventListener('click', () => {
@@ -266,7 +239,6 @@
         if (parts.length > 1) {
           const data = jsyaml.load(parts[1]);
           
-          // 優先讀取後台設定，沒有則用預設 Cloudinary
           let videoPath = data.hero_video;
           if (!videoPath) {
               videoPath = 'https://res.cloudinary.com/dfnfcyglu/video/upload/v1763893930/hero_bg_ickrbe.mp4';

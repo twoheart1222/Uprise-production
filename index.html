@@ -42,7 +42,7 @@
     pointer-events: none;
   }
 
-  /* --- 🔴 新增：聲音開關按鈕 --- */
+  /* --- 聲音開關按鈕 --- */
   #sound-btn {
     position: fixed; bottom: 30px; right: 30px; z-index: 20;
     background: rgba(255, 255, 255, 0.1);
@@ -81,7 +81,7 @@
   .btn.ghost{background:transparent;color:#fff;border:1px solid rgba(255,255,255,0.3)}
   .btn.ghost:hover { background: rgba(255,255,255,0.1); }
 
-  /* 底部箭頭動畫 (移到聲音按鈕左邊一點，避免重疊) */
+  /* 底部箭頭動畫 */
   .arrow-down { 
     position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%);
     font-size: 24px; color: #fff; opacity: 0.6; animation: bounce 2s infinite; 
@@ -130,7 +130,8 @@
 </header>
 
 <div class="video-background">
-  <div id="bg-video"></div> </div>
+  <div id="bg-video"></div> 
+</div>
 <div class="overlay"></div>
 
 <button id="sound-btn" title="開啟/關閉聲音">🔇</button>
@@ -175,22 +176,22 @@
 
   // 2. 建立播放器變數
   var player;
-  var isMuted = true; // 預設靜音 (瀏覽器規定自動播放必須靜音)
+  var isMuted = true; // 預設靜音
 
   // 3. 當 API 準備好時，建立播放器
   function onYouTubeIframeAPIReady() {
     player = new YT.Player('bg-video', {
-      videoId: 'PdbAK275YIc', // 你的影片 ID
+      videoId: 'gtDsl8sPLmk', // 🔴 這裡已經換成你的新影片 ID
       playerVars: {
         'autoplay': 1,
-        'controls': 0, // 隱藏控制列
+        'controls': 0,
         'showinfo': 0,
         'modestbranding': 1,
         'loop': 1,
-        'playlist': 'PdbAK275YIc', // 循環播放必須加這行
-        'mute': 1, // 必須靜音才能自動播放
+        'playlist': 'gtDsl8sPLmk', // 🔴 循環播放 ID 也要換
+        'mute': 1, 
         'rel': 0,
-        'playsinline': 1 // 手機版內嵌播放，不要全螢幕
+        'playsinline': 1
       },
       events: {
         'onReady': onPlayerReady
@@ -210,35 +211,30 @@
     if (player && typeof player.isMuted === 'function') {
       if (isMuted) {
         player.unMute();
-        soundBtn.innerText = '🔊'; // 變成有聲音圖示
+        soundBtn.innerText = '🔊';
         isMuted = false;
       } else {
         player.mute();
-        soundBtn.innerText = '🔇'; // 變成靜音圖示
+        soundBtn.innerText = '🔇';
         isMuted = true;
       }
     }
   });
 
-  // 5. 影片自動調整大小 (維持滿版不留黑邊)
+  // 5. 影片自動調整大小
   function resizeVideo() {
-    // 這裡我們重新抓取已經被 API 變成 iframe 的元素
     const iframe = document.querySelector('.video-background iframe');
     if (!iframe) return;
 
     const w = window.innerWidth;
     const h = window.innerHeight;
-    
-    // YouTube 16:9 比例
     const videoRatio = 16 / 9;
     const screenRatio = w / h;
 
     if (screenRatio > videoRatio) {
-      // 螢幕比較寬
       iframe.style.width = '100vw';
       iframe.style.height = (100 * 9 / 16) + 'vw';
     } else {
-      // 螢幕比較高
       iframe.style.height = '100vh';
       iframe.style.width = (100 * 16 / 9) + 'vh';
     }

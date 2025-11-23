@@ -7,4 +7,8 @@ portfolio:
     link: https://youtu.be/-PwiVNiFrdo
     image: https://youtube.com/shorts/isCUV-_33No?feature=share" target="_blank
     client: 蜜蜂故事館
+  - client: 競選廣告
+    category: 品牌形象廣告 Brand Image
+    title: 台中立委參選人電視形象廣告
+    link: https://youtu.be/usx3hIK_Ns8
 ---

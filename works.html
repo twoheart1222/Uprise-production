@@ -1,1 +1,101 @@
-<h1>作品</h1>
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>作品總覽 | PUSHER STUDIO</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Noto+Sans+TC:wght@300;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{ --yellow:#FFB800; --orange:#FF7A00; --bg:#0F0F0F; }
+  body { margin:0; font-family:'Inter', 'Noto Sans TC', sans-serif; background:var(--bg); color:#fff; overflow-x: hidden;}
+  .site-header{position:fixed;top:0;left:0;right:0;height:72px;display:flex;align-items:center;justify-content:space-between;padding:0 28px;z-index:30;background:rgba(15,15,15,0.9);backdrop-filter:blur(8px);border-bottom:1px solid rgba(255,255,255,0.1);}
+  .logo { font-weight:800; font-size:1.2rem; color:#fff; text-decoration:none; letter-spacing:1px; }
+  .nav{display:flex;gap:20px;}
+  .nav a{color:#fff;text-decoration:none;font-weight:600;font-size:0.9rem;opacity:0.7;transition:0.3s;}
+  .nav a:hover, .nav a.active { color:var(--yellow); opacity:1; }
+
+  .page-header { padding: 120px 20px 40px; text-align: center; }
+  .page-header h1 { font-size: 2.5rem; margin: 0 0 10px; }
+  .page-header p { color: #aaa; max-width: 600px; margin: 0 auto; }
+
+  /* 作品網格 */
+  .works-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 30px; max-width: 1200px; margin: 0 auto 80px; padding: 0 20px; }
+  .work-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; overflow: hidden; transition: transform 0.3s ease; text-decoration: none; display: block; }
+  .work-card:hover { transform: translateY(-8px); border-color: var(--yellow); }
+  .work-thumb { width: 100%; height: 200px; object-fit: cover; background: #222; }
+  .work-info { padding: 20px; }
+  .work-cat { font-size: 0.75rem; color: var(--yellow); text-transform: uppercase; border: 1px solid var(--yellow); display: inline-block; padding: 2px 8px; border-radius: 4px; margin-bottom: 8px; }
+  .work-title { font-size: 1.2rem; color: #fff; margin: 0; font-weight: 700; }
+  .thumb-box { position: relative; }
+  .play-icon { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 50px; height: 50px; background: rgba(0,0,0,0.6); border-radius: 50%; display: flex; align-items: center; justify-content: center; opacity: 0; transition: 0.3s; }
+  .play-icon::after { content: '▶'; color: #fff; font-size: 20px; margin-left: 4px; }
+  .work-card:hover .play-icon { opacity: 1; }
+
+  /* 頁尾 */
+  footer { position: relative; z-index: 10; padding: 80px 20px 40px; background: #000; text-align: center; display: flex; justify-content: center; margin-top: 50px; }
+  .footer-content { max-width: 800px; width: 100%; }
+  .divider { width: 60px; height: 4px; margin: 0 auto 30px; background: linear-gradient(90deg, #FFB800, #FF3D00); border-radius: 4px; animation: expand 1s forwards; }
+  footer h2 { font-size: 1.8rem; font-weight: 700; margin: 0 0 20px; letter-spacing: 1px; color: #fff; }
+  .gradient-text { background: linear-gradient(135deg, #FFB800, #FF3D00); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  p.manifesto { font-size: 1.1rem; line-height: 1.8; color: #a1a1a6; margin-bottom: 40px; opacity: 0; animation: fadeUp 1s ease 0.3s forwards; }
+  .copyright { font-size: 0.8rem; color: #555; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px; margin-top: 20px; opacity: 0; animation: fadeUp 1s ease 0.6s forwards; }
+  @keyframes expand { from { width: 0; opacity: 0; } to { width: 60px; opacity: 1; } }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+</style>
+</head>
+<body>
+
+  <header class="site-header">
+    <a href="index.html" class="logo">PUSHER</a>
+    <nav class="nav">
+      <a href="index.html">首頁</a>
+      <a href="works.html" class="active">作品</a>
+      <a href="team.html">團隊</a>
+      <a href="about.html">關於</a>
+      <a href="contact.html">聯絡</a>
+    </nav>
+  </header>
+
+  <main>
+    <div class="page-header">
+      <h1 id="page-title">Loading...</h1>
+      <p id="page-intro">...</p>
+    </div>
+
+    <div class="works-grid" id="works-container">
+      <p style="text-align:center; width:100%; color:#666;">作品載入中...</p>
+    </div>
+  </main>
+
+  <footer>
+    <div class="footer-content">
+      <div class="divider"></div>
+      <h2><span class="gradient-text">PUSHER PRODUCTION</span></h2>
+      <p class="manifesto">我們不僅是影像的製造者，更是品牌價值的推動者。<br>致力於將抽象的意念，轉化為具象的視覺衝擊。<br>從腳本企劃、電影級拍攝到後期特效，<br>推手影像以極致的職人精神，訴說每一個值得被看見的故事。</p>
+      <div class="copyright">Copyright © 2025 推手影像製作有限公司 Pusher Production. All rights reserved.<br>臺中市西區民龍里臺灣大道二段285號31樓 | +886 937672279</div>
+    </div>
+  </footer>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      fetch('content/works.md').then(res => { if (!res.ok) throw new Error(); return res.text(); })
+        .then(text => {
+          const parts = text.split('---');
+          const data = jsyaml.load(parts.length > 1 ? parts[1] : text);
+          if(data.title) document.getElementById('page-title').innerText = data.title;
+          if(data.intro) document.getElementById('page-intro').innerText = data.intro;
+          const container = document.getElementById('works-container');
+          if(data.portfolio && data.portfolio.length > 0) {
+            let html = '';
+            data.portfolio.forEach(item => {
+              const img = item.image ? item.image : 'https://dummyimage.com/600x400/333/fff';
+              html += `<a href="${item.link}" target="_blank" class="work-card"><div class="thumb-box"><img src="${img}" class="work-thumb"><div class="play-icon"></div></div><div class="work-info"><span class="work-cat">${item.category}</span><h3 class="work-title">${item.title}</h3></div></a>`;
+            });
+            container.innerHTML = html;
+          } else { container.innerHTML = '<p style="text-align:center;width:100%">目前沒有作品。</p>'; }
+        }).catch(e => document.getElementById('works-container').innerHTML = '<p style="text-align:center;width:100%">請至後台新增作品。</p>');
+    });
+  </script>
+</body>
+</html>

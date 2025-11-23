@@ -24,43 +24,33 @@
     overflow-x: hidden;
   }
 
-  /* --- 🚀 2. 頂級視差轉場 (Uprise Parallax) --- */
-
-  /* 舊頁面：變暗、退後 (製造景深) */
+  /* --- 🚀 2. 強烈滑動轉場 (Slide Over) --- */
+  
+  /* 舊頁面：稍微變暗，向左退後 */
   ::view-transition-old(root) {
-    animation: exitAnimation 0.8s cubic-bezier(0.77, 0, 0.175, 1) forwards;
-    z-index: 1;
-    transform-origin: center 30%; 
+    animation: slideOut 0.6s cubic-bezier(0.7, 0, 0.3, 1) forwards;
     filter: brightness(0.5);
   }
-
-  /* 新頁面：從下方滑入，帶有陰影 */
+  /* 新頁面：從右邊滑入 */
   ::view-transition-new(root) {
-    animation: enterAnimation 0.8s cubic-bezier(0.77, 0, 0.175, 1) forwards;
-    z-index: 2;
-    box-shadow: 0 -50px 100px rgba(0, 0, 0, 0.8);
+    animation: slideIn 0.6s cubic-bezier(0.7, 0, 0.3, 1) forwards;
+    box-shadow: -20px 0 50px rgba(0,0,0,0.5); /* 左側陰影增加立體感 */
   }
 
-  @keyframes exitAnimation {
-    to { opacity: 0; transform: scale(0.9) translateY(-50px); filter: blur(5px); }
+  @keyframes slideOut {
+    from { transform: translateX(0); opacity: 1; }
+    to { transform: translateX(-30%); opacity: 0; }
   }
-
-  @keyframes enterAnimation {
-    from { transform: translateY(100%); }
-    to { transform: translateY(0); }
-  }
-  
-  /* 網頁首次載入動畫 */
-  body { animation: pageInit 1s ease forwards; }
-  @keyframes pageInit {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
+  @keyframes slideIn {
+    from { transform: translateX(100%); }
+    to { transform: translateX(0); }
   }
 
   /* --- 導覽列 --- */
   .site-header{
     position:fixed;left:0;right:0;top:0;height:72px;display:flex;align-items:center;justify-content:space-between;padding:0 28px;z-index:30;
-    background:rgba(15,15,15,0.8);backdrop-filter: blur(12px);border-bottom:1px solid rgba(255,255,255,0.1);
+    background:rgba(0,0,0,0.6); /* 加深背景 */
+    backdrop-filter: blur(10px); border-bottom:1px solid rgba(255,255,255,0.1);
   }
   .logo { display: flex; align-items: center; text-decoration: none; color: #fff; font-weight: 800; font-size: 1.2rem; letter-spacing: 1px; }
   .logo img { height: 32px; width: auto; display: block; } 
@@ -68,30 +58,39 @@
   .nav a{color:#fff;text-decoration:none;font-weight:600;font-size: 0.9rem; transition:0.3s;}
   .nav a:hover, .nav a.active { color: var(--yellow); opacity: 1; }
 
-  /* --- 影片背景 (滿版修正) --- */
+  /* --- 🔴 3. 影片背景修正 (完整顯示不裁切) --- */
   .video-background {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
     z-index: -1; overflow: hidden;
+    background: #000; /* 影片旁边的留白設為全黑 */
+    display: flex; align-items: center; justify-content: center;
   }
   #bg-video {
-    position: absolute; top: 50%; left: 50%;
-    transform: translate(-50%, -50%);
-    min-width: 100%; min-height: 100%;
-    width: auto; height: auto;
-    object-fit: cover; /* 滿版不變形 */
-    opacity: 0; transition: opacity 1.5s ease;
+    /* 限制最大寬高，確保完整顯示 */
+    max-width: 100%; 
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    
+    /* 🔴 關鍵：contain = 完整顯示 (會有黑邊) / cover = 填滿 (會裁切) */
+    object-fit: contain; 
+    
+    opacity: 0; transition: opacity 1s ease;
   }
   #bg-video.loaded { opacity: 1; }
 
   .overlay {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.8) 100%);
+    background: linear-gradient(to bottom, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.7) 100%);
     z-index: 0; pointer-events: none;
   }
 
-  /* --- 聲音按鈕 (右下角) --- */
+  /* --- 🔴 4. 聲音按鈕 (移至右下角) --- */
   #sound-btn {
-    position: fixed; bottom: 30px; right: 30px; z-index: 20;
+    position: fixed; 
+    bottom: 30px; right: 30px; /* 右下角 */
+    z-index: 20;
+    
     background: rgba(255, 255, 255, 0.1);
     border: 1px solid rgba(255, 255, 255, 0.3);
     color: #fff;
@@ -132,12 +131,15 @@
   }
   @keyframes bounce { 0%, 100% { transform: translate(-50%, 0); } 50% { transform: translate(-50%, 10px); } }
   
-  /* Loading */
-  .loading { opacity: 0; }
-  .loaded { opacity: 1; transition: opacity 1s ease; }
+  .loading { opacity: 0; filter: blur(10px); transition: 1s; }
+  .loaded { opacity: 1; filter: blur(0); }
 
   /* 服務項目 */
-  #services { position: relative; z-index: 2; background: linear-gradient(180deg, rgba(0,0,0,0.9), #0a0a0a); padding: 100px 20px; }
+  #services { 
+    position: relative; z-index: 2; 
+    background: linear-gradient(180deg, rgba(0,0,0,0.9), #0a0a0a 20%, #0a0a0a); 
+    padding: 100px 20px; 
+  }
   .container { max-width: 1200px; margin: 0 auto; }
   .section-title { text-align: center; margin-bottom: 60px; }
   .section-title h2 { font-size: 2.5rem; margin: 0; background: linear-gradient(90deg, #fff, #aaa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
@@ -156,8 +158,8 @@
   .divider { width: 60px; height: 4px; margin: 0 auto 30px; background: linear-gradient(90deg, #FFB800, #FF3D00); border-radius: 4px; animation: expand 1s forwards; }
   footer h2 { font-size: 1.8rem; font-weight: 700; margin: 0 0 20px; letter-spacing: 1px; color: #fff; }
   .gradient-text { background: linear-gradient(135deg, #FFB800, #FF3D00); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-  p.manifesto { font-size: 1.1rem; line-height: 1.8; color: #a1a1a6; margin-bottom: 40px; opacity: 0; animation: appleFadeIn 1s ease 0.3s forwards; }
-  .copyright { font-size: 0.8rem; color: #555; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px; margin-top: 20px; opacity: 0; animation: appleFadeIn 1s ease 0.6s forwards; }
+  p.manifesto { font-size: 1.1rem; line-height: 1.8; color: #a1a1a6; margin-bottom: 40px; }
+  .copyright { font-size: 0.8rem; color: #555; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px; margin-top: 20px; }
 </style>
 </head>
 <body>
@@ -178,7 +180,7 @@
   </div>
   <div class="overlay"></div>
 
-  <div id="sound-btn">🔊</div>
+  <div id="sound-btn">🔇</div>
 
   <main>
     <section class="hero">
@@ -216,6 +218,7 @@
   <script>
     const video = document.getElementById('bg-video');
     const soundBtn = document.getElementById('sound-btn');
+    
     video.muted = true;
 
     video.addEventListener('loadeddata', () => {

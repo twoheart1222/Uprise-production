@@ -2,35 +2,39 @@ backend:
   name: git-gateway
   branch: main
 
-media_folder: "media"
-public_folder: "/media"
+media_folder: "images/uploads"
+public_folder: "/images/uploads"
 
 collections:
   - name: "pages"
-    label: "頁面"
+    label: "頁面內容管理"
     files:
-      - label: "首頁"
+      - label: "首頁設定"
         name: "index"
-        file: "index.html"
+        file: "content/index.md"
         fields:
           - {label: "標題", name: "title", widget: "string"}
+      
       - label: "關於我們"
         name: "about"
-        file: "about.html"
+        file: "content/about.md"
         fields:
           - {label: "內容", name: "body", widget: "markdown"}
-      - label: "作品"
+
+      - label: "作品集"
         name: "works"
-        file: "works.html"
+        file: "content/works.md"
         fields:
-          - {label: "YouTube影片連結", name: "youtube", widget: "list", field: {label: "連結", name: "url", widget: "string"}}
-      - label: "團隊"
+          - {label: "YouTube影片連結", name: "youtube", widget: "list", fields: [{label: "連結", name: "url", widget: "string"}]}
+
+      - label: "團隊介紹"
         name: "team"
-        file: "team.html"
+        file: "content/team.md"
         fields:
-          - {label: "成員", name: "members", widget: "list", fields: [{label: "姓名", name: "name", widget: "string"}, {label: "介紹", name: "bio", widget: "markdown"}]}
-      - label: "聯絡"
+          - {label: "成員列表", name: "members", widget: "list", fields: [{label: "姓名", name: "name", widget: "string"}, {label: "介紹", name: "bio", widget: "markdown"}]}
+
+      - label: "聯絡我們"
         name: "contact"
-        file: "contact.html"
+        file: "content/contact.md"
         fields:
           - {label: "內容", name: "body", widget: "markdown"}

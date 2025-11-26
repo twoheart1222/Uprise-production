@@ -48,6 +48,10 @@ collections:
           - label: "作品列表"
             name: "portfolio"
             widget: "list"
+            # 💡 修正重點：列表預設允許拖曳排序 (Drag-and-Drop Reordering)。
+            # 確保沒有設定 label_singular 且 widget 為 list 即可。
+            allow_add: true 
+            collapsed: false # 讓列表預設展開
             fields:
               - {label: "作品名稱", name: "title", widget: "string"}
               - {label: "客戶名稱", name: "client", widget: "string", required: false}

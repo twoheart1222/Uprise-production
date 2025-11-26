@@ -3,138 +3,349 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>團隊介紹 | Uprise-Production</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
+
+<title>團隊介紹｜Uprise-Production｜推手影像</title>
+
+<meta name="description" content="Uprise-Production（推手影像）專注於電影級影像製作、廣告拍攝、品牌形象影片，以團隊精神與專業技術打造每一支值得被看見的作品。">
+<meta name="keywords" content="影片拍攝, 商業廣告, 影像製作, 品牌影片, 企業形象影片, 導演團隊, Uprise Production, 推手影像, 台中影像團隊">
+<link rel="canonical" href="https://uprise-videoproduction.netlify.app/team.html">
+
+<link rel="icon" type="image/png" href="favicon_32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/favicon_32x32.png" sizes="32x32">
+
+<meta property="og:title" content="團隊介紹｜Uprise-Production">
+<meta property="og:description" content="Uprise-Production 推手影像｜電影級影像製作團隊，從企劃、拍攝到後期打造最具影響力的視覺內容。">
+<meta property="og:image" content="https://uprise-videoproduction.netlify.app/logo.png">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://uprise-videoproduction.netlify.app/team.html">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="團隊介紹｜Uprise-Production">
+<meta name="twitter:description" content="專業影像製作團隊，打造具影響力的品牌視覺內容。">
+<meta name="twitter:image" content="https://uprise-videoproduction.netlify.app/logo.png">
+
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "VideoProductionCompany",
+ "name": "Uprise-Production（推手影像）",
+ "url": "https://uprise-videoproduction.netlify.app",
+ "logo": "https://uprise-videoproduction.netlify.app/logo.png",
+ "description": "推手影像專注於電影級影像、廣告與品牌影片的製作，透過視覺敘事推動品牌價值。",
+ "address": {
+   "@type": "PostalAddress",
+   "addressLocality": "台中市西區",
+   "streetAddress": "臺灣大道二段285號31樓"
+ },
+ "telephone": "+886-937672279"
+}
+</script>
+
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Noto+Sans+TC:wght@300;500;700&display=swap" rel="stylesheet">
+
 <style>
-  :root{ --yellow:#FFB800; --orange:#FF7A00; --bg:#0F0F0F; }
-  body { margin:0; font-family:'Inter', 'Noto Sans TC', sans-serif; background:var(--bg); color:#fff; overflow-x: hidden;}
-  .site-header{position:fixed;top:0;left:0;right:0;height:72px;display:flex;align-items:center;justify-content:space-between;padding:0 28px;z-index:30;background:rgba(15,15,15,0.9);backdrop-filter:blur(8px);border-bottom:1px solid rgba(255,255,255,0.1);}
-  .logo { display: flex; align-items: center; text-decoration: none; color: #fff; font-weight: 800; font-size: 1.1rem; letter-spacing: 1px; }
-  .logo img { height: 32px; width: auto; display: block; } 
-  .nav{display:flex;gap:20px;}
-  .nav a{color:#fff;text-decoration:none;font-weight:600;font-size:0.9rem;opacity:0.7;transition:0.3s;}
-  .nav a:hover, .nav a.active { color:var(--yellow); opacity:1; }
+:root{
+ --yellow:#FFB800;
+ --orange:#FF7A00;
+ --bg:#0F0F0F;
+}
+body{
+ margin:0;
+ font-family:'Inter','Noto Sans TC',sans-serif;
+ background:var(--bg);
+ color:#fff;
+ overflow-x:hidden;
+}
 
-  .header-container { text-align: center; max-width: 800px; width: 100%; margin: 140px auto 60px; padding: 0 20px; }
-  .label { font-size: 0.9rem; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: #86868b; margin-bottom: 10px; display: block; opacity: 0; animation: fadeUp 0.8s ease forwards; }
-  .header-container h1 { font-size: clamp(2rem, 6vw, 4rem); font-weight: 800; margin: 0 0 20px 0; line-height: 1.1; background: linear-gradient(135deg, #FFB800 0%, #FF3D00 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; opacity: 0; animation: fadeUp 0.8s ease 0.2s forwards; word-break: break-word; }
-  .header-container p { font-size: clamp(1rem, 3.5vw, 1.2rem); color: #f5f5f7; font-weight: 400; margin: 0 auto 40px; max-width: 600px; line-height: 1.6; opacity: 0; animation: fadeUp 0.8s ease 0.4s forwards; }
-  .divider-line { width: 80px; height: 4px; margin: 0 auto; background: linear-gradient(90deg, #FFB800, #FF3D00); border-radius: 4px; opacity: 0; animation: expandWidth 1s cubic-bezier(0.2, 0.8, 0.2, 1) 0.6s forwards; }
-  @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-  @keyframes expandWidth { from { width: 0px; opacity: 0; } to { width: 80px; opacity: 1; } }
+.site-header{
+ position:fixed;
+ top:0;left:0;right:0;
+ height:72px;
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ padding:0 28px;
+ z-index:30;
+ background:rgba(15,15,15,0.9);
+ backdrop-filter:blur(8px);
+ border-bottom:1px solid rgba(255,255,255,0.1);
+}
 
-  .team-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 40px; max-width: 1200px; margin: 0 auto 100px; padding: 0 20px; }
-  
-  /* 🔴 修改：加入 cursor: pointer 讓使用者知道可以點 */
-  .card { 
-    width: 100%; max-width: 300px; cursor: pointer;
-    border-radius: 24px 24px 12px 12px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-bottom: none; padding: 40px 20px 20px; backdrop-filter: blur(10px); transition: transform 0.4s ease; opacity: 0; animation: fadeUp 0.8s forwards; display: flex; flex-direction: column; align-items: center; text-align: center; 
-  }
-  .card:hover { transform: translateY(-5px); background: rgba(255, 255, 255, 0.08); border-color: rgba(255, 61, 0, 0.3); }
-  .avatar-box { width: 140px; height: 140px; margin: 0 auto 20px; border-radius: 50%; padding: 3px; background: linear-gradient(135deg, #333, #111); transition: 0.4s ease; }
-  .card:hover .avatar-box { background: linear-gradient(135deg, #FFB800, #FF3D00); transform: scale(1.05); }
-  .avatar-img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; object-position: top center; border: 3px solid #000; background-color: #1a1a1a; }
-  .card h3 { font-size: 1.4rem; margin: 0 0 8px; color: #fff; font-weight: 700; }
-  .role { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px; background: linear-gradient(90deg, #FFB800, #FF3D00); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 15px; display: block; font-weight: 700; }
-  .bio { font-size: 0.9rem; color: #a1a1a6; line-height: 1.6; margin: 0; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; margin-bottom: 15px; }
-  .portfolio-link { font-size: 0.75rem; color: #fff; text-decoration: none; background: rgba(255,255,255,0.1); padding: 6px 14px; border-radius: 20px; transition: 0.3s; margin-top: auto; margin-bottom: 10px; position: relative; z-index: 10; }
-  .portfolio-link:hover { background: var(--orange); }
-  .arrow-down { margin-top: 5px; font-size: 12px; color: #555; animation: bounce 2s infinite; }
-  @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(3px); } }
+.logo{display:flex;align-items:center;text-decoration:none;color:#fff;font-weight:800;font-size:1.1rem;letter-spacing:1px;}
+.logo img{height:32px;width:auto;display:block;}
 
-  footer { position: relative; z-index: 10; padding: 80px 20px 40px; background: #000; text-align: center; display: flex; justify-content: center; margin-top: 50px; }
-  .footer-content { max-width: 800px; width: 100%; }
-  .divider { width: 60px; height: 4px; margin: 0 auto 30px; background: linear-gradient(90deg, #FFB800, #FF3D00); border-radius: 4px; animation: expand 1s forwards; }
-  footer h2 { font-size: 1.8rem; font-weight: 700; margin: 0 0 20px; letter-spacing: 1px; color: #fff; }
-  .gradient-text { background: linear-gradient(135deg, #FFB800, #FF3D00); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-  p.manifesto { font-size: 1.1rem; line-height: 1.8; color: #a1a1a6; margin-bottom: 40px; opacity: 0; }
-  .copyright { font-size: 0.8rem; color: #555; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px; margin-top: 20px; opacity: 0; }
-  @keyframes expand { from { width: 0; opacity: 0; } to { width: 60px; opacity: 1; } }
+.nav{display:flex;gap:20px;}
+.nav a{
+ color:#fff;
+ text-decoration:none;
+ font-weight:600;
+ font-size:0.9rem;
+ opacity:0.7;
+ transition:0.3s;
+}
+.nav a:hover,.nav a.active{
+ color:var(--yellow);
+ opacity:1;
+}
+
+.header-container{
+ text-align:center;
+ max-width:800px;
+ width:100%;
+ margin:140px auto 60px;
+ padding:0 20px;
+}
+
+.label{
+ font-size:0.9rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#86868b;margin-bottom:10px;display:block;opacity:0;animation:fadeUp .8s ease forwards;
+}
+
+.header-container h1{
+ font-size:clamp(2rem,6vw,4rem);
+ font-weight:800;margin:0 0 20px;line-height:1.1;
+ background:linear-gradient(135deg,#FFB800 0%,#FF3D00 100%);
+ -webkit-background-clip:text;
+ -webkit-text-fill-color:transparent;
+ opacity:0;
+ animation:fadeUp .8s ease .2s forwards;
+}
+
+.header-container p{
+ font-size:clamp(1rem,3.5vw,1.2rem);
+ color:#f5f5f7;
+ font-weight:400;
+ margin:0 auto 40px;
+ max-width:600px;
+ line-height:1.6;
+ opacity:0;
+ animation:fadeUp .8s ease .4s forwards;
+}
+
+.divider-line{
+ width:80px;height:4px;margin:0 auto;
+ background:linear-gradient(90deg,#FFB800,#FF3D00);
+ border-radius:4px;
+ opacity:0;
+ animation:expandWidth 1s cubic-bezier(.2,.8,.2,1) .6s forwards;
+}
+
+@keyframes fadeUp{
+ from{opacity:0;transform:translateY(30px);}
+ to{opacity:1;transform:translateY(0);}
+}
+
+@keyframes expandWidth{
+ from{width:0;opacity:0;}
+ to{width:80px;opacity:1;}
+}
+
+.team-grid{
+ display:flex;
+ flex-wrap:wrap;
+ justify-content:center;
+ gap:40px;
+ max-width:1200px;
+ margin:0 auto 100px;
+ padding:0 20px;
+}
+
+.card{
+ width:100%;max-width:300px;
+ cursor:pointer;
+ border-radius:24px 24px 12px 12px;
+ background:rgba(255,255,255,0.05);
+ border:1px solid rgba(255,255,255,0.1);
+ border-bottom:none;
+ padding:40px 20px 20px;
+ backdrop-filter:blur(10px);
+ transition:transform .4s ease;
+ opacity:0;
+ animation:fadeUp .8s forwards;
+ display:flex;
+ flex-direction:column;
+ align-items:center;
+ text-align:center;
+}
+.card:hover{
+ transform:translateY(-5px);
+ background:rgba(255,255,255,.08);
+ border-color:rgba(255,61,0,.3);
+}
+
+.avatar-box{
+ width:140px;height:140px;
+ margin:0 auto 20px;
+ border-radius:50%;
+ padding:3px;
+ background:linear-gradient(135deg,#333,#111);
+ transition:.4s ease;
+}
+.card:hover .avatar-box{
+ background:linear-gradient(135deg,#FFB800,#FF3D00);
+ transform:scale(1.05);
+}
+
+.avatar-img{
+ width:100%;height:100%;
+ border-radius:50%;
+ object-fit:cover;
+ object-position:top center;
+ border:3px solid #000;
+ background-color:#1a1a1a;
+}
+
+.card h3{font-size:1.4rem;margin:0 0 8px;color:#fff;font-weight:700;}
+.role{
+ font-size:0.75rem;text-transform:uppercase;letter-spacing:2px;
+ background:linear-gradient(90deg,#FFB800,#FF3D00);
+ -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+ margin-bottom:15px;display:block;font-weight:700;
+}
+
+.bio{
+ font-size:0.9rem;color:#a1a1a6;line-height:1.6;margin:0;
+ display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;
+ overflow:hidden;margin-bottom:15px;
+}
+
+.portfolio-link{
+ font-size:0.75rem;color:#fff;text-decoration:none;
+ background:rgba(255,255,255,0.1);
+ padding:6px 14px;
+ border-radius:20px;
+ transition:.3s;
+ margin-top:auto;margin-bottom:10px;
+ position:relative;z-index:10;
+}
+.portfolio-link:hover{background:var(--orange);}
+
+.arrow-down{margin-top:5px;font-size:12px;color:#555;animation:bounce 2s infinite;}
+@keyframes bounce{0%,100%{transform:translateY(0);}50%{transform:translateY(3px);}}
+
+footer{
+ position:relative;z-index:10;
+ padding:80px 20px 40px;background:#000;
+ text-align:center;display:flex;justify-content:center;
+ margin-top:50px;
+}
+
+.footer-content{max-width:800px;width:100%;}
+.divider{width:60px;height:4px;margin:0 auto 30px;background:linear-gradient(90deg,#FFB800,#FF3D00);border-radius:4px;animation:expand 1s forwards;}
+
+footer h2{font-size:1.8rem;font-weight:700;margin:0 0 20px;letter-spacing:1px;}
+.gradient-text{background:linear-gradient(135deg,#FFB800,#FF3D00);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+
+p.manifesto{font-size:1.1rem;line-height:1.8;color:#a1a1a6;margin-bottom:40px;opacity:0;}
+.copyright{font-size:0.8rem;color:#555;border-top:1px solid rgba(255,255,255,0.1);padding-top:20px;margin-top:20px;opacity:0;}
+
+@keyframes expand{from{width:0;opacity:0;}to{width:60px;opacity:1;}}
 </style>
 </head>
 <body>
 
-  <header class="site-header">
+<header class="site-header">
     <a href="index.html" class="logo" id="nav-logo">Uprise-Production</a>
     <nav class="nav">
-      <a href="index.html">首頁</a>
-      <a href="works.html">作品</a>
-      <a href="team.html" class="active">團隊</a>
-      <a href="about.html">關於</a>
-      <a href="contact.html">聯絡</a>
+        <a href="index.html">首頁</a>
+        <a href="works.html">作品</a>
+        <a href="team.html" class="active">團隊</a>
+        <a href="about.html">關於</a>
+        <a href="contact.html">聯絡</a>
     </nav>
-  </header>
+</header>
 
-  <div class="header-container">
+<div class="header-container">
     <span class="label">OUR TEAM</span>
     <h1 id="page-title">Loading...</h1>
     <p id="page-subtitle">...</p>
     <div class="divider-line"></div>
-  </div>
+</div>
 
-  <div class="team-grid" id="team-container">
+<div class="team-grid" id="team-container">
     <p style="width:100%; text-align:center; color:#666;">資料讀取中...</p>
-  </div>
+</div>
 
-  <footer>
+<footer>
     <div class="footer-content">
-      <div class="divider"></div>
-      <h2><span class="gradient-text">Uprise-Production</span></h2>
-      <p class="manifesto" style="animation: fadeUp 1s ease 0.3s forwards;">我們不僅是影像的製造者，更是品牌價值的推動者。<br>致力於將抽象的意念，轉化為具象的視覺衝擊。<br>從腳本企劃、電影級拍攝到後期特效，<br>推手影像以極致的職人精神，訴說每一個值得被看見的故事。</p>
-      <div class="copyright" style="animation: fadeUp 1s ease 0.6s forwards;">Copyright © 2025 Uprise-Production. All rights reserved.<br>臺中市西區民龍里臺灣大道二段285號31樓 | +886 937672279</div>
+        <div class="divider"></div>
+        <h2><span class="gradient-text">Uprise-Production</span></h2>
+
+        <p class="manifesto" style="animation: fadeUp 1s ease 0.3s forwards;">
+            我們不僅是影像的製造者，更是品牌價值的推動者。<br>
+            致力於將抽象的意念，轉化為具象的視覺衝擊。<br>
+            從腳本企劃、電影級拍攝到後期特效，<br>
+            推手影像以極致的職人精神，訴說每一個值得被看見的故事。
+        </p>
+
+        <div class="copyright" style="animation: fadeUp 1s ease 0.6s forwards;">
+            Copyright © 2025 Uprise-Production. All rights reserved.<br>
+            臺中市西區民龍里臺灣大道二段285號31樓 | +886 937672279
+        </div>
     </div>
-  </footer>
+</footer>
 
-  <script>
-    // Logo 讀取
-    fetch('content/index.md').then(res => res.text()).then(text => {
-        const parts = text.split('---');
-        if (parts.length > 1) {
-            const data = jsyaml.load(parts[1]);
-            const logoContainer = document.getElementById('nav-logo');
-            if (data.logo_image) {
-                logoContainer.innerHTML = `<img src="${data.logo_image}" alt="${data.title || 'Logo'}">`;
-            } else {
-                logoContainer.innerText = data.title || 'Uprise-Production';
-            }
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
+
+<script>
+// 修正版：template literal 必須使用反引號
+fetch('content/index.md')
+.then(res => res.text())
+.then(text => {
+    const parts = text.split('---');
+    if (parts.length > 1) {
+        const data = jsyaml.load(parts[1]);
+        const logoContainer = document.getElementById('nav-logo');
+
+        if (data.logo_image) {
+            logoContainer.innerHTML = `<img src="${data.logo_image}" alt="${data.title || 'Logo'}">`;
+        } else {
+            logoContainer.innerText = data.title || 'Uprise-Production';
         }
-    });
+    }
+});
 
-    fetch('content/team.md').then(r => r.text()).then(text => {
-      const parts = text.split('---');
-      const data = jsyaml.load(parts.length > 1 ? parts[1] : text);
-      
-      if(data.title) document.getElementById('page-title').innerText = data.title;
-      if(data.subtitle) document.getElementById('page-subtitle').innerText = data.subtitle;
+// TEAM 資料讀取
+fetch('content/team.md')
+.then(r => r.text())
+.then(text => {
+    const parts = text.split('---');
+    const data = jsyaml.load(parts.length > 1 ? parts[1] : text);
 
-      const container = document.getElementById('team-container');
-      if(data.members && data.members.length > 0) {
+    if (data.title) document.getElementById('page-title').innerText = data.title;
+    if (data.subtitle) document.getElementById('page-subtitle').innerText = data.subtitle;
+
+    const container = document.getElementById('team-container');
+
+    if (data.members && data.members.length > 0) {
         let html = '';
-        // 🔴 關鍵修改：index 用來傳遞參數
+
         data.members.forEach((m, index) => {
-          const avatar = m.avatar || 'https://dummyimage.com/150x150/333/fff&text=No+Img';
-          // 作品集按鈕加上 event.stopPropagation() 防止點到按鈕時也觸發卡片跳轉
-          const portfolioBtn = m.portfolio_url 
-            ? `<a href="${m.portfolio_url}" target="_blank" class="portfolio-link" onclick="event.stopPropagation()">查看個人作品</a>` 
-            : '';
-          
-          // 🔴 關鍵修改：整張卡片加上 onclick 跳轉
-          html += `
-          <div class="card" onclick="location.href='member.html?id=${index}'">
-            <div class="avatar-box"><img src="${avatar}" class="avatar-img" alt="${m.name}"></div>
-            <h3>${m.name}</h3>
-            <span class="role">${m.role}</span>
-            <p class="bio">${m.bio}</p>
-            <div class="arrow-down">▼</div>
-            ${portfolioBtn}
-          </div>`;
+            const avatar = m.avatar || 'https://dummyimage.com/150x150/333/fff&text=No+Img';
+
+            const portfolioBtn = m.portfolio_url
+                ? `<a href="${m.portfolio_url}" target="_blank" class="portfolio-link" onclick="event.stopPropagation()">查看個人作品</a>`
+                : '';
+
+            html += `
+                <div class="card" onclick="location.href='member.html?id=${index}'">
+                    <div class="avatar-box">
+                        <img src="${avatar}" class="avatar-img" alt="${m.name}">
+                    </div>
+                    <h3>${m.name}</h3>
+                    <span class="role">${m.role}</span>
+                    <p class="bio">${m.bio}</p>
+                    <div class="arrow-down">▼</div>
+                    ${portfolioBtn}
+                </div>
+            `;
         });
+
         container.innerHTML = html;
-      } else {
+    } else {
         container.innerHTML = '<p>尚無成員資料，請至後台新增。</p>';
-      }
-    });
-  </script>
+    }
+});
+</script>
+
 </body>
 </html>

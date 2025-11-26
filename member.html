@@ -3,7 +3,50 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>成員介紹 | Uprise-Production</title>
+
+<title>團隊成員介紹 | Uprise-Production｜推手影像 ｜專業影像製作團隊</title>
+
+<link rel="icon" type="image/png" href="favicon_32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/favicon_32x32.png" sizes="32x32">
+
+<meta name="description" content="了解 Uprise-Production（推手影像）的核心成員——導演林家佑，包含其職位、個人簡介和作品集連結。我們專業的團隊隨時準備為您的品牌故事進行電影級影像拍攝與製作。">
+<meta name="keywords" content="林家佑, 導演介紹, 攝影師, 團隊成員, Uprise Production, 推手影像, 廣告拍攝, 專業影像製作, 電影級, 影像導演">
+<link rel="canonical" href="https://uprise-videoproduction.netlify.app/member.html">
+
+<meta property="og:title" content="林家佑 導演介紹｜Uprise-Production 推手影像｜專業拍攝製作">
+<meta property="og:description" content="認識我們專業的影像製作團隊核心人物——導演林家佑，了解其背景、專長與電影級拍攝經驗。">
+<meta property="og:image" content="https://uprise-videoproduction.netlify.app/logo.png">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://uprise-videoproduction.netlify.app/member.html">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="導演 林家佑 | Uprise-Production 核心成員介紹">
+<meta name="twitter:description" content="專業影像製作團隊核心成員介紹，專注於廣告與品牌影片的拍攝與導演工作。">
+<meta name="twitter:image" content="https://uprise-videoproduction.netlify.app/logo.png">
+
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "VideoProductionCompany",
+ "name": "Uprise-Production（推手影像）",
+ "url": "https://uprise-videoproduction.netlify.app",
+ "logo": "https://uprise-videoproduction.netlify.app/logo.png",
+ "description": "推手影像專注於電影級影像、廣告與品牌影片的製作與拍攝，由核心導演林家佑帶領，透過視覺敘事推動品牌價值。",
+ "address": {
+   "@type": "PostalAddress",
+   "addressLocality": "台中市西區",
+   "streetAddress": "臺灣大道二段285號31樓"
+ },
+ "telephone": "+886-937672279",
+ "founder": {
+   "@type": "Person",
+   "name": "林家佑",
+   "jobTitle": "導演 / 創辦人",
+   "url": "https://uprise-videoproduction.netlify.app/member.html?id=lin-jia-you"
+ }
+}
+</script>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/2.1.0/showdown.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Noto+Sans+TC:wght@300;500;700&display=swap" rel="stylesheet">
@@ -81,9 +124,9 @@
   </header>
 
   <div class="header-container">
-    <span class="label">MEMBER PROFILE</span>
+    <span class="label">MEMBER PROFILE | 導演介紹</span>
     <h1>成員介紹</h1>
-    <p>認識我們團隊<br>隨時準備為您的故事拍攝。</p>
+    <p>認識我們專業的影像製作團隊與導演林家佑，<br>隨時準備為您的品牌故事進行電影級拍攝。</p>
     <div class="divider-line"></div>
   </div>
 
@@ -140,7 +183,7 @@
         container.innerHTML = `
             <div class="photo-section">
               <div class="photo-frame">
-                <img src="${avatar}" class="profile-img" alt="${m.name}">
+                <img src="${avatar}" class="profile-img" alt="${m.name} 導演">
               </div>
             </div>
 
@@ -158,6 +201,8 @@
               </div>
             </div>
         `;
+        // 額外優化：動態更新頁面標題 (Title)，加入導演/拍攝等關鍵字
+        document.title = `${m.name} | ${m.role} | 影像導演/專業拍攝 | Uprise-Production`; 
       } else {
         container.innerHTML = '<p style="text-align:center; width:100%;">找不到該成員資料，請返回團隊頁面。</p>';
       }

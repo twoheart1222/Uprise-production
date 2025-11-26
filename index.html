@@ -3,7 +3,49 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Uprise-Production</title>
+
+<title>林家佑導演 | Uprise-Production 推手影像｜電影級影像製作與商業拍攝</title>
+
+<link rel="icon" type="image/png" href="favicon_32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/favicon_32x32.png" sizes="32x32">
+
+<meta name="description" content="Uprise-Production（推手影像）由林家佑導演領軍，專注於電影級影像製作、商業廣告拍攝、品牌形象影片。我們以專業技術和敘事能力，提供一站式影像解決方案，將您的品牌價值推向極致。">
+<meta name="keywords" content="影片製作, 商業廣告, 品牌影片, 企業形象影片, 電影級拍攝, Uprise Production, 推手影像, 台中影像團隊, 林家佑, 導演, 影像導演, 專業拍攝">
+<link rel="canonical" href="https://uprise-videoproduction.netlify.app/index.html">
+
+<meta property="og:title" content="林家佑導演 | Uprise-Production 推手影像｜專業影像製作與商業拍攝">
+<meta property="og:description" content="Uprise-Production 推手影像｜電影級影像製作團隊，從企劃、導演、拍攝到後期打造最具影響力的品牌視覺內容。">
+<meta property="og:image" content="https://uprise-videoproduction.netlify.app/logo.png">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://uprise-videoproduction.netlify.app/index.html">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="林家佑導演 | Uprise-Production 推手影像">
+<meta name="twitter:description" content="專業影像製作團隊，由林家佑導演帶領，專注於電影級商業廣告和品牌影片的拍攝。">
+<meta name="twitter:image" content="https://uprise-videoproduction.netlify.app/logo.png">
+
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "VideoProductionCompany",
+ "name": "Uprise-Production（推手影像）",
+ "url": "https://uprise-videoproduction.netlify.app",
+ "logo": "https://uprise-videoproduction.netlify.app/logo.png",
+ "description": "推手影像專注於電影級影像製作、廣告與品牌影片的拍攝，由核心導演林家佑帶領，透過視覺敘事推動品牌價值。",
+  "founder": {
+    "@type": "Person",
+    "name": "林家佑",
+    "jobTitle": "導演 / 創辦人"
+  },
+ "address": {
+   "@type": "PostalAddress",
+   "addressLocality": "台中市西區",
+   "streetAddress": "臺灣大道二段285號31樓"
+ },
+ "telephone": "+886-937672279",
+  "keywords": ["林家佑", "影像製作", "商業廣告", "電影級拍攝", "導演"]
+}
+</script>
 
 <meta name="view-transition" content="same-origin" />
 
@@ -11,269 +53,269 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Noto+Sans+TC:wght@300;500;700&display=swap" rel="stylesheet">
 <style>
-  :root{ --yellow:#FFB800; --orange:#FF7A00; --bg:#0F0F0F; }
-  *{box-sizing:border-box}
-  
-  html { background-color: #000; }
-  body {
-    margin: 0; padding: 0;
-    font-family: 'Inter', 'Noto Sans TC', sans-serif;
-    background-color: transparent;
-    color: #f5f5f7; 
-    width: 100%;
-    overflow-x: hidden;
-  }
+  :root{ --yellow:#FFB800; --orange:#FF7A00; --bg:#0F0F0F; }
+  *{box-sizing:border-box}
+  
+  html { background-color: #000; }
+  body {
+    margin: 0; padding: 0;
+    font-family: 'Inter', 'Noto Sans TC', sans-serif;
+    background-color: transparent;
+    color: #f5f5f7; 
+    width: 100%;
+    overflow-x: hidden;
+  }
 
-  /* --- 🚀 2. 強烈滑動轉場 (Slide Over) --- */
-  
-  /* 舊頁面：稍微變暗，向左退後 */
-  ::view-transition-old(root) {
-    animation: slideOut 0.6s cubic-bezier(0.7, 0, 0.3, 1) forwards;
-    filter: brightness(0.5);
-  }
-  /* 新頁面：從右邊滑入 */
-  ::view-transition-new(root) {
-    animation: slideIn 0.6s cubic-bezier(0.7, 0, 0.3, 1) forwards;
-    box-shadow: -20px 0 50px rgba(0,0,0,0.5); /* 左側陰影增加立體感 */
-  }
+  /* --- 🚀 2. 強烈滑動轉場 (Slide Over) --- */
+  
+  /* 舊頁面：稍微變暗，向左退後 */
+  ::view-transition-old(root) {
+    animation: slideOut 0.6s cubic-bezier(0.7, 0, 0.3, 1) forwards;
+    filter: brightness(0.5);
+  }
+  /* 新頁面：從右邊滑入 */
+  ::view-transition-new(root) {
+    animation: slideIn 0.6s cubic-bezier(0.7, 0, 0.3, 1) forwards;
+    box-shadow: -20px 0 50px rgba(0,0,0,0.5); /* 左側陰影增加立體感 */
+  }
 
-  @keyframes slideOut {
-    from { transform: translateX(0); opacity: 1; }
-    to { transform: translateX(-30%); opacity: 0; }
-  }
-  @keyframes slideIn {
-    from { transform: translateX(100%); }
-    to { transform: translateX(0); }
-  }
+  @keyframes slideOut {
+    from { transform: translateX(0); opacity: 1; }
+    to { transform: translateX(-30%); opacity: 0; }
+  }
+  @keyframes slideIn {
+    from { transform: translateX(100%); }
+    to { transform: translateX(0); }
+  }
 
-  /* --- 導覽列 --- */
-  .site-header{
-    position:fixed;left:0;right:0;top:0;height:72px;display:flex;align-items:center;justify-content:space-between;padding:0 28px;z-index:30;
-    background:rgba(0,0,0,0.6); /* 加深背景 */
-    backdrop-filter: blur(10px); border-bottom:1px solid rgba(255,255,255,0.1);
-  }
-  .logo { display: flex; align-items: center; text-decoration: none; color: #fff; font-weight: 800; font-size: 1.2rem; letter-spacing: 1px; }
-  .logo img { height: 32px; width: auto; display: block; } 
-  .nav{display:flex;gap:20px;align-items:center}
-  .nav a{color:#fff;text-decoration:none;font-weight:600;font-size: 0.9rem; transition:0.3s;}
-  .nav a:hover, .nav a.active { color: var(--yellow); opacity: 1; }
+  /* --- 導覽列 --- */
+  .site-header{
+    position:fixed;left:0;right:0;top:0;height:72px;display:flex;align-items:center;justify-content:space-between;padding:0 28px;z-index:30;
+    background:rgba(0,0,0,0.6); /* 加深背景 */
+    backdrop-filter: blur(10px); border-bottom:1px solid rgba(255,255,255,0.1);
+  }
+  .logo { display: flex; align-items: center; text-decoration: none; color: #fff; font-weight: 800; font-size: 1.2rem; letter-spacing: 1px; }
+  .logo img { height: 32px; width: auto; display: block; } 
+  .nav{display:flex;gap:20px;align-items:center}
+  .nav a{color:#fff;text-decoration:none;font-weight:600;font-size: 0.9rem; transition:0.3s;}
+  .nav a:hover, .nav a.active { color: var(--yellow); opacity: 1; }
 
-  /* --- 🔴 3. 影片背景修正 (完整顯示不裁切) --- */
-  .video-background {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    z-index: -1; overflow: hidden;
-    background: #000; /* 影片旁边的留白設為全黑 */
-    display: flex; align-items: center; justify-content: center;
-  }
-  #bg-video {
-    /* 限制最大寬高，確保完整顯示 */
-    max-width: 100%; 
-    max-height: 100%;
-    width: auto;
-    height: auto;
-    
-    /* 🔴 關鍵：contain = 完整顯示 (會有黑邊) / cover = 填滿 (會裁切) */
-    object-fit: contain; 
-    
-    opacity: 0; transition: opacity 1s ease;
-  }
-  #bg-video.loaded { opacity: 1; }
+  /* --- 🔴 3. 影片背景修正 (完整顯示不裁切) --- */
+  .video-background {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    z-index: -1; overflow: hidden;
+    background: #000; /* 影片旁边的留白設為全黑 */
+    display: flex; align-items: center; justify-content: center;
+  }
+  #bg-video {
+    /* 限制最大寬高，確保完整顯示 */
+    max-width: 100%; 
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    
+    /* 🔴 關鍵：contain = 完整顯示 (會有黑邊) / cover = 填滿 (會裁切) */
+    object-fit: contain; 
+    
+    opacity: 0; transition: opacity 1s ease;
+  }
+  #bg-video.loaded { opacity: 1; }
 
-  .overlay {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: linear-gradient(to bottom, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.7) 100%);
-    z-index: 0; pointer-events: none;
-  }
+  .overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.7) 100%);
+    z-index: 0; pointer-events: none;
+  }
 
-  /* --- 🔴 4. 聲音按鈕 (移至右下角) --- */
-  #sound-btn {
-    position: fixed; 
-    bottom: 30px; right: 30px; /* 右下角 */
-    z-index: 20;
-    
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    color: #fff;
-    width: 50px; height: 50px; border-radius: 50%;
-    display: flex; justify-content: center; align-items: center;
-    font-size: 20px; cursor: pointer;
-    transition: 0.3s; backdrop-filter: blur(5px);
-    display: none;
-  }
-  #sound-btn:hover {
-    background: rgba(255, 255, 255, 0.2); border-color: var(--yellow); color: var(--yellow); transform: scale(1.1);
-  }
+  /* --- 🔴 4. 聲音按鈕 (移至右下角) --- */
+  #sound-btn {
+    position: fixed; 
+    bottom: 30px; right: 30px; /* 右下角 */
+    z-index: 20;
+    
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: #fff;
+    width: 50px; height: 50px; border-radius: 50%;
+    display: flex; justify-content: center; align-items: center;
+    font-size: 20px; cursor: pointer;
+    transition: 0.3s; backdrop-filter: blur(5px);
+    display: none;
+  }
+  #sound-btn:hover {
+    background: rgba(255, 255, 255, 0.2); border-color: var(--yellow); color: var(--yellow); transform: scale(1.1);
+  }
 
-  /* --- Hero 區塊 --- */
-  .hero{position:relative;height:100vh;display:flex;align-items:center;justify-content:center;padding:0 24px;z-index:2}
-  .hero-content{max-width:1200px;text-align:center;color:#fff}
-  .hero h1{
-    font-size:clamp(2.5rem, 8vw, 5rem);
-    font-weight:800; margin:0; line-height:1.1; white-space: pre-wrap; 
-    text-shadow: 0 10px 30px rgba(0,0,0,0.8);
-    letter-spacing: -1px;
-  }
-  .hero p{
-    margin-top:15px; font-size:clamp(1rem, 4vw, 1.5rem); opacity:0.9; 
-    text-shadow: 0 5px 15px rgba(0,0,0,0.8);
-  }
-  .hero-ctas{margin-top:28px;display:flex;gap:14px;justify-content:center}
-  
-  .btn{padding:12px 25px;border-radius:30px;font-weight:700;border:none;cursor:pointer; text-decoration: none; display: inline-block; transition: 0.3s;}
-  .btn.primary{background:linear-gradient(90deg,var(--yellow),var(--orange));color:#111}
-  .btn.primary:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(255, 122, 0, 0.3); }
-  .btn.ghost{background:transparent;color:#fff;border:1px solid rgba(255,255,255,0.3)}
-  .btn.ghost:hover { background: rgba(255,255,255,0.1); }
+  /* --- Hero 區塊 --- */
+  .hero{position:relative;height:100vh;display:flex;align-items:center;justify-content:center;padding:0 24px;z-index:2}
+  .hero-content{max-width:1200px;text-align:center;color:#fff}
+  .hero h1{
+    font-size:clamp(2.5rem, 8vw, 5rem);
+    font-weight:800; margin:0; line-height:1.1; white-space: pre-wrap; 
+    text-shadow: 0 10px 30px rgba(0,0,0,0.8);
+    letter-spacing: -1px;
+  }
+  .hero p{
+    margin-top:15px; font-size:clamp(1rem, 4vw, 1.5rem); opacity:0.9; 
+    text-shadow: 0 5px 15px rgba(0,0,0,0.8);
+  }
+  .hero-ctas{margin-top:28px;display:flex;gap:14px;justify-content:center}
+  
+  .btn{padding:12px 25px;border-radius:30px;font-weight:700;border:none;cursor:pointer; text-decoration: none; display: inline-block; transition: 0.3s;}
+  .btn.primary{background:linear-gradient(90deg,var(--yellow),var(--orange));color:#111}
+  .btn.primary:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(255, 122, 0, 0.3); }
+  .btn.ghost{background:transparent;color:#fff;border:1px solid rgba(255,255,255,0.3)}
+  .btn.ghost:hover { background: rgba(255,255,255,0.1); }
 
-  .arrow-down { 
-    position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%);
-    font-size: 24px; color: #fff; opacity: 0.6; animation: bounce 2s infinite; 
-  }
-  @keyframes bounce { 0%, 100% { transform: translate(-50%, 0); } 50% { transform: translate(-50%, 10px); } }
-  
-  .loading { opacity: 0; filter: blur(10px); transition: 1s; }
-  .loaded { opacity: 1; filter: blur(0); }
+  .arrow-down { 
+    position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%);
+    font-size: 24px; color: #fff; opacity: 0.6; animation: bounce 2s infinite; 
+  }
+  @keyframes bounce { 0%, 100% { transform: translate(-50%, 0); } 50% { transform: translate(-50%, 10px); } }
+  
+  .loading { opacity: 0; filter: blur(10px); transition: 1s; }
+  .loaded { opacity: 1; filter: blur(0); }
 
-  /* 服務項目 */
-  #services { 
-    position: relative; z-index: 2; 
-    background: linear-gradient(180deg, rgba(0,0,0,0.9), #0a0a0a 20%, #0a0a0a); 
-    padding: 100px 20px; 
-  }
-  .container { max-width: 1200px; margin: 0 auto; }
-  .section-title { text-align: center; margin-bottom: 60px; }
-  .section-title h2 { font-size: 2.5rem; margin: 0; background: linear-gradient(90deg, #fff, #aaa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-  .section-title span { display: block; width: 60px; height: 4px; background: var(--yellow); margin: 20px auto; border-radius: 2px;}
-  .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
-  .service-card { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 20px; padding: 40px 30px; transition: 0.4s ease; display: flex; flex-direction: column; align-items: flex-start; }
-  .service-card:hover { transform: translateY(-10px); background: rgba(255, 255, 255, 0.06); border-color: var(--yellow); box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
-  .service-icon { width: 60px; height: 60px; margin-bottom: 20px; border-radius: 12px; overflow: hidden; background: linear-gradient(135deg, #222, #111); display: flex; align-items: center; justify-content: center; }
-  .service-icon img { width: 100%; height: 100%; object-fit: cover; }
-  .service-card h3 { font-size: 1.5rem; margin: 0 0 15px; color: #fff; }
-  .service-card p { color: #aaa; line-height: 1.6; margin: 0; font-size: 1rem; }
+  /* 服務項目 */
+  #services { 
+    position: relative; z-index: 2; 
+    background: linear-gradient(180deg, rgba(0,0,0,0.9), #0a0a0a 20%, #0a0a0a); 
+    padding: 100px 20px; 
+  }
+  .container { max-width: 1200px; margin: 0 auto; }
+  .section-title { text-align: center; margin-bottom: 60px; }
+  .section-title h2 { font-size: 2.5rem; margin: 0; background: linear-gradient(90deg, #fff, #aaa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  .section-title span { display: block; width: 60px; height: 4px; background: var(--yellow); margin: 20px auto; border-radius: 2px;}
+  .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
+  .service-card { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 20px; padding: 40px 30px; transition: 0.4s ease; display: flex; flex-direction: column; align-items: flex-start; }
+  .service-card:hover { transform: translateY(-10px); background: rgba(255, 255, 255, 0.06); border-color: var(--yellow); box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
+  .service-icon { width: 60px; height: 60px; margin-bottom: 20px; border-radius: 12px; overflow: hidden; background: linear-gradient(135deg, #222, #111); display: flex; align-items: center; justify-content: center; }
+  .service-icon img { width: 100%; height: 100%; object-fit: cover; }
+  .service-card h3 { font-size: 1.5rem; margin: 0 0 15px; color: #fff; }
+  .service-card p { color: #aaa; line-height: 1.6; margin: 0; font-size: 1rem; }
 
-  /* 頁尾 */
-  footer { position: relative; z-index: 10; padding: 80px 20px 40px; background: #000; text-align: center; display: flex; justify-content: center; }
-  .footer-content { max-width: 800px; width: 100%; }
-  .divider { width: 60px; height: 4px; margin: 0 auto 30px; background: linear-gradient(90deg, #FFB800, #FF3D00); border-radius: 4px; animation: expand 1s forwards; }
-  footer h2 { font-size: 1.8rem; font-weight: 700; margin: 0 0 20px; letter-spacing: 1px; color: #fff; }
-  .gradient-text { background: linear-gradient(135deg, #FFB800, #FF3D00); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-  p.manifesto { font-size: 1.1rem; line-height: 1.8; color: #a1a1a6; margin-bottom: 40px; }
-  .copyright { font-size: 0.8rem; color: #555; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px; margin-top: 20px; }
+  /* 頁尾 */
+  footer { position: relative; z-index: 10; padding: 80px 20px 40px; background: #000; text-align: center; display: flex; justify-content: center; }
+  .footer-content { max-width: 800px; width: 100%; }
+  .divider { width: 60px; height: 4px; margin: 0 auto 30px; background: linear-gradient(90deg, #FFB800, #FF3D00); border-radius: 4px; animation: expand 1s forwards; }
+  footer h2 { font-size: 1.8rem; font-weight: 700; margin: 0 0 20px; letter-spacing: 1px; color: #fff; }
+  .gradient-text { background: linear-gradient(135deg, #FFB800, #FF3D00); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  p.manifesto { font-size: 1.1rem; line-height: 1.8; color: #a1a1a6; margin-bottom: 40px; }
+  .copyright { font-size: 0.8rem; color: #555; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px; margin-top: 20px; }
 </style>
 </head>
 <body>
 
-  <header class="site-header">
-    <a href="index.html" class="logo" id="nav-logo">Uprise-Production</a>
-    <nav class="nav">
-      <a href="index.html" class="active">首頁</a>
-      <a href="works.html">作品</a>
-      <a href="team.html">團隊</a>
-      <a href="about.html">關於</a>
-      <a href="contact.html">聯絡</a>
-    </nav>
-  </header>
+  <header class="site-header">
+    <a href="index.html" class="logo" id="nav-logo">Uprise-Production</a>
+    <nav class="nav">
+      <a href="index.html" class="active">首頁</a>
+      <a href="works.html">作品</a>
+      <a href="team.html">團隊</a>
+      <a href="about.html">關於</a>
+      <a href="contact.html">聯絡</a>
+    </nav>
+  </header>
 
-  <div class="video-background">
-    <video id="bg-video" playsinline muted loop autoplay></video>
-  </div>
-  <div class="overlay"></div>
+  <div class="video-background">
+    <video id="bg-video" playsinline muted loop autoplay></video>
+  </div>
+  <div class="overlay"></div>
 
-  <div id="sound-btn">🔇</div>
+  <div id="sound-btn">🔇</div>
 
-  <main>
-    <section class="hero">
-      <div class="hero-content loading" id="hero-content">
-        <h1 id="hero-title">Loading...</h1>
-        <p id="hero-subtitle"></p>
-        <div class="hero-ctas">
-          <a href="works.html" class="btn primary">查看作品</a>
-          <a href="contact.html" class="btn ghost">聯絡我們</a>
-        </div>
-      </div>
-      <div class="arrow-down">▼</div>
-    </section>
+  <main>
+    <section class="hero">
+      <div class="hero-content loading" id="hero-content">
+        <h1 id="hero-title">Loading...</h1>
+        <p id="hero-subtitle"></p>
+        <div class="hero-ctas">
+          <a href="works.html" class="btn primary">查看作品</a>
+          <a href="contact.html" class="btn ghost">聯絡我們</a>
+        </div>
+      </div>
+      <div class="arrow-down">▼</div>
+    </section>
 
-    <section id="services">
-      <div class="container">
-        <div class="section-title">
-          <h2>OUR SERVICES</h2>
-          <span></span>
-        </div>
-        <div class="services-grid" id="services-grid"></div>
-      </div>
-    </section>
-  </main>
+    <section id="services">
+      <div class="container">
+        <div class="section-title">
+          <h2>OUR SERVICES</h2>
+          <span></span>
+        </div>
+        <div class="services-grid" id="services-grid"></div>
+      </div>
+    </section>
+  </main>
 
-  <footer>
-    <div class="footer-content">
-      <div class="divider"></div>
-      <h2><span class="gradient-text">Uprise-Production</span></h2>
-      <p class="manifesto">我們不僅是影像的製造者，更是品牌價值的推動者。<br>致力於將抽象的意念，轉化為具象的視覺衝擊。<br>從腳本企劃、電影級拍攝到後期特效，<br>推手影像以極致的職人精神，訴說每一個值得被看見的故事。</p>
-      <div class="copyright">Copyright © 2025 推手影像製作有限公司 Uprise-Production. All rights reserved.<br>臺中市西區民龍里臺灣大道二段285號31樓 | +886 937672279</div>
-    </div>
-  </footer>
+  <footer>
+    <div class="footer-content">
+      <div class="divider"></div>
+      <h2><span class="gradient-text">Uprise-Production</span></h2>
+      <p class="manifesto">我們不僅是影像的製造者，更是品牌價值的推動者。<br>致力於將抽象的意念，轉化為具象的視覺衝擊。<br>從腳本企劃、電影級拍攝到後期特效，<br>推手影像以極致的職人精神，訴說每一個值得被看見的故事。</p>
+      <div class="copyright">Copyright © 2025 推手影像製作有限公司 Uprise-Production. All rights reserved.<br>臺中市西區民龍里臺灣大道二段285號31樓 | +886 937672279</div>
+    </div>
+  </footer>
 
-  <script>
-    const video = document.getElementById('bg-video');
-    const soundBtn = document.getElementById('sound-btn');
-    
-    video.muted = true;
+  <script>
+    const video = document.getElementById('bg-video');
+    const soundBtn = document.getElementById('sound-btn');
+    
+    video.muted = true;
 
-    video.addEventListener('loadeddata', () => {
-      soundBtn.style.display = 'flex';
-      video.classList.add('loaded');
-      video.play().catch(e => console.log("Autoplay:", e));
-    });
+    video.addEventListener('loadeddata', () => {
+      soundBtn.style.display = 'flex';
+      video.classList.add('loaded');
+      video.play().catch(e => console.log("Autoplay:", e));
+    });
 
-    soundBtn.addEventListener('click', () => {
-      video.muted = !video.muted;
-      soundBtn.textContent = video.muted ? '🔊' : '🔇';
-    });
+    soundBtn.addEventListener('click', () => {
+      video.muted = !video.muted;
+      soundBtn.textContent = video.muted ? '🔊' : '🔇';
+    });
 
-    fetch('content/index.md')
-      .then(response => response.text())
-      .then(text => {
-        const parts = text.split('---');
-        if (parts.length > 1) {
-          const data = jsyaml.load(parts[1]);
-          
-          let videoPath = data.hero_video;
-          if (!videoPath) {
-              videoPath = 'https://res.cloudinary.com/dfnfcyglu/video/upload/v1763893930/hero_bg_ickrbe.mp4';
-          } else {
-              if (!videoPath.startsWith('/') && !videoPath.startsWith('http')) {
-                videoPath = '/' + videoPath;
-              }
-          }
-          video.src = videoPath;
-          
-          const logoContainer = document.getElementById('nav-logo');
-          if (data.logo_image) {
-              logoContainer.innerHTML = `<img src="${data.logo_image}" alt="${data.title || 'Logo'}">`;
-          } else {
-              logoContainer.innerText = data.title || 'Uprise-Production';
-          }
+    fetch('content/index.md')
+      .then(response => response.text())
+      .then(text => {
+        const parts = text.split('---');
+        if (parts.length > 1) {
+          const data = jsyaml.load(parts[1]);
+          
+          let videoPath = data.hero_video;
+          if (!videoPath) {
+              videoPath = 'https://res.cloudinary.com/dfnfcyglu/video/upload/v1763893930/hero_bg_ickrbe.mp4';
+          } else {
+              if (!videoPath.startsWith('/') && !videoPath.startsWith('http')) {
+                videoPath = '/' + videoPath;
+              }
+          }
+          video.src = videoPath;
+          
+          const logoContainer = document.getElementById('nav-logo');
+          if (data.logo_image) {
+              logoContainer.innerHTML = `<img src="${data.logo_image}" alt="${data.title || 'Logo'}">`;
+          } else {
+              logoContainer.innerText = data.title || 'Uprise-Production';
+          }
 
-          document.getElementById('hero-title').textContent = data.hero_title || data.title || 'Welcome';
-          document.getElementById('hero-subtitle').textContent = data.hero_text || '';
-          document.getElementById('hero-content').classList.remove('loading');
-          document.getElementById('hero-content').classList.add('loaded');
+          document.getElementById('hero-title').textContent = data.hero_title || data.title || 'Welcome';
+          document.getElementById('hero-subtitle').textContent = data.hero_text || '';
+          document.getElementById('hero-content').classList.remove('loading');
+          document.getElementById('hero-content').classList.add('loaded');
 
-          const servicesGrid = document.getElementById('services-grid');
-          if (data.services && data.services.length > 0) {
-            servicesGrid.innerHTML = data.services.map(service => `
-              <div class="service-card">
-                <div class="service-icon">${service.icon ? `<img src="${service.icon}">` : '✦'}</div>
-                <h3>${service.title}</h3>
-                <p>${service.description}</p>
-              </div>
-            `).join('');
-          }
-        }
-      })
-      .catch(error => console.error('CMS Error:', error));
-  </script>
+          const servicesGrid = document.getElementById('services-grid');
+          if (data.services && data.services.length > 0) {
+            servicesGrid.innerHTML = data.services.map(service => `
+              <div class="service-card">
+                <div class="service-icon">${service.icon ? `<img src="${service.icon}">` : '✦'}</div>
+                <h3>${service.title}</h3>
+                <p>${service.description}</p>
+              </div>
+            `).join('');
+          }
+        }
+      })
+      .catch(error => console.error('CMS Error:', error));
+  </script>
 </body>
 </html>

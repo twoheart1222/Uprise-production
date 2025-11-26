@@ -1,15 +1,15 @@
 backend:
   name: git-gateway
-  branch: main # 如果你的 GitHub 分支是 master，請改為 master
+  branch: main # 請確認您的分支是 main 還是 master
 
 media_folder: "images/uploads"
 public_folder: "/images/uploads"
 
-# 這裡是為了讓上傳大檔案更穩定
-media_library:
-  name: uploadcare
-  config:
-    publicKey: demopublickey # 如果沒用 Uploadcare 可忽略，預設用 Git LFS 或直接上傳
+# 使用 Uploadcare 或其他媒體庫 (選填)
+# media_library:
+#   name: uploadcare
+#   config:
+#     publicKey: your_public_key
 
 collections:
   - name: "pages"
@@ -20,85 +20,88 @@ collections:
         name: "home"
         file: "content/index.md"
         fields:
-          - {label: "網站標題 (Logo文字)", name: "title", widget: "string", default: "Uprise-Production"}
-          - {label: "網站 Logo (圖片)", name: "logo_image", widget: "image", required: false, hint: "建議上傳透明背景 PNG，高度約 60px"}
-          
-          # 影片上傳欄位
-          - {label: "背景影片 (MP4)", name: "hero_video", widget: "file", required: false, hint: "請上傳 .mp4 格式，建議壓縮至 10MB 以內以確保網頁速度"}
-          
+          - {label: "網站標題", name: "title", widget: "string", default: "Uprise-Production"}
+          - {label: "網站 Logo", name: "logo_image", widget: "image", required: false}
+          - {label: "背景影片 (MP4)", name: "hero_video", widget: "file", required: false}
           - {label: "主視覺標語", name: "hero_text", widget: "string", default: "看見故事的力量"}
           
-          # 服務項目
-          - label: "服務項目介紹"
+          - label: "服務項目"
             name: "services"
             widget: "list"
             fields:
               - {label: "服務名稱", name: "title", widget: "string"}
               - {label: "服務描述", name: "description", widget: "text"}
-              - {label: "服務圖示/圖片", name: "icon", widget: "image", required: false}
+              - {label: "圖示", name: "icon", widget: "image", required: false}
 
-      # --- 2. 作品頁 (Works) ---
+      # --- 2. 作品頁 (Works) - 已加入分類功能 ---
       - label: "作品總覽 (Works)"
         name: "works"
         file: "content/works.md"
         fields:
           - {label: "頁面主標題", name: "title", widget: "string", default: "精選作品集"}
-          - {label: "頁面副標題", name: "subtitle", widget: "text", default: "收錄歷年來的影像精華，每一部作品都是我們對美學的堅持。"}
+          - {label: "頁面副標題", name: "subtitle", widget: "text", default: "收錄歷年來的影像精華"}
           
           - label: "作品列表"
             name: "portfolio"
             widget: "list"
-            # 💡 修正重點：列表預設允許拖曳排序 (Drag-and-Drop Reordering)。
-            # 確保沒有設定 label_singular 且 widget 為 list 即可。
-            allow_add: true 
-            collapsed: false # 讓列表預設展開
+            collapsed: false
+            minimize_collapsed: true
+            # ✨ 關鍵修改：讓後台列表直接顯示「標題 - 分類」，方便管理
+            summary: '{{title}} [{{category}}]'
             fields:
               - {label: "作品名稱", name: "title", widget: "string"}
               - {label: "客戶名稱", name: "client", widget: "string", required: false}
-              - {label: "分類", name: "category", widget: "select", options: ["品牌形象廣告 Brand Image", "產品形象廣告 Product Video", "公部門宣傳影片 Public Sector", "活動紀錄 Event Highlight", "其他 Other"]}
-              - {label: "影片連結 (YouTube)", name: "link", widget: "string", hint: "請貼上 YouTube 完整連結"}
-              - {label: "封面圖片 (選填)", name: "image", widget: "image", required: false, hint: "不填寫會自動抓取 YouTube 封面"}
+              
+              # ✨ 新增：分類選單 (下拉式選單)
+              - label: "作品分類"
+                name: "category"
+                widget: "select"
+                default: "品牌形象"
+                options:
+                  - "品牌形象 (Brand Image)"
+                  - "商業廣告 (Commercial)"
+                  - "活動紀錄 (Event)"
+                  - "MV / 微電影 (Music Video / Short Film)"
+                  - "其他 (Other)"
+              
+              - {label: "影片連結 (YouTube/Vimeo)", name: "link", widget: "string"}
+              - {label: "封面圖片", name: "image", widget: "image", required: false}
 
-      # --- 3. 團隊頁 ---
+      # --- 3. 團隊頁 (Team) ---
       - label: "團隊介紹 (Team)"
         name: "team"
         file: "content/team.md"
         fields:
           - {label: "頁面主標題", name: "title", widget: "string", default: "專業團隊"}
-          - {label: "頁面副標", name: "subtitle", widget: "text", default: "一群對影像充滿熱情的職人"}
-          
+          - {label: "頁面副標", name: "subtitle", widget: "text"}
           - label: "成員列表"
             name: "members"
             widget: "list"
+            summary: '{{name}} - {{role}}'
             fields:
               - {label: "姓名", name: "name", widget: "string"}
               - {label: "職稱", name: "role", widget: "string"}
               - {label: "頭像", name: "avatar", widget: "image"}
-              
-              # 🔴 修改：區分「卡片簡介」和「詳細介紹」
-              - {label: "卡片簡介 (短)", name: "bio", widget: "text", hint: "顯示在團隊列表卡片上，建議 30 字以內"}
-              - {label: "詳細介紹 (個人頁)", name: "full_bio", widget: "markdown", required: false, hint: "點擊進入個人頁後顯示的長文內容"}
-              
-              - {label: "個人作品集連結", name: "portfolio_url", widget: "string", required: false}
+              - {label: "簡介", name: "bio", widget: "text"}
+              - {label: "詳細介紹 (Markdown)", name: "full_bio", widget: "markdown", required: false}
+              - {label: "作品集連結", name: "portfolio_url", widget: "string", required: false}
 
       # --- 4. 關於頁 (About) ---
       - label: "關於我們 (About)"
         name: "about"
         file: "content/about.md"
         fields:
-          - {label: "頁面主標題", name: "title", widget: "string", default: "關於 Uprise"}
-          - {label: "頁面副標題", name: "subtitle", widget: "text", default: "我們不僅是影像的製造者，更是品牌價值的推動者。"}
-          - {label: "詳細內文", name: "body", widget: "markdown"}
+          - {label: "標題", name: "title", widget: "string"}
+          - {label: "副標", name: "subtitle", widget: "text"}
+          - {label: "內文", name: "body", widget: "markdown"}
 
       # --- 5. 聯絡頁 (Contact) ---
       - label: "聯絡我們 (Contact)"
         name: "contact"
         file: "content/contact.md"
         fields:
-          - {label: "頁面主標題", name: "title", widget: "string", default: "聯絡我們"}
-          - {label: "頁面副標題", name: "subtitle", widget: "text", default: "準備好開始您的影像計畫了嗎？歡迎與我們聯繫。"}
-          
-          - {label: "公司地址", name: "address", widget: "string"}
-          - {label: "聯絡 Email", name: "email", widget: "string"}
-          - {label: "聯絡電話", name: "phone", widget: "string"}
-          - {label: "其他資訊", name: "info", widget: "markdown", required: false}
+          - {label: "標題", name: "title", widget: "string"}
+          - {label: "副標", name: "subtitle", widget: "text"}
+          - {label: "地址", name: "address", widget: "string"}
+          - {label: "Email", name: "email", widget: "string"}
+          - {label: "電話", name: "phone", widget: "string"}

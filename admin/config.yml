@@ -1,15 +1,9 @@
 backend:
   name: git-gateway
-  branch: main # 請確認您的分支是 main
+  branch: main
 
 media_folder: "images/uploads"
 public_folder: "/images/uploads"
-
-# 為了穩定上傳大圖片或影片封面，建議開啟 (選填)
-# media_library:
-#   name: uploadcare
-#   config:
-#     publicKey: your_key
 
 collections:
   - name: "pages"
@@ -22,9 +16,8 @@ collections:
         fields:
           - {label: "網站標題", name: "title", widget: "string", default: "Uprise-Production"}
           - {label: "網站 Logo", name: "logo_image", widget: "image", required: false}
-          - {label: "背景影片 (MP4)", name: "hero_video", widget: "file", required: false, hint: "建議 10MB 以內"}
+          - {label: "背景影片", name: "hero_video", widget: "file", required: false}
           - {label: "主視覺標語", name: "hero_text", widget: "string", default: "看見故事的力量"}
-          
           - label: "服務項目"
             name: "services"
             widget: "list"
@@ -33,7 +26,7 @@ collections:
               - {label: "服務描述", name: "description", widget: "text"}
               - {label: "圖示", name: "icon", widget: "image", required: false}
 
-      # --- 2. 作品頁 (Works) - 分類設定重點 ---
+      # --- 2. 作品頁 (Works) - 改為分類摺疊模式 ---
       - label: "作品總覽 (Works)"
         name: "works"
         file: "content/works.md"
@@ -41,39 +34,57 @@ collections:
           - {label: "頁面主標題", name: "title", widget: "string", default: "精選作品集"}
           - {label: "頁面副標題", name: "subtitle", widget: "text", default: "收錄歷年來的影像精華"}
           
-          - label: "作品列表"
-            name: "portfolio"
+          # 分類 1：品牌形象
+          - label: "📂 品牌形象廣告 (Brand Image)"
+            name: "portfolio_brand"
             widget: "list"
-            collapsed: false
-            minimize_collapsed: true
-            # ✨ 讓後台列表直接顯示：[分類] 作品名稱 (客戶)
-            summary: '[{{category}}] {{title}}'
-            fields:
+            collapsed: true  # 預設收起
+            summary: '{{title}}'
+            fields: &video_fields # 使用 YAML 錨點重複利用欄位設定
               - {label: "作品名稱", name: "title", widget: "string"}
               - {label: "客戶名稱", name: "client", widget: "string", required: false}
-              
-              # ✨ 這裡設定跟前端一模一樣的分類
-              - label: "作品分類"
-                name: "category"
-                widget: "select"
-                default: "品牌形象廣告 Brand Image"
-                options:
-                  - "品牌形象廣告 Brand Image"
-                  - "產品形象廣告 Product Video"
-                  - "公部門宣傳影片 Public Sector"
-                  - "活動紀錄 Event Highlight"
-                  - "其他 Other"
-              
-              - {label: "影片連結 (YouTube/Vimeo)", name: "link", widget: "string"}
-              - {label: "封面圖片 (若不填會自動抓 YouTube 縮圖)", name: "image", widget: "image", required: false}
+              - {label: "影片連結", name: "link", widget: "string"}
+              - {label: "封面圖片", name: "image", widget: "image", required: false}
+
+          # 分類 2：產品形象
+          - label: "📂 產品形象廣告 (Product Video)"
+            name: "portfolio_product"
+            widget: "list"
+            collapsed: true
+            summary: '{{title}}'
+            fields: *video_fields # 引用上面的欄位設定
+
+          # 分類 3：公部門宣傳
+          - label: "📂 公部門宣傳影片 (Public Sector)"
+            name: "portfolio_public"
+            widget: "list"
+            collapsed: true
+            summary: '{{title}}'
+            fields: *video_fields
+
+          # 分類 4：活動紀錄
+          - label: "📂 活動紀錄 (Event Highlight)"
+            name: "portfolio_event"
+            widget: "list"
+            collapsed: true
+            summary: '{{title}}'
+            fields: *video_fields
+
+          # 分類 5：其他
+          - label: "📂 其他 (Other)"
+            name: "portfolio_other"
+            widget: "list"
+            collapsed: true
+            summary: '{{title}}'
+            fields: *video_fields
 
       # --- 3. 團隊頁 (Team) ---
       - label: "團隊介紹 (Team)"
         name: "team"
         file: "content/team.md"
         fields:
-          - {label: "頁面主標題", name: "title", widget: "string", default: "專業團隊"}
-          - {label: "頁面副標", name: "subtitle", widget: "text"}
+          - {label: "頁面標題", name: "title", widget: "string"}
+          - {label: "副標", name: "subtitle", widget: "text"}
           - label: "成員列表"
             name: "members"
             widget: "list"
@@ -82,11 +93,11 @@ collections:
               - {label: "姓名", name: "name", widget: "string"}
               - {label: "職稱", name: "role", widget: "string"}
               - {label: "頭像", name: "avatar", widget: "image"}
-              - {label: "簡介 (短)", name: "bio", widget: "text", hint: "卡片上的短介紹"}
-              - {label: "詳細介紹 (長)", name: "full_bio", widget: "markdown", required: false, hint: "個人頁面的詳細介紹"}
+              - {label: "簡介", name: "bio", widget: "text"}
+              - {label: "詳細介紹", name: "full_bio", widget: "markdown", required: false}
               - {label: "作品集連結", name: "portfolio_url", widget: "string", required: false}
 
-      # --- 4. 關於頁 (About) ---
+      # --- 4. 關於頁 ---
       - label: "關於我們 (About)"
         name: "about"
         file: "content/about.md"
@@ -94,7 +105,7 @@ collections:
           - {label: "標題", name: "title", widget: "string"}
           - {label: "內文", name: "body", widget: "markdown"}
 
-      # --- 5. 聯絡頁 (Contact) ---
+      # --- 5. 聯絡頁 ---
       - label: "聯絡我們 (Contact)"
         name: "contact"
         file: "content/contact.md"

@@ -11,13 +11,13 @@
 
 <meta name="description" content="了解 Uprise-Production（推手影像）的核心成員——導演林家佑，包含其職位、個人簡介和作品集連結。我們專業的團隊隨時準備為您的品牌故事進行電影級影像拍攝與製作。">
 <meta name="keywords" content="林家佑, 導演介紹, 攝影師, 團隊成員, Uprise Production, 推手影像, 廣告拍攝, 專業影像製作, 電影級, 影像導演">
-<link rel="canonical" href="https://uprise-videoproduction.netlify.app/member.html">
+<link rel="canonical" href="https://www.uprise-videoproduction.com/member.html">
 
 <meta property="og:title" content="林家佑 導演介紹｜Uprise-Production 推手影像｜專業拍攝製作">
 <meta property="og:description" content="認識我們專業的影像製作團隊核心人物——導演林家佑，了解其背景、專長與電影級拍攝經驗。">
 <meta property="og:image" content="https://uprise-videoproduction.netlify.app/logo.png">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://uprise-videoproduction.netlify.app/member.html">
+<meta property="og:url" content="https://www.uprise-videoproduction.com/member.html">
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="導演 林家佑 | Uprise-Production 核心成員介紹">
@@ -26,24 +26,24 @@
 
 <script type="application/ld+json">
 {
- "@context": "https://schema.org",
- "@type": "VideoProductionCompany",
- "name": "Uprise-Production（推手影像）",
- "url": "https://uprise-videoproduction.netlify.app",
- "logo": "https://uprise-videoproduction.netlify.app/logo.png",
- "description": "推手影像專注於電影級影像、廣告與品牌影片的製作與拍攝，由核心導演林家佑帶領，透過視覺敘事推動品牌價值。",
- "address": {
-   "@type": "PostalAddress",
-   "addressLocality": "台中市西區",
-   "streetAddress": "臺灣大道二段285號31樓"
- },
- "telephone": "+886-937672279",
- "founder": {
-   "@type": "Person",
-   "name": "林家佑",
-   "jobTitle": "導演 / 創辦人",
-   "url": "https://uprise-videoproduction.netlify.app/member.html?id=lin-jia-you"
- }
+  "@context": "https://schema.org",
+  "@type": "VideoProductionCompany",
+  "name": "Uprise-Production（推手影像）",
+  "url": "https://www.uprise-videoproduction.com",
+  "logo": "https://uprise-videoproduction.netlify.app/logo.png",
+  "description": "推手影像專注於電影級影像、廣告與品牌影片的製作與拍攝，由核心導演林家佑帶領，透過視覺敘事推動品牌價值。",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "台中市西區",
+    "streetAddress": "臺灣大道二段285號31樓"
+  },
+  "telephone": "+886-937672279",
+  "founder": {
+    "@type": "Person",
+    "name": "林家佑",
+    "jobTitle": "導演 / 創辦人",
+    "url": "https://www.uprise-videoproduction.com/member.html?id=lin-jia-you"
+  }
 }
 </script>
 
@@ -55,9 +55,30 @@
   body { margin:0; font-family:'Inter', 'Noto Sans TC', sans-serif; background:var(--bg); color:#fff; overflow-x: hidden; display: block;}
   
   /* 導覽列 */
-  .site-header{position:fixed;top:0;left:0;right:0;height:72px;display:flex;align-items:center;justify-content:space-between;padding:0 28px;z-index:30;background:rgba(15,15,15,0.9);backdrop-filter:blur(8px);border-bottom:1px solid rgba(255,255,255,0.1);}
-  .logo { display: flex; align-items: center; text-decoration: none; color: #fff; font-weight: 800; font-size: 1.1rem; letter-spacing: 1px; }
-  .logo img { height: 32px; width: auto; display: block; } 
+  .site-header{
+    position:fixed;top:0;left:0;right:0;height:72px;display:flex;align-items:center;justify-content:space-between;padding:0 28px;z-index:30;
+    background:rgba(15,15,15,0.9);backdrop-filter:blur(8px);border-bottom:1px solid rgba(255,255,255,0.1);
+  }
+  
+  /* Logo 包含文字 */
+  .logo { 
+    display: flex; 
+    align-items: center; 
+    text-decoration: none; 
+    color: #fff; 
+    gap: 10px;
+  }
+  .logo img { height: 32px; width: auto; display: block; }
+  .logo-text {
+    font-weight: 700;
+    font-size: 1.1rem;
+    letter-spacing: 1px;
+    white-space: nowrap;
+  }
+  @media (max-width: 600px) {
+    .logo-text { font-size: 0.9rem; }
+  }
+
   .nav{display:flex;gap:20px;}
   .nav a{color:#fff;text-decoration:none;font-weight:600;font-size:0.9rem;opacity:0.7;transition:0.3s;}
   .nav a:hover, .nav a.active { color:var(--yellow); opacity:1; }
@@ -113,7 +134,10 @@
 <body>
 
   <header class="site-header">
-    <a href="index.html" class="logo" id="nav-logo">Uprise-Production</a>
+    <a href="index.html" class="logo" id="nav-logo">
+      <img src="images/uploads/logo.png" alt="Uprise Logo">
+      <span class="logo-text">推手影像製作有限公司</span>
+    </a>
     <nav class="nav">
       <a href="index.html">首頁</a>
       <a href="works.html">作品</a>
@@ -144,20 +168,6 @@
   </footer>
 
   <script>
-    // Logo 讀取
-    fetch('content/index.md').then(res => res.text()).then(text => {
-        const parts = text.split('---');
-        if (parts.length > 1) {
-            const data = jsyaml.load(parts[1]);
-            const logoContainer = document.getElementById('nav-logo');
-            if (data.logo_image) {
-                logoContainer.innerHTML = `<img src="${data.logo_image}" alt="${data.title || 'Logo'}">`;
-            } else {
-                logoContainer.innerText = data.title || 'Uprise-Production';
-            }
-        }
-    });
-
     // 成員資料讀取
     const urlParams = new URLSearchParams(window.location.search);
     const memberId = urlParams.get('id');

@@ -4,67 +4,98 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 
-<title>聯絡我們 | Uprise-Production｜推手影像</title>
-
-<link rel="icon" type="image/png" href="favicon_32x32.png" sizes="32x32">
-<link rel="icon" type="image/png" href="/favicon_32x32.png" sizes="32x32">
-
+<title>聯絡我們 | Uprise-Production 推手影像</title>
 <meta name="description" content="Uprise-Production（推手影像）提供一站式影像製作服務。立即透過表單、電話或 Email 聯絡我們，討論您的商業廣告或品牌影片需求。">
-<meta name="keywords" content="聯絡推手影像, 影像製作詢問, 合作洽談, 商業影片報價, Uprise Production, 推手影像">
-<link rel="canonical" href="https://uprise-videoproduction.netlify.app/contact.html">
+<meta name="keywords" content="聯絡推手影像, 影像製作詢問, 合作洽談, 商業影片報價, Uprise Production, 推手影像, 林家佑, 導演, 台中影像公司">
+<link rel="canonical" href="https://www.uprise-videoproduction.com/contact.html">
 
-<meta property="og:title" content="聯絡我們｜Uprise-Production">
+<meta property="og:title" content="聯絡我們 | Uprise-Production 推手影像">
 <meta property="og:description" content="立即與推手影像聯繫，將您的品牌故事轉化為電影級的視覺內容。">
 <meta property="og:image" content="https://uprise-videoproduction.netlify.app/logo.png">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://uprise-videoproduction.netlify.app/contact.html">
+<meta property="og:url" content="https://www.uprise-videoproduction.com/contact.html">
 
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="聯絡我們｜Uprise-Production">
+<meta name="twitter:title" content="聯絡我們 | Uprise-Production">
 <meta name="twitter:description" content="一站式影像製作服務，歡迎洽詢。">
 <meta name="twitter:image" content="https://uprise-videoproduction.netlify.app/logo.png">
 
 <script type="application/ld+json">
 {
- "@context": "https://schema.org",
- "@type": "VideoProductionCompany",
- "name": "Uprise-Production（推手影像）",
- "url": "https://uprise-videoproduction.netlify.app",
- "logo": "https://uprise-videoproduction.netlify.app/logo.png",
- "description": "推手影像專注於電影級影像、廣告與品牌影片的製作，透過視覺敘事推動品牌價值。",
- "address": {
-   "@type": "PostalAddress",
-   "addressLocality": "台中市西區",
-   "streetAddress": "臺灣大道二段285號31樓"
- },
- "telephone": "+886-937672279"
+  "@context": "https://schema.org",
+  "@type": "VideoProductionCompany",
+  "name": "Uprise-Production（推手影像）",
+  "url": "https://www.uprise-videoproduction.com",
+  "logo": "https://uprise-videoproduction.netlify.app/logo.png",
+  "description": "推手影像專注於電影級影像、廣告與品牌影片的製作，透過視覺敘事推動品牌價值。",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "台中市西區",
+    "streetAddress": "臺灣大道二段285號31樓"
+  },
+  "telephone": "+886-937672279"
 }
 </script>
 
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Noto+Sans+TC:wght@300;500;700&display=swap" rel="stylesheet">
+
 <style>
   :root{ --yellow:#FFB800; --orange:#FF7A00; --bg:#0F0F0F; }
   body { margin:0; font-family:'Inter', 'Noto Sans TC', sans-serif; background:var(--bg); color:#fff; overflow-x: hidden;}
   
   /* 導覽列 */
-  .site-header{position:fixed;top:0;left:0;right:0;height:72px;display:flex;align-items:center;justify-content:space-between;padding:0 28px;z-index:30;background:rgba(15,15,15,0.9);backdrop-filter:blur(8px);border-bottom:1px solid rgba(255,255,255,0.1);}
-  .logo { display: flex; align-items: center; text-decoration: none; color: #fff; font-weight: 800; font-size: 1.1rem; letter-spacing: 1px; }
+  .site-header{
+    position:fixed;top:0;left:0;right:0;height:72px;display:flex;align-items:center;justify-content:space-between;padding:0 28px;z-index:30;
+    background:rgba(15,15,15,0.9);backdrop-filter:blur(8px);border-bottom:1px solid rgba(255,255,255,0.1);
+  }
+  
+  /* Logo */
+  .logo { 
+    display: flex; 
+    align-items: center; 
+    text-decoration: none; 
+    color: #fff; 
+    gap: 10px;
+  }
   .logo img { height: 32px; width: auto; display: block; } 
+  .logo-text {
+    font-weight: 700;
+    font-size: 1.1rem;
+    letter-spacing: 1px;
+    white-space: nowrap;
+  }
+  @media (max-width: 600px) {
+    .logo-text { font-size: 0.9rem; }
+  }
 
   .nav{display:flex;gap:20px;}
   .nav a{color:#fff;text-decoration:none;font-weight:600;font-size:0.9rem;opacity:0.7;transition:0.3s;}
   .nav a:hover, .nav a.active { color:var(--yellow); opacity:1; }
 
+  /* --- 🔴 滾動觸發動畫 (Scroll Reveal CSS) --- */
+  .reveal-on-scroll {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: all 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .reveal-on-scroll.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
   /* 頁面標題 */
   .header-container { text-align: center; max-width: 800px; width: 100%; margin: 140px auto 60px; padding: 0 20px; }
-  .label { font-size: 0.9rem; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: #86868b; margin-bottom: 10px; display: block; opacity: 0; animation: fadeUp 0.8s ease forwards; }
-  .header-container h1 { font-size: clamp(2rem, 6vw, 4rem); font-weight: 800; margin: 0 0 20px 0; line-height: 1.1; background: linear-gradient(135deg, #FFB800 0%, #FF3D00 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; opacity: 0; animation: fadeUp 0.8s ease 0.2s forwards; word-break: break-word; }
-  .header-container p { font-size: clamp(1rem, 3.5vw, 1.2rem); color: #f5f5f7; font-weight: 400; margin: 0 auto 40px; max-width: 600px; line-height: 1.6; opacity: 0; animation: fadeUp 0.8s ease 0.4s forwards; }
-  .divider-line { width: 80px; height: 4px; margin: 0 auto; background: linear-gradient(90deg, #FFB800, #FF3D00); border-radius: 4px; opacity: 0; animation: expandWidth 1s cubic-bezier(0.2, 0.8, 0.2, 1) 0.6s forwards; }
-  @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-  @keyframes expandWidth { from { width: 0px; opacity: 0; } to { width: 80px; opacity: 1; } }
+  .label { font-size: 0.9rem; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: #86868b; margin-bottom: 10px; display: block; }
+  
+  .header-container h1 { 
+    font-size: clamp(2rem, 6vw, 4rem); font-weight: 800; margin: 0 0 20px 0; line-height: 1.1; 
+    background: linear-gradient(135deg, #FFB800 0%, #FF3D00 100%); 
+    -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; 
+  }
+  
+  .header-container p { font-size: clamp(1rem, 3.5vw, 1.2rem); color: #f5f5f7; font-weight: 400; margin: 0 auto 40px; max-width: 600px; line-height: 1.6; }
+  .divider-line { width: 80px; height: 4px; margin: 0 auto; background: linear-gradient(90deg, #FFB800, #FF3D00); border-radius: 4px; }
 
   /* --- 雙欄佈局 --- */
   .contact-wrapper {
@@ -81,16 +112,18 @@
     border-radius: 24px; padding: 40px 30px;
     backdrop-filter: blur(10px);
     box-shadow: 0 20px 40px rgba(0,0,0,0.5);
-    opacity: 0; animation: fadeUp 0.8s forwards;
   }
-  .contact-wrapper .glass-card:nth-child(2) { animation-delay: 0.2s; }
 
   /* 左側：資訊卡樣式 */
   .info-card { text-align: center; }
   .icon-box { width: 80px; height: 80px; margin: 0 auto 20px; border-radius: 50%; display: flex; justify-content: center; align-items: center; background: linear-gradient(135deg, #333, #111); padding: 3px; transition: 0.3s; }
   .info-card:hover .icon-box { background: linear-gradient(135deg, #FFB800, #FF3D00); transform: scale(1.05); }
   .icon-inner { width: 100%; height: 100%; border-radius: 50%; background-color: #1a1a1a; display: flex; justify-content: center; align-items: center; border: 3px solid #000; font-size: 2rem; }
-  .info-card h2 { font-size: 1.8rem; margin: 0 0 10px; background: linear-gradient(135deg, #fff 0%, #a1a1a6 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  .info-card h2 { 
+    font-size: 1.8rem; margin: 0 0 10px; 
+    background: linear-gradient(135deg, #fff 0%, #a1a1a6 100%); 
+    -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; 
+  }
   .info-card .desc { color: #86868b; font-size: 0.95rem; line-height: 1.6; margin-bottom: 30px; }
   .contact-item { margin-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 15px; text-align: left; }
   .contact-item:last-child { border-bottom: none; margin-bottom: 0; }
@@ -112,19 +145,20 @@
   /* 頁尾 */
   footer { position: relative; z-index: 10; padding: 80px 20px 40px; background: #000; text-align: center; display: flex; justify-content: center; margin-top: 50px; }
   .footer-content { max-width: 800px; width: 100%; }
-  .divider { width: 60px; height: 4px; margin: 0 auto 30px; background: linear-gradient(90deg, #FFB800, #FF3D00); border-radius: 4px; animation: expand 1s forwards; }
+  .divider { width: 60px; height: 4px; margin: 0 auto 30px; background: linear-gradient(90deg, #FFB800, #FF3D00); border-radius: 4px; }
   footer h2 { font-size: 1.8rem; font-weight: 700; margin: 0 0 20px; letter-spacing: 1px; color: #fff; }
-  .gradient-text { background: linear-gradient(135deg, #FFB800, #FF3D00); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-  p.manifesto { font-size: 1.1rem; line-height: 1.8; color: #a1a1a6; margin-bottom: 40px; opacity: 0; animation: fadeUp 1s ease 0.3s forwards; }
-  .copyright { font-size: 0.8rem; color: #555; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px; margin-top: 20px; opacity: 0; animation: fadeUp 1s ease 0.6s forwards; }
-  @keyframes expand { from { width: 0; opacity: 0; } to { width: 60px; opacity: 1; } }
-  @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+  .gradient-text { background: linear-gradient(135deg, #FFB800, #FF3D00); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+  p.manifesto { font-size: 1.1rem; line-height: 1.8; color: #a1a1a6; margin-bottom: 40px; }
+  .copyright { font-size: 0.8rem; color: #555; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px; margin-top: 20px; }
 </style>
 </head>
 <body>
 
   <header class="site-header">
-    <a href="index.html" class="logo" id="nav-logo">Uprise-Production</a>
+    <a href="index.html" class="logo" id="nav-logo">
+      <img src="images/uploads/logo.png" alt="Uprise Logo">
+      <span class="logo-text">推手影像製作有限公司</span>
+    </a>
     <nav class="nav">
       <a href="index.html">首頁</a>
       <a href="works.html">作品</a>
@@ -135,14 +169,14 @@
   </header>
 
   <div class="header-container">
-    <span class="label">CONTACT US</span>
-    <h1 id="page-title">Loading...</h1>
-    <p id="page-subtitle">...</p>
-    <div class="divider-line"></div>
+    <span class="label reveal-on-scroll">CONTACT US</span>
+    <h1 id="page-title" class="reveal-on-scroll" style="transition-delay: 0.1s;">聯絡我們</h1>
+    <p id="page-subtitle" class="reveal-on-scroll" style="transition-delay: 0.2s;">準備好開始您的影像計畫了嗎？</p>
+    <div class="divider-line reveal-on-scroll" style="transition-delay: 0.3s;"></div>
   </div>
 
   <div class="contact-wrapper">
-    <div class="glass-card info-card">
+    <div class="glass-card info-card reveal-on-scroll" style="transition-delay: 0.2s;">
       <div class="icon-box"><div class="icon-inner">✉️</div></div>
       <h2>Get in Touch</h2>
       <p class="desc">無論是商業廣告、企業形象或品牌微電影，讓我們將您的故事轉化為極致影像。</p>
@@ -161,7 +195,7 @@
       </div>
     </div>
 
-    <div class="glass-card form-card">
+    <div class="glass-card form-card reveal-on-scroll" style="transition-delay: 0.4s;">
       <form id="contact-form" action="https://formspree.io/f/movbylbl" method="POST">
         
         <input type="hidden" name="_subject" value="新客戶詢問單 - 來自官網">
@@ -192,7 +226,7 @@
   </div>
 
   <footer>
-    <div class="footer-content">
+    <div class="footer-content reveal-on-scroll">
       <div class="divider"></div>
       <h2><span class="gradient-text">Uprise-Production</span></h2>
       <p class="manifesto">我們不僅是影像的製造者，更是品牌價值的推動者。<br>致力於將抽象的意念，轉化為具象的視覺衝擊。<br>從腳本企劃、電影級拍攝到後期特效，<br>推手影像以極致的職人精神，訴說每一個值得被看見的故事。</p>
@@ -201,11 +235,30 @@
   </footer>
 
   <script>
-    // 🔴 關鍵修改：使用 AJAX (JavaScript) 攔截表單提交
+    // --- 滾動偵測 (Intersection Observer) ---
+    const observerOptions = {
+      root: null,
+      rootMargin: '0px',
+      threshold: 0.1
+    };
+
+    const observer = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, observerOptions);
+
+    // 1. 偵測頁面已有的靜態元素
+    document.querySelectorAll('.reveal-on-scroll').forEach(el => observer.observe(el));
+
+    // --- 表單提交邏輯 ---
     const form = document.getElementById("contact-form");
     
     async function handleSubmit(event) {
-      event.preventDefault(); // 阻止瀏覽器預設跳轉
+      event.preventDefault();
       
       const status = document.getElementById("submit-btn");
       const data = new FormData(event.target);
@@ -216,12 +269,9 @@
       fetch(event.target.action, {
         method: form.method,
         body: data,
-        headers: {
-            'Accept': 'application/json'
-        }
+        headers: { 'Accept': 'application/json' }
       }).then(response => {
         if (response.ok) {
-          // ✅ 成功後，強制跳轉到 success.html
           window.location.href = "success.html";
         } else {
           response.json().then(data => {
@@ -243,11 +293,12 @@
     
     form.addEventListener("submit", handleSubmit);
 
-    // CMS 資料載入
+    // --- CMS 資料載入 ---
     fetch('content/contact.md').then(r => r.text()).then(text => {
       const parts = text.split('---');
       const data = jsyaml.load(parts.length > 1 ? parts[1] : text);
       
+      // 保留後台更新標題的能力 (雖然預設已經填好)
       if(data.title) document.getElementById('page-title').innerText = data.title;
       if(data.subtitle) document.getElementById('page-subtitle').innerText = data.subtitle;
       
@@ -262,20 +313,6 @@
         el.innerText = data.phone;
         el.href = `tel:${data.phone.replace(/\D/g,'')}`; 
       }
-    });
-
-    // Logo 讀取
-    fetch('content/index.md').then(res => res.text()).then(text => {
-        const parts = text.split('---');
-        if (parts.length > 1) {
-            const data = jsyaml.load(parts[1]);
-            const logoContainer = document.getElementById('nav-logo');
-            if (data.logo_image) {
-                logoContainer.innerHTML = `<img src="${data.logo_image}" alt="${data.title || 'Logo'}">`;
-            } else {
-                logoContainer.innerText = data.title || 'Uprise-Production';
-            }
-        }
     });
   </script>
 </body>

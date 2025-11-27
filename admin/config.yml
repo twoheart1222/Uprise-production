@@ -83,8 +83,8 @@ collections:
         name: "team"
         file: "content/team.md"
         fields:
-          - {label: "頁面標題", name: "title", widget: "string"}
-          - {label: "副標", name: "subtitle", widget: "text"}
+          - {label: "頁面主標題", name: "title", widget: "string", default: "專業團隊"}
+          - {label: "頁面副標", name: "subtitle", widget: "text"}
           - label: "成員列表"
             name: "members"
             widget: "list"
@@ -93,10 +93,14 @@ collections:
               - {label: "姓名", name: "name", widget: "string"}
               - {label: "職稱", name: "role", widget: "string"}
               - {label: "頭像", name: "avatar", widget: "image"}
-              - {label: "簡介", name: "bio", widget: "text"}
-              - {label: "詳細介紹", name: "full_bio", widget: "markdown", required: false}
+              - {label: "簡介 (短)", name: "bio", widget: "text"}
+              - {label: "詳細介紹 (長)", name: "full_bio", widget: "markdown", required: false}
+              
+              # ✨ 新增這行：IG 連結欄位
+              - {label: "Instagram 連結", name: "ig_url", widget: "string", required: false, hint: "例如 https://instagram.com/your_id"}
+              
               - {label: "作品集連結", name: "portfolio_url", widget: "string", required: false}
-
+              
       # --- 4. 關於頁 ---
       - label: "關於我們 (About)"
         name: "about"

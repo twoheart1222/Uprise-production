@@ -2,7 +2,7 @@
 title: 我的團隊
 subtitle: 認識我的團隊
 members:
-  - name: 林家佑 Director
+  - name: 林家佑
     role: 導演
     avatar: /images/uploads/line_album_2024.3.18_241011_8.jpg
     bio: |-
@@ -42,5 +42,5 @@ members:
     avatar: /images/uploads/79e26a98-64e1-41ba-8d2e-a2ba95f031ca.jpg
     bio: 以強烈個人美學為核心，結合次文化、色彩衝擊、飛行攝影與互動藝術，打造跨界且具反叛精神的影像世界
     ig_url: https://www.instagram.com/conan_0906?igsh=MzBuMnF1ajB5NDd5
-    full_bio: 以強烈個人美學為核心，結合次文化、色彩衝擊、飛行攝影與互動藝術，打造跨界且具反叛精神的影像世界
+    full_bio: "##### 以強烈個人美學為核心，結合次文化、色彩衝擊、飛行攝影與互動藝術，打造跨界且具反叛精神的影像世界"
 ---

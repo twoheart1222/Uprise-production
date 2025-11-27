@@ -6,7 +6,7 @@ members:
     role: 導演
     avatar: /images/uploads/line_album_2024.3.18_241011_8.jpg
     bio: |-
-      我是林家佑，推手影像製作有限公司（Uprise-Production）的創辦人與導演。
+      推手影像製作有限公司（Uprise-Production）的創辦人與導演。
       現在就讀臺灣藝術大學電影系碩士。
     portfolio_url: https://uprise-videoproduction.com/works
     ig_url: https://www.instagram.com/harry.lin_jiayou?igsh=MXNyNXlpdDIzZmozMg%3D%3D&utm_source=qr

@@ -26,8 +26,11 @@ portfolio_public:
     client: 古坑鄉華南社區
     link: https://youtu.be/ydvPTXpeDoA
   - title: 看見＿華南產業與生態
-    client: 古坑鄉華南社區
+    client: 雲林縣古坑鄉華南社區
     link: https://youtu.be/vNprFeiDVWE
+  - link: https://youtu.be/GVxGalIH3PA?si=xPInh7tARoVRBUxf
+    client: 雲林縣古坑鄉華南社區
+    title: 雲林古坑：教育點亮山村，華南里山永續進行式
 portfolio_event:
   - title: 兒童節童樂派對
     client: 兒童節活動紀錄

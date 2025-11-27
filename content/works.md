@@ -23,7 +23,7 @@ portfolio_product:
     link: https://youtu.be/-wELkE0IQwc?si=FpfEZWKAMugg5QtF
 portfolio_public:
   - title: 注入青流＿青年共創影響力
-    client: 古坑鄉華南社區
+    client: 雲林縣古坑鄉華南社區
     link: https://youtu.be/ydvPTXpeDoA
   - link: https://youtu.be/GVxGalIH3PA?si=xPInh7tARoVRBUxf
     client: 雲林縣古坑鄉華南社區

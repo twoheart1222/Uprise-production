@@ -4,17 +4,16 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 
-<title>林家佑導演 | 推手影像製作有限公司 Uprise-Production | 專業影像製作與拍攝</title>
+<title>推手影像製作有限公司 Uprise-Production | 專業影像製作與拍攝</title>
 
 <link rel="icon" type="image/png" href="favicon_32x32.png" sizes="32x32">
 <link rel="icon" type="image/png" href="/favicon_32x32.png" sizes="32x32">
 
 <meta name="description" content="Uprise-Production（推手影像）由導演林家佑帶領，專注於電影級影像製作、商業廣告拍攝、品牌形象影片。我們以專業技術和敘事能力，將您的品牌價值推向極致。">
-
 <meta name="keywords" content="影片製作, 商業廣告, 品牌影片, 企業形象影片, 電影級拍攝, Uprise Production, 推手影像, 台中影像團隊, 林家佑, 導演, 影像導演, 專業拍攝, 廣告拍攝">
-<link rel="canonical" href="https://uprise-videoproduction.netlify.app/index.html">
+<link rel="canonical" href="https://www.uprise-videoproduction.com/index.html">
 
-<meta property="og:title" content="林家佑導演 | 推手影像製作有限公司 Uprise-Production">
+<meta property="og:title" content="推手影像製作有限公司 Uprise-Production">
 <meta property="og:description" content="Uprise-Production 推手影像｜由導演林家佑帶領的電影級影像製作團隊，從企劃、拍攝到後期打造最具影響力的視覺內容。">
 <meta property="og:image" content="https://uprise-videoproduction.netlify.app/logo.png">
 <meta property="og:type" content="website">
@@ -67,73 +66,68 @@
     overflow-x: hidden;
   }
 
-  /* --- 🚀 2. 強烈滑動轉場 (Slide Over) --- */
-  
-  /* 舊頁面：稍微變暗，向左退後 */
-  ::view-transition-old(root) {
-    animation: slideOut 0.6s cubic-bezier(0.7, 0, 0.3, 1) forwards;
-    filter: brightness(0.5);
-  }
-  /* 新頁面：從右邊滑入 */
-  ::view-transition-new(root) {
-    animation: slideIn 0.6s cubic-bezier(0.7, 0, 0.3, 1) forwards;
-    box-shadow: -20px 0 50px rgba(0,0,0,0.5); /* 左側陰影增加立體感 */
-  }
-
-  @keyframes slideOut {
-    from { transform: translateX(0); opacity: 1; }
-    to { transform: translateX(-30%); opacity: 0; }
-  }
-  @keyframes slideIn {
-    from { transform: translateX(100%); }
-    to { transform: translateX(0); }
-  }
+  /* --- 滑動轉場動畫 --- */
+  ::view-transition-old(root) { animation: slideOut 0.6s cubic-bezier(0.7, 0, 0.3, 1) forwards; filter: brightness(0.5); }
+  ::view-transition-new(root) { animation: slideIn 0.6s cubic-bezier(0.7, 0, 0.3, 1) forwards; box-shadow: -20px 0 50px rgba(0,0,0,0.5); }
+  @keyframes slideOut { from { transform: translateX(0); opacity: 1; } to { transform: translateX(-30%); opacity: 0; } }
+  @keyframes slideIn { from { transform: translateX(100%); } to { transform: translateX(0); } }
 
   /* --- 導覽列 --- */
   .site-header{
     position:fixed;left:0;right:0;top:0;height:72px;display:flex;align-items:center;justify-content:space-between;padding:0 28px;z-index:30;
-    background:rgba(0,0,0,0.6); /* 加深背景 */
-    backdrop-filter: blur(10px); border-bottom:1px solid rgba(255,255,255,0.1);
+    background:rgba(0,0,0,0.6); backdrop-filter: blur(10px); border-bottom:1px solid rgba(255,255,255,0.1);
   }
-  .logo { display: flex; align-items: center; text-decoration: none; color: #fff; font-weight: 800; font-size: 1.2rem; letter-spacing: 1px; }
-  .logo img { height: 32px; width: auto; display: block; } 
+  
+  /* 🔴 Logo 區域修改：包含圖片與文字 */
+  .logo { 
+    display: flex; 
+    align-items: center; 
+    text-decoration: none; 
+    color: #fff; 
+    gap: 10px; /* 圖片與文字的間距 */
+  }
+  .logo img { 
+    height: 32px; 
+    width: auto; 
+    display: block; 
+  }
+  .logo-text {
+    font-weight: 700;
+    font-size: 1.1rem;
+    letter-spacing: 1px;
+    white-space: nowrap; /* 不換行 */
+  }
+  /* 手機版字體稍微縮小 */
+  @media (max-width: 600px) {
+    .logo-text { font-size: 0.9rem; }
+  }
+
   .nav{display:flex;gap:20px;align-items:center}
   .nav a{color:#fff;text-decoration:none;font-weight:600;font-size: 0.9rem; transition:0.3s;}
   .nav a:hover, .nav a.active { color: var(--yellow); opacity: 1; }
 
-  /* --- 🔴 3. 影片背景修正 (完整顯示不裁切) --- */
+  /* --- 背景影片 --- */
   .video-background {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
     z-index: -1; overflow: hidden;
-    background: #000; /* 影片旁边的留白設為全黑 */
+    background: #000; 
     display: flex; align-items: center; justify-content: center;
   }
   #bg-video {
-    /* 限制最大寬高，確保完整顯示 */
-    max-width: 100%; 
-    max-height: 100%;
-    width: auto;
-    height: auto;
-    
-    /* 🔴 關鍵：contain = 完整顯示 (會有黑邊) / cover = 填滿 (會裁切) */
+    max-width: 100%; max-height: 100%; width: auto; height: auto;
     object-fit: contain; 
-    
     opacity: 0; transition: opacity 1s ease;
   }
   #bg-video.loaded { opacity: 1; }
-
   .overlay {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
     background: linear-gradient(to bottom, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.7) 100%);
     z-index: 0; pointer-events: none;
   }
 
-  /* --- 🔴 4. 聲音按鈕 (移至右下角) --- */
+  /* --- 聲音按鈕 --- */
   #sound-btn {
-    position: fixed; 
-    bottom: 30px; right: 30px; /* 右下角 */
-    z-index: 20;
-    
+    position: fixed; bottom: 30px; right: 30px; z-index: 20;
     background: rgba(255, 255, 255, 0.1);
     border: 1px solid rgba(255, 255, 255, 0.3);
     color: #fff;
@@ -146,6 +140,24 @@
   #sound-btn:hover {
     background: rgba(255, 255, 255, 0.2); border-color: var(--yellow); color: var(--yellow); transform: scale(1.1);
   }
+
+  /* --- 🔴 滾動觸發動畫 (Scroll Reveal CSS) --- */
+  /* 初始狀態：透明且向下偏移 */
+  .reveal-on-scroll {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: all 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  /* 進入視窗後：不透明且回歸原位 */
+  .reveal-on-scroll.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  /* 可以設定不同的延遲 */
+  .delay-100 { transition-delay: 0.1s; }
+  .delay-200 { transition-delay: 0.2s; }
+  .delay-300 { transition-delay: 0.3s; }
 
   /* --- Hero 區塊 --- */
   .hero{position:relative;height:100vh;display:flex;align-items:center;justify-content:center;padding:0 24px;z-index:2}
@@ -174,6 +186,7 @@
   }
   @keyframes bounce { 0%, 100% { transform: translate(-50%, 0); } 50% { transform: translate(-50%, 10px); } }
   
+  /* Loading 效果 */
   .loading { opacity: 0; filter: blur(10px); transition: 1s; }
   .loaded { opacity: 1; filter: blur(0); }
 
@@ -185,10 +198,22 @@
   }
   .container { max-width: 1200px; margin: 0 auto; }
   .section-title { text-align: center; margin-bottom: 60px; }
-  .section-title h2 { font-size: 2.5rem; margin: 0; background: linear-gradient(90deg, #fff, #aaa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  .section-title h2 { 
+    font-size: 2.5rem; margin: 0; background: linear-gradient(90deg, #fff, #aaa); 
+    -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; 
+  }
   .section-title span { display: block; width: 60px; height: 4px; background: var(--yellow); margin: 20px auto; border-radius: 2px;}
+  
   .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
-  .service-card { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 20px; padding: 40px 30px; transition: 0.4s ease; display: flex; flex-direction: column; align-items: flex-start; }
+  
+  .service-card { 
+    background: rgba(255, 255, 255, 0.03); 
+    border: 1px solid rgba(255, 255, 255, 0.08); 
+    border-radius: 20px; 
+    padding: 40px 30px; 
+    transition: 0.4s ease; 
+    display: flex; flex-direction: column; align-items: flex-start; 
+  }
   .service-card:hover { transform: translateY(-10px); background: rgba(255, 255, 255, 0.06); border-color: var(--yellow); box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
   .service-icon { width: 60px; height: 60px; margin-bottom: 20px; border-radius: 12px; overflow: hidden; background: linear-gradient(135deg, #222, #111); display: flex; align-items: center; justify-content: center; }
   .service-icon img { width: 100%; height: 100%; object-fit: cover; }
@@ -198,9 +223,9 @@
   /* 頁尾 */
   footer { position: relative; z-index: 10; padding: 80px 20px 40px; background: #000; text-align: center; display: flex; justify-content: center; }
   .footer-content { max-width: 800px; width: 100%; }
-  .divider { width: 60px; height: 4px; margin: 0 auto 30px; background: linear-gradient(90deg, #FFB800, #FF3D00); border-radius: 4px; animation: expand 1s forwards; }
+  .divider { width: 60px; height: 4px; margin: 0 auto 30px; background: linear-gradient(90deg, #FFB800, #FF3D00); border-radius: 4px; }
   footer h2 { font-size: 1.8rem; font-weight: 700; margin: 0 0 20px; letter-spacing: 1px; color: #fff; }
-  .gradient-text { background: linear-gradient(135deg, #FFB800, #FF3D00); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  .gradient-text { background: linear-gradient(135deg, #FFB800, #FF3D00); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
   p.manifesto { font-size: 1.1rem; line-height: 1.8; color: #a1a1a6; margin-bottom: 40px; }
   .copyright { font-size: 0.8rem; color: #555; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px; margin-top: 20px; }
 </style>
@@ -208,7 +233,9 @@
 <body>
 
   <header class="site-header">
-    <a href="index.html" class="logo" id="nav-logo">Uprise-Production</a>
+    <a href="index.html" class="logo" id="nav-logo">
+      <span class="logo-text">推手影像製作有限公司</span>
+    </a>
     <nav class="nav">
       <a href="index.html" class="active">首頁</a>
       <a href="works.html">作品</a>
@@ -228,9 +255,9 @@
   <main>
     <section class="hero">
       <div class="hero-content loading" id="hero-content">
-        <h1 id="hero-title">Loading...</h1>
-        <p id="hero-subtitle"></p>
-        <div class="hero-ctas">
+        <h1 id="hero-title" class="reveal-on-scroll">Loading...</h1>
+        <p id="hero-subtitle" class="reveal-on-scroll delay-100"></p>
+        <div class="hero-ctas reveal-on-scroll delay-200">
           <a href="works.html" class="btn primary">查看作品</a>
           <a href="contact.html" class="btn ghost">聯絡我們</a>
         </div>
@@ -240,7 +267,7 @@
 
     <section id="services">
       <div class="container">
-        <div class="section-title">
+        <div class="section-title reveal-on-scroll">
           <h2>OUR SERVICES</h2>
           <span></span>
         </div>
@@ -250,7 +277,7 @@
   </main>
 
   <footer>
-    <div class="footer-content">
+    <div class="footer-content reveal-on-scroll">
       <div class="divider"></div>
       <h2><span class="gradient-text">Uprise-Production</span></h2>
       <p class="manifesto">我們不僅是影像的製造者，更是品牌價值的推動者。<br>致力於將抽象的意念，轉化為具象的視覺衝擊。<br>從腳本企劃、電影級拍攝到後期特效，<br>推手影像以極致的職人精神，訴說每一個值得被看見的故事。</p>
@@ -259,6 +286,7 @@
   </footer>
 
   <script>
+    // --- 影片播放邏輯 ---
     const video = document.getElementById('bg-video');
     const soundBtn = document.getElementById('sound-btn');
     
@@ -275,6 +303,28 @@
       soundBtn.textContent = video.muted ? '🔊' : '🔇';
     });
 
+    // --- 🔴 滾動偵測 (Intersection Observer) ---
+    // 這個函式會偵測元素是否進入畫面，進入後才加入 is-visible 類別
+    const observerOptions = {
+      root: null,
+      rootMargin: '0px',
+      threshold: 0.1 // 元素出現 10% 時觸發
+    };
+
+    const observer = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target); // 動畫只播放一次，不再重複偵測
+        }
+      });
+    }, observerOptions);
+
+    // 啟動偵測 (針對靜態存在的元素)
+    document.querySelectorAll('.reveal-on-scroll').forEach(el => observer.observe(el));
+
+
+    // --- 讀取 CMS 資料 ---
     fetch('content/index.md')
       .then(response => response.text())
       .then(text => {
@@ -282,6 +332,7 @@
         if (parts.length > 1) {
           const data = jsyaml.load(parts[1]);
           
+          // 處理背景影片
           let videoPath = data.hero_video;
           if (!videoPath) {
               videoPath = 'https://res.cloudinary.com/dfnfcyglu/video/upload/v1763893930/hero_bg_ickrbe.mp4';
@@ -292,27 +343,46 @@
           }
           video.src = videoPath;
           
+          // 🔴 處理 Logo：圖片插在文字前面
           const logoContainer = document.getElementById('nav-logo');
+          let logoHtml = '';
           if (data.logo_image) {
-              logoContainer.innerHTML = `<img src="${data.logo_image}" alt="${data.title || 'Logo'}">`;
-          } else {
-              logoContainer.innerText = data.title || 'Uprise-Production';
+              logoHtml += `<img src="${data.logo_image}" alt="Logo">`;
           }
+          // 保留文字 span
+          logoHtml += `<span class="logo-text">推手影像製作有限公司</span>`;
+          logoContainer.innerHTML = logoHtml;
 
+          // 處理 Hero 文字
           document.getElementById('hero-title').textContent = data.hero_title || data.title || 'Welcome';
           document.getElementById('hero-subtitle').textContent = data.hero_text || '';
-          document.getElementById('hero-content').classList.remove('loading');
-          document.getElementById('hero-content').classList.add('loaded');
+          
+          // 移除 Loading 狀態，顯示 Hero 內容
+          const heroContent = document.getElementById('hero-content');
+          heroContent.classList.remove('loading');
+          heroContent.classList.add('loaded');
+          
+          // Hero 內容載入完成後，手動觸發一次觀察，確保它們會浮現
+          setTimeout(() => {
+             heroContent.querySelectorAll('.reveal-on-scroll').forEach(el => {
+                 observer.observe(el);
+                 el.classList.add('is-visible'); // 首頁內容直接顯示比較順暢
+             });
+          }, 100);
 
+          // 處理服務項目 (動態生成)
           const servicesGrid = document.getElementById('services-grid');
           if (data.services && data.services.length > 0) {
-            servicesGrid.innerHTML = data.services.map(service => `
-              <div class="service-card">
+            servicesGrid.innerHTML = data.services.map((service, index) => `
+              <div class="service-card reveal-on-scroll" style="transition-delay: ${index * 0.1}s">
                 <div class="service-icon">${service.icon ? `<img src="${service.icon}">` : '✦'}</div>
                 <h3>${service.title}</h3>
                 <p>${service.description}</p>
               </div>
             `).join('');
+
+            // 🔴 關鍵：動態生成的元素也要加入觀察名單
+            servicesGrid.querySelectorAll('.service-card').forEach(el => observer.observe(el));
           }
         }
       })

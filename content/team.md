@@ -5,17 +5,23 @@ members:
   - name: 林家佑 Director
     role: 導演
     avatar: /images/uploads/line_album_2024.3.18_241011_8.jpg
-    bio: |-
+    bio: >+
       我是林家佑，推手影像製作有限公司（Uprise-Production）的創辦人與導演。
+
       現在就讀台灣藝術大學電系碩士。
 
+
       「推手」二字，取自太極拳理中「借力使力」的智慧，也象徵著我們在影像產業的角色——我們不只是影像的製造者，更是品牌價值的推動者。
+
+
+      短片《流量底限》 導演
+
+      愛學影展:線上觀看https://stv.naer.edu.tw/i-fun-filmfestival/movie_view.jsp?unitpost_id=455
+
     portfolio_url: https://uprise-videoproduction.com/works
     ig_url: https://www.instagram.com/harry.lin_jiayou?igsh=MXNyNXlpdDIzZmozMg%3D%3D&utm_source=qr
-    full_bio: >-
-      短片《*流量底限*》 導演\
-
-      愛學影展:線上觀看<https://stv.naer.edu.tw/i-fun-filmfestival/movie_view.jsp?unitpost_id=455>
+    full_bio: "[](https://stv.naer.edu.tw/i-fun-filmfestival/movie_view.jsp?unitpos\
+      t_id=455)"
   - name: 傅啓榮
     role: 合作導演 Co-director
     avatar: /images/uploads/s__22126679.jpg

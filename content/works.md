@@ -28,6 +28,9 @@ portfolio_public:
   - link: https://youtu.be/GVxGalIH3PA?si=xPInh7tARoVRBUxf
     client: 雲林縣古坑鄉華南社區
     title: 雲林古坑：教育點亮山村，華南里山永續進行式
+  - title: 蜜蜂與我們的餐桌
+    client: 蜜蜂故事館
+    link: https://youtu.be/MKMvgTELkSs
   - title: 看見＿華南產業與生態
     client: 雲林縣古坑鄉華南社區
     link: https://youtu.be/vNprFeiDVWE

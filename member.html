@@ -1,221 +1,779 @@
 <!doctype html>
-<html lang="zh-Hant">
+<html lang="zh-Hant" oncontextmenu="return false">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 
-<title>團隊成員介紹 | Uprise-Production｜推手影像 ｜專業影像製作團隊</title>
+<!-- SEO 基礎標籤 (預設值，JS 會動態更新) -->
+<title>團隊成員介紹 | Uprise-Production｜推手影像</title>
+<meta name="description" content="Uprise-Production 推手影像專業團隊成員介紹。我們致力於以極致的影像美學，探索品牌深度的敘事可能。">
+<meta name="keywords" content="影像製作, 導演, 攝影師, 製片, Uprise Production, 推手影像, 團隊介紹">
+<meta name="author" content="Uprise-Production">
 
-<link rel="icon" type="image/png" href="favicon_32x32.png" sizes="32x32">
-<link rel="icon" type="image/png" href="/favicon_32x32.png" sizes="32x32">
+<!-- Open Graph / Facebook 社群分享優化 -->
+<meta property="og:type" content="profile">
+<meta property="og:url" content="https://www.uprise-videoproduction.com/member.html">
+<meta property="og:title" content="團隊成員介紹 | Uprise-Production">
+<meta property="og:description" content="Uprise-Production 推手影像專業團隊成員介紹。">
+<meta property="og:image" content="images/uploads/logo.png">
 
-<meta name="description" content="了解 Uprise-Production（推手影像）的核心成員——導演林家佑，包含其職位、個人簡介和作品集連結。我們專業的團隊隨時準備為您的品牌故事進行電影級影像拍攝與製作。">
-<meta name="keywords" content="林家佑, 導演介紹, 攝影師, 團隊成員, Uprise Production, 推手影像, 廣告拍攝, 專業影像製作, 電影級, 影像導演">
+<!-- Twitter 社群分享優化 -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="團隊成員介紹 | Uprise-Production">
+<meta name="twitter:description" content="Uprise-Production 推手影像專業團隊成員介紹。">
+<meta name="twitter:image" content="images/uploads/logo.png">
+
+<link rel="icon" type="image/png" href="images/uploads/logo.png">
 <link rel="canonical" href="https://www.uprise-videoproduction.com/member.html">
 
-<meta property="og:title" content="林家佑 導演介紹｜Uprise-Production 推手影像｜專業拍攝製作">
-<meta property="og:description" content="認識我們專業的影像製作團隊核心人物——導演林家佑，了解其背景、專長與電影級拍攝經驗。">
-<meta property="og:image" content="https://uprise-videoproduction.netlify.app/logo.png">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://www.uprise-videoproduction.com/member.html">
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Italiana&family=Noto+Sans+TC:wght@300;400;500;700;900&family=Noto+Serif+TC:wght@700;900&display=swap" rel="stylesheet">
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="導演 林家佑 | Uprise-Production 核心成員介紹">
-<meta name="twitter:description" content="專業影像製作團隊核心成員介紹，專注於廣告與品牌影片的拍攝與導演工作。">
-<meta name="twitter:image" content="https://uprise-videoproduction.netlify.app/logo.png">
+<!-- AOS Animation Library CSS -->
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "VideoProductionCompany",
-  "name": "Uprise-Production（推手影像）",
-  "url": "https://www.uprise-videoproduction.com",
-  "logo": "https://uprise-videoproduction.netlify.app/logo.png",
-  "description": "推手影像專注於電影級影像、廣告與品牌影片的製作與拍攝，由核心導演林家佑帶領，透過視覺敘事推動品牌價值。",
-  "address": {
-    "@type": "PostalAddress",
-    "addressLocality": "台中市西區",
-    "streetAddress": "臺灣大道二段285號31樓"
-  },
-  "telephone": "+886-937672279",
-  "founder": {
-    "@type": "Person",
-    "name": "林家佑",
-    "jobTitle": "導演 / 創辦人",
-    "url": "https://www.uprise-videoproduction.com/member.html?id=lin-jia-you"
-  }
-}
-</script>
-
+<!-- Libraries -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/2.1.0/showdown.min.js"></script>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Noto+Sans+TC:wght@300;500;700&display=swap" rel="stylesheet">
+
 <style>
-  :root{ --yellow:#FFB800; --orange:#FF7A00; --bg:#0F0F0F; }
-  body { margin:0; font-family:'Inter', 'Noto Sans TC', sans-serif; background:var(--bg); color:#fff; overflow-x: hidden; display: block;}
+  /* --- 核心變數 (與首頁統一) --- */
+  :root { 
+    --bg-color: #050505;       
+    --card-bg: rgba(20, 20, 20, 0.4); 
+    --text-main: #FFFFFF;      
+    --text-sub: #B0B0B0;       
+    --brand-primary: #FF8C00;  
+    --brand-light: #FFD700;    
+    --brand-gradient: linear-gradient(135deg, #FFD700, #FF8C00);
+    --silver-gradient: linear-gradient(to bottom, #ffffff 40%, #a0a0a0 100%);
+    
+    --font-display: 'Italiana', serif;
+    --font-body: 'Noto Sans TC', sans-serif;
+    --font-serif: 'Noto Serif TC', serif;
+    
+    --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
+    --ease-cinematic: cubic-bezier(0.22, 1, 0.36, 1); /* 電影感緩動 */
+  }
+
+  * { box-sizing: border-box; cursor: none; }
+
+  html { scroll-behavior: smooth; }
+
+  ::-webkit-scrollbar { width: 5px; }
+  ::-webkit-scrollbar-track { background: #000; }
+  ::-webkit-scrollbar-thumb { background: #444; border-radius: 10px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--brand-primary); }
+
+  ::selection { background: var(--brand-light); color: #000; }
+
+  body {
+    margin: 0; padding: 0;
+    font-family: var(--font-body);
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* 禁止圖片拖曳 (防盜) */
+  img {
+    -webkit-user-drag: none;
+    -khtml-user-drag: none;
+    -moz-user-drag: none;
+    -o-user-drag: none;
+    pointer-events: none;
+  }
+
+  /* --- 轉場與載入 --- */
+  #main-wrapper {
+    transition: filter 0.6s ease, transform 0.6s ease;
+    width: 100%; position: relative; z-index: 1; 
+  }
+  body.exiting #main-wrapper { filter: blur(10px) brightness(0.8); transform: scale(0.98); pointer-events: none; }
+  body.loading-state #main-wrapper { filter: blur(20px); opacity: 0; }
+  body.loaded-state #main-wrapper { filter: blur(0); opacity: 1; transform: scale(1); }
+
+  .page-transition-curtain {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: #000; z-index: 100000; transform: translateY(0);
+    transition: transform 1s cubic-bezier(0.87, 0, 0.13, 1); pointer-events: none;
+  }
+  .page-transition-curtain.reveal { transform: translateY(-100%); } 
+  .page-transition-curtain.cover { transform: translateY(0); }
+
+  .loader {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: #000; z-index: 200000; 
+    display: flex; justify-content: center; align-items: center;
+    transition: opacity 0.8s ease, visibility 0.8s;
+  }
+  .loader.hidden { opacity: 0; visibility: hidden; }
   
-  /* 導覽列 */
-  .site-header{
-    position:fixed;top:0;left:0;right:0;height:72px;display:flex;align-items:center;justify-content:space-between;padding:0 28px;z-index:30;
-    background:rgba(15,15,15,0.9);backdrop-filter:blur(8px);border-bottom:1px solid rgba(255,255,255,0.1);
+  .loader-text-logo {
+    font-family: var(--font-display); font-size: 3rem; color: #fff;
+    letter-spacing: 5px; text-transform: uppercase;
+    animation: logoFadeInOut 2.5s ease forwards;
+  }
+  .loader-text-logo span { color: var(--brand-light); }
+  @keyframes logoFadeInOut { 
+    0% { opacity: 0; transform: scale(0.9); } 40% { opacity: 1; transform: scale(1); }
+    90% { opacity: 1; transform: scale(1); } 100% { opacity: 0; transform: scale(1.1); }
+  }
+
+  .cursor {
+    position: fixed; top: 0; left: 0; width: 12px; height: 12px;
+    background: var(--brand-light); border-radius: 50%; pointer-events: none; 
+    z-index: 2147483647; transform: translate(-50%, -50%);
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.9);
+    transition: width 0.3s, height 0.3s; will-change: transform;
+  }
+  body.hovered .cursor {
+    width: 60px; height: 60px; background: rgba(255, 215, 0, 0.05);
+    border: 1px solid rgba(255, 215, 0, 0.8); box-shadow: 0 0 30px rgba(255, 215, 0, 0.4);
+  }
+  body.clicking .cursor { transform: translate(-50%, -50%) scale(0.9); background: var(--brand-primary); }
+
+  /* 環境特效 */
+  .ambient-light {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none; z-index: 0; overflow: hidden;
+  }
+  .ambient-blob {
+    position: absolute; width: 900px; height: 900px;
+    background: radial-gradient(circle, rgba(255, 140, 0, 0.04) 0%, transparent 60%);
+    border-radius: 50%; filter: blur(80px); opacity: 0.5;
+    animation: moveBlob 25s infinite alternate ease-in-out;
+  }
+  .ambient-blob:nth-child(1) { top: -20%; left: -10%; animation-delay: 0s; }
+  .ambient-blob:nth-child(2) { bottom: -20%; right: -10%; animation-duration: 35s; animation-direction: reverse; }
+  @keyframes moveBlob { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(50px, 50px) scale(1.1); } }
+
+  .particles-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 2; pointer-events: none; overflow: hidden; }
+  .particle {
+    position: absolute; background: radial-gradient(circle, var(--brand-light) 0%, transparent 70%);
+    border-radius: 50%; opacity: 0; animation: floatParticle 10s infinite ease-in-out;
+  }
+  @keyframes floatParticle {
+    0% { transform: translateY(0) translateX(0); opacity: 0; }
+    20% { opacity: 0.6; } 80% { opacity: 0.6; }
+    100% { transform: translateY(-120px) translateX(30px); opacity: 0; }
+  }
+
+  /* 極簡聲音按鈕 */
+  #sound-btn {
+    position: fixed; bottom: 40px; right: 40px; z-index: 9000;
+    display: none; gap: 4px; align-items: flex-end; height: 24px;
+    cursor: pointer; background: transparent; border: none; padding: 5px; width: auto;
+  }
+  #sound-btn:hover { transform: scale(1.1); }
+  .sound-label { font-family: var(--font-body); font-size: 0.75rem; letter-spacing: 2px; color: rgba(255,255,255,0.7); font-weight: 500; margin-right: 5px; margin-bottom: 2px; }
+  .sound-bar { width: 3px; background-color: #fff; opacity: 0.8; border-radius: 2px; height: 3px; transition: height 0.3s, background-color 0.3s; }
+  #sound-btn.is-playing .sound-bar { background-color: var(--brand-light); animation: soundWaveAnim 1s ease-in-out infinite; }
+  #sound-btn.is-playing .sound-label { color: var(--brand-light); }
+  @keyframes soundWaveAnim { 0% { height: 3px; } 50% { height: 20px; } 100% { height: 3px; } }
+
+  /* --- 導覽列 --- */
+  .header {
+    position: fixed; top: 0; left: 0; width: 100%; padding: 30px 50px;
+    display: flex; justify-content: space-between; align-items: center;
+    z-index: 100; background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent); 
+    transition: all 0.5s;
+  }
+  .header.scrolled { 
+    background: rgba(5, 5, 5, 0.9); backdrop-filter: blur(20px); 
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding: 20px 50px;
+  }
+  .logo { display: flex; align-items: center; gap: 12px; text-decoration: none; color: #fff; }
+  .logo img { height: 38px; width: auto; transition: transform 0.5s; }
+  .logo:hover img { transform: rotate(5deg) scale(1.05); }
+  .logo-text { font-family: var(--font-display); font-size: 1.2rem; letter-spacing: 2px; text-transform: uppercase; color: #fff; }
+  .logo-text span { color: var(--brand-light); }
+  
+  .nav { display: flex; gap: 30px; } 
+  .nav-item { 
+    position: relative; overflow: hidden; height: 24px; cursor: pointer; 
+    display: block; color: rgba(255,255,255,0.8); 
+    font-family: var(--font-body); font-size: 0.95rem; letter-spacing: 2px;
+    font-weight: 500; text-decoration: none;
+  }
+  .nav-item span.original-text { display: block; transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1); }
+  .nav-item span.hover-text { position: absolute; top: 100%; left: 0; width: 100%; color: var(--brand-light); transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1); white-space: nowrap; }
+  .nav-item:hover span.original-text { transform: translateY(-100%); }
+  .nav-item:hover span.hover-text { transform: translateY(-100%); }
+  .nav-item.active span.original-text { color: var(--brand-light); }
+
+  /* --- 成員詳細頁面 (Member Detail) --- */
+  .member-detail-section {
+    position: relative; 
+    min-height: 100vh;
+    padding: 140px 20px 100px;
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
+  }
+
+  /* 成員介紹 標題樣式 */
+  .member-page-header {
+    text-align: center;
+    margin-bottom: 60px;
+    width: 100%;
+    position: relative; z-index: 10;
+  }
+  .member-page-header .page-label {
+    font-family: var(--font-display); font-size: 0.9rem; letter-spacing: 4px;
+    color: var(--brand-light); display: block; margin-bottom: 10px;
+  }
+  .member-page-header .page-main-title {
+    font-family: var(--font-serif);
+    font-size: clamp(3rem, 8vw, 5rem);
+    color: #fff; margin: 0; font-weight: 900;
+    background: var(--brand-gradient);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 0 30px rgba(255, 140, 0, 0.5));
+  }
+  .member-page-header .title-divider {
+    width: 80px; height: 3px; background: var(--brand-gradient);
+    margin: 40px auto 0; border-radius: 2px;
+  }
+
+  .profile-container { 
+    display: flex; flex-wrap: wrap; max-width: 1000px; width: 100%; 
+    gap: 60px; align-items: center; position: relative; z-index: 10;
+  }
+
+  /* 🔴 升級版：相片區塊 (Photo Section) */
+  .photo-section { 
+    flex: 0 0 auto; position: relative; display: flex; justify-content: center;
   }
   
-  /* Logo 包含文字 */
-  .logo { 
-    display: flex; 
-    align-items: center; 
-    text-decoration: none; 
-    color: #fff; 
-    gap: 10px;
-  }
-  .logo img { height: 32px; width: auto; display: block; }
-  .logo-text {
-    font-weight: 700;
-    font-size: 1.1rem;
-    letter-spacing: 1px;
-    white-space: nowrap;
-  }
-  @media (max-width: 600px) {
-    .logo-text { font-size: 0.9rem; }
+  /* 外框容器 */
+  .photo-frame { 
+    width: 280px; height: 280px; 
+    position: relative; 
+    display: flex; justify-content: center; align-items: center;
+    /* 這裡不設定 overflow: hidden，讓外面的裝飾環能顯示 */
   }
 
-  .nav{display:flex;gap:20px;}
-  .nav a{color:#fff;text-decoration:none;font-weight:600;font-size:0.9rem;opacity:0.7;transition:0.3s;}
-  .nav a:hover, .nav a.active { color:var(--yellow); opacity:1; }
+  /* 1. 旋轉刻度環 (最外層) */
+  .photo-frame::before {
+    content: ''; position: absolute; inset: -15px; /* 比圖片大一圈 */
+    border-radius: 50%;
+    border: 1px dashed rgba(255, 215, 0, 0.3); /* 金色虛線 */
+    animation: rotateRing 30s linear infinite;
+    pointer-events: none; z-index: 0;
+  }
 
-  /* 標題區塊 */
-  .header-container { text-align: center; max-width: 800px; width: 100%; margin: 100px auto 20px; padding: 30px 20px 10px; }
-  .label { font-size: 0.8rem; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: #86868b; margin-bottom: 5px; display: block; opacity: 0; animation: fadeUp 0.8s ease forwards; }
-  .header-container h1 { font-size: 3.5rem; font-weight: 800; margin: 0 0 10px 0; line-height: 1.1; background: linear-gradient(135deg, #FFB800 0%, #FF3D00 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; opacity: 0; animation: fadeUp 0.8s ease 0.2s forwards; }
-  .header-container p { font-size: 1.2rem; color: #f5f5f7; font-weight: 400; margin: 0 auto 25px; max-width: 600px; line-height: 1.4; opacity: 0; animation: fadeUp 0.8s ease 0.4s forwards; }
-  .divider-line { width: 60px; height: 4px; margin: 0 auto; background: linear-gradient(90deg, #FFB800, #FF3D00); border-radius: 4px; opacity: 0; animation: expandWidth 1s cubic-bezier(0.2, 0.8, 0.2, 1) 0.6s forwards; }
+  /* 2. 品牌漸層流光框 (中間層) */
+  .photo-frame::after {
+    content: ''; position: absolute; inset: -4px; /* 緊貼圖片外緣 */
+    border-radius: 50%;
+    padding: 2px; /* 邊框寬度 */
+    background: var(--brand-gradient); 
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor; mask-composite: exclude;
+    opacity: 0.8;
+    animation: breatheGlow 4s ease-in-out infinite;
+    pointer-events: none; z-index: 1;
+  }
 
-  /* 個人資料 */
-  .profile-container { display: flex; flex-wrap: wrap; max-width: 1000px; width: 100%; gap: 60px; align-items: center; margin: 40px auto 100px; padding: 0 20px; }
-  .photo-section { flex: 1; min-width: 300px; display: flex; justify-content: center; }
-  .photo-frame { width: 100%; max-width: 360px; aspect-ratio: 3/4; border-radius: 24px; padding: 6px; background: linear-gradient(135deg, #333, #111); box-shadow: 0 20px 50px rgba(0,0,0,0.6); opacity: 0; animation: slideInLeft 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) 0.4s forwards; overflow: hidden; position: relative; }
-  .profile-img { width: 100%; height: 100%; object-fit: cover; object-position: center top; border-radius: 18px; display: block; }
-  .info-section { flex: 1.2; min-width: 300px; opacity: 0; animation: slideInRight 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) 0.6s forwards; display: flex; flex-direction: column; justify-content: center; }
-  .member-name { font-size: 3.5rem; font-weight: 800; margin: 0 0 10px; background: linear-gradient(135deg, #fff 0%, #a1a1a6 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-  .job-title { font-size: 1.2rem; text-transform: uppercase; letter-spacing: 2px; background: linear-gradient(90deg, #FFB800, #FF3D00); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 700; margin-bottom: 30px; display: inline-block; }
-  .bio-text { color: #a1a1a6; font-size: 1.1rem; line-height: 1.8; margin-bottom: 30px; text-align: justify; }
-  .info-divider { width: 100%; height: 1px; background: linear-gradient(90deg, rgba(255,255,255,0.1), rgba(255, 61, 0, 0.5), rgba(255,255,255,0.1)); margin: 20px 0; }
-  .action-buttons { display: flex; gap: 15px; margin-top: 10px; }
-  .btn-back, .btn-portfolio { padding: 12px 24px; border-radius: 50px; font-weight: 600; text-decoration: none; transition: 0.3s; display: inline-flex; align-items: center; gap: 8px; font-size: 0.95rem; cursor: pointer;}
-  .btn-back { background: rgba(255,255,255,0.1); color: #fff; border: 1px solid rgba(255,255,255,0.1); }
-  .btn-back:hover { background: rgba(255,255,255,0.2); }
-  .btn-portfolio { background: linear-gradient(90deg, var(--yellow), var(--orange)); color: #000; border: none; }
-  .btn-portfolio:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(255, 122, 0, 0.2); }
+  /* 圖片內容器 (負責裁切圖片與遮罩) */
+  .img-inner {
+    width: 100%; height: 100%;
+    border-radius: 50%;
+    overflow: hidden;
+    position: relative;
+    z-index: 2; /* 在裝飾環之上 */
+    box-shadow: 0 0 30px rgba(0,0,0,0.8); /* 圖片本身陰影 */
+  }
 
-  footer { position: relative; z-index: 10; padding: 80px 20px 40px; background: #000; text-align: center; display: flex; justify-content: center; }
-  .footer-content { max-width: 800px; width: 100%; }
-  .divider-foot { width: 60px; height: 4px; margin: 0 auto 30px; background: linear-gradient(90deg, #FFB800, #FF3D00); border-radius: 4px; }
-  footer h2 { font-size: 1.8rem; font-weight: 700; margin: 0 0 20px; letter-spacing: 1px; color: #fff; }
-  .gradient-text { background: linear-gradient(135deg, #FFB800, #FF3D00); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-  .copyright { font-size: 0.8rem; color: #555; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px; margin-top: 20px; }
-  p.manifesto { font-size: 1.1rem; line-height: 1.8; color: #a1a1a6; margin-bottom: 40px; }
+  /* 照片本體 */
+  .profile-img { 
+    width: 100%; height: 100%; 
+    object-fit: cover; object-position: center center; 
+    filter: blur(10px) brightness(1.5); /* 初始狀態 */
+    transform: scale(1.3);
+    transition: all 1.8s var(--ease-cinematic);
+    will-change: transform, filter;
+  }
   
-  @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-  @keyframes expandWidth { from { width: 0px; opacity: 0; } to { width: 60px; opacity: 1; } }
-  @keyframes slideInLeft { from { opacity: 0; transform: translateX(-40px); } to { opacity: 1; transform: translateX(0); } }
-  @keyframes slideInRight { from { opacity: 0; transform: translateX(40px); } to { opacity: 1; transform: translateX(0); } }
+  /* AOS 觸發後 */
+  .photo-section.aos-animate .profile-img {
+    filter: blur(0) brightness(1);
+    transform: scale(1);
+  }
 
-  @media (max-width: 768px) {
-    .header-container { padding: 20px 10px 10px; }
-    .header-container h1 { font-size: 2.5rem; }
-    .profile-container { flex-direction: column; gap: 30px; text-align: center; margin-top: 40px;}
-    .photo-frame { max-width: 280px; }
-    .bio-text { text-align: left; }
-    .info-section { align-items: center; }
+  /* 快門遮罩 */
+  .shutter-mask {
+    position: absolute; inset: 0; background: #000;
+    border-radius: 50%; z-index: 10;
+    transform: scale(1);
+    transform-origin: center;
+    transition: transform 1.2s cubic-bezier(0.8, 0, 0.2, 1);
+  }
+  .photo-section.aos-animate .shutter-mask {
+    transform: scale(0); 
+  }
+
+  @keyframes rotateRing { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+  @keyframes breatheGlow { 
+    0%, 100% { opacity: 0.5; filter: drop-shadow(0 0 5px rgba(255,140,0,0.3)); }
+    50% { opacity: 1; filter: drop-shadow(0 0 15px rgba(255,215,0,0.6)); }
+  }
+
+  /* Hover 互動 */
+  .photo-frame:hover .profile-img { transform: scale(1.05); }
+  .photo-frame:hover::before { border-color: var(--brand-light); animation-duration: 10s; } /* 加速旋轉 */
+  .photo-frame:hover::after { opacity: 1; filter: drop-shadow(0 0 20px rgba(255,215,0,0.8)); }
+
+  /* 右側：資訊區域 */
+  .info-section { 
+    flex: 1; display: flex; flex-direction: column; justify-content: center; padding-left: 20px;
+  }
+
+  .member-name { 
+    font-family: var(--font-serif); 
+    font-size: 3.5rem; font-weight: 900; 
+    margin: 0 0 10px; line-height: 1.1;
+    background: var(--silver-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 5px 15px rgba(0,0,0,0.5));
+    opacity: 0; letter-spacing: 15px; filter: blur(10px); transform: scale(1.1);
+    transition: all 1.5s var(--ease-cinematic);
+  }
+  .member-name.aos-animate { opacity: 1; letter-spacing: 0; filter: blur(0); transform: scale(1); }
+  
+  .job-title { 
+    font-family: var(--font-display);
+    font-size: 1rem; text-transform: uppercase; letter-spacing: 4px; 
+    color: var(--brand-light); 
+    font-weight: 700; margin-bottom: 30px; display: inline-block;
+    padding-bottom: 10px; position: relative;
+  }
+  .job-title::after {
+    content: ''; position: absolute; bottom: 0; left: 0;
+    width: 0; height: 1px; background: var(--brand-primary);
+    transition: width 1.2s var(--ease-cinematic) 0.5s;
+  }
+  .job-title.aos-animate::after { width: 100%; }
+  
+  .bio-text { 
+    color: #ccc; font-size: 1rem; line-height: 2; margin-bottom: 40px; 
+    text-align: justify; font-weight: 300; letter-spacing: 1px;
+    max-width: 600px;
+  }
+
+  /* 按鈕區 */
+  .action-buttons { display: flex; gap: 20px; margin-top: 10px; flex-wrap: wrap; }
+  
+  .btn {
+    padding: 12px 30px; border-radius: 2px;
+    font-family: var(--font-body); font-size: 0.9rem; letter-spacing: 2px;
+    text-decoration: none; transition: 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+    position: relative; overflow: hidden; font-weight: 500; transform: translate(0,0);
+    display: inline-flex; align-items: center; gap: 8px; justify-content: center;
+  }
+  
+  .btn-primary {
+    background: var(--brand-gradient); color: #000; border: none;
+    box-shadow: 0 10px 30px rgba(255, 140, 0, 0.25);
+  }
+  .btn-primary::after {
+    content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.8), transparent);
+    transform: skewX(-20deg); animation: btnShine 3s infinite; pointer-events: none;
+  }
+  @keyframes btnShine { 0%, 70% { left: -100%; } 100% { left: 200%; } }
+  .btn-primary:hover { box-shadow: 0 20px 40px rgba(255, 140, 0, 0.4); filter: brightness(1.1); }
+
+  .btn-ghost {
+    background: rgba(255,255,255,0.05); color: #fff; 
+    border: 1px solid rgba(255,255,255,0.2); backdrop-filter: blur(5px);
+  }
+  .btn-ghost:hover { border-color: var(--brand-primary); color: #fff; background: rgba(255, 140, 0, 0.15); }
+
+  /* IG 按鈕 */
+  .btn-instagram {
+    background: rgba(255,255,255,0.05); color: #fff; 
+    border: 1px solid rgba(255,255,255,0.2); backdrop-filter: blur(5px);
+    transition: 0.3s;
+  }
+  .btn-instagram:hover {
+    background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888) !important;
+    border-color: transparent !important;
+    box-shadow: 0 10px 30px rgba(220, 39, 67, 0.5) !important;
+    color: #fff !important;
+    transform: translateY(-2px);
+  }
+  .btn-instagram:hover i, .btn-instagram:hover span {
+    color: #fff !important;
+    background: none !important;
+    -webkit-text-fill-color: #fff !important;
+  }
+
+  /* Footer */
+  footer {
+    padding: 120px 8% 60px; border-top: 1px solid rgba(255,255,255,0.05);
+    background: #020202; text-align: center; position: relative; overflow: hidden;
+  }
+  .footer-watermark {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    font-family: var(--font-display); font-size: 20vw; font-weight: 700;
+    color: rgba(255, 255, 255, 0.02); pointer-events: none; white-space: nowrap;
+    z-index: 0; letter-spacing: 10px; will-change: transform; 
+  }
+  .footer-content { max-width: 800px; margin: 0 auto; position: relative; z-index: 1; }
+  .footer h2 {
+    font-family: var(--font-serif); font-size: 3.5rem; font-weight: 900;
+    margin-bottom: 40px; letter-spacing: 10px;
+    background: linear-gradient(to right, #cfc7bc, #fff, #cfc7bc);
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent; filter: drop-shadow(0 5px 15px rgba(0,0,0,0.8));
+  }
+  .footer h2 span {
+    background: var(--brand-gradient); -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent; font-weight: 900; filter: drop-shadow(0 0 15px rgba(255, 140, 0, 0.5));
+  }
+  .manifesto { font-size: 1.1rem; color: var(--text-sub); line-height: 2; margin-bottom: 50px; font-weight: 300; letter-spacing: 1px; }
+  .copyright { font-size: 0.8rem; color: #444; margin-top: 50px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 30px; letter-spacing: 1px; }
+
+  /* RWD */
+  @media (max-width: 900px) {
+    .member-detail-section { padding-top: 140px; }
+    .profile-container { flex-direction: column; gap: 40px; text-align: center; }
+    .photo-section { flex: 0 0 auto; width: 100%; align-items: center; }
+    .info-section { align-items: center; padding-left: 0; }
+    .member-name { font-size: 2.8rem; }
+    .bio-text { text-align: center; }
     .action-buttons { justify-content: center; }
+    .footer h2 { font-size: 2.5rem; letter-spacing: 5px; }
+    .header { padding: 20px; }
+    .nav { display: none; }
   }
 </style>
 </head>
-<body>
+<body class="loading-state">
 
-  <header class="site-header">
-    <a href="index.html" class="logo" id="nav-logo">
-      <img src="images/uploads/logo.png" alt="Uprise Logo">
-      <span class="logo-text">推手影像製作有限公司</span>
-    </a>
-    <nav class="nav">
-      <a href="index.html">首頁</a>
-      <a href="works.html">作品</a>
-      <a href="team.html" class="active">團隊</a>
-      <a href="about.html">關於</a>
-      <a href="contact.html">聯絡</a>
-    </nav>
-  </header>
-
-  <div class="header-container">
-    <span class="label">MEMBER PROFILE | 導演介紹</span>
-    <h1>成員介紹</h1>
-    <p>認識我們專業的影像製作團隊成員們，<br>隨時準備為您的品牌故事進行電影級拍攝。</p>
-    <div class="divider-line"></div>
+  <div class="page-transition-curtain"></div>
+  <div class="cursor"></div>
+  <div class="loader">
+    <div class="loader-text-logo">Uprise<span>.</span></div>
   </div>
-
-  <div class="profile-container" id="profile-content">
-    <p style="width:100%; text-align:center; color:#666;">Loading...</p>
+  <div class="ambient-light">
+    <div class="ambient-blob"></div>
+    <div class="ambient-blob"></div>
   </div>
+  
+  <div class="particles-container" id="particles"></div>
 
-  <footer>
-    <div class="footer-content">
-      <div class="divider-foot"></div>
-      <h2><span class="gradient-text">Uprise-Production</span></h2>
-      <p class="manifesto">我們不僅是影像的製造者，更是品牌價值的推動者。<br>致力於將抽象的意念，轉化為具象的視覺衝擊。<br>從腳本企劃、電影級拍攝到後期特效，<br>推手影像以極致的職人精神，訴說每一個值得被看見的故事。</p>
-      <div class="copyright">Copyright © 2025 推手影像製作有限公司 Uprise-Production. All rights reserved.<br>臺中市西區民龍里臺灣大道二段285號31樓 | +886 937672279</div>
+  <!-- 極簡聲音按鈕 -->
+  <div id="sound-btn" class="hover-trigger">
+    <span class="sound-label">SOUND</span>
+    <div class="sound-bars">
+      <div class="sound-bar"></div>
+      <div class="sound-bar"></div>
+      <div class="sound-bar"></div>
+      <div class="sound-bar"></div>
     </div>
-  </footer>
+  </div>
+
+  <div id="main-wrapper">
+    <header class="header" id="header" data-aos="fade-down" data-aos-duration="1000">
+      <a href="index.html" class="logo hover-trigger">
+        <img src="images/uploads/logo.png" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'" alt="Logo">
+        <span class="logo-text" style="display:none;">Uprise<span>.</span></span>
+      </a>
+      
+      <nav class="nav">
+        <a href="index.html" class="nav-item hover-trigger page-link">
+            <span class="original-text">首頁</span><span class="hover-text">首頁</span>
+        </a>
+        <a href="works.html" class="nav-item hover-trigger page-link">
+            <span class="original-text">作品</span><span class="hover-text">作品</span>
+        </a>
+        <a href="team.html" class="nav-item hover-trigger page-link active">
+            <span class="original-text">團隊</span><span class="hover-text">團隊</span>
+        </a>
+        <a href="about.html" class="nav-item hover-trigger page-link">
+            <span class="original-text">關於</span><span class="hover-text">關於</span>
+        </a>
+        <a href="contact.html" class="nav-item hover-trigger page-link">
+            <span class="original-text">聯絡</span><span class="hover-text">聯絡</span>
+        </a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="member-detail-section">
+        <!-- 成員介紹標題區塊 -->
+        <div class="member-page-header" data-aos="fade-down" data-aos-delay="100">
+            <span class="page-label">MEMBER PROFILE</span>
+            <h1 class="page-main-title">成員介紹</h1>
+            <div class="title-divider"></div>
+        </div>
+
+        <!-- 內容容器 -->
+        <div class="profile-container" id="profile-content">
+          <p style="width:100%; text-align:center; color:#666;">Loading Profile...</p>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="footer-watermark" id="footer-mark">UPRISE</div>
+      <div class="footer-content" data-aos="fade-up" data-aos-offset="50">
+        <h2>推手<span>影像</span></h2>
+        <p class="manifesto">
+          我們不僅是影像的製造者，更是品牌價值的推動者。<br>
+          致力於將抽象的意念，轉化為具象的視覺衝擊。<br>
+          從腳本企劃、電影級拍攝到後期特效，<br>
+          推手影像以極致的職人精神，訴說每一個值得被看見的故事。
+        </p>
+        <div class="copyright">
+          Copyright © 2025 推手影像製作有限公司 Uprise-Production. All rights reserved.<br>
+          臺中市西區民龍里臺灣大道二段285號31樓 | +886 937672279
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <!-- AOS Script -->
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 
   <script>
-    // 成員資料讀取
-    const urlParams = new URLSearchParams(window.location.search);
-    const memberId = urlParams.get('id');
+    // --- 防盜機制 (Anti-Theft) ---
+    // 1. 禁止右鍵
+    document.addEventListener('contextmenu', event => event.preventDefault());
 
-    fetch('content/team.md').then(r => r.text()).then(text => {
-      const parts = text.split('---');
-      const data = jsyaml.load(parts.length > 1 ? parts[1] : text);
-      
-      const container = document.getElementById('profile-content');
+    // 2. 禁止複製 (但允許選取文字)
+    document.addEventListener('copy', event => {
+        event.preventDefault();
+    });
 
-      if(data.members && memberId !== null && data.members[memberId]) {
-        const m = data.members[memberId];
-        const avatar = m.avatar || 'https://dummyimage.com/400x500/333/fff';
+    // 3. 禁止快速鍵 (F12, Ctrl+U, Ctrl+S, Ctrl+C, Ctrl+Shift+I)
+    document.onkeydown = function(e) {
+        if(e.keyCode == 123) { // F12
+            return false;
+        }
+        if(e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) { // Ctrl+Shift+I
+            return false;
+        }
+        if(e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) { // Ctrl+Shift+C
+            return false;
+        }
+        if(e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) { // Ctrl+Shift+J
+            return false;
+        }
+        if(e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) { // Ctrl+U
+            return false;
+        }
+        if(e.ctrlKey && e.keyCode == 'S'.charCodeAt(0)) { // Ctrl+S
+            return false;
+        }
+        if(e.ctrlKey && e.keyCode == 'C'.charCodeAt(0)) { // Ctrl+C
+             return false;
+        }
+    }
+
+    // 預設資料
+    const fallbackData = {
+      members: [
+        {
+          name: "林家佑",
+          role: "DIRECTOR",
+          avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?fit=crop&w=400&h=533&q=80",
+          bio: "專注於電影級影像製作，擅長透過鏡頭語言捕捉情感流動。",
+          full_bio: "林家佑導演擁有超過十年的影像製作經驗，擅長以電影敘事手法拍攝商業廣告與品牌形象影片。他的作品風格細膩且充滿張力，能夠精準捕捉人物情感與光影變化，為品牌創造獨特的視覺語言。",
+          portfolio_url: "#",
+          ig_url: "#"
+        }
+      ]
+    };
+
+    document.addEventListener('DOMContentLoaded', () => {
+      // 1. 調整後的載入流程：確保 Logo 動畫跑完才顯示內容
+      setTimeout(() => {
+        document.querySelector('.loader').classList.add('hidden');
+        document.querySelector('.page-transition-curtain').classList.add('reveal');
+        document.body.classList.remove('loading-state');
+        document.body.classList.add('loaded-state');
         
-        // 🔴 關鍵邏輯：優先顯示 full_bio (詳細介紹)，如果沒有則顯示 bio (短簡介)
+        // 2. 在內容顯示後，才初始化 AOS，確保動畫不會被遮罩擋住
+        AOS.init({
+            duration: 1000,
+            easing: 'ease-out-cubic',
+            once: false,
+            mirror: true,
+            offset: 50
+        });
+      }, 2200); 
+
+      // 讀取成員 ID
+      const urlParams = new URLSearchParams(window.location.search);
+      const memberId = urlParams.get('id') || 0; 
+
+      // 嘗試讀取 CMS 資料
+      fetch('content/team.md')
+        .then(r => {
+            if(!r.ok) throw new Error("CMS Data Not Found");
+            return r.text();
+        })
+        .then(text => {
+          const parts = text.split('---');
+          const data = jsyaml.load(parts.length > 1 ? parts[1] : text);
+          renderMember(data, memberId);
+        })
+        .catch(err => {
+            console.log("Using fallback member data");
+            const mockData = { members: fallbackData.members };
+            renderMember(mockData, 0); 
+        });
+
+      initCursor();
+      initPageTransition();
+      createParticles();
+      initMagneticButtons();
+      initSoundToggle(); 
+    });
+
+    function renderMember(data, id) {
+      const container = document.getElementById('profile-content');
+      
+      if(data.members && data.members[id]) {
+        const m = data.members[id];
+        const avatar = m.avatar || 'https://dummyimage.com/400x533/333/fff';
+        
         const bioContent = m.full_bio ? m.full_bio : m.bio;
         const bioHtml = new showdown.Converter().makeHtml(bioContent || '');
         
         const portfolioBtn = m.portfolio_url 
-            ? `<a href="${m.portfolio_url}" target="_blank" class="btn-portfolio">查看作品集 ↗</a>` 
+            ? `<a href="${m.portfolio_url}" target="_blank" class="btn btn-primary hover-trigger magnetic-btn">查看作品集</a>` 
+            : '';
+            
+        const igBtn = m.ig_url
+            ? `<a href="${m.ig_url}" target="_blank" class="btn btn-ghost btn-instagram hover-trigger magnetic-btn"><i class="fab fa-instagram"></i> <span>Instagram</span></a>`
             : '';
 
+        // 動態 SEO
+        document.title = `${m.name} ${m.role} | 成員介紹 | 推手影像 Uprise Production`;
+        
+        const setMeta = (name, content) => {
+            let element = document.querySelector(`meta[name="${name}"]`);
+            if (!element) {
+                element = document.createElement('meta');
+                element.name = name;
+                document.head.appendChild(element);
+            }
+            element.content = content;
+        };
+        const setOgMeta = (property, content) => {
+            let element = document.querySelector(`meta[property="${property}"]`);
+            if (!element) {
+                element = document.createElement('meta');
+                element.setAttribute('property', property);
+                document.head.appendChild(element);
+            }
+            element.content = content;
+        };
+
+        const pageUrl = window.location.href;
+        const description = `推手影像 (Uprise Production) 專業團隊成員介紹：${m.name}擔任${m.role}。${m.bio ? m.bio.substring(0, 150) : ''}...`;
+        const keywords = `${m.name}, ${m.name}導演, ${m.name}${m.role}, 推手影像${m.name}, Uprise Production ${m.name}, 影像製作團隊`;
+
+        setMeta('description', description);
+        setMeta('keywords', keywords);
+        
+        setOgMeta('og:title', `${m.name} ${m.role} | 推手影像 Uprise Production`);
+        setOgMeta('og:description', description);
+        setOgMeta('og:image', avatar.startsWith('http') ? avatar : window.location.origin + '/' + avatar);
+        setOgMeta('og:url', pageUrl);
+        
+        const schema = {
+            "@context": "https://schema.org",
+            "@type": "Person",
+            "name": m.name,
+            "jobTitle": m.role,
+            "image": avatar,
+            "description": m.bio,
+            "url": pageUrl,
+            "worksFor": {
+                "@type": "Organization",
+                "name": "推手影像 Uprise Production",
+                "url": window.location.origin
+            },
+            "sameAs": []
+        };
+        if(m.ig_url) schema.sameAs.push(m.ig_url);
+        if(m.portfolio_url) schema.sameAs.push(m.portfolio_url);
+        
+        const oldSchema = document.getElementById('dynamic-schema');
+        if (oldSchema) oldSchema.remove();
+        
+        const script = document.createElement('script');
+        script.id = "dynamic-schema";
+        script.type = "application/ld+json";
+        script.text = JSON.stringify(schema);
+        document.head.appendChild(script);
+
+        // 🔴 新的 DOM 結構
         container.innerHTML = `
-            <div class="photo-section">
+            <div class="photo-section" data-aos="fade" data-aos-duration="1500">
               <div class="photo-frame">
-                <img src="${avatar}" class="profile-img" alt="${m.name} 導演">
+                <!-- 內層容器：處理裁切與快門 -->
+                <div class="img-inner">
+                    <img src="${avatar}" class="profile-img" alt="${m.name} - ${m.role} | 推手影像">
+                    <div class="shutter-mask"></div>
+                </div>
               </div>
             </div>
 
             <div class="info-section">
-              <h2 class="member-name">${m.name}</h2>
-              <span class="job-title">${m.role}</span>
+              <h2 class="member-name" data-aos="fade" data-aos-delay="200" data-aos-duration="1000">${m.name}</h2>
               
-              <div class="bio-text">${bioHtml}</div>
+              <div data-aos="fade-up" data-aos-delay="600" data-aos-duration="1000">
+                  <span class="job-title">${m.role}</span>
+              </div>
               
-              <div class="info-divider"></div>
+              <div class="bio-text" data-aos="fade-up" data-aos-delay="800" data-aos-duration="1000">${bioHtml}</div>
               
-              <div class="action-buttons">
-                <a href="team.html" class="btn-back">← 返回團隊</a>
+              <div class="action-buttons" data-aos="fade-up" data-aos-delay="1000" data-aos-duration="1000">
+                <a href="team.html" class="btn btn-ghost hover-trigger magnetic-btn">← 返回團隊</a>
                 ${portfolioBtn}
+                ${igBtn}
               </div>
             </div>
         `;
-        // 額外優化：動態更新頁面標題 (Title)，加入導演/拍攝等關鍵字
-        document.title = `${m.name} | ${m.role} | 影像導演/專業拍攝 | Uprise-Production`; 
+        
+        setTimeout(() => {
+            AOS.refresh();
+            initMagneticButtons();
+        }, 100);
       } else {
-        container.innerHTML = '<p style="text-align:center; width:100%;">找不到該成員資料，請返回團隊頁面。</p>';
+        container.innerHTML = '<p style="width:100%; text-align:center;">查無此成員資料。</p>';
       }
+    }
+
+    function initCursor() { if (window.matchMedia("(pointer: fine)").matches) { const cursor = document.querySelector('.cursor'); let mouseX=0, mouseY=0, cursorX=0, cursorY=0; document.addEventListener('mousemove', e => { mouseX=e.clientX; mouseY=e.clientY; }); document.addEventListener('mousedown', () => document.body.classList.add('clicking')); document.addEventListener('mouseup', () => document.body.classList.remove('clicking')); function animate() { cursorX+=(mouseX-cursorX)*0.5; cursorY+=(mouseY-cursorY)*0.5; cursor.style.transform=`translate(${cursorX}px, ${cursorY}px) translate(-50%, -50%)`; requestAnimationFrame(animate); } animate(); document.body.addEventListener('mouseenter', e=>{ if(e.target.closest('.hover-trigger')) document.body.classList.add('hovered'); }, true); document.body.addEventListener('mouseleave', e=>{ if(e.target.closest('.hover-trigger')) document.body.classList.remove('hovered'); }, true); } }
+    function createParticles() { const container = document.getElementById('particles'); if(!container) return; for (let i = 0; i < 20; i++) { const p = document.createElement('div'); p.classList.add('particle'); const size = Math.random() * 3 + 1 + 'px'; p.style.width = size; p.style.height = size; p.style.left = Math.random() * 100 + '%'; p.style.top = Math.random() * 100 + '%'; p.style.animationDelay = Math.random() * 5 + 's'; p.style.animationDuration = Math.random() * 10 + 10 + 's'; container.appendChild(p); } }
+    function initPageTransition() { const links = document.querySelectorAll('.page-link'); const curtain = document.querySelector('.page-transition-curtain'); links.forEach(link => { link.addEventListener('click', (e) => { e.preventDefault(); const href = link.getAttribute('href'); curtain.classList.remove('reveal'); curtain.classList.add('cover'); setTimeout(() => { window.location.href = href; }, 800); }); }); }
+    function initMagneticButtons() { const buttons = document.querySelectorAll('.magnetic-btn'); buttons.forEach(btn => { btn.addEventListener('mousemove', (e) => { const rect = btn.getBoundingClientRect(); const x = e.clientX - rect.left - rect.width / 2; const y = e.clientY - rect.top - rect.height / 2; btn.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`; }); btn.addEventListener('mouseleave', () => { btn.style.transform = `translate(0px, 0px)`; }); }); }
+    function initSoundToggle() { const btn = document.getElementById('sound-btn'); if(btn) btn.style.display = 'none'; }
+
+    window.addEventListener('scroll', () => {
+        const header = document.querySelector('.header');
+        if(window.scrollY > 50) header.classList.add('scrolled');
+        else header.classList.remove('scrolled');
+
+        const footerMark = document.getElementById('footer-mark');
+        if(footerMark) {
+            const footerOffset = document.querySelector('footer').offsetTop;
+            if(window.scrollY > footerOffset - window.innerHeight) {
+                const delta = window.scrollY - (footerOffset - window.innerHeight);
+                footerMark.style.transform = `translate(-50%, -50%) translateY(${delta * -0.1}px)`;
+            }
+        }
     });
   </script>
 </body>

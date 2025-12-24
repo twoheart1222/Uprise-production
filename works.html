@@ -1,167 +1,424 @@
 <!doctype html>
-<html lang="zh-Hant">
+<html lang="zh-Hant" oncontextmenu="return false">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 
-<title>精選作品集 | Uprise-Production 推手影像</title>
-<meta name="description" content="瀏覽 Uprise-Production 的精選作品，包含品牌形象廣告、產品宣傳影片、公部門政策推廣與大型活動紀錄。我們用影像說故事，為您的品牌創造價值。">
-<meta name="keywords" content="作品集, 影像製作作品, 廣告拍攝案例, 品牌影片, 活動紀錄, 產品廣告, MV拍攝, 微電影, 台中影像公司, 林家佑, 導演, 專業拍攝, 影片製作">
+<title>精選作品集 | 推手影像製作有限公司 Uprise-Production</title>
+
+<link rel="icon" type="image/png" href="images/uploads/logo.png">
+
+<meta name="description" content="瀏覽 Uprise-Production 的精選作品，包含品牌形象廣告、產品宣傳影片、公部門政策推廣與大型活動紀錄。">
 <link rel="canonical" href="https://www.uprise-videoproduction.com/works.html">
 
-<meta property="og:title" content="精選作品集 | Uprise-Production 推手影像">
-<meta property="og:description" content="收錄歷年來的影像精華，每一部作品都是我們對美學的堅持。">
-<meta property="og:image" content="https://uprise-videoproduction.netlify.app/logo.png">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://www.uprise-videoproduction.com/works.html">
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Italiana&family=Noto+Sans+TC:wght@300;400;500;700;900&family=Noto+Serif+TC:wght@700;900&display=swap" rel="stylesheet">
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "CollectionPage",
-  "name": "精選作品集 | Uprise-Production",
-  "description": "展示推手影像製作的各類商業廣告與品牌影片。",
-  "url": "https://www.uprise-videoproduction.com/works.html",
-  "publisher": {
-    "@type": "VideoProductionCompany",
-    "name": "Uprise-Production 推手影像",
-    "founder": {
-      "@type": "Person",
-      "name": "林家佑",
-      "jobTitle": "導演"
-    }
-  }
-}
-</script>
+<!-- AOS Animation Library CSS -->
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
-<link rel="icon" type="image/png" href="favicon_32x32.png" sizes="32x32">
-<link rel="icon" type="image/png" href="/favicon_32x32.png" sizes="32x32">
-
+<!-- 引入 js-yaml 用於解析 CMS 資料 -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Noto+Sans+TC:wght@300;500;700&display=swap" rel="stylesheet">
+
 <style>
-  :root{ --yellow:#FFB800; --orange:#FF7A00; --bg:#0F0F0F; }
-  body { margin:0; font-family:'Inter', 'Noto Sans TC', sans-serif; background:var(--bg); color:#fff; overflow-x: hidden; }
-
-  /* 導覽列 */
-  .site-header{
-    position:fixed;top:0;left:0;right:0;height:72px;display:flex;align-items:center;justify-content:space-between;padding:0 28px;z-index:30;
-    background:rgba(15,15,15,0.9);backdrop-filter:blur(8px);border-bottom:1px solid rgba(255,255,255,0.1);
-  }
-  
-  /* Logo 包含文字 */
-  .logo { 
-    display: flex; 
-    align-items: center; 
-    text-decoration: none; 
-    color: #fff; 
-    gap: 10px;
-  }
-  .logo img { height: 32px; width: auto; display: block; } 
-  .logo-text {
-    font-weight: 700;
-    font-size: 1.1rem;
-    letter-spacing: 1px;
-    white-space: nowrap;
-  }
-  @media (max-width: 600px) {
-    .logo-text { font-size: 0.9rem; }
+  /* --- 核心變數 (與首頁統一) --- */
+  :root { 
+    --bg-color: #050505;       
+    --card-bg: rgba(20, 20, 20, 0.4); 
+    --text-main: #FFFFFF;      
+    --text-sub: #B0B0B0;       
+    --brand-primary: #FF8C00;  
+    --brand-light: #FFD700;    
+    --brand-gradient: linear-gradient(135deg, #FFD700, #FF8C00);
+    --silver-gradient: linear-gradient(to bottom, #ffffff 40%, #a0a0a0 100%);
+    
+    --font-display: 'Italiana', serif;
+    --font-body: 'Noto Sans TC', sans-serif;
+    --font-serif: 'Noto Serif TC', serif;
+    
+    --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
   }
 
-  .nav{display:flex;gap:20px;}
-  .nav a{color:#fff;text-decoration:none;font-weight:600;font-size:0.9rem;opacity:0.7;transition:0.3s;}
-  .nav a:hover, .nav a.active { color:var(--yellow); opacity:1; }
+  * { box-sizing: border-box; cursor: none; }
 
-  /* --- 🔴 滾動觸發動畫 (Scroll Reveal CSS) --- */
-  .reveal-on-scroll {
-    opacity: 0;
-    transform: translateY(40px);
-    transition: all 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+  html { scroll-behavior: smooth; }
+
+  ::-webkit-scrollbar { width: 5px; }
+  ::-webkit-scrollbar-track { background: #000; }
+  ::-webkit-scrollbar-thumb { background: #444; border-radius: 10px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--brand-primary); }
+
+  ::selection { background: var(--brand-light); color: #000; }
+
+  body {
+    margin: 0; padding: 0;
+    font-family: var(--font-body);
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
   }
-  .reveal-on-scroll.is-visible {
-    opacity: 1;
-    transform: translateY(0);
+
+  /* 禁止圖片拖曳 (防盜) */
+  img {
+    -webkit-user-drag: none;
+    -khtml-user-drag: none;
+    -moz-user-drag: none;
+    -o-user-drag: none;
+    pointer-events: none;
   }
 
-  /* 頁面標題區 */
-  .header-container { text-align: center; max-width: 800px; width: 100%; margin: 140px auto 60px; padding: 0 20px; }
-  .label { font-size: 0.9rem; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: #86868b; margin-bottom: 10px; display: block; }
-  .header-container h1 { 
-    font-size: clamp(2rem, 6vw, 4rem); font-weight: 800; margin: 0 0 20px 0; line-height: 1.1; 
-    background: linear-gradient(135deg, #FFB800 0%, #FF3D00 100%); 
-    -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; 
+  /* --- 轉場與載入 --- */
+  #main-wrapper {
+    transition: filter 0.6s ease, transform 0.6s ease;
+    width: 100%; position: relative; z-index: 1; 
   }
-  .header-container p { font-size: clamp(1rem, 3.5vw, 1.2rem); color: #f5f5f7; font-weight: 400; margin: 0 auto 40px; max-width: 600px; line-height: 1.6; }
-  .divider-line { width: 80px; height: 4px; margin: 0 auto; background: linear-gradient(90deg, #FFB800, #FF3D00); border-radius: 4px; }
+  body.exiting #main-wrapper { filter: blur(10px) brightness(0.8); transform: scale(0.98); pointer-events: none; }
+  body.loading-state #main-wrapper { filter: blur(20px); opacity: 0; }
+  body.loaded-state #main-wrapper { filter: blur(0); opacity: 1; transform: scale(1); }
 
-  /* 作品樣式 */
-  .container { max-width: 1200px; margin: 0 auto; width: 100%; padding: 0 20px 100px; }
-  .category-section { margin-bottom: 80px; }
-  .category-title { font-size: 1.8rem; font-weight: 700; margin: 0 0 30px; padding-left: 15px; border-left: 4px solid #FF3D00; background: linear-gradient(90deg, #FFB800, #FF3D00); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
-  
-  .work-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 30px; }
-  
-  .work-card { display: block; text-decoration: none; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 16px; overflow: hidden; transition: all 0.4s ease; cursor: pointer; position: relative; width: 100%; }
-  .work-card:hover { transform: translateY(-8px); background: rgba(255, 255, 255, 0.08); border-color: rgba(255, 184, 0, 0.3); box-shadow: 0 15px 40px rgba(0,0,0,0.6); }
-  
-  .img-box { width: 100%; aspect-ratio: 16/9; overflow: hidden; position: relative; background: #111; }
-  .img-box img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; opacity: 0.9; }
-  .work-card:hover .img-box img { transform: scale(1.05); opacity: 1; }
-  
-  .play-icon { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 50px; height: 50px; border-radius: 50%; background: rgba(0,0,0,0.4); border: 2px solid rgba(255,255,255,0.8); display: flex; justify-content: center; align-items: center; opacity: 0; transition: 0.3s; backdrop-filter: blur(4px); }
-  .play-icon::after { content: ''; width: 0; height: 0; margin-left: 4px; border-left: 14px solid #fff; border-top: 9px solid transparent; border-bottom: 9px solid transparent; }
-  .work-card:hover .play-icon { opacity: 1; transform: translate(-50%, -50%) scale(1.1); background: rgba(255, 61, 0, 0.8); border-color: #FF3D00; }
-  
-  .content { padding: 20px; }
-  .client { font-size: 0.8rem; color: #FFB800; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 8px; display: block; font-weight: 700; }
-  h3.work-title { font-size: 1.2rem; color: #fff; margin: 0; font-weight: 600; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .page-transition-curtain {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: #000; z-index: 100000; transform: translateY(0);
+    transition: transform 1s cubic-bezier(0.87, 0, 0.13, 1); pointer-events: none;
+  }
+  .page-transition-curtain.reveal { transform: translateY(-100%); } 
+  .page-transition-curtain.cover { transform: translateY(0); }
 
-  footer { position: relative; z-index: 10; padding: 80px 20px 40px; background: #000; text-align: center; display: flex; justify-content: center; margin-top: 50px; }
-  .footer-content { max-width: 800px; width: 100%; }
-  .divider { width: 60px; height: 4px; margin: 0 auto 30px; background: linear-gradient(90deg, #FFB800, #FF3D00); border-radius: 4px; }
-  footer h2 { font-size: 1.8rem; font-weight: 700; margin: 0 0 20px; letter-spacing: 1px; color: #fff; }
-  .gradient-text { background: linear-gradient(135deg, #FFB800, #FF3D00); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
-  p.manifesto { font-size: 1.1rem; line-height: 1.8; color: #a1a1a6; margin-bottom: 40px; }
-  .copyright { font-size: 0.8rem; color: #555; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px; margin-top: 20px; }
+  .loader {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: #000; z-index: 200000; 
+    display: flex; justify-content: center; align-items: center;
+    transition: opacity 0.8s ease, visibility 0.8s;
+  }
+  .loader.hidden { opacity: 0; visibility: hidden; }
+  
+  .loader-text-logo {
+    font-family: var(--font-display); font-size: 3rem; color: #fff;
+    letter-spacing: 5px; text-transform: uppercase;
+    animation: logoFadeInOut 2.5s ease forwards;
+  }
+  .loader-text-logo span { color: var(--brand-light); }
+  @keyframes logoFadeInOut { 
+    0% { opacity: 0; transform: scale(0.9); } 40% { opacity: 1; transform: scale(1); }
+    90% { opacity: 1; transform: scale(1); } 100% { opacity: 0; transform: scale(1.1); }
+  }
+
+  /* --- 游標與特效 --- */
+  .cursor {
+    position: fixed; top: 0; left: 0; width: 12px; height: 12px;
+    background: var(--brand-light); border-radius: 50%; pointer-events: none; 
+    z-index: 2147483647; transform: translate(-50%, -50%);
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.9);
+    transition: width 0.3s, height 0.3s; will-change: transform;
+  }
+  body.hovered .cursor {
+    width: 60px; height: 60px; background: rgba(255, 215, 0, 0.05);
+    border: 1px solid rgba(255, 215, 0, 0.8); box-shadow: 0 0 30px rgba(255, 215, 0, 0.4);
+  }
+  body.clicking .cursor { transform: translate(-50%, -50%) scale(0.9); background: var(--brand-primary); }
+
+  .ambient-light {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none; z-index: 0; overflow: hidden;
+  }
+  .ambient-blob {
+    position: absolute; width: 900px; height: 900px;
+    background: radial-gradient(circle, rgba(255, 140, 0, 0.04) 0%, transparent 60%);
+    border-radius: 50%; filter: blur(80px); opacity: 0.5;
+    animation: moveBlob 25s infinite alternate ease-in-out;
+  }
+  .ambient-blob:nth-child(1) { top: -20%; left: -10%; animation-delay: 0s; }
+  .ambient-blob:nth-child(2) { bottom: -20%; right: -10%; animation-duration: 35s; animation-direction: reverse; }
+  @keyframes moveBlob { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(50px, 50px) scale(1.1); } }
+
+  .particles-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 2; pointer-events: none; overflow: hidden; }
+  .particle {
+    position: absolute; background: radial-gradient(circle, var(--brand-light) 0%, transparent 70%);
+    border-radius: 50%; opacity: 0; animation: floatParticle 10s infinite ease-in-out;
+  }
+  @keyframes floatParticle {
+    0% { transform: translateY(0) translateX(0); opacity: 0; }
+    20% { opacity: 0.6; } 80% { opacity: 0.6; }
+    100% { transform: translateY(-120px) translateX(30px); opacity: 0; }
+  }
+
+  /* --- 導覽列 --- */
+  .header {
+    position: fixed; top: 0; left: 0; width: 100%; padding: 30px 50px;
+    display: flex; justify-content: space-between; align-items: center;
+    z-index: 100; background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent); 
+    transition: all 0.5s;
+  }
+  .header.scrolled { 
+    background: rgba(5, 5, 5, 0.9); backdrop-filter: blur(20px); 
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding: 20px 50px;
+  }
+  .logo { display: flex; align-items: center; gap: 12px; text-decoration: none; color: #fff; }
+  .logo img { height: 38px; width: auto; transition: transform 0.5s; }
+  .logo:hover img { transform: rotate(5deg) scale(1.05); }
+  .logo-text { font-family: var(--font-display); font-size: 1.2rem; letter-spacing: 2px; text-transform: uppercase; color: #fff; }
+  .logo-text span { color: var(--brand-light); }
+  
+  .nav { display: flex; gap: 30px; } 
+  .nav-item { position: relative; overflow: hidden; height: 24px; cursor: pointer; display: block; color: rgba(255,255,255,0.8); font-family: var(--font-body); font-size: 0.95rem; letter-spacing: 2px; font-weight: 500; text-decoration: none; }
+  .nav-item span.original-text { display: block; transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1); }
+  .nav-item span.hover-text { position: absolute; top: 100%; left: 0; width: 100%; color: var(--brand-light); transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1); white-space: nowrap; }
+  .nav-item:hover span.original-text { transform: translateY(-100%); }
+  .nav-item:hover span.hover-text { transform: translateY(-100%); }
+  .nav-item.active span.original-text { color: var(--brand-light); }
+
+  /* --- 作品頁面 Header --- */
+  .works-hero {
+    padding-top: 180px; padding-bottom: 80px; text-align: center;
+    position: relative; z-index: 10;
+  }
+  .page-label {
+    font-family: var(--font-display); font-size: 0.9rem; letter-spacing: 4px;
+    color: var(--brand-light); margin-bottom: 20px; display: block;
+  }
+  .page-title {
+    font-family: var(--font-serif); font-size: clamp(3rem, 8vw, 5rem);
+    font-weight: 900; color: #fff; line-height: 1.1; margin: 0 0 20px;
+    background: var(--brand-gradient); 
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 0 30px rgba(255, 140, 0, 0.5));
+  }
+  .page-subtitle {
+    font-family: var(--font-body); font-size: 1.1rem; color: rgba(255,255,255,0.7);
+    max-width: 600px; margin: 0 auto; line-height: 1.8; letter-spacing: 1px;
+  }
+  .title-divider {
+    width: 80px; height: 3px; background: var(--brand-gradient);
+    margin: 40px auto 0; border-radius: 2px;
+  }
+
+  /* --- 作品列表 --- */
+  .works-container {
+    max-width: 1200px; margin: 0 auto; width: 100%; padding: 0 40px 100px;
+    position: relative; z-index: 10;
+  }
+  .category-section { margin-bottom: 120px; } /* AOS 會控制 opacity, 這裡不需預設 0 */
+
+  .category-title {
+    font-family: var(--font-serif); font-size: 2rem; font-weight: 700;
+    margin: 0 0 40px; padding-left: 20px;
+    border-left: 4px solid var(--brand-primary);
+    background: linear-gradient(90deg, #fff, #999);
+    -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+    letter-spacing: 2px;
+  }
+
+  .work-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 40px;
+  }
+
+  /* 作品卡片 */
+  .work-card {
+    display: block; text-decoration: none; position: relative;
+    background: var(--card-bg);
+    border-radius: 4px; overflow: hidden;
+    /* 基礎邊框 */
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    transition: 0.5s var(--ease-out-expo);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  }
+
+  /* 流光層 */
+  .work-card .border-shimmer {
+    position: absolute; inset: 0; border-radius: 4px; padding: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.5), transparent);
+    background-size: 200% 100%;
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor; mask-composite: exclude;
+    pointer-events: none; animation: shimmerBorder 3s linear infinite; opacity: 0.6; z-index: 2;
+  }
+  @keyframes shimmerBorder { 0% { background-position: -150% 0; } 100% { background-position: 150% 0; } }
+
+  /* 圖片區域 */
+  .img-box {
+    width: 100%; aspect-ratio: 16/9; overflow: hidden; position: relative; background: #000;
+  }
+  .img-box img {
+    width: 100%; height: 100%; object-fit: cover;
+    transition: transform 0.8s var(--ease-out-expo), filter 0.8s;
+    filter: brightness(0.9);
+  }
+  
+  /* 播放按鈕 */
+  .play-icon {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.8);
+    width: 60px; height: 60px; border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(5px);
+    display: flex; justify-content: center; align-items: center;
+    opacity: 0; transition: 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    z-index: 2;
+  }
+  .play-icon::after {
+    content: ''; margin-left: 4px;
+    border-left: 14px solid #fff; border-top: 9px solid transparent; border-bottom: 9px solid transparent;
+  }
+
+  /* 內容區域 */
+  .content { padding: 25px 20px; position: relative; z-index: 1; }
+  .client {
+    font-family: var(--font-body); font-size: 0.8rem; color: var(--brand-light);
+    letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px; display: block; font-weight: 600;
+  }
+  h3.work-title {
+    font-family: var(--font-serif); font-size: 1.4rem; color: #fff; margin: 0; font-weight: 700; line-height: 1.4;
+    transition: color 0.3s;
+    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+  }
+
+  /* Hover Effects */
+  .work-card:hover {
+    transform: translateY(-8px);
+    background: rgba(30, 30, 30, 0.8);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+    border-color: rgba(255, 183, 0, 0.3);
+  }
+  .work-card:hover .img-box img { transform: scale(1.05); filter: brightness(1.1); }
+  .work-card:hover .play-icon { opacity: 1; transform: translate(-50%, -50%) scale(1); background: var(--brand-gradient); border: none; box-shadow: 0 0 20px rgba(255, 140, 0, 0.6); }
+  .work-card:hover h3.work-title { color: var(--brand-light); }
+
+  /* Footer */
+  footer { padding: 120px 8% 60px; border-top: 1px solid rgba(255,255,255,0.05); background: #020202; text-align: center; position: relative; overflow: hidden; }
+  .footer-watermark { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-family: var(--font-display); font-size: 20vw; font-weight: 700; color: rgba(255, 255, 255, 0.02); pointer-events: none; white-space: nowrap; z-index: 0; letter-spacing: 10px; will-change: transform; }
+  .footer-content { max-width: 800px; margin: 0 auto; position: relative; z-index: 1; }
+  .footer h2 { font-family: var(--font-serif); font-size: 3.5rem; font-weight: 900; margin-bottom: 40px; letter-spacing: 10px; background: linear-gradient(to right, #cfc7bc, #fff, #cfc7bc); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 5px 15px rgba(0,0,0,0.8)); }
+  .footer h2 span { background: var(--brand-gradient); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; font-weight: 900; filter: drop-shadow(0 0 15px rgba(255, 140, 0, 0.5)); }
+  .manifesto { font-size: 1.1rem; color: var(--text-sub); line-height: 2; margin-bottom: 50px; font-weight: 300; letter-spacing: 1px; }
+  .copyright { font-size: 0.8rem; color: #444; margin-top: 50px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 30px; letter-spacing: 1px; }
+
+  /* RWD */
+  @media (max-width: 768px) {
+    .header { padding: 20px; } .nav { display: none; } 
+    .works-hero { padding-top: 140px; } .page-title { font-size: 3rem; }
+    .footer h2 { font-size: 2.5rem; letter-spacing: 5px; }
+    .work-grid { grid-template-columns: 1fr; }
+  }
 </style>
 </head>
-<body>
+<body class="loading-state">
 
-  <header class="site-header">
-    <a href="index.html" class="logo" id="nav-logo">
-      <img src="images/uploads/logo.png" alt="Uprise Logo">
-      <span class="logo-text">推手影像製作有限公司</span>
-    </a>
-    <nav class="nav">
-      <a href="index.html">首頁</a>
-      <a href="works.html" class="active">作品</a>
-      <a href="team.html">團隊</a>
-      <a href="about.html">關於</a>
-      <a href="contact.html">聯絡</a>
-    </nav>
-  </header>
+  <div class="page-transition-curtain"></div>
+  <div class="cursor"></div>
+  <div class="loader">
+    <div class="loader-text-logo">Uprise<span>.</span></div>
+  </div>
+  <div class="ambient-light">
+    <div class="ambient-blob"></div>
+    <div class="ambient-blob"></div>
+  </div>
+  <div class="particles-container" id="particles"></div>
 
-  <div class="header-container">
-    <span class="label reveal-on-scroll">SELECTED WORKS</span>
-    <h1 id="page-title" class="reveal-on-scroll" style="transition-delay: 0.1s;">精選作品集</h1>
-    <p id="page-subtitle" class="reveal-on-scroll" style="transition-delay: 0.2s;">收錄歷年來的影像精華，每一部作品都是我們對美學的堅持。</p>
-    <div class="divider-line reveal-on-scroll" style="transition-delay: 0.3s;"></div>
+  <div id="main-wrapper">
+    <header class="header" id="header" data-aos="fade-down" data-aos-duration="1000">
+      <a href="index.html" class="logo hover-trigger">
+        <img src="images/uploads/logo.png" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'" alt="Logo">
+        <span class="logo-text" style="display:none;">Uprise<span>.</span></span>
+      </a>
+      
+      <nav class="nav">
+        <a href="index.html" class="nav-item hover-trigger page-link">
+            <span class="original-text">首頁</span><span class="hover-text">首頁</span>
+        </a>
+        <a href="works.html" class="nav-item hover-trigger page-link active">
+            <span class="original-text">作品</span><span class="hover-text">作品</span>
+        </a>
+        <a href="team.html" class="nav-item hover-trigger page-link">
+            <span class="original-text">團隊</span><span class="hover-text">團隊</span>
+        </a>
+        <a href="about.html" class="nav-item hover-trigger page-link">
+            <span class="original-text">關於</span><span class="hover-text">關於</span>
+        </a>
+        <a href="contact.html" class="nav-item hover-trigger page-link">
+            <span class="original-text">聯絡</span><span class="hover-text">聯絡</span>
+        </a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="works-hero">
+        <span class="page-label" data-aos="fade-down" data-aos-delay="200">SELECTED WORKS</span>
+        <h1 class="page-title" id="page-title" data-aos="zoom-out" data-aos-delay="400">精選作品集</h1>
+        <p class="page-subtitle" id="page-subtitle" data-aos="fade-up" data-aos-delay="600">收錄歷年來的影像精華，每一部作品都是我們對美學的堅持。</p>
+        <div class="title-divider" data-aos="fade-up" data-aos-delay="800"></div>
+      </section>
+
+      <div class="works-container" id="works-wrapper">
+        <p style="text-align:center; padding: 50px; color:#666;">Loading Works...</p>
+      </div>
+    </main>
+
+    <footer>
+      <div class="footer-watermark" id="footer-mark">UPRISE</div>
+      <div class="footer-content" data-aos="fade-up" data-aos-offset="50">
+        <h2>推手<span>影像</span></h2>
+        <p class="manifesto">
+          我們不僅是影像的製造者，更是品牌價值的推動者。<br>
+          致力於將抽象的意念，轉化為具象的視覺衝擊。
+        </p>
+        <div class="copyright">Copyright © 2025 推手影像製作有限公司 Uprise-Production. All rights reserved.</div>
+      </div>
+    </footer>
   </div>
 
-  <div class="container" id="works-wrapper">
-    <p style="text-align:center; padding: 50px; color:#666;">Loading Works...</p>
-  </div>
-
-  <footer>
-    <div class="footer-content reveal-on-scroll">
-      <div class="divider"></div>
-      <h2><span class="gradient-text">Uprise-Production</span></h2>
-      <p class="manifesto">我們不僅是影像的製造者，更是品牌價值的推動者。<br>致力於將抽象的意念，轉化為具象的視覺衝擊。<br>從腳本企劃、電影級拍攝到後期特效，<br>推手影像以極致的職人精神，訴說每一個值得被看見的故事。</p>
-      <div class="copyright">Copyright © 2025 推手影像製作有限公司 Uprise-Production. All rights reserved.<br>臺中市西區民龍里臺灣大道二段285號31樓 | +886 937672279</div>
-    </div>
-  </footer>
+  <!-- AOS Script -->
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 
   <script>
+    // --- 防盜機制 (Anti-Theft) ---
+    // 1. 禁止右鍵
+    document.addEventListener('contextmenu', event => event.preventDefault());
+
+    // 2. 禁止複製 (但允許選取文字)
+    document.addEventListener('copy', event => {
+        event.preventDefault();
+    });
+
+    // 3. 禁止快速鍵 (F12, Ctrl+U, Ctrl+S, Ctrl+C, Ctrl+Shift+I)
+    document.onkeydown = function(e) {
+        if(e.keyCode == 123) { // F12
+            return false;
+        }
+        if(e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) { // Ctrl+Shift+I
+            return false;
+        }
+        if(e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) { // Ctrl+Shift+C
+            return false;
+        }
+        if(e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) { // Ctrl+Shift+J
+            return false;
+        }
+        if(e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) { // Ctrl+U
+            return false;
+        }
+        if(e.ctrlKey && e.keyCode == 'S'.charCodeAt(0)) { // Ctrl+S
+            return false;
+        }
+        if(e.ctrlKey && e.keyCode == 'C'.charCodeAt(0)) { // Ctrl+C
+             return false;
+        }
+    }
+
+    // 預設資料 (Fallback)
+    const fallbackData = {
+      title: "精選作品集",
+      subtitle: "收錄歷年來的影像精華，每一部作品都是我們對美學的堅持。",
+      portfolio_brand: [
+        { title: "品牌形象廣告範例 A", client: "Client A", link: "#", image: "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" },
+        { title: "品牌形象廣告範例 B", client: "Client B", link: "#", image: "https://images.unsplash.com/photo-1598550476439-6847785fcea6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" }
+      ]
+    };
+
     function getYouTubeThumb(url) {
       if (!url) return 'https://dummyimage.com/600x338/111/fff&text=No+Video';
       const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=|shorts\/)([^#&?]*).*/;
@@ -170,89 +427,120 @@
       return videoId ? `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg` : 'https://dummyimage.com/600x338/111/fff&text=Invalid+Link';
     }
 
-    // --- 滾動偵測 (Intersection Observer) ---
-    const observerOptions = {
-      root: null,
-      rootMargin: '0px',
-      threshold: 0.1
-    };
-
-    const observer = new IntersectionObserver((entries, observer) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('is-visible');
-          observer.unobserve(entry.target);
-        }
+    document.addEventListener('DOMContentLoaded', () => {
+      // 初始化 AOS
+      AOS.init({
+        duration: 1000,
+        easing: 'ease-out-cubic',
+        once: false, // 允許重複播放
+        mirror: true, // 允許反向播放
+        offset: 50
       });
-    }, observerOptions);
 
-    // 1. 偵測頁面已有的靜態元素
-    document.querySelectorAll('.reveal-on-scroll').forEach(el => observer.observe(el));
+      setTimeout(() => {
+        document.querySelector('.loader').classList.add('hidden');
+        document.querySelector('.page-transition-curtain').classList.add('reveal');
+        document.body.classList.remove('loading-state');
+        document.body.classList.add('loaded-state');
+      }, 1000); 
 
-    // 2. 讀取作品資料
-    fetch('content/works.md').then(r => r.text()).then(text => {
-      const parts = text.split('---');
-      const data = jsyaml.load(parts.length > 1 ? parts[1] : text);
-      
-      if(data.title) document.getElementById('page-title').innerText = data.title;
-      if(data.subtitle) document.getElementById('page-subtitle').innerText = data.subtitle;
-      
-      const wrapper = document.getElementById('works-wrapper');
-      wrapper.innerHTML = '';
+      // 讀取作品資料 (含錯誤處理)
+      fetch('content/works.md')
+        .then(r => {
+            if(!r.ok) throw new Error("CMS Data Not Found");
+            return r.text();
+        })
+        .then(text => {
+            const parts = text.split('---');
+            const data = jsyaml.load(parts.length > 1 ? parts[1] : text);
+            renderWorks(data);
+        })
+        .catch(err => {
+            console.log("Using fallback works data");
+            renderWorks(fallbackData);
+        });
 
-      // 5大分類
-      const categories = [
-        { id: 'portfolio_brand', name: '品牌形象廣告 Brand Image' },
-        { id: 'portfolio_product', name: '產品形象廣告 Product Video' },
-        { id: 'portfolio_public', name: '公部門宣傳影片 Public Sector' },
-        { id: 'portfolio_event', name: '活動紀錄 Event Highlight' },
-        { id: 'portfolio_other', name: '其他 Other' }
-      ];
+      initCursor();
+      initPageTransition();
+      createParticles();
+    });
 
-      let hasContent = false;
-
-      categories.forEach(cat => {
-        const items = data[cat.id];
+    function renderWorks(data) {
+        if(data.title) document.getElementById('page-title').innerText = data.title;
+        if(data.subtitle) document.getElementById('page-subtitle').innerText = data.subtitle;
         
-        if (items && items.length > 0) {
-          hasContent = true;
-          let gridHtml = '';
-          
-          items.forEach(work => {
-             const thumbUrl = work.image ? work.image : getYouTubeThumb(work.link);
-             const clientName = work.client || ''; 
-             
-             gridHtml += `
-               <a href="${work.link}" target="_blank" class="work-card">
-                 <div class="img-box">
-                   <img src="${thumbUrl}" alt="${work.title}" loading="lazy">
-                   <div class="play-icon"></div>
-                 </div>
-                 <div class="content">
-                   <span class="client">${clientName}</span>
-                   <h3 class="work-title">${work.title}</h3>
-                 </div>
-               </a>`;
-          });
+        const wrapper = document.getElementById('works-wrapper');
+        wrapper.innerHTML = '';
 
-          // 🔴 關鍵修改：給 category-section 加上 reveal-on-scroll 類別
-          // 這樣整個分類區塊滑到時才會浮現
-          const sectionHtml = `
-            <div class="category-section reveal-on-scroll">
-              <div class="category-title">${cat.name}</div>
-              <div class="work-grid">${gridHtml}</div>
-            </div>`;
-          
-          wrapper.insertAdjacentHTML('beforeend', sectionHtml);
+        const categories = [
+            { id: 'portfolio_brand', name: '品牌形象廣告' },
+            { id: 'portfolio_product', name: '產品形象廣告' },
+            { id: 'portfolio_public', name: '公部門宣傳影片' },
+            { id: 'portfolio_event', name: '活動紀錄' },
+            { id: 'portfolio_other', name: '其他' }
+        ];
+
+        let hasContent = false;
+        categories.forEach((cat, catIndex) => {
+            const items = data[cat.id];
+            if (items && items.length > 0) {
+                hasContent = true;
+                let gridHtml = '';
+                
+                items.forEach((work, idx) => {
+                    const thumbUrl = work.image ? work.image : getYouTubeThumb(work.link);
+                    const clientName = work.client || ''; 
+                    
+                    // 每張卡片都加上 AOS fade-up
+                    gridHtml += `
+                        <a href="${work.link}" target="_blank" class="work-card hover-trigger" data-aos="fade-up" data-aos-delay="${idx * 100}">
+                            <div class="border-shimmer"></div>
+                            <div class="img-box">
+                                <img src="${thumbUrl}" alt="${work.title}" loading="lazy">
+                                <div class="play-icon"><i class="fas fa-play" style="color:#fff; margin-left:3px;"></i></div>
+                            </div>
+                            <div class="content">
+                                <span class="client">${clientName}</span>
+                                <h3 class="work-title">${work.title}</h3>
+                            </div>
+                        </a>`;
+                });
+
+                // 分類區塊標題與容器也加上動畫
+                const sectionHtml = `
+                    <div class="category-section" data-aos="fade-up" data-aos-delay="50">
+                        <div class="category-title" data-aos="fade-right">${cat.name}</div>
+                        <div class="work-grid">${gridHtml}</div>
+                    </div>`;
+                wrapper.insertAdjacentHTML('beforeend', sectionHtml);
+            }
+        });
+
+        if (!hasContent) wrapper.innerHTML = '<p style="text-align:center; padding:50px; color:#aaa;">目前尚無作品，請至後台新增。</p>';
+        
+        // 內容生成完畢後，重新整理 AOS 以確保動畫正確觸發
+        setTimeout(() => {
+            AOS.refresh();
+        }, 100);
+    }
+    
+    // 延續共同 JS 邏輯
+    function initCursor() { if (window.matchMedia("(pointer: fine)").matches) { const cursor = document.querySelector('.cursor'); let mouseX=0, mouseY=0, cursorX=0, cursorY=0; document.addEventListener('mousemove', e => { mouseX=e.clientX; mouseY=e.clientY; }); document.addEventListener('mousedown', () => document.body.classList.add('clicking')); document.addEventListener('mouseup', () => document.body.classList.remove('clicking')); function animate() { cursorX+=(mouseX-cursorX)*0.5; cursorY+=(mouseY-cursorY)*0.5; cursor.style.transform=`translate(${cursorX}px, ${cursorY}px) translate(-50%, -50%)`; requestAnimationFrame(animate); } animate(); document.body.addEventListener('mouseenter', e=>{ if(e.target.closest('.hover-trigger')) document.body.classList.add('hovered'); }, true); document.body.addEventListener('mouseleave', e=>{ if(e.target.closest('.hover-trigger')) document.body.classList.remove('hovered'); }, true); } }
+    function createParticles() { const container = document.getElementById('particles'); if(!container) return; for (let i = 0; i < 20; i++) { const p = document.createElement('div'); p.classList.add('particle'); const size = Math.random() * 3 + 1 + 'px'; p.style.width = size; p.style.height = size; p.style.left = Math.random() * 100 + '%'; p.style.top = Math.random() * 100 + '%'; p.style.animationDelay = Math.random() * 5 + 's'; p.style.animationDuration = Math.random() * 10 + 10 + 's'; container.appendChild(p); } }
+    function initPageTransition() { const links = document.querySelectorAll('.page-link'); const curtain = document.querySelector('.page-transition-curtain'); links.forEach(link => { link.addEventListener('click', (e) => { e.preventDefault(); const href = link.getAttribute('href'); curtain.classList.remove('reveal'); curtain.classList.add('cover'); setTimeout(() => { window.location.href = href; }, 800); }); }); }
+    
+    window.addEventListener('scroll', () => {
+        const header = document.querySelector('.header');
+        if(window.scrollY > 50) header.classList.add('scrolled');
+        else header.classList.remove('scrolled');
+        const footerMark = document.getElementById('footer-mark');
+        if(footerMark) {
+            const footerOffset = document.querySelector('footer').offsetTop;
+            if(window.scrollY > footerOffset - window.innerHeight) {
+                const delta = window.scrollY - (footerOffset - window.innerHeight);
+                footerMark.style.transform = `translate(-50%, -50%) translateY(${delta * -0.1}px)`;
+            }
         }
-      });
-
-      if (!hasContent) {
-        wrapper.innerHTML = '<p style="text-align:center; padding:50px; color:#aaa;">目前尚無作品，請至後台新增。</p>';
-      } else {
-        // 🔴 3. 資料生成完畢後，把新產生的區塊加入觀察名單
-        wrapper.querySelectorAll('.reveal-on-scroll').forEach(el => observer.observe(el));
-      }
     });
   </script>
 </body>

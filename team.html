@@ -1,422 +1,596 @@
 <!doctype html>
-<html lang="zh-Hant">
+<html lang="zh-Hant" oncontextmenu="return false">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 
-<title>專業團隊 | Uprise-Production 推手影像</title>
-<meta name="description" content="Uprise-Production（推手影像）由導演林家佑帶領，擁有一群對影像充滿熱情的職人團隊。我們專注於電影級影像製作、廣告拍攝，以專業分工打造高品質作品。">
-<meta name="keywords" content="影片拍攝, 商業廣告, 影像製作, 品牌影片, 企業形象影片, 導演團隊, Uprise Production, 推手影像, 台中影像團隊, 林家佑, 攝影師, 剪輯師">
-<link rel="canonical" href="https://www.uprise-videoproduction.com/team.html">
+<title>專業團隊 | 推手影像製作有限公司 Uprise-Production</title>
 
-<meta property="og:title" content="專業團隊 | Uprise-Production 推手影像">
-<meta property="og:description" content="認識我們專業的影像製作團隊，了解每一位成員的背景與專長。">
-<meta property="og:image" content="https://uprise-videoproduction.netlify.app/logo.png">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://www.uprise-videoproduction.com/team.html">
+<link rel="icon" type="image/png" href="images/uploads/logo.png">
 
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="專業團隊 | Uprise-Production">
-<meta name="twitter:description" content="專業影像製作團隊，打造具影響力的品牌視覺內容。">
-<meta name="twitter:image" content="https://uprise-videoproduction.netlify.app/logo.png">
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Italiana&family=Noto+Sans+TC:wght@300;400;500;700;900&family=Noto+Serif+TC:wght@700;900&display=swap" rel="stylesheet">
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "VideoProductionCompany",
-  "name": "Uprise-Production（推手影像）",
-  "url": "https://www.uprise-videoproduction.com",
-  "logo": "https://uprise-videoproduction.netlify.app/logo.png",
-  "description": "推手影像專注於電影級影像、廣告與品牌影片的製作，透過視覺敘事推動品牌價值。",
-  "address": {
-    "@type": "PostalAddress",
-    "addressLocality": "台中市西區",
-    "streetAddress": "臺灣大道二段285號31樓"
-  },
-  "telephone": "+886-937672279"
-}
-</script>
+<!-- AOS Animation Library CSS -->
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Noto+Sans+TC:wght@300;500;700&display=swap" rel="stylesheet">
+<!-- 引入 js-yaml 用於解析 CMS 資料 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/2.1.0/showdown.min.js"></script>
 
 <style>
-:root {
-  --yellow: #FFB800;
-  --orange: #FF7A00;
-  --bg: #0F0F0F;
-}
-body {
-  margin: 0;
-  font-family: 'Inter', 'Noto Sans TC', sans-serif;
-  background: var(--bg);
-  color: #fff;
-  overflow-x: hidden;
-}
+  /* --- 核心變數 (與首頁統一) --- */
+  :root { 
+    --bg-color: #050505;       
+    --card-bg: rgba(20, 20, 20, 0.4); 
+    --text-main: #FFFFFF;      
+    --text-sub: #B0B0B0;       
+    --brand-primary: #FF8C00;  
+    --brand-light: #FFD700;    
+    --brand-gradient: linear-gradient(135deg, #FFD700, #FF8C00);
+    --silver-gradient: linear-gradient(to bottom, #ffffff 40%, #a0a0a0 100%);
+    
+    --font-display: 'Italiana', serif;
+    --font-body: 'Noto Sans TC', sans-serif;
+    --font-serif: 'Noto Serif TC', serif;
+    
+    --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
+  }
 
-/* --- 導覽列 --- */
-.site-header {
-  position: fixed;
-  top: 0; left: 0; right: 0;
-  height: 72px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 28px;
-  z-index: 30;
-  background: rgba(15,15,15,0.9);
-  backdrop-filter: blur(8px);
-  border-bottom: 1px solid rgba(255,255,255,0.1);
-}
+  * { box-sizing: border-box; cursor: none; }
 
-.logo { 
-  display: flex; 
-  align-items: center; 
-  text-decoration: none; 
-  color: #fff; 
-  gap: 10px;
-}
-.logo img { height: 32px; width: auto; display: block; }
-.logo-text {
-  font-weight: 700;
-  font-size: 1.1rem;
-  letter-spacing: 1px;
-  white-space: nowrap;
-}
-@media (max-width: 600px) {
-  .logo-text { font-size: 0.9rem; }
-}
+  html { scroll-behavior: smooth; }
 
-.nav { display: flex; gap: 20px; }
-.nav a {
-  color: #fff;
-  text-decoration: none;
-  font-weight: 600;
-  font-size: 0.9rem;
-  opacity: 0.7;
-  transition: 0.3s;
-}
-.nav a:hover, .nav a.active {
-  color: var(--yellow);
-  opacity: 1;
-}
+  ::-webkit-scrollbar { width: 5px; }
+  ::-webkit-scrollbar-track { background: #000; }
+  ::-webkit-scrollbar-thumb { background: #444; border-radius: 10px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--brand-primary); }
 
-/* --- 滾動觸發動畫 --- */
-.reveal-on-scroll {
-  opacity: 0;
-  transform: translateY(40px);
-  transition: all 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
-}
-.reveal-on-scroll.is-visible {
-  opacity: 1;
-  transform: translateY(0);
-}
+  ::selection { background: var(--brand-light); color: #000; }
 
-/* --- 標題區塊 --- */
-.header-container {
-  text-align: center;
-  max-width: 800px;
-  width: 100%;
-  margin: 140px auto 60px;
-  padding: 0 20px;
-}
+  body {
+    margin: 0; padding: 0;
+    font-family: var(--font-body);
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
 
-.label {
-  font-size: 0.9rem; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: #86868b; margin-bottom: 10px; display: block;
-}
+  /* 禁止圖片拖曳 (防盜) */
+  img {
+    -webkit-user-drag: none;
+    -khtml-user-drag: none;
+    -moz-user-drag: none;
+    -o-user-drag: none;
+    pointer-events: none;
+  }
 
-.header-container h1 {
-  font-size: clamp(2rem, 6vw, 4rem);
-  font-weight: 800; margin: 0 0 20px; line-height: 1.1;
-  background: linear-gradient(135deg, #FFB800 0%, #FF3D00 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
+  /* --- 轉場與載入 --- */
+  #main-wrapper {
+    transition: filter 0.6s ease, transform 0.6s ease;
+    width: 100%; position: relative; z-index: 1; 
+  }
+  body.exiting #main-wrapper { filter: blur(10px) brightness(0.8); transform: scale(0.98); pointer-events: none; }
+  body.loading-state #main-wrapper { filter: blur(20px); opacity: 0; }
+  body.loaded-state #main-wrapper { filter: blur(0); opacity: 1; transform: scale(1); }
 
-.header-container p {
-  font-size: clamp(1rem, 3.5vw, 1.2rem);
-  color: #f5f5f7;
-  font-weight: 400;
-  margin: 0 auto 40px;
-  max-width: 600px;
-  line-height: 1.6;
-}
+  .page-transition-curtain {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: #000; z-index: 100000; transform: translateY(0);
+    transition: transform 1s cubic-bezier(0.87, 0, 0.13, 1); pointer-events: none;
+  }
+  .page-transition-curtain.reveal { transform: translateY(-100%); } 
+  .page-transition-curtain.cover { transform: translateY(0); }
 
-.divider-line {
-  width: 80px; height: 4px; margin: 0 auto;
-  background: linear-gradient(90deg, #FFB800, #FF3D00);
-  border-radius: 4px;
-}
-
-/* --- 團隊卡片區 --- */
-.team-grid {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 40px;
-  max-width: 1200px;
-  margin: 0 auto 100px;
-  padding: 0 20px;
-}
-
-.card {
-  width: 100%; max-width: 300px;
-  cursor: pointer;
-  border-radius: 24px 24px 12px 12px;
-  background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(255,255,255,0.1);
-  border-bottom: none;
-  padding: 40px 20px 30px;
-  backdrop-filter: blur(10px);
-  transition: transform .4s ease;
+  .loader {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: #000; z-index: 200000; 
+    display: flex; justify-content: center; align-items: center;
+    transition: opacity 0.8s ease, visibility 0.8s;
+  }
+  .loader.hidden { opacity: 0; visibility: hidden; }
   
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-}
-.card:hover {
-  transform: translateY(-5px);
-  background: rgba(255,255,255,.08);
-  border-color: rgba(255,61,0,.3);
-}
+  .loader-text-logo {
+    font-family: var(--font-display); font-size: 3rem; color: #fff;
+    letter-spacing: 5px; text-transform: uppercase;
+    animation: logoFadeInOut 2.5s ease forwards;
+  }
+  .loader-text-logo span { color: var(--brand-light); }
+  @keyframes logoFadeInOut { 
+    0% { opacity: 0; transform: scale(0.9); } 40% { opacity: 1; transform: scale(1); }
+    90% { opacity: 1; transform: scale(1); } 100% { opacity: 0; transform: scale(1.1); }
+  }
 
-.avatar-box {
-  width: 140px; height: 140px;
-  margin: 0 auto 20px;
-  border-radius: 50%;
-  padding: 3px;
-  background: linear-gradient(135deg, #333, #111);
-  transition: .4s ease;
-}
-.card:hover .avatar-box {
-  background: linear-gradient(135deg, #FFB800, #FF3D00);
-  transform: scale(1.05);
-}
+  .cursor {
+    position: fixed; top: 0; left: 0; width: 12px; height: 12px;
+    background: var(--brand-light); border-radius: 50%; pointer-events: none; 
+    z-index: 2147483647; transform: translate(-50%, -50%);
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.9);
+    transition: width 0.3s, height 0.3s; will-change: transform;
+  }
+  body.hovered .cursor {
+    width: 60px; height: 60px; background: rgba(255, 215, 0, 0.05);
+    border: 1px solid rgba(255, 215, 0, 0.8); box-shadow: 0 0 30px rgba(255, 215, 0, 0.4);
+  }
+  body.clicking .cursor { transform: translate(-50%, -50%) scale(0.9); background: var(--brand-primary); }
 
-.avatar-img {
-  width: 100%; height: 100%;
-  border-radius: 50%;
-  object-fit: cover;
-  object-position: top center;
-  border: 3px solid #000;
-  background-color: #1a1a1a;
-}
+  /* 環境特效 */
+  .ambient-light {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none; z-index: 0; overflow: hidden;
+  }
+  .ambient-blob {
+    position: absolute; width: 900px; height: 900px;
+    background: radial-gradient(circle, rgba(255, 140, 0, 0.04) 0%, transparent 60%);
+    border-radius: 50%; filter: blur(80px); opacity: 0.5;
+    animation: moveBlob 25s infinite alternate ease-in-out;
+  }
+  .ambient-blob:nth-child(1) { top: -20%; left: -10%; animation-delay: 0s; }
+  .ambient-blob:nth-child(2) { bottom: -20%; right: -10%; animation-duration: 35s; animation-direction: reverse; }
+  @keyframes moveBlob { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(50px, 50px) scale(1.1); } }
 
-.card h3 { font-size: 1.4rem; margin: 0 0 8px; color: #fff; font-weight: 700; }
-.role {
-  font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px;
-  background: linear-gradient(90deg, #FFB800, #FF3D00);
-  -webkit-background-clip: text; background-clip: text;
-  -webkit-text-fill-color: transparent;
-  margin-bottom: 15px; display: block; font-weight: 700;
-}
+  .particles-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 2; pointer-events: none; overflow: hidden; }
+  .particle {
+    position: absolute; background: radial-gradient(circle, var(--brand-light) 0%, transparent 70%);
+    border-radius: 50%; opacity: 0; animation: floatParticle 10s infinite ease-in-out;
+  }
+  @keyframes floatParticle {
+    0% { transform: translateY(0) translateX(0); opacity: 0; }
+    20% { opacity: 0.6; } 80% { opacity: 0.6; }
+    100% { transform: translateY(-120px) translateX(30px); opacity: 0; }
+  }
 
-.bio {
-  font-size: 0.9rem; color: #a1a1a6; line-height: 1.6; margin: 0;
-  display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;
-  overflow: hidden; margin-bottom: 15px;
-}
+  /* --- 導覽列 --- */
+  .header {
+    position: fixed; top: 0; left: 0; width: 100%; padding: 30px 50px;
+    display: flex; justify-content: space-between; align-items: center;
+    z-index: 100; background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent); 
+    transition: all 0.5s;
+  }
+  .header.scrolled { 
+    background: rgba(5, 5, 5, 0.9); backdrop-filter: blur(20px); 
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding: 20px 50px;
+  }
+  .logo { display: flex; align-items: center; gap: 12px; text-decoration: none; color: #fff; }
+  .logo img { height: 38px; width: auto; transition: transform 0.5s; }
+  .logo:hover img { transform: rotate(5deg) scale(1.05); }
+  .logo-text { font-family: var(--font-display); font-size: 1.2rem; letter-spacing: 2px; text-transform: uppercase; color: #fff; }
+  .logo-text span { color: var(--brand-light); }
+  
+  .nav { display: flex; gap: 30px; } 
+  .nav-item { position: relative; overflow: hidden; height: 24px; cursor: pointer; display: block; color: rgba(255,255,255,0.8); font-family: var(--font-body); font-size: 0.95rem; letter-spacing: 2px; font-weight: 500; text-decoration: none; }
+  .nav-item span.original-text { display: block; transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1); }
+  .nav-item span.hover-text { position: absolute; top: 100%; left: 0; width: 100%; color: var(--brand-light); transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1); white-space: nowrap; }
+  .nav-item:hover span.original-text { transform: translateY(-100%); }
+  .nav-item:hover span.hover-text { transform: translateY(-100%); }
+  .nav-item.active span.original-text { color: var(--brand-light); }
 
-/* 箭頭樣式 */
-.arrow-down {
-  margin-top: auto; 
-  font-size: 12px; color: #555;
-  animation: bounce 2s infinite;
-  margin-bottom: 15px; /* 與按鈕區保持距離 */
-}
-@keyframes bounce { 0%,100% { transform: translateY(0); } 50% { transform: translateY(3px); } }
+  /* --- 團隊頁面 Header --- */
+  .team-hero {
+    padding-top: 180px; padding-bottom: 80px; text-align: center;
+    position: relative; z-index: 10;
+  }
+  .page-label {
+    font-family: var(--font-display); font-size: 0.9rem; letter-spacing: 4px;
+    color: var(--brand-light); margin-bottom: 20px; display: block;
+  }
+  .page-title {
+    font-family: var(--font-serif); font-size: clamp(3rem, 8vw, 5rem);
+    font-weight: 900; color: #fff; line-height: 1.1; margin: 0 0 20px;
+    background: var(--brand-gradient); 
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 0 30px rgba(255, 140, 0, 0.5));
+  }
+  .page-subtitle {
+    font-family: var(--font-body); font-size: 1.1rem; color: rgba(255,255,255,0.7);
+    max-width: 600px; margin: 0 auto; line-height: 1.8; letter-spacing: 1px;
+  }
+  .title-divider {
+    width: 80px; height: 3px; background: var(--brand-gradient);
+    margin: 40px auto 0; border-radius: 2px;
+  }
 
-/* 🔴 按鈕區域樣式 (Flexbox 排版) */
-.action-row {
-  display: flex;
-  gap: 10px;
-  align-items: center;
-  position: relative;
-  z-index: 10;
-}
+  /* --- 團隊卡片 Grid --- */
+  .team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 50px;
+    max-width: 1200px; margin: 0 auto 100px; padding: 0 40px;
+    position: relative; z-index: 10;
+  }
 
-/* 作品集按鈕 */
-.portfolio-link {
-  font-size: 0.8rem; color: #000; text-decoration: none;
-  background: linear-gradient(90deg, var(--yellow), var(--orange));
-  padding: 8px 18px;
-  border-radius: 20px;
-  transition: .3s;
-  font-weight: 700;
-  display: inline-flex;
-  align-items: center;
-}
-.portfolio-link:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(255, 122, 0, 0.3);
-}
+  /* 團隊成員卡片 (Circular Avatar Style) */
+  .member-card {
+    background: var(--card-bg);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px; 
+    transition: 0.4s var(--ease-out-expo);
+    position: relative;
+    backdrop-filter: blur(10px);
+    display: flex; flex-direction: column; align-items: center; text-align: center;
+    padding: 50px 30px;
+    cursor: pointer;
+    /* 移除 opacity, 由 AOS 控制 */
+  }
+  
+  .member-image-wrap {
+    width: 180px; height: 180px; 
+    border-radius: 50%; 
+    overflow: hidden; 
+    position: relative;
+    border: 3px solid transparent; 
+    background: linear-gradient(135deg, #333, #111) padding-box,
+                var(--brand-gradient) border-box; 
+    margin-bottom: 25px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    transition: transform 0.4s;
+  }
+  
+  .member-img {
+    width: 100%; height: 100%; 
+    object-fit: cover; object-position: center center;
+    filter: none; 
+    transition: transform 0.8s;
+  }
+  
+  .member-info { width: 100%; }
+  
+  .member-name {
+    font-family: var(--font-serif); font-size: 1.8rem; color: #fff;
+    margin: 0 0 10px; font-weight: 700; letter-spacing: 1px;
+  }
+  .member-role {
+    font-family: var(--font-body); font-size: 0.85rem; color: var(--brand-light);
+    text-transform: uppercase; letter-spacing: 2px; margin-bottom: 20px; display: block;
+    font-weight: 600;
+  }
+  .member-bio {
+    font-family: var(--font-body); font-size: 0.95rem; color: #aaa;
+    line-height: 1.8; margin-bottom: 30px;
+    display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+  }
+  
+  .action-row { 
+    display: flex; gap: 15px; justify-content: center; align-items: center; 
+  }
+  
+  /* 按鈕樣式共用 */
+  .portfolio-link {
+    font-size: 0.85rem; color: #000; text-decoration: none;
+    background: var(--brand-gradient);
+    padding: 10px 24px; border-radius: 50px;
+    font-weight: 600; letter-spacing: 1px;
+    transition: 0.3s;
+    /* 新增 Flex 讓文字或 icon 都可以置中 */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .portfolio-link:hover {
+    box-shadow: 0 0 20px rgba(255, 140, 0, 0.6); transform: translateY(-2px);
+    filter: brightness(1.1);
+  }
 
-/* IG 按鈕 (圓形圖示) */
-.ig-btn {
-  width: 36px; height: 36px;
-  border-radius: 50%;
-  background: rgba(255,255,255,0.1);
-  display: flex; justify-content: center; align-items: center;
-  transition: 0.3s;
-  border: 1px solid rgba(255,255,255,0.2);
-}
-.ig-btn svg {
-  width: 18px; height: 18px;
-  fill: #fff;
-  transition: 0.3s;
-}
-.ig-btn:hover {
-  background: #fff;
-  transform: translateY(-2px);
-  border-color: #fff;
-}
-.ig-btn:hover svg {
-  fill: #E1306C; /* IG 品牌色 */
-}
+  /* IG 專屬按鈕樣式 (IG Brand Color) */
+  /* 🔴 修改：預設透明，Hover 才顯示品牌色 */
+  .portfolio-link.ig-btn {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.2); /* 預設細框 */
+    color: rgba(255, 255, 255, 0.8); /* 預設圖示顏色 */
+  }
+  .portfolio-link.ig-btn:hover {
+    background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+    border-color: transparent;
+    color: #fff;
+    box-shadow: 0 0 20px rgba(220, 39, 67, 0.6);
+  }
 
-/* Footer */
-footer {
-  position: relative; z-index: 10;
-  padding: 80px 20px 40px; background: #000;
-  text-align: center; display: flex; justify-content: center;
-  margin-top: 50px;
-}
+  .member-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+    border-color: rgba(255, 183, 0, 0.4);
+    background: rgba(30, 30, 30, 0.6);
+  }
+  .member-card:hover .member-image-wrap {
+    transform: scale(1.05);
+    box-shadow: 0 0 30px rgba(255, 140, 0, 0.3);
+  }
+  .member-card:hover .member-img {
+    transform: scale(1.1);
+  }
 
-.footer-content { max-width: 800px; width: 100%; }
-.divider { width: 60px; height: 4px; margin: 0 auto 30px; background: linear-gradient(90deg, #FFB800, #FF3D00); border-radius: 4px; }
+  /* Footer */
+  footer {
+    padding: 120px 8% 60px; border-top: 1px solid rgba(255,255,255,0.05);
+    background: #020202; text-align: center; position: relative; overflow: hidden;
+  }
+  .footer-watermark {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    font-family: var(--font-display); font-size: 20vw; font-weight: 700;
+    color: rgba(255, 255, 255, 0.02); pointer-events: none; white-space: nowrap;
+    z-index: 0; letter-spacing: 10px; will-change: transform; 
+  }
+  .footer-content { max-width: 800px; margin: 0 auto; position: relative; z-index: 1; }
+  .footer h2 {
+    font-family: var(--font-serif); font-size: 3.5rem; font-weight: 900;
+    margin-bottom: 40px; letter-spacing: 10px;
+    background: linear-gradient(to right, #cfc7bc, #fff, #cfc7bc);
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent; filter: drop-shadow(0 5px 15px rgba(0,0,0,0.8));
+  }
+  .footer h2 span {
+    background: var(--brand-gradient); -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent; font-weight: 900; filter: drop-shadow(0 0 15px rgba(255, 140, 0, 0.5));
+  }
+  .manifesto { font-size: 1.1rem; color: var(--text-sub); line-height: 2; margin-bottom: 50px; font-weight: 300; letter-spacing: 1px; }
+  .copyright { font-size: 0.8rem; color: #444; margin-top: 50px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 30px; letter-spacing: 1px; }
 
-footer h2 { font-size: 1.8rem; font-weight: 700; margin: 0 0 20px; letter-spacing: 1px; color: #fff; }
-.gradient-text { background: linear-gradient(135deg, #FFB800, #FF3D00); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
-
-p.manifesto { font-size: 1.1rem; line-height: 1.8; color: #a1a1a6; margin-bottom: 40px; }
-.copyright { font-size: 0.8rem; color: #555; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px; margin-top: 20px; }
+  @media (max-width: 768px) {
+    .header { padding: 20px; } .nav { display: none; } 
+    .team-hero { padding-top: 140px; } .page-title { font-size: 3rem; }
+    .footer h2 { font-size: 2.5rem; letter-spacing: 5px; }
+    .member-card { max-width: 350px; margin: 0 auto; }
+  }
 </style>
 </head>
-<body>
+<body class="loading-state">
 
-  <header class="site-header">
-    <a href="index.html" class="logo" id="nav-logo">
-      <img src="images/uploads/logo.png" alt="Uprise Logo">
-      <span class="logo-text">推手影像製作有限公司</span>
-    </a>
-    <nav class="nav">
-      <a href="index.html">首頁</a>
-      <a href="works.html">作品</a>
-      <a href="team.html" class="active">團隊</a>
-      <a href="about.html">關於</a>
-      <a href="contact.html">聯絡</a>
-    </nav>
-  </header>
-
-  <div class="header-container">
-    <span class="label reveal-on-scroll">OUR TEAM</span>
-    <h1 id="page-title" class="reveal-on-scroll" style="transition-delay: 0.1s;">專業團隊</h1>
-    <p id="page-subtitle" class="reveal-on-scroll" style="transition-delay: 0.2s;">一群對影像充滿熱情的職人</p>
-    <div class="divider-line reveal-on-scroll" style="transition-delay: 0.3s;"></div>
+  <div class="page-transition-curtain"></div>
+  <div class="cursor"></div>
+  <div class="loader">
+    <div class="loader-text-logo">Uprise<span>.</span></div>
   </div>
-
-  <div class="team-grid" id="team-container">
-    <p style="width:100%; text-align:center; color:#666;">資料讀取中...</p>
+  <div class="ambient-light">
+    <div class="ambient-blob"></div>
+    <div class="ambient-blob"></div>
   </div>
+  
+  <div class="particles-container" id="particles"></div>
 
-  <footer>
-    <div class="footer-content reveal-on-scroll">
-      <div class="divider"></div>
-      <h2><span class="gradient-text">Uprise-Production</span></h2>
+  <div id="main-wrapper">
+    <header class="header" id="header" data-aos="fade-down" data-aos-duration="1000">
+      <a href="index.html" class="logo hover-trigger">
+        <img src="images/uploads/logo.png" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'" alt="Logo">
+        <span class="logo-text" style="display:none;">Uprise<span>.</span></span>
+      </a>
+      
+      <nav class="nav">
+        <a href="index.html" class="nav-item hover-trigger page-link">
+            <span class="original-text">首頁</span><span class="hover-text">首頁</span>
+        </a>
+        <a href="works.html" class="nav-item hover-trigger page-link">
+            <span class="original-text">作品</span><span class="hover-text">作品</span>
+        </a>
+        <a href="team.html" class="nav-item hover-trigger page-link active">
+            <span class="original-text">團隊</span><span class="hover-text">團隊</span>
+        </a>
+        <a href="about.html" class="nav-item hover-trigger page-link">
+            <span class="original-text">關於</span><span class="hover-text">關於</span>
+        </a>
+        <a href="contact.html" class="nav-item hover-trigger page-link">
+            <span class="original-text">聯絡</span><span class="hover-text">聯絡</span>
+        </a>
+      </nav>
+    </header>
 
-      <p class="manifesto">
-        我們不僅是影像的製造者，更是品牌價值的推動者。<br>
-        致力於將抽象的意念，轉化為具象的視覺衝擊。<br>
-        從腳本企劃、電影級拍攝到後期特效，<br>
-        推手影像以極致的職人精神，訴說每一個值得被看見的故事。
-      </p>
+    <main>
+      <section class="team-hero">
+        <span class="page-label" data-aos="fade-down" data-aos-delay="200">OUR TEAM</span>
+        <h1 class="page-title" id="page-title" data-aos="zoom-out" data-aos-delay="400">專業團隊</h1>
+        <p class="page-subtitle" id="page-subtitle" data-aos="fade-up" data-aos-delay="600">一群對影像充滿熱情的職人</p>
+        <div class="title-divider" data-aos="fade-up" data-aos-delay="800"></div>
+      </section>
 
-      <div class="copyright">
-        Copyright © 2025 Uprise-Production. All rights reserved.<br>
-        臺中市西區民龍里臺灣大道二段285號31樓 | +886 937672279
+      <div class="team-grid" id="team-container">
+        <!-- 內容由 JS 生成 -->
       </div>
-    </div>
-  </footer>
+    </main>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
+    <footer>
+      <div class="footer-watermark" id="footer-mark">UPRISE</div>
+      <div class="footer-content" data-aos="fade-up" data-aos-offset="50">
+        <h2>推手<span>影像</span></h2>
+        <p class="manifesto">
+          我們不僅是影像的製造者，更是品牌價值的推動者。<br>
+          致力於將抽象的意念，轉化為具象的視覺衝擊。<br>
+          從腳本企劃、電影級拍攝到後期特效，<br>
+          推手影像以極致的職人精神，訴說每一個值得被看見的故事。
+        </p>
+        <div class="copyright">
+          Copyright © 2025 推手影像製作有限公司 Uprise-Production. All rights reserved.<br>
+          臺中市西區民龍里臺灣大道二段285號31樓 | +886 937672279
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <!-- AOS Script -->
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 
   <script>
-  // --- 滾動偵測 ---
-  const observerOptions = { root: null, rootMargin: '0px', threshold: 0.1 };
-  const observer = new IntersectionObserver((entries, observer) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('is-visible');
-        observer.unobserve(entry.target);
-      }
+    // --- 防盜機制 (Anti-Theft) ---
+    // 1. 禁止右鍵
+    document.addEventListener('contextmenu', event => event.preventDefault());
+
+    // 2. 禁止複製 (但允許選取文字)
+    document.addEventListener('copy', event => {
+        event.preventDefault();
     });
-  }, observerOptions);
 
-  document.querySelectorAll('.reveal-on-scroll').forEach(el => observer.observe(el));
-
-  // --- 讀取 Team 資料 ---
-  fetch('content/team.md')
-  .then(r => r.text())
-  .then(text => {
-    const parts = text.split('---');
-    const data = jsyaml.load(parts.length > 1 ? parts[1] : text);
-
-    if (data.title) document.getElementById('page-title').innerText = data.title;
-    if (data.subtitle) document.getElementById('page-subtitle').innerText = data.subtitle;
-
-    const container = document.getElementById('team-container');
-
-    if (data.members && data.members.length > 0) {
-      let html = '';
-
-      data.members.forEach((m, index) => {
-        const avatar = m.avatar || 'https://dummyimage.com/150x150/333/fff&text=No+Img';
-
-        // 判斷按鈕顯示邏輯
-        let buttonsHtml = '';
-        
-        // 作品集按鈕
-        if (m.portfolio_url) {
-            buttonsHtml += `<a href="${m.portfolio_url}" target="_blank" class="portfolio-link" onclick="event.stopPropagation()">查看個人作品</a>`;
+    // 3. 禁止快速鍵 (F12, Ctrl+U, Ctrl+S, Ctrl+C, Ctrl+Shift+I)
+    document.onkeydown = function(e) {
+        if(e.keyCode == 123) { // F12
+            return false;
         }
-        
-        // IG 按鈕 (如果後台有填 ig_url)
-        if (m.ig_url) {
-            buttonsHtml += `
-              <a href="${m.ig_url}" target="_blank" class="ig-btn" onclick="event.stopPropagation()" title="Instagram">
-                <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
-              </a>
-            `;
+        if(e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) { // Ctrl+Shift+I
+            return false;
         }
+        if(e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) { // Ctrl+Shift+C
+            return false;
+        }
+        if(e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) { // Ctrl+Shift+J
+            return false;
+        }
+        if(e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) { // Ctrl+U
+            return false;
+        }
+        if(e.ctrlKey && e.keyCode == 'S'.charCodeAt(0)) { // Ctrl+S
+            return false;
+        }
+        if(e.ctrlKey && e.keyCode == 'C'.charCodeAt(0)) { // Ctrl+C
+             return false;
+        }
+    }
 
-        // 🔴 結構更新：箭頭在 bio 下方，按鈕在最下方
-        html += `
-          <div class="card reveal-on-scroll" style="transition-delay: ${index * 0.1}s" onclick="location.href='member.html?id=${index}'">
-            <div class="avatar-box">
-              <img src="${avatar}" class="avatar-img" alt="${m.name}">
-            </div>
-            <h3>${m.name}</h3>
-            <span class="role">${m.role}</span>
-            <p class="bio">${m.bio}</p>
-            
-            <div class="arrow-down">▼</div>
-            
-            <div class="action-row">
-              ${buttonsHtml}
-            </div>
-          </div>
-        `;
+    // 預設資料
+    const fallbackData = {
+      title: "專業團隊",
+      subtitle: "一群對影像充滿熱情的職人",
+      members: [
+        {
+          name: "林家佑",
+          role: "DIRECTOR",
+          avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?fit=crop&w=400&h=400&q=80",
+          bio: "專注於電影級影像製作，擅長透過鏡頭語言捕捉情感流動。",
+          portfolio_url: "#",
+          ig_url: "#"
+        },
+        {
+          name: "張志明",
+          role: "CINEMATOGRAPHER",
+          avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?fit=crop&w=400&h=400&q=80",
+          bio: "以光影為筆，為每一個畫面注入靈魂。",
+          portfolio_url: "#"
+        },
+        {
+          name: "陳小美",
+          role: "PRODUCER",
+          avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?fit=crop&w=400&h=400&q=80",
+          bio: "精準掌控專案進度，確保拍攝完美執行。",
+          ig_url: "#"
+        }
+      ]
+    };
+
+    document.addEventListener('DOMContentLoaded', () => {
+      // 初始化 AOS
+      AOS.init({
+        duration: 1000,
+        easing: 'ease-out-cubic',
+        once: false, // 允許重複播放
+        mirror: true, // 允許反向播放
+        offset: 50
       });
 
-      container.innerHTML = html;
-      container.querySelectorAll('.card').forEach(el => observer.observe(el));
+      // 載入動畫
+      setTimeout(() => {
+        document.querySelector('.loader').classList.add('hidden');
+        document.querySelector('.page-transition-curtain').classList.add('reveal');
+        document.body.classList.remove('loading-state');
+        document.body.classList.add('loaded-state');
+      }, 1000); 
 
-    } else {
-      container.innerHTML = '<p>尚無成員資料，請至後台新增。</p>';
+      // 嘗試讀取 CMS 資料
+      fetch('content/team.md')
+        .then(r => {
+            if(!r.ok) throw new Error("CMS Data Not Found");
+            return r.text();
+        })
+        .then(text => {
+          const parts = text.split('---');
+          const data = jsyaml.load(parts.length > 1 ? parts[1] : text);
+          renderTeam(data);
+        })
+        .catch(err => {
+            console.log("Using fallback team data");
+            renderTeam(fallbackData);
+        });
+
+      initCursor();
+      initPageTransition();
+      createParticles();
+      initMagneticButtons();
+    });
+
+    function renderTeam(data) {
+        if (data.title) document.getElementById('page-title').innerText = data.title;
+        if (data.subtitle) document.getElementById('page-subtitle').innerText = data.subtitle;
+
+        const container = document.getElementById('team-container');
+        container.innerHTML = ''; 
+
+        if (data.members && data.members.length > 0) {
+            data.members.forEach((m, index) => {
+                const avatar = m.avatar || 'https://dummyimage.com/400x400/333/fff&text=No+Img';
+                
+                let buttonsHtml = '';
+                if (m.portfolio_url) {
+                    buttonsHtml += `<a href="${m.portfolio_url}" target="_blank" class="portfolio-link hover-trigger">作品集</a>`;
+                }
+                if (m.ig_url) {
+                    // 加入 ig-btn 類別
+                    buttonsHtml += `<a href="${m.ig_url}" target="_blank" class="portfolio-link ig-btn hover-trigger"><i class="fab fa-instagram" style="font-size: 1.1rem;"></i></a>`;
+                }
+
+                const card = document.createElement('div');
+                card.className = 'member-card hover-trigger'; // 移除 fade-in，改用 AOS
+                // AOS 屬性
+                card.setAttribute('data-aos', 'fade-up');
+                card.setAttribute('data-aos-delay', index * 100);
+
+                card.onclick = () => window.location.href = `member.html?id=${index}`;
+                card.style.cursor = 'pointer';
+                
+                card.innerHTML = `
+                    <div class="member-image-wrap">
+                        <img src="${avatar}" class="member-img" alt="${m.name}">
+                    </div>
+                    <div class="member-info">
+                        <h3 class="member-name">${m.name}</h3>
+                        <span class="member-role">${m.role}</span>
+                        <p class="member-bio">${m.bio}</p>
+                        <div class="action-row" onclick="event.stopPropagation()">
+                            ${buttonsHtml}
+                        </div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        } else {
+            container.innerHTML = '<p style="text-align:center; color:#666;">尚無成員資料。</p>';
+        }
+        
+        // 重新整理 AOS 與磁吸按鈕
+        setTimeout(() => {
+            AOS.refresh();
+            initMagneticButtons();
+        }, 100);
     }
-  });
-  </script>
 
+    // --- 共用 JS 邏輯 ---
+    function initCursor() { if (window.matchMedia("(pointer: fine)").matches) { const cursor = document.querySelector('.cursor'); let mouseX=0, mouseY=0, cursorX=0, cursorY=0; document.addEventListener('mousemove', e => { mouseX=e.clientX; mouseY=e.clientY; }); document.addEventListener('mousedown', () => document.body.classList.add('clicking')); document.addEventListener('mouseup', () => document.body.classList.remove('clicking')); function animate() { cursorX+=(mouseX-cursorX)*0.5; cursorY+=(mouseY-cursorY)*0.5; cursor.style.transform=`translate(${cursorX}px, ${cursorY}px) translate(-50%, -50%)`; requestAnimationFrame(animate); } animate(); document.body.addEventListener('mouseenter', e=>{ if(e.target.closest('.hover-trigger')) document.body.classList.add('hovered'); }, true); document.body.addEventListener('mouseleave', e=>{ if(e.target.closest('.hover-trigger')) document.body.classList.remove('hovered'); }, true); } }
+    function createParticles() { const container = document.getElementById('particles'); if(!container) return; for (let i = 0; i < 20; i++) { const p = document.createElement('div'); p.classList.add('particle'); const size = Math.random() * 3 + 1 + 'px'; p.style.width = size; p.style.height = size; p.style.left = Math.random() * 100 + '%'; p.style.top = Math.random() * 100 + '%'; p.style.animationDelay = Math.random() * 5 + 's'; p.style.animationDuration = Math.random() * 10 + 10 + 's'; container.appendChild(p); } }
+    function initPageTransition() { const links = document.querySelectorAll('.page-link'); const curtain = document.querySelector('.page-transition-curtain'); links.forEach(link => { link.addEventListener('click', (e) => { e.preventDefault(); const href = link.getAttribute('href'); curtain.classList.remove('reveal'); curtain.classList.add('cover'); setTimeout(() => { window.location.href = href; }, 800); }); }); }
+    function initMagneticButtons() { const buttons = document.querySelectorAll('.magnetic-btn'); buttons.forEach(btn => { btn.addEventListener('mousemove', (e) => { const rect = btn.getBoundingClientRect(); const x = e.clientX - rect.left - rect.width / 2; const y = e.clientY - rect.top - rect.height / 2; btn.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`; }); btn.addEventListener('mouseleave', () => { btn.style.transform = `translate(0px, 0px)`; }); }); }
+    
+    window.addEventListener('scroll', () => {
+        const header = document.querySelector('.header');
+        if(window.scrollY > 50) header.classList.add('scrolled');
+        else header.classList.remove('scrolled');
+        const footerMark = document.getElementById('footer-mark');
+        if(footerMark) {
+            const footerOffset = document.querySelector('footer').offsetTop;
+            if(window.scrollY > footerOffset - window.innerHeight) {
+                const delta = window.scrollY - (footerOffset - window.innerHeight);
+                footerMark.style.transform = `translate(-50%, -50%) translateY(${delta * -0.1}px)`;
+            }
+        }
+    });
+  </script>
 </body>
 </html>

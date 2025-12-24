@@ -15,18 +15,36 @@ collections:
         file: "content/index.md"
         fields:
           - {label: "網站標題", name: "title", widget: "string", default: "Uprise-Production"}
-          - {label: "網站 Logo", name: "logo_image", widget: "image", required: false}
-          - {label: "背景影片", name: "hero_video", widget: "file", required: false}
+          
+          # 🔴 重點修改：將 name 改為 "logo" 以對應前端程式，並加入提示
+          - {label: "網站 Logo", name: "logo", widget: "image", required: false, hint: "建議上傳透明背景的 PNG 圖檔，以達到最佳顯示效果"}
+          
+          # 🔴 影片設定 (分開上傳)
+          - {label: "背景影片 (電腦版 - 橫式 16:9)", name: "hero_video", widget: "file", required: false}
+          - {label: "背景影片 (手機版 - 直式 9:16)", name: "hero_video_mobile", widget: "file", required: false, hint: "若未上傳，手機將使用電腦版影片"}
+          
           - {label: "主視覺標語", name: "hero_text", widget: "string", default: "看見故事的力量"}
+          
+          # 🔴 服務項目
           - label: "服務項目"
             name: "services"
             widget: "list"
             fields:
               - {label: "服務名稱", name: "title", widget: "string"}
               - {label: "服務描述", name: "description", widget: "text"}
-              - {label: "圖示", name: "icon", widget: "image", required: false}
+              - {label: "Icon 代碼 (FontAwesome)", name: "iconClass", widget: "string", required: false, hint: "例如: fa-solid fa-video"}
+              - {label: "Icon 圖片 (備用)", name: "icon", widget: "image", required: false}
+          
+          # 🔴 新增：工作花絮 (拖曳可調整順序)
+          - label: "工作花絮 (Behind The Scenes)"
+            name: "behind_the_scenes"
+            widget: "list"
+            summary: '{{caption}}'
+            fields:
+              - {label: "照片", name: "image", widget: "image"}
+              - {label: "描述 (僅供後台辨識用)", name: "caption", widget: "string", required: false}
 
-      # --- 2. 作品頁 (Works) - 改為分類摺疊模式 ---
+      # --- 2. 作品頁 (Works) ---
       - label: "作品總覽 (Works)"
         name: "works"
         file: "content/works.md"
@@ -34,27 +52,25 @@ collections:
           - {label: "頁面主標題", name: "title", widget: "string", default: "精選作品集"}
           - {label: "頁面副標題", name: "subtitle", widget: "text", default: "收錄歷年來的影像精華"}
           
-          # 分類 1：品牌形象
+          # 定義共用的影片欄位結構 (YAML Anchor)
           - label: "📂 品牌形象廣告 (Brand Image)"
             name: "portfolio_brand"
             widget: "list"
-            collapsed: true  # 預設收起
+            collapsed: true
             summary: '{{title}}'
-            fields: &video_fields # 使用 YAML 錨點重複利用欄位設定
+            fields: &video_fields
               - {label: "作品名稱", name: "title", widget: "string"}
               - {label: "客戶名稱", name: "client", widget: "string", required: false}
-              - {label: "影片連結", name: "link", widget: "string"}
-              - {label: "封面圖片", name: "image", widget: "image", required: false}
+              - {label: "影片連結 (YouTube)", name: "link", widget: "string"}
+              - {label: "封面圖片 (選填)", name: "image", widget: "image", required: false, hint: "若未上傳將自動抓取 YouTube 縮圖"}
 
-          # 分類 2：產品形象
           - label: "📂 產品形象廣告 (Product Video)"
             name: "portfolio_product"
             widget: "list"
             collapsed: true
             summary: '{{title}}'
-            fields: *video_fields # 引用上面的欄位設定
+            fields: *video_fields
 
-          # 分類 3：公部門宣傳
           - label: "📂 公部門宣傳影片 (Public Sector)"
             name: "portfolio_public"
             widget: "list"
@@ -62,7 +78,6 @@ collections:
             summary: '{{title}}'
             fields: *video_fields
 
-          # 分類 4：活動紀錄
           - label: "📂 活動紀錄 (Event Highlight)"
             name: "portfolio_event"
             widget: "list"
@@ -70,7 +85,6 @@ collections:
             summary: '{{title}}'
             fields: *video_fields
 
-          # 分類 5：其他
           - label: "📂 其他 (Other)"
             name: "portfolio_other"
             widget: "list"
@@ -94,20 +108,18 @@ collections:
               - {label: "職稱", name: "role", widget: "string"}
               - {label: "頭像", name: "avatar", widget: "image"}
               - {label: "簡介 (短)", name: "bio", widget: "text"}
-              - {label: "詳細介紹 (長)", name: "full_bio", widget: "markdown", required: false}
-              
-              # ✨ 新增這行：IG 連結欄位
-              - {label: "Instagram 連結", name: "ig_url", widget: "string", required: false, hint: "例如 https://instagram.com/your_id"}
-              
+              - {label: "詳細介紹 (長 - 支援 Markdown)", name: "full_bio", widget: "markdown", required: false}
+              - {label: "Instagram 連結", name: "ig_url", widget: "string", required: false}
               - {label: "作品集連結", name: "portfolio_url", widget: "string", required: false}
-              
+
       # --- 4. 關於頁 ---
       - label: "關於我們 (About)"
         name: "about"
         file: "content/about.md"
         fields:
           - {label: "標題", name: "title", widget: "string"}
-          - {label: "內文", name: "body", widget: "markdown"}
+          - {label: "副標題", name: "subtitle", widget: "string"}
+          - {label: "內文 (支援 Markdown)", name: "body", widget: "markdown"}
 
       # --- 5. 聯絡頁 ---
       - label: "聯絡我們 (Contact)"
@@ -115,6 +127,7 @@ collections:
         file: "content/contact.md"
         fields:
           - {label: "標題", name: "title", widget: "string"}
+          - {label: "副標題", name: "subtitle", widget: "string"}
           - {label: "地址", name: "address", widget: "string"}
           - {label: "Email", name: "email", widget: "string"}
           - {label: "電話", name: "phone", widget: "string"}

@@ -1,69 +1,332 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-Hant">
 <head>
 <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>訊息已送出 | Uprise-Production｜推手影像</title>
+<meta name="viewport" content="width=device-width,initial-scale=1" />
 
-<link rel="icon" type="image/png" href="favicon_32x32.png" sizes="32x32">
-<link rel="icon" type="image/png" href="/favicon_32x32.png" sizes="32x32">
+<title>訊息已送出 | 推手影像製作有限公司 Uprise-Production</title>
+
+<link rel="icon" type="image/png" href="images/uploads/logo.png">
 
 <meta name="description" content="您的訊息已成功送出！感謝您的聯繫，Uprise-Production（推手影像）團隊將會盡快回覆您的影像製作需求。">
-<meta name="keywords" content="訊息成功, 聯絡確認, 感謝提交, Uprise Production, 推手影像">
-<link rel="canonical" href="https://uprise-videoproduction.netlify.app/success.html">
+<link rel="canonical" href="https://www.uprise-videoproduction.com/success.html">
 
-<meta property="og:title" content="訊息已送出 | Uprise-Production">
-<meta property="og:description" content="感謝您的聯絡！Uprise-Production 團隊將會盡快回覆。">
-<meta property="og:image" content="https://uprise-videoproduction.netlify.app/logo.png">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://uprise-videoproduction.netlify.app/success.html">
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Italiana&family=Noto+Sans+TC:wght@300;400;500;700;900&family=Noto+Serif+TC:wght@700;900&display=swap" rel="stylesheet">
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="訊息已送出 | Uprise-Production">
-<meta name="twitter:description" content="Uprise-Production 感謝您的訊息。">
-<meta name="twitter:image" content="https://uprise-videoproduction.netlify.app/logo.png">
+<!-- Libraries -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
 
-<meta name="view-transition" content="same-origin" />
-
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Noto+Sans+TC:wght@300;500;700&display=swap" rel="stylesheet">
 <style>
-  body { margin: 0; background: #0F0F0F; color: #fff; font-family: 'Inter', 'Noto Sans TC', sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; text-align: center; overflow: hidden; } /* 隱藏溢出確保動畫流暢 */
-  .container { max-width: 500px; padding: 40px; background: rgba(255,255,255,0.05); border-radius: 24px; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 20px 40px rgba(0,0,0,0.5); }
-  .icon { font-size: 4rem; margin-bottom: 20px; }
-  h1 { margin: 0 0 10px; font-size: 2rem; color: #fff; }
-  p { color: #aaa; line-height: 1.6; margin-bottom: 30px; }
-  .btn { display: inline-block; padding: 12px 30px; background: linear-gradient(90deg, #FFB800, #FF7A00); color: #fff; text-decoration: none; border-radius: 50px; font-weight: bold; transition: 0.3s; }
-  .btn:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(255, 122, 0, 0.3); }
+  /* --- 核心變數 (全站統一) --- */
+  :root { 
+    --bg-color: #050505;       
+    --card-bg: rgba(20, 20, 20, 0.4); 
+    --text-main: #FFFFFF;      
+    --text-sub: #B0B0B0;       
+    --brand-primary: #FF8C00;  
+    --brand-light: #FFD700;    
+    --brand-gradient: linear-gradient(135deg, #FFD700, #FF8C00);
+    --silver-gradient: linear-gradient(to bottom, #ffffff 40%, #a0a0a0 100%);
+    
+    /* 修正：回歸優雅的金色慶祝漸層 */
+    --celebrate-gradient: linear-gradient(135deg, #FFF8DC 0%, #FFD700 50%, #FF8C00 100%);
+    
+    --font-display: 'Italiana', serif;
+    --font-body: 'Noto Sans TC', sans-serif;
+    --font-serif: 'Noto Serif TC', serif;
+    
+    --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
+  }
 
-  /* --- 🚀 強烈的轉場動畫 (從下方滑入) --- */
+  * { box-sizing: border-box; cursor: none; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    margin: 0; padding: 0;
+    font-family: var(--font-body);
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    overflow: hidden; /* 鎖定滾動 */
+    height: 100vh;
+    display: flex; justify-content: center; align-items: center;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* --- 轉場與載入 --- */
+  #main-wrapper {
+    transition: filter 0.6s ease, transform 0.6s ease;
+    width: 100%; height: 100%;
+    display: flex; justify-content: center; align-items: center;
+    position: relative; z-index: 1; 
+  }
+  body.exiting #main-wrapper { filter: blur(10px) brightness(0.8); transform: scale(0.98); pointer-events: none; }
+  body.loading-state #main-wrapper { filter: blur(20px); opacity: 0; }
+  body.loaded-state #main-wrapper { filter: blur(0); opacity: 1; transform: scale(1); }
+
+  .page-transition-curtain {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: #000; z-index: 100000; transform: translateY(0);
+    transition: transform 1s cubic-bezier(0.87, 0, 0.13, 1); pointer-events: none;
+  }
+  .page-transition-curtain.reveal { transform: translateY(-100%); } 
+  .page-transition-curtain.cover { transform: translateY(0); }
+
+  .loader {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: #000; z-index: 200000; 
+    display: flex; justify-content: center; align-items: center;
+    transition: opacity 0.8s ease, visibility 0.8s;
+  }
+  .loader.hidden { opacity: 0; visibility: hidden; }
   
-  /* 舊頁面：向上滑出並淡出 */
-  ::view-transition-old(root) {
-    animation: slideOutUp 0.6s cubic-bezier(0.7, 0, 0.3, 1) forwards;
-    filter: brightness(0.5); /* 稍微變暗 */
+  .loader-text-logo {
+    font-family: var(--font-display); font-size: 3rem; color: #fff;
+    letter-spacing: 5px; text-transform: uppercase;
+    animation: logoFadeInOut 2.5s ease forwards;
   }
-  /* 新頁面：從下方滑入 */
-  ::view-transition-new(root) {
-    animation: slideInFromBottom 0.6s cubic-bezier(0.7, 0, 0.3, 1) forwards;
-    box-shadow: 0 -20px 50px rgba(0,0,0,0.5); /* 上方陰影增加立體感 */
+  .loader-text-logo span { color: var(--brand-light); }
+  @keyframes logoFadeInOut { 
+    0% { opacity: 0; transform: scale(0.9); } 40% { opacity: 1; transform: scale(1); }
+    90% { opacity: 1; transform: scale(1); } 100% { opacity: 0; transform: scale(1.1); }
   }
 
-  @keyframes slideOutUp {
-    from { transform: translateY(0); opacity: 1; }
-    to { transform: translateY(-100%); opacity: 0; }
+  /* 游標 */
+  .cursor {
+    position: fixed; top: 0; left: 0; width: 12px; height: 12px;
+    background: var(--brand-light); border-radius: 50%; pointer-events: none; 
+    z-index: 2147483647; transform: translate(-50%, -50%);
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.9);
+    transition: width 0.3s, height 0.3s; will-change: transform;
   }
-  @keyframes slideInFromBottom {
-    from { transform: translateY(100%); }
-    to { transform: translateY(0); }
+  body.hovered .cursor {
+    width: 60px; height: 60px; background: rgba(255, 215, 0, 0.05);
+    border: 1px solid rgba(255, 215, 0, 0.8); box-shadow: 0 0 30px rgba(255, 215, 0, 0.4);
   }
+  body.clicking .cursor { transform: translate(-50%, -50%) scale(0.9); background: var(--brand-primary); }
+
+  /* 🔴 修正：統一為琥珀金極光 (Amber Aurora) */
+  .ambient-light {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none; z-index: 0; overflow: hidden;
+  }
+  .ambient-blob {
+    position: absolute;
+    width: 900px; height: 900px;
+    border-radius: 50%;
+    filter: blur(100px);
+    opacity: 0.3; /* 降低不透明度，更柔和 */
+    animation: moveBlob 25s infinite alternate ease-in-out;
+  }
+  /* 左上：淡金 */
+  .ambient-blob:nth-child(1) { 
+    top: -20%; left: -10%; 
+    background: radial-gradient(circle, rgba(255, 215, 0, 0.08) 0%, transparent 60%);
+    animation-delay: 0s; 
+  }
+  /* 右下：暖橘 */
+  .ambient-blob:nth-child(2) { 
+    bottom: -20%; right: -10%; 
+    background: radial-gradient(circle, rgba(255, 140, 0, 0.08) 0%, transparent 60%);
+    animation-duration: 35s; animation-direction: reverse; 
+  }
+  /* 中間：微白光，增加通透感 */
+  .ambient-blob:nth-child(3) { 
+    top: 50%; left: 50%; width: 600px; height: 600px;
+    transform: translate(-50%, -50%);
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.02) 0%, transparent 60%);
+    animation: pulseBlob 10s infinite alternate ease-in-out;
+  }
+
+  @keyframes moveBlob {
+    0% { transform: translate(0, 0) scale(1); }
+    100% { transform: translate(30px, 30px) scale(1.05); }
+  }
+  @keyframes pulseBlob {
+    0% { opacity: 0.2; transform: translate(-50%, -50%) scale(1); }
+    100% { opacity: 0.4; transform: translate(-50%, -50%) scale(1.1); }
+  }
+
+  .particles-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 2; pointer-events: none; overflow: hidden; }
+  .particle {
+    position: absolute; border-radius: 50%; opacity: 0; 
+    animation: floatParticle 10s infinite ease-in-out;
+    box-shadow: 0 0 5px currentColor;
+  }
+  @keyframes floatParticle {
+    0% { transform: translateY(0) translateX(0) scale(0); opacity: 0; }
+    20% { opacity: 0.8; transform: scale(1); }
+    80% { opacity: 0.8; }
+    100% { transform: translateY(-150px) translateX(40px) scale(0.5); opacity: 0; }
+  }
+
+  /* --- 成功訊息卡片 --- */
+  .success-card {
+    position: relative;
+    background: var(--card-bg);
+    padding: 60px 50px;
+    border-radius: 12px;
+    text-align: center;
+    max-width: 500px; width: 90%;
+    backdrop-filter: blur(15px);
+    box-shadow: 0 30px 80px rgba(0,0,0,0.8);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    opacity: 0; transform: translateY(30px);
+    animation: fadeInUp 1s var(--ease-out-expo) 0.5s forwards;
+  }
+  @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
+
+  /* 🔴 修正：金屬流光邊框 (單色系) */
+  .border-shimmer {
+    position: absolute; inset: 0; border-radius: 12px; padding: 1.5px;
+    /* 改回金色流動 */
+    background: linear-gradient(90deg, transparent, #FFD700, rgba(255,255,255,0.8), #FF8C00, transparent);
+    background-size: 200% 100%;
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor; mask-composite: exclude;
+    pointer-events: none; animation: shimmerBorder 3s linear infinite; opacity: 0.8; z-index: 1;
+  }
+  @keyframes shimmerBorder { 0% { background-position: -150% 0; } 100% { background-position: 150% 0; } }
+
+  /* 🔴 修正：Icon 金屬質感 */
+  .success-icon-wrap {
+    width: 90px; height: 90px; margin: 0 auto 30px;
+    border-radius: 50%;
+    border: 2px solid transparent; 
+    background: 
+      linear-gradient(#111, #111) padding-box,
+      var(--brand-gradient) border-box; /* 金色邊框 */
+    display: flex; justify-content: center; align-items: center;
+    font-size: 3rem;
+    box-shadow: 0 0 40px rgba(255, 183, 0, 0.15); /* 金色陰影 */
+    animation: pulse 2s infinite;
+  }
+  .success-icon-wrap i {
+    background: var(--brand-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 0 10px rgba(255, 183, 0, 0.5));
+  }
+  @keyframes pulse { 
+    0% { box-shadow: 0 0 0 0 rgba(255, 183, 0, 0.3); transform: scale(1); } 
+    50% { transform: scale(1.05); }
+    70% { box-shadow: 0 0 0 20px rgba(255, 183, 0, 0); } 
+    100% { box-shadow: 0 0 0 0 rgba(255, 183, 0, 0); transform: scale(1); } 
+  }
+
+  h1 {
+    font-family: var(--font-serif); font-size: 2.5rem; font-weight: 900;
+    margin: 0 0 20px;
+    background: var(--brand-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 0 20px rgba(255, 140, 0, 0.3));
+  }
+  
+  p {
+    font-family: var(--font-body); font-size: 1.1rem; color: #ccc;
+    line-height: 1.8; margin-bottom: 40px; font-weight: 300;
+  }
+
+  /* 按鈕 */
+  .btn-primary {
+    padding: 14px 40px; border-radius: 2px;
+    font-family: var(--font-body); font-size: 1rem; letter-spacing: 2px;
+    text-decoration: none; transition: 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+    position: relative; overflow: hidden; font-weight: 600;
+    display: inline-flex; justify-content: center; align-items: center;
+    background: var(--brand-gradient); color: #000; border: none;
+    box-shadow: 0 10px 30px rgba(255, 140, 0, 0.25);
+  }
+  .btn-primary::after {
+    content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.8), transparent);
+    transform: skewX(-20deg); animation: btnShine 3s infinite; pointer-events: none;
+  }
+  @keyframes btnShine { 0%, 70% { left: -100%; } 100% { left: 200%; } }
+  .btn-primary:hover { box-shadow: 0 20px 40px rgba(255, 140, 0, 0.4); filter: brightness(1.1); transform: translateY(-3px); }
+
 </style>
 </head>
-<body>
-  <div class="container">
-    <div class="icon">🎉</div>
-    <h1>訊息已送出</h1>
-    <p>感謝您的聯繫！我們已收到您的需求，<br>團隊將會盡快回覆您。</p>
-    <a href="index.html" class="btn">回到首頁</a>
+<body class="loading-state">
+
+  <div class="page-transition-curtain"></div>
+  <div class="cursor"></div>
+  <div class="loader">
+    <div class="loader-text-logo">Uprise<span>.</span></div>
   </div>
+  
+  <!-- 🔴 修正：單色系舒適極光 (Gold/Amber) -->
+  <div class="ambient-light">
+    <div class="ambient-blob"></div>
+    <div class="ambient-blob"></div>
+    <div class="ambient-blob"></div>
+  </div>
+  
+  <div class="particles-container" id="particles"></div>
+
+  <div id="main-wrapper">
+    <div class="success-card">
+      <div class="border-shimmer"></div>
+      <div class="success-icon-wrap">
+        <i class="fas fa-check"></i>
+      </div>
+      <h1>訊息已送出</h1>
+      <p>感謝您的聯繫！我們已收到您的需求，<br>團隊將會盡快回覆您。</p>
+      <a href="index.html" class="btn-primary hover-trigger magnetic-btn page-link">回到首頁</a>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // 載入動畫
+      setTimeout(() => {
+        document.querySelector('.loader').classList.add('hidden');
+        document.querySelector('.page-transition-curtain').classList.add('reveal');
+        document.body.classList.remove('loading-state');
+        document.body.classList.add('loaded-state');
+      }, 1000); 
+      
+      initCursor();
+      createParticles(); // 🔴 啟動金銀粒子
+      initMagneticButtons();
+      initPageTransition();
+    });
+
+    // --- 共用 JS 邏輯 ---
+    function initCursor() { if (window.matchMedia("(pointer: fine)").matches) { const cursor = document.querySelector('.cursor'); let mouseX=window.innerWidth/2, mouseY=window.innerHeight/2, cursorX=mouseX, cursorY=mouseY; document.addEventListener('mousemove', e => { mouseX=e.clientX; mouseY=e.clientY; }); document.addEventListener('mousedown', () => document.body.classList.add('clicking')); document.addEventListener('mouseup', () => document.body.classList.remove('clicking')); function animate() { cursorX+=(mouseX-cursorX)*0.5; cursorY+=(mouseY-cursorY)*0.5; cursor.style.transform=`translate(${cursorX}px, ${cursorY}px) translate(-50%, -50%)`; requestAnimationFrame(animate); } animate(); document.body.addEventListener('mouseenter', e=>{ if(e.target.closest('.hover-trigger')) document.body.classList.add('hovered'); }, true); document.body.addEventListener('mouseleave', e=>{ if(e.target.closest('.hover-trigger')) document.body.classList.remove('hovered'); }, true); } }
+    
+    // 🔴 修正：香檳金氣泡粒子
+    function createParticles() { 
+      const container = document.getElementById('particles'); 
+      if(!container) return; 
+      
+      const colors = ['#FFD700', '#FF8C00', '#FFFFFF', '#FFFACD']; // 金、橘、白、檸檬綢色
+
+      for (let i = 0; i < 30; i++) { 
+        const p = document.createElement('div');
+        p.classList.add('particle');
+        const size = Math.random() * 4 + 2 + 'px'; 
+        p.style.width = size; p.style.height = size;
+        
+        // 隨機顏色
+        p.style.color = colors[Math.floor(Math.random() * colors.length)];
+        p.style.background = p.style.color; 
+        p.style.boxShadow = `0 0 10px ${p.style.color}`; 
+
+        p.style.left = Math.random() * 100 + '%'; p.style.top = Math.random() * 100 + '%';
+        p.style.animationDelay = Math.random() * 5 + 's';
+        p.style.animationDuration = Math.random() * 8 + 8 + 's'; 
+        container.appendChild(p); 
+      } 
+    }
+    
+    function initMagneticButtons() { const buttons = document.querySelectorAll('.magnetic-btn'); buttons.forEach(btn => { btn.addEventListener('mousemove', (e) => { const rect = btn.getBoundingClientRect(); const x = e.clientX - rect.left - rect.width / 2; const y = e.clientY - rect.top - rect.height / 2; btn.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`; }); btn.addEventListener('mouseleave', () => { btn.style.transform = `translate(0px, 0px)`; }); }); }
+
+    function initPageTransition() { const links = document.querySelectorAll('.page-link'); const curtain = document.querySelector('.page-transition-curtain'); links.forEach(link => { link.addEventListener('click', (e) => { e.preventDefault(); const href = link.getAttribute('href'); curtain.classList.remove('reveal'); curtain.classList.add('cover'); setTimeout(() => { window.location.href = href; }, 800); }); }); }
+  </script>
 </body>
 </html>

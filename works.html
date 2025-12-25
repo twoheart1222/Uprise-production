@@ -6,26 +6,23 @@
 
 <title>精選作品集 | 推手影像製作有限公司 Uprise-Production</title>
 
+<!-- Favicon (預設) -->
 <link rel="icon" type="image/png" href="images/uploads/logo.png">
 
 <meta name="description" content="瀏覽 Uprise-Production 的精選作品，包含品牌形象廣告、產品宣傳影片、公部門政策推廣與大型活動紀錄。">
 <link rel="canonical" href="https://www.uprise-videoproduction.com/works.html">
 
-<!-- Fonts -->
+<!-- Fonts & CSS -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Italiana&family=Noto+Sans+TC:wght@300;400;500;700;900&family=Noto+Serif+TC:wght@700;900&display=swap" rel="stylesheet">
-<!-- FontAwesome -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-<!-- AOS Animation Library CSS -->
 <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
-<!-- 引入 js-yaml 用於解析 CMS 資料 -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
 
 <style>
-  /* --- 核心變數 (與首頁統一) --- */
+  /* --- 核心變數 --- */
   :root { 
     --bg-color: #050505;       
     --card-bg: rgba(20, 20, 20, 0.4); 
@@ -35,255 +32,79 @@
     --brand-light: #FFD700;    
     --brand-gradient: linear-gradient(135deg, #FFD700, #FF8C00);
     --silver-gradient: linear-gradient(to bottom, #ffffff 40%, #a0a0a0 100%);
-    
-    --font-display: 'Italiana', serif;
-    --font-body: 'Noto Sans TC', sans-serif;
-    --font-serif: 'Noto Serif TC', serif;
-    
+    --font-display: 'Italiana', serif; --font-body: 'Noto Sans TC', sans-serif; --font-serif: 'Noto Serif TC', serif;
     --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
+    --ease-cinematic: cubic-bezier(0.22, 1, 0.36, 1);
   }
-
   * { box-sizing: border-box; cursor: none; }
-
   html { scroll-behavior: smooth; }
-
   ::-webkit-scrollbar { width: 5px; }
   ::-webkit-scrollbar-track { background: #000; }
   ::-webkit-scrollbar-thumb { background: #444; border-radius: 10px; }
   ::-webkit-scrollbar-thumb:hover { background: var(--brand-primary); }
-
   ::selection { background: var(--brand-light); color: #000; }
+  body { margin: 0; padding: 0; font-family: var(--font-body); background-color: var(--bg-color); color: var(--text-main); overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+  img { -webkit-user-drag: none; pointer-events: none; }
 
-  body {
-    margin: 0; padding: 0;
-    font-family: var(--font-body);
-    background-color: var(--bg-color);
-    color: var(--text-main);
-    overflow-x: hidden;
-    -webkit-font-smoothing: antialiased;
-  }
-
-  /* 禁止圖片拖曳 (防盜) */
-  img {
-    -webkit-user-drag: none;
-    -khtml-user-drag: none;
-    -moz-user-drag: none;
-    -o-user-drag: none;
-    pointer-events: none;
-  }
-
-  /* --- 轉場與載入 --- */
-  #main-wrapper {
-    transition: filter 0.6s ease, transform 0.6s ease;
-    width: 100%; position: relative; z-index: 1; 
-  }
-  body.exiting #main-wrapper { filter: blur(10px) brightness(0.8); transform: scale(0.98); pointer-events: none; }
-  body.loading-state #main-wrapper { filter: blur(20px); opacity: 0; }
-  body.loaded-state #main-wrapper { filter: blur(0); opacity: 1; transform: scale(1); }
-
-  .page-transition-curtain {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: #000; z-index: 100000; transform: translateY(0);
-    transition: transform 1s cubic-bezier(0.87, 0, 0.13, 1); pointer-events: none;
-  }
+  /* 載入動畫 */
+  .page-transition-curtain { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 100000; transform: translateY(0); transition: transform 1s cubic-bezier(0.87, 0, 0.13, 1); pointer-events: none; }
   .page-transition-curtain.reveal { transform: translateY(-100%); } 
   .page-transition-curtain.cover { transform: translateY(0); }
-
-  .loader {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: #000; z-index: 200000; 
-    display: flex; justify-content: center; align-items: center;
-    transition: opacity 0.8s ease, visibility 0.8s;
-  }
+  .loader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 200000; display: flex; justify-content: center; align-items: center; transition: opacity 0.8s ease, visibility 0.8s; }
   .loader.hidden { opacity: 0; visibility: hidden; }
   
-  .loader-text-logo {
-    font-family: var(--font-display); font-size: 3rem; color: #fff;
-    letter-spacing: 5px; text-transform: uppercase;
-    animation: logoFadeInOut 2.5s ease forwards;
-  }
-  .loader-text-logo span { color: var(--brand-light); }
-  @keyframes logoFadeInOut { 
-    0% { opacity: 0; transform: scale(0.9); } 40% { opacity: 1; transform: scale(1); }
-    90% { opacity: 1; transform: scale(1); } 100% { opacity: 0; transform: scale(1.1); }
+  /* Logo 電影感聚焦動畫 */
+  .loader-logo-img { width: auto; height: 90px; max-width: 80vw; object-fit: contain; opacity: 0; transform: scale(0.8); filter: blur(10px); animation: cinematicLogoReveal 2.5s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
+  @keyframes cinematicLogoReveal { 
+    0% { opacity: 0; transform: scale(0.8) translateY(10px); filter: blur(10px) brightness(0.5); } 
+    30% { opacity: 1; transform: scale(1) translateY(0); filter: blur(0px) brightness(1); }
+    70% { opacity: 1; transform: scale(1.05); filter: blur(0px) brightness(1.1) drop-shadow(0 0 15px rgba(255, 215, 0, 0.6)); }
+    100% { opacity: 0; transform: scale(1.15) translateY(-5px); filter: blur(5px) brightness(1.5); } 
   }
 
-  /* --- 游標與特效 --- */
-  .cursor {
-    position: fixed; top: 0; left: 0; width: 12px; height: 12px;
-    background: var(--brand-light); border-radius: 50%; pointer-events: none; 
-    z-index: 2147483647; transform: translate(-50%, -50%);
-    box-shadow: 0 0 15px rgba(255, 215, 0, 0.9);
-    transition: width 0.3s, height 0.3s; will-change: transform;
-  }
-  body.hovered .cursor {
-    width: 60px; height: 60px; background: rgba(255, 215, 0, 0.05);
-    border: 1px solid rgba(255, 215, 0, 0.8); box-shadow: 0 0 30px rgba(255, 215, 0, 0.4);
-  }
+  /* 游標 */
+  .cursor { position: fixed; top: 0; left: 0; width: 12px; height: 12px; background: var(--brand-light); border-radius: 50%; pointer-events: none; z-index: 2147483647; transform: translate(-50%, -50%); box-shadow: 0 0 15px rgba(255, 215, 0, 0.9); transition: width 0.3s, height 0.3s; will-change: transform; }
+  body.hovered .cursor { width: 60px; height: 60px; background: rgba(255, 215, 0, 0.05); border: 1px solid rgba(255, 215, 0, 0.8); box-shadow: 0 0 30px rgba(255, 215, 0, 0.4); }
   body.clicking .cursor { transform: translate(-50%, -50%) scale(0.9); background: var(--brand-primary); }
 
-  .ambient-light {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    pointer-events: none; z-index: 0; overflow: hidden;
-  }
-  .ambient-blob {
-    position: absolute; width: 900px; height: 900px;
-    background: radial-gradient(circle, rgba(255, 140, 0, 0.04) 0%, transparent 60%);
-    border-radius: 50%; filter: blur(80px); opacity: 0.5;
-    animation: moveBlob 25s infinite alternate ease-in-out;
-  }
-  .ambient-blob:nth-child(1) { top: -20%; left: -10%; animation-delay: 0s; }
-  .ambient-blob:nth-child(2) { bottom: -20%; right: -10%; animation-duration: 35s; animation-direction: reverse; }
-  @keyframes moveBlob { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(50px, 50px) scale(1.1); } }
-
-  .particles-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 2; pointer-events: none; overflow: hidden; }
-  .particle {
-    position: absolute; background: radial-gradient(circle, var(--brand-light) 0%, transparent 70%);
-    border-radius: 50%; opacity: 0; animation: floatParticle 10s infinite ease-in-out;
-  }
-  @keyframes floatParticle {
-    0% { transform: translateY(0) translateX(0); opacity: 0; }
-    20% { opacity: 0.6; } 80% { opacity: 0.6; }
-    100% { transform: translateY(-120px) translateX(30px); opacity: 0; }
-  }
-
-  /* --- 導覽列 --- */
-  .header {
-    position: fixed; top: 0; left: 0; width: 100%; padding: 30px 50px;
-    display: flex; justify-content: space-between; align-items: center;
-    z-index: 100; background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent); 
-    transition: all 0.5s;
-  }
-  .header.scrolled { 
-    background: rgba(5, 5, 5, 0.9); backdrop-filter: blur(20px); 
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding: 20px 50px;
-  }
+  /* 導覽列 */
+  .header { position: fixed; top: 0; left: 0; width: 100%; padding: 30px 50px; display: flex; justify-content: space-between; align-items: center; z-index: 100; background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent); transition: all 0.5s; }
+  .header.scrolled { background: rgba(5, 5, 5, 0.9); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding: 20px 50px; }
   .logo { display: flex; align-items: center; gap: 12px; text-decoration: none; color: #fff; }
-  .logo img { height: 38px; width: auto; transition: transform 0.5s; }
+  .logo img { height: 38px; width: auto; transition: transform 0.5s; object-fit: contain; }
   .logo:hover img { transform: rotate(5deg) scale(1.05); }
-  .logo-text { font-family: var(--font-display); font-size: 1.2rem; letter-spacing: 2px; text-transform: uppercase; color: #fff; }
-  .logo-text span { color: var(--brand-light); }
-  
   .nav { display: flex; gap: 30px; } 
   .nav-item { position: relative; overflow: hidden; height: 24px; cursor: pointer; display: block; color: rgba(255,255,255,0.8); font-family: var(--font-body); font-size: 0.95rem; letter-spacing: 2px; font-weight: 500; text-decoration: none; }
-  .nav-item span.original-text { display: block; transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1); }
-  .nav-item span.hover-text { position: absolute; top: 100%; left: 0; width: 100%; color: var(--brand-light); transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1); white-space: nowrap; }
-  .nav-item:hover span.original-text { transform: translateY(-100%); }
-  .nav-item:hover span.hover-text { transform: translateY(-100%); }
-  .nav-item.active span.original-text { color: var(--brand-light); }
+  .nav-item span { display: block; transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1); }
+  .nav-item .hover-text { position: absolute; top: 100%; left: 0; width: 100%; color: var(--brand-light); }
+  .nav-item:hover .original-text { transform: translateY(-100%); } .nav-item:hover .hover-text { transform: translateY(-100%); }
+  .nav-item.active .original-text { color: var(--brand-light); }
 
-  /* --- 作品頁面 Header --- */
-  .works-hero {
-    padding-top: 180px; padding-bottom: 80px; text-align: center;
-    position: relative; z-index: 10;
-  }
-  .page-label {
-    font-family: var(--font-display); font-size: 0.9rem; letter-spacing: 4px;
-    color: var(--brand-light); margin-bottom: 20px; display: block;
-  }
-  .page-title {
-    font-family: var(--font-serif); font-size: clamp(3rem, 8vw, 5rem);
-    font-weight: 900; color: #fff; line-height: 1.1; margin: 0 0 20px;
-    background: var(--brand-gradient); 
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-    filter: drop-shadow(0 0 30px rgba(255, 140, 0, 0.5));
-  }
-  .page-subtitle {
-    font-family: var(--font-body); font-size: 1.1rem; color: rgba(255,255,255,0.7);
-    max-width: 600px; margin: 0 auto; line-height: 1.8; letter-spacing: 1px;
-  }
-  .title-divider {
-    width: 80px; height: 3px; background: var(--brand-gradient);
-    margin: 40px auto 0; border-radius: 2px;
-  }
+  /* Works Hero */
+  .works-hero { padding-top: 180px; padding-bottom: 80px; text-align: center; position: relative; z-index: 10; }
+  .page-label { font-family: var(--font-display); font-size: 0.9rem; letter-spacing: 4px; color: var(--brand-light); margin-bottom: 20px; display: block; }
+  .page-title { font-family: var(--font-serif); font-size: clamp(3rem, 8vw, 5rem); font-weight: 900; color: #fff; line-height: 1.1; margin: 0 0 20px; background: var(--brand-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 0 30px rgba(255, 140, 0, 0.5)); letter-spacing: 10px; opacity: 0; transform: scale(1.1); filter: blur(5px); transition: all 1.5s var(--ease-cinematic); }
+  .page-title.aos-animate { opacity: 1; letter-spacing: 0; transform: scale(1); filter: blur(0); }
+  .page-subtitle { font-family: var(--font-body); font-size: 1.1rem; color: rgba(255,255,255,0.7); max-width: 600px; margin: 0 auto; line-height: 1.8; letter-spacing: 1px; }
+  .title-divider { width: 0; height: 3px; background: var(--brand-gradient); margin: 40px auto 0; border-radius: 2px; transition: width 1.2s var(--ease-cinematic); }
+  .title-divider.aos-animate { width: 80px; }
 
-  /* --- 作品列表 --- */
-  .works-container {
-    max-width: 1200px; margin: 0 auto; width: 100%; padding: 0 40px 100px;
-    position: relative; z-index: 10;
-  }
-  .category-section { margin-bottom: 120px; } /* AOS 會控制 opacity, 這裡不需預設 0 */
-
-  .category-title {
-    font-family: var(--font-serif); font-size: 2rem; font-weight: 700;
-    margin: 0 0 40px; padding-left: 20px;
-    border-left: 4px solid var(--brand-primary);
-    background: linear-gradient(90deg, #fff, #999);
-    -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
-    letter-spacing: 2px;
-  }
-
-  .work-grid {
-    display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 40px;
-  }
-
-  /* 作品卡片 */
-  .work-card {
-    display: block; text-decoration: none; position: relative;
-    background: var(--card-bg);
-    border-radius: 4px; overflow: hidden;
-    /* 基礎邊框 */
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    transition: 0.5s var(--ease-out-expo);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-  }
-
-  /* 流光層 */
-  .work-card .border-shimmer {
-    position: absolute; inset: 0; border-radius: 4px; padding: 1px;
-    background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.5), transparent);
-    background-size: 200% 100%;
-    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor; mask-composite: exclude;
-    pointer-events: none; animation: shimmerBorder 3s linear infinite; opacity: 0.6; z-index: 2;
-  }
+  /* Works List */
+  .works-container { max-width: 1200px; margin: 0 auto; width: 100%; padding: 0 40px 100px; position: relative; z-index: 10; }
+  .category-section { margin-bottom: 120px; }
+  .category-title { font-family: var(--font-serif); font-size: 2rem; font-weight: 700; margin: 0 0 40px; padding-left: 20px; border-left: 4px solid var(--brand-primary); background: linear-gradient(90deg, #fff, #999); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: 2px; }
+  .work-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 40px; }
+  .work-card { display: block; text-decoration: none; position: relative; background: var(--card-bg); border-radius: 4px; overflow: hidden; border: 1px solid rgba(255, 255, 255, 0.08); transition: 0.5s var(--ease-out-expo); box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+  .work-card .border-shimmer { position: absolute; inset: 0; border-radius: 4px; padding: 1px; background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.5), transparent); background-size: 200% 100%; -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite: xor; mask-composite: exclude; pointer-events: none; animation: shimmerBorder 3s linear infinite; opacity: 0.6; z-index: 2; }
   @keyframes shimmerBorder { 0% { background-position: -150% 0; } 100% { background-position: 150% 0; } }
-
-  /* 圖片區域 */
-  .img-box {
-    width: 100%; aspect-ratio: 16/9; overflow: hidden; position: relative; background: #000;
-  }
-  .img-box img {
-    width: 100%; height: 100%; object-fit: cover;
-    transition: transform 0.8s var(--ease-out-expo), filter 0.8s;
-    filter: brightness(0.9);
-  }
-  
-  /* 播放按鈕 */
-  .play-icon {
-    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.8);
-    width: 60px; height: 60px; border-radius: 50%;
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    backdrop-filter: blur(5px);
-    display: flex; justify-content: center; align-items: center;
-    opacity: 0; transition: 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-    z-index: 2;
-  }
-  .play-icon::after {
-    content: ''; margin-left: 4px;
-    border-left: 14px solid #fff; border-top: 9px solid transparent; border-bottom: 9px solid transparent;
-  }
-
-  /* 內容區域 */
+  .img-box { width: 100%; aspect-ratio: 16/9; overflow: hidden; position: relative; background: #000; }
+  .img-box img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.8s var(--ease-out-expo), filter 0.8s; filter: brightness(0.9); }
+  .play-icon { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.8); width: 60px; height: 60px; border-radius: 50%; background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.3); backdrop-filter: blur(5px); display: flex; justify-content: center; align-items: center; opacity: 0; transition: 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); z-index: 2; }
+  .play-icon::after { content: ''; margin-left: 4px; border-left: 14px solid #fff; border-top: 9px solid transparent; border-bottom: 9px solid transparent; }
   .content { padding: 25px 20px; position: relative; z-index: 1; }
-  .client {
-    font-family: var(--font-body); font-size: 0.8rem; color: var(--brand-light);
-    letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px; display: block; font-weight: 600;
-  }
-  h3.work-title {
-    font-family: var(--font-serif); font-size: 1.4rem; color: #fff; margin: 0; font-weight: 700; line-height: 1.4;
-    transition: color 0.3s;
-    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
-  }
-
-  /* Hover Effects */
-  .work-card:hover {
-    transform: translateY(-8px);
-    background: rgba(30, 30, 30, 0.8);
-    box-shadow: 0 20px 60px rgba(0,0,0,0.6);
-    border-color: rgba(255, 183, 0, 0.3);
-  }
+  .client { font-family: var(--font-body); font-size: 0.8rem; color: var(--brand-light); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px; display: block; font-weight: 600; }
+  h3.work-title { font-family: var(--font-serif); font-size: 1.4rem; color: #fff; margin: 0; font-weight: 700; line-height: 1.4; transition: color 0.3s; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .work-card:hover { transform: translateY(-8px); background: rgba(30, 30, 30, 0.8); box-shadow: 0 20px 60px rgba(0,0,0,0.6); border-color: rgba(255, 183, 0, 0.3); }
   .work-card:hover .img-box img { transform: scale(1.05); filter: brightness(1.1); }
   .work-card:hover .play-icon { opacity: 1; transform: translate(-50%, -50%) scale(1); background: var(--brand-gradient); border: none; box-shadow: 0 0 20px rgba(255, 140, 0, 0.6); }
   .work-card:hover h3.work-title { color: var(--brand-light); }
@@ -296,8 +117,13 @@
   .footer h2 span { background: var(--brand-gradient); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; font-weight: 900; filter: drop-shadow(0 0 15px rgba(255, 140, 0, 0.5)); }
   .manifesto { font-size: 1.1rem; color: var(--text-sub); line-height: 2; margin-bottom: 50px; font-weight: 300; letter-spacing: 1px; }
   .copyright { font-size: 0.8rem; color: #444; margin-top: 50px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 30px; letter-spacing: 1px; }
+  .ambient-light, .particles-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; overflow: hidden; }
+  .ambient-blob { position: absolute; width: 900px; height: 900px; background: radial-gradient(circle, rgba(255, 140, 0, 0.04) 0%, transparent 60%); border-radius: 50%; filter: blur(80px); opacity: 0.5; animation: moveBlob 25s infinite alternate ease-in-out; }
+  .ambient-blob:nth-child(1) { top: -20%; left: -10%; } .ambient-blob:nth-child(2) { bottom: -20%; right: -10%; }
+  @keyframes moveBlob { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(50px, 50px) scale(1.1); } }
+  .particle { position: absolute; background: radial-gradient(circle, var(--brand-light) 0%, transparent 70%); border-radius: 50%; opacity: 0; animation: floatParticle 10s infinite ease-in-out; }
+  @keyframes floatParticle { 0% { transform: translateY(0) translateX(0); opacity: 0; } 20% { opacity: 0.6; } 80% { opacity: 0.6; } 100% { transform: translateY(-120px) translateX(30px); opacity: 0; } }
 
-  /* RWD */
   @media (max-width: 768px) {
     .header { padding: 20px; } .nav { display: none; } 
     .works-hero { padding-top: 140px; } .page-title { font-size: 3rem; }
@@ -311,12 +137,9 @@
   <div class="page-transition-curtain"></div>
   <div class="cursor"></div>
   <div class="loader">
-    <div class="loader-text-logo">Uprise<span>.</span></div>
+    <img src="images/uploads/logo.png" class="loader-logo-img" alt="Uprise">
   </div>
-  <div class="ambient-light">
-    <div class="ambient-blob"></div>
-    <div class="ambient-blob"></div>
-  </div>
+  <div class="ambient-light"><div class="ambient-blob"></div><div class="ambient-blob"></div></div>
   <div class="particles-container" id="particles"></div>
 
   <div id="main-wrapper">
@@ -327,30 +150,20 @@
       </a>
       
       <nav class="nav">
-        <a href="index.html" class="nav-item hover-trigger page-link">
-            <span class="original-text">首頁</span><span class="hover-text">首頁</span>
-        </a>
-        <a href="works.html" class="nav-item hover-trigger page-link active">
-            <span class="original-text">作品</span><span class="hover-text">作品</span>
-        </a>
-        <a href="team.html" class="nav-item hover-trigger page-link">
-            <span class="original-text">團隊</span><span class="hover-text">團隊</span>
-        </a>
-        <a href="about.html" class="nav-item hover-trigger page-link">
-            <span class="original-text">關於</span><span class="hover-text">關於</span>
-        </a>
-        <a href="contact.html" class="nav-item hover-trigger page-link">
-            <span class="original-text">聯絡</span><span class="hover-text">聯絡</span>
-        </a>
+        <a href="index.html" class="nav-item hover-trigger page-link"><span class="original-text">首頁</span><span class="hover-text">首頁</span></a>
+        <a href="works.html" class="nav-item hover-trigger page-link active"><span class="original-text">作品</span><span class="hover-text">作品</span></a>
+        <a href="team.html" class="nav-item hover-trigger page-link"><span class="original-text">團隊</span><span class="hover-text">團隊</span></a>
+        <a href="about.html" class="nav-item hover-trigger page-link"><span class="original-text">關於</span><span class="hover-text">關於</span></a>
+        <a href="contact.html" class="nav-item hover-trigger page-link"><span class="original-text">聯絡</span><span class="hover-text">聯絡</span></a>
       </nav>
     </header>
 
     <main>
       <section class="works-hero">
         <span class="page-label" data-aos="fade-down" data-aos-delay="200">SELECTED WORKS</span>
-        <h1 class="page-title" id="page-title" data-aos="zoom-out" data-aos-delay="400">精選作品集</h1>
+        <h1 class="page-title" id="page-title" data-aos="fade" data-aos-delay="300" data-aos-duration="1500">精選作品集</h1>
         <p class="page-subtitle" id="page-subtitle" data-aos="fade-up" data-aos-delay="600">收錄歷年來的影像精華，每一部作品都是我們對美學的堅持。</p>
-        <div class="title-divider" data-aos="fade-up" data-aos-delay="800"></div>
+        <div class="title-divider" data-aos="fade" data-aos-delay="800"></div>
       </section>
 
       <div class="works-container" id="works-wrapper">
@@ -362,54 +175,18 @@
       <div class="footer-watermark" id="footer-mark">UPRISE</div>
       <div class="footer-content" data-aos="fade-up" data-aos-offset="50">
         <h2>推手<span>影像</span></h2>
-        <p class="manifesto">
-          我們不僅是影像的製造者，更是品牌價值的推動者。<br>
-          致力於將抽象的意念，轉化為具象的視覺衝擊。
-        </p>
+        <p class="manifesto">我們不僅是影像的製造者，更是品牌價值的推動者。<br>致力於將抽象的意念，轉化為具象的視覺衝擊。</p>
         <div class="copyright">Copyright © 2025 推手影像製作有限公司 Uprise-Production. All rights reserved.</div>
       </div>
     </footer>
   </div>
 
-  <!-- AOS Script -->
   <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-
   <script>
-    // --- 防盜機制 (Anti-Theft) ---
-    // 1. 禁止右鍵
-    document.addEventListener('contextmenu', event => event.preventDefault());
+    document.addEventListener('contextmenu', e => e.preventDefault());
+    document.addEventListener('copy', e => e.preventDefault());
+    document.onkeydown = function(e) { if(e.keyCode == 123) return false; }
 
-    // 2. 禁止複製 (但允許選取文字)
-    document.addEventListener('copy', event => {
-        event.preventDefault();
-    });
-
-    // 3. 禁止快速鍵 (F12, Ctrl+U, Ctrl+S, Ctrl+C, Ctrl+Shift+I)
-    document.onkeydown = function(e) {
-        if(e.keyCode == 123) { // F12
-            return false;
-        }
-        if(e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) { // Ctrl+Shift+I
-            return false;
-        }
-        if(e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) { // Ctrl+Shift+C
-            return false;
-        }
-        if(e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) { // Ctrl+Shift+J
-            return false;
-        }
-        if(e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) { // Ctrl+U
-            return false;
-        }
-        if(e.ctrlKey && e.keyCode == 'S'.charCodeAt(0)) { // Ctrl+S
-            return false;
-        }
-        if(e.ctrlKey && e.keyCode == 'C'.charCodeAt(0)) { // Ctrl+C
-             return false;
-        }
-    }
-
-    // 預設資料 (Fallback)
     const fallbackData = {
       title: "精選作品集",
       subtitle: "收錄歷年來的影像精華，每一部作品都是我們對美學的堅持。",
@@ -421,35 +198,44 @@
 
     function getYouTubeThumb(url) {
       if (!url) return 'https://dummyimage.com/600x338/111/fff&text=No+Video';
-      const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=|shorts\/)([^#&?]*).*/;
-      const match = url.match(regExp);
-      const videoId = (match && match[2].length === 11) ? match[2] : null;
-      return videoId ? `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg` : 'https://dummyimage.com/600x338/111/fff&text=Invalid+Link';
+      const match = url.match(/^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=|shorts\/)([^#&?]*).*/);
+      return (match && match[2].length === 11) ? `https://img.youtube.com/vi/${match[2]}/maxresdefault.jpg` : 'https://dummyimage.com/600x338/111/fff&text=Invalid+Link';
     }
 
     document.addEventListener('DOMContentLoaded', () => {
-      // 初始化 AOS
-      AOS.init({
-        duration: 1000,
-        easing: 'ease-out-cubic',
-        once: false, // 允許重複播放
-        mirror: true, // 允許反向播放
-        offset: 50
-      });
-
       setTimeout(() => {
         document.querySelector('.loader').classList.add('hidden');
         document.querySelector('.page-transition-curtain').classList.add('reveal');
         document.body.classList.remove('loading-state');
         document.body.classList.add('loaded-state');
-      }, 1000); 
+        AOS.init({ duration: 1000, easing: 'ease-out-cubic', once: false, mirror: true, offset: 50 });
+      }, 2200);
 
-      // 讀取作品資料 (含錯誤處理)
-      fetch('content/works.md')
-        .then(r => {
-            if(!r.ok) throw new Error("CMS Data Not Found");
-            return r.text();
+      // 1. 全站通用設定 (Logo & Favicon)
+      fetch('content/index.md')
+        .then(r => r.ok ? r.text() : Promise.reject())
+        .then(text => {
+          const parts = text.split('---');
+          const data = jsyaml.load(parts.length > 1 ? parts[1] : text);
+          let logoUrl = data.logo;
+          let faviconUrl = data.favicon || data.logo;
+
+          if(logoUrl) {
+            const navLogo = document.querySelector('.logo img');
+            if(navLogo) navLogo.src = logoUrl;
+            const loaderLogo = document.querySelector('.loader-logo-img');
+            if(loaderLogo) loaderLogo.src = logoUrl;
+          }
+          if(faviconUrl) {
+            const favicon = document.querySelector('link[rel="icon"]');
+            if(favicon) favicon.href = faviconUrl;
+          }
         })
+        .catch(e => console.log("Global settings not found"));
+
+      // 2. 頁面內容
+      fetch('content/works.md')
+        .then(r => r.ok ? r.text() : Promise.reject())
         .then(text => {
             const parts = text.split('---');
             const data = jsyaml.load(parts.length > 1 ? parts[1] : text);
@@ -460,9 +246,7 @@
             renderWorks(fallbackData);
         });
 
-      initCursor();
-      initPageTransition();
-      createParticles();
+      initCursor(); initPageTransition(); createParticles();
     });
 
     function renderWorks(data) {
@@ -481,66 +265,37 @@
         ];
 
         let hasContent = false;
-        categories.forEach((cat, catIndex) => {
+        categories.forEach((cat) => {
             const items = data[cat.id];
             if (items && items.length > 0) {
                 hasContent = true;
                 let gridHtml = '';
-                
                 items.forEach((work, idx) => {
                     const thumbUrl = work.image ? work.image : getYouTubeThumb(work.link);
                     const clientName = work.client || ''; 
-                    
-                    // 每張卡片都加上 AOS fade-up
                     gridHtml += `
                         <a href="${work.link}" target="_blank" class="work-card hover-trigger" data-aos="fade-up" data-aos-delay="${idx * 100}">
                             <div class="border-shimmer"></div>
-                            <div class="img-box">
-                                <img src="${thumbUrl}" alt="${work.title}" loading="lazy">
-                                <div class="play-icon"><i class="fas fa-play" style="color:#fff; margin-left:3px;"></i></div>
-                            </div>
-                            <div class="content">
-                                <span class="client">${clientName}</span>
-                                <h3 class="work-title">${work.title}</h3>
-                            </div>
+                            <div class="img-box"><img src="${thumbUrl}" alt="${work.title}" loading="lazy"><div class="play-icon"><i class="fas fa-play" style="color:#fff; margin-left:3px;"></i></div></div>
+                            <div class="content"><span class="client">${clientName}</span><h3 class="work-title">${work.title}</h3></div>
                         </a>`;
                 });
-
-                // 分類區塊標題與容器也加上動畫
-                const sectionHtml = `
-                    <div class="category-section" data-aos="fade-up" data-aos-delay="50">
-                        <div class="category-title" data-aos="fade-right">${cat.name}</div>
-                        <div class="work-grid">${gridHtml}</div>
-                    </div>`;
+                const sectionHtml = `<div class="category-section"><div class="category-title" data-aos="fade-right">${cat.name}</div><div class="work-grid">${gridHtml}</div></div>`;
                 wrapper.insertAdjacentHTML('beforeend', sectionHtml);
             }
         });
-
         if (!hasContent) wrapper.innerHTML = '<p style="text-align:center; padding:50px; color:#aaa;">目前尚無作品，請至後台新增。</p>';
-        
-        // 內容生成完畢後，重新整理 AOS 以確保動畫正確觸發
-        setTimeout(() => {
-            AOS.refresh();
-        }, 100);
+        setTimeout(() => AOS.refresh(), 100);
     }
     
-    // 延續共同 JS 邏輯
     function initCursor() { if (window.matchMedia("(pointer: fine)").matches) { const cursor = document.querySelector('.cursor'); let mouseX=0, mouseY=0, cursorX=0, cursorY=0; document.addEventListener('mousemove', e => { mouseX=e.clientX; mouseY=e.clientY; }); document.addEventListener('mousedown', () => document.body.classList.add('clicking')); document.addEventListener('mouseup', () => document.body.classList.remove('clicking')); function animate() { cursorX+=(mouseX-cursorX)*0.5; cursorY+=(mouseY-cursorY)*0.5; cursor.style.transform=`translate(${cursorX}px, ${cursorY}px) translate(-50%, -50%)`; requestAnimationFrame(animate); } animate(); document.body.addEventListener('mouseenter', e=>{ if(e.target.closest('.hover-trigger')) document.body.classList.add('hovered'); }, true); document.body.addEventListener('mouseleave', e=>{ if(e.target.closest('.hover-trigger')) document.body.classList.remove('hovered'); }, true); } }
     function createParticles() { const container = document.getElementById('particles'); if(!container) return; for (let i = 0; i < 20; i++) { const p = document.createElement('div'); p.classList.add('particle'); const size = Math.random() * 3 + 1 + 'px'; p.style.width = size; p.style.height = size; p.style.left = Math.random() * 100 + '%'; p.style.top = Math.random() * 100 + '%'; p.style.animationDelay = Math.random() * 5 + 's'; p.style.animationDuration = Math.random() * 10 + 10 + 's'; container.appendChild(p); } }
     function initPageTransition() { const links = document.querySelectorAll('.page-link'); const curtain = document.querySelector('.page-transition-curtain'); links.forEach(link => { link.addEventListener('click', (e) => { e.preventDefault(); const href = link.getAttribute('href'); curtain.classList.remove('reveal'); curtain.classList.add('cover'); setTimeout(() => { window.location.href = href; }, 800); }); }); }
-    
     window.addEventListener('scroll', () => {
         const header = document.querySelector('.header');
-        if(window.scrollY > 50) header.classList.add('scrolled');
-        else header.classList.remove('scrolled');
+        if(window.scrollY > 50) header.classList.add('scrolled'); else header.classList.remove('scrolled');
         const footerMark = document.getElementById('footer-mark');
-        if(footerMark) {
-            const footerOffset = document.querySelector('footer').offsetTop;
-            if(window.scrollY > footerOffset - window.innerHeight) {
-                const delta = window.scrollY - (footerOffset - window.innerHeight);
-                footerMark.style.transform = `translate(-50%, -50%) translateY(${delta * -0.1}px)`;
-            }
-        }
+        if(footerMark) { const footerOffset = document.querySelector('footer').offsetTop; if(window.scrollY > footerOffset - window.innerHeight) { const delta = window.scrollY - (footerOffset - window.innerHeight); footerMark.style.transform = `translate(-50%, -50%) translateY(${delta * -0.1}px)`; } }
     });
   </script>
 </body>

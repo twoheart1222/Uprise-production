@@ -6,11 +6,8 @@
 
 <title>推手影像製作有限公司 Uprise-Production | 敘事與美學的極致</title>
 
-<!-- 瀏覽器標籤 Logo -->
+<!-- Favicon (預設，JS 會自動讀取後台設定覆蓋) -->
 <link rel="icon" type="image/png" href="images/uploads/logo.png">
-
-<!-- 讓 CMS 能夠找到設定檔 (解決讀取錯誤) -->
-<link href="config.yml" type="text/yaml" rel="cms-config-url">
 
 <meta name="description" content="Uprise-Production 推手影像｜以極致的影像美學，探索品牌深度的敘事可能。">
 <link rel="canonical" href="https://www.uprise-videoproduction.com/index.html">
@@ -24,18 +21,18 @@
 <!-- AOS Animation Library CSS -->
 <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
-<!-- 引入 js-yaml 用於解析 CMS 資料 -->
+<!-- Libraries -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
 
 <style>
   /* --- 核心變數 --- */
   :root { 
-    --bg-color: #050505;       
+    --bg-color: #050505; 
     --card-bg: rgba(20, 20, 20, 0.4); 
-    --text-main: #FFFFFF;      
-    --text-sub: #B0B0B0;       
-    --brand-primary: #FF8C00;  
-    --brand-light: #FFD700;    
+    --text-main: #FFFFFF; 
+    --text-sub: #B0B0B0; 
+    --brand-primary: #FF8C00; 
+    --brand-light: #FFD700; 
     --brand-gradient: linear-gradient(135deg, #FFD700, #FF8C00);
     --silver-gradient: linear-gradient(to bottom, #ffffff 40%, #a0a0a0 100%);
     
@@ -44,19 +41,10 @@
     --font-serif: 'Noto Serif TC', serif;
     
     --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
+    --ease-cinematic: cubic-bezier(0.22, 1, 0.36, 1);
   }
 
-  * { 
-    box-sizing: border-box; 
-    cursor: none; 
-  }
-
-  /* 允許表單輸入框可以選取文字 */
-  input, textarea {
-    -webkit-user-select: auto;
-    user-select: auto;
-    cursor: auto;
-  }
+  * { box-sizing: border-box; cursor: none; }
 
   html { scroll-behavior: smooth; }
 
@@ -76,140 +64,107 @@
     -webkit-font-smoothing: antialiased;
   }
 
-  /* 禁止圖片拖曳 */
+  /* 禁止圖片拖曳 (防盜) */
   img {
     -webkit-user-drag: none;
-    -khtml-user-drag: none;
-    -moz-user-drag: none;
-    -o-user-drag: none;
-    pointer-events: none; /* 讓圖片不干擾 cursor */
-  }
-
-  /* Wrapper for transition */
-  #main-wrapper {
-    transition: filter 0.6s ease, transform 0.6s ease;
-    width: 100%;
-    position: relative;
-    z-index: 1; 
-  }
-
-  body.exiting #main-wrapper {
-    filter: blur(10px) brightness(0.8);
-    transform: scale(0.98);
     pointer-events: none;
   }
-  
-  body.loading-state #main-wrapper { filter: blur(20px); opacity: 0; }
-  body.loaded-state #main-wrapper { filter: blur(0); opacity: 1; transform: scale(1); }
 
+  /* --- 載入動畫 (Loader) --- */
   .page-transition-curtain {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: #000; 
-    z-index: 100000; 
-    transform: translateY(0);
-    transition: transform 1s cubic-bezier(0.87, 0, 0.13, 1);
-    pointer-events: none;
+    background: #000; z-index: 100000; transform: translateY(0);
+    transition: transform 1s cubic-bezier(0.87, 0, 0.13, 1); pointer-events: none;
   }
   .page-transition-curtain.reveal { transform: translateY(-100%); } 
   .page-transition-curtain.cover { transform: translateY(0); }
 
   .loader {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: #000; 
-    z-index: 200000; 
+    background: #000; z-index: 200000; 
     display: flex; justify-content: center; align-items: center;
     transition: opacity 0.8s ease, visibility 0.8s;
   }
   .loader.hidden { opacity: 0; visibility: hidden; }
   
-  .loader-text-logo {
-    font-family: var(--font-display);
-    font-size: 3rem;
-    color: #fff;
-    letter-spacing: 5px;
-    text-transform: uppercase;
-    animation: logoFadeInOut 2.5s ease forwards;
+  /* Logo 電影感聚焦動畫 */
+  .loader-logo-img {
+    width: auto;
+    height: 90px; 
+    max-width: 80vw;
+    object-fit: contain;
+    opacity: 0;
+    transform: scale(0.8);
+    filter: blur(10px);
+    animation: cinematicLogoReveal 2.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
   }
-  .loader-text-logo span { color: var(--brand-light); }
-
-  @keyframes logoFadeInOut { 
-    0% { opacity: 0; transform: scale(0.9); }
-    40% { opacity: 1; transform: scale(1); }
-    90% { opacity: 1; transform: scale(1); }
-    100% { opacity: 0; transform: scale(1.1); }
+  
+  @keyframes cinematicLogoReveal { 
+    0% { 
+      opacity: 0; transform: scale(0.8) translateY(10px); filter: blur(10px) brightness(0.5);
+    } 
+    30% { 
+      opacity: 1; transform: scale(1) translateY(0); filter: blur(0px) brightness(1);
+    }
+    70% {
+      opacity: 1; transform: scale(1.05); 
+      filter: blur(0px) brightness(1.1) drop-shadow(0 0 15px rgba(255, 215, 0, 0.6)); 
+    }
+    100% { 
+      opacity: 0; transform: scale(1.15) translateY(-5px); filter: blur(5px) brightness(1.5);
+    } 
   }
 
+  /* 游標 */
   .cursor {
     position: fixed; top: 0; left: 0; width: 12px; height: 12px;
-    background: var(--brand-light);
-    border-radius: 50%;
-    pointer-events: none; 
-    z-index: 2147483647; 
-    transform: translate(-50%, -50%);
+    background: var(--brand-light); border-radius: 50%; pointer-events: none; 
+    z-index: 2147483647; transform: translate(-50%, -50%);
     box-shadow: 0 0 15px rgba(255, 215, 0, 0.9);
-    transition: width 0.3s, height 0.3s;
-    will-change: transform;
+    transition: width 0.3s, height 0.3s; will-change: transform;
   }
   body.hovered .cursor {
-    width: 60px; height: 60px;
-    background: rgba(255, 215, 0, 0.05);
-    border: 1px solid rgba(255, 215, 0, 0.8);
-    box-shadow: 0 0 30px rgba(255, 215, 0, 0.4);
+    width: 60px; height: 60px; background: rgba(255, 215, 0, 0.05);
+    border: 1px solid rgba(255, 215, 0, 0.8); box-shadow: 0 0 30px rgba(255, 215, 0, 0.4);
   }
   body.clicking .cursor { transform: translate(-50%, -50%) scale(0.9); background: var(--brand-primary); }
 
+  /* 環境特效 */
   .ambient-light {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
     pointer-events: none; z-index: 0; overflow: hidden;
   }
   .ambient-blob {
-    position: absolute;
-    width: 900px; height: 900px;
+    position: absolute; width: 900px; height: 900px;
     background: radial-gradient(circle, rgba(255, 140, 0, 0.04) 0%, transparent 60%);
-    border-radius: 50%;
-    filter: blur(80px);
-    opacity: 0.5;
+    border-radius: 50%; filter: blur(80px); opacity: 0.5;
     animation: moveBlob 25s infinite alternate ease-in-out;
   }
   .ambient-blob:nth-child(1) { top: -20%; left: -10%; animation-delay: 0s; }
   .ambient-blob:nth-child(2) { bottom: -20%; right: -10%; animation-duration: 35s; animation-direction: reverse; }
-  @keyframes moveBlob {
-    0% { transform: translate(0, 0) scale(1); }
-    100% { transform: translate(50px, 50px) scale(1.1); }
+  @keyframes moveBlob { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(50px, 50px) scale(1.1); } }
+
+  .particles-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 2; pointer-events: none; overflow: hidden; }
+  .particle {
+    position: absolute; background: radial-gradient(circle, var(--brand-light) 0%, transparent 70%);
+    border-radius: 50%; opacity: 0; animation: floatParticle 10s infinite ease-in-out;
+  }
+  @keyframes floatParticle {
+    0% { transform: translateY(0) translateX(0); opacity: 0; }
+    20% { opacity: 0.6; } 80% { opacity: 0.6; }
+    100% { transform: translateY(-120px) translateX(30px); opacity: 0; }
   }
 
   /* 極簡聲音按鈕 */
   #sound-btn {
     position: fixed; bottom: 40px; right: 40px; z-index: 9000;
-    display: none;
-    gap: 4px;
-    align-items: flex-end;
-    height: 24px;
-    cursor: pointer;
-    transition: transform 0.3s;
-    background: transparent;
-    border: none;
-    width: auto;
-    padding: 5px;
+    display: none; gap: 4px; align-items: flex-end; height: 24px;
+    cursor: pointer; background: transparent; border: none; padding: 5px; width: auto;
   }
   #sound-btn:hover { transform: scale(1.1); }
-  .sound-label {
-    font-family: var(--font-body);
-    font-size: 0.75rem; letter-spacing: 2px; color: rgba(255,255,255,0.7); font-weight: 500; margin-right: 5px;
-  }
-
-  .sound-bar {
-    width: 3px;
-    background-color: #fff;
-    opacity: 0.8;
-    border-radius: 2px;
-    height: 3px; 
-    transition: height 0.3s, background-color 0.3s;
-  }
-  #sound-btn.is-playing .sound-bar {
-    background-color: var(--brand-light);
-    animation: soundWaveAnim 1s ease-in-out infinite;
-  }
+  .sound-label { font-family: var(--font-body); font-size: 0.75rem; letter-spacing: 2px; color: rgba(255,255,255,0.7); font-weight: 500; margin-right: 5px; margin-bottom: 2px; }
+  .sound-bar { width: 3px; background-color: #fff; opacity: 0.8; border-radius: 2px; height: 3px; transition: height 0.3s, background-color 0.3s; }
+  #sound-btn.is-playing .sound-bar { background-color: var(--brand-light); animation: soundWaveAnim 1s ease-in-out infinite; }
   #sound-btn.is-playing .sound-label { color: var(--brand-light); }
   #sound-btn.is-playing .sound-bar:nth-child(1) { animation-delay: 0.0s; }
   #sound-btn.is-playing .sound-bar:nth-child(2) { animation-delay: 0.2s; }
@@ -221,46 +176,24 @@
   .header {
     position: fixed; top: 0; left: 0; width: 100%; padding: 30px 50px;
     display: flex; justify-content: space-between; align-items: center;
-    z-index: 100; 
-    background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent); 
+    z-index: 100; background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent); 
     transition: all 0.5s;
   }
   .header.scrolled { 
-    background: rgba(5, 5, 5, 0.9); 
-    backdrop-filter: blur(20px); 
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08); 
-    padding: 20px 50px;
+    background: rgba(5, 5, 5, 0.9); backdrop-filter: blur(20px); 
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding: 20px 50px;
   }
-
   .logo { display: flex; align-items: center; gap: 12px; text-decoration: none; color: #fff; }
-  .logo img { height: 38px; width: auto; transition: transform 0.5s; pointer-events: none; }
+  .logo img { height: 38px; width: auto; transition: transform 0.5s; object-fit: contain; }
   .logo:hover img { transform: rotate(5deg) scale(1.05); }
   .logo-text { font-family: var(--font-display); font-size: 1.2rem; letter-spacing: 2px; text-transform: uppercase; color: #fff; }
   .logo-text span { color: var(--brand-light); }
-
+  
   .nav { display: flex; gap: 30px; } 
-  
-  .nav-item { 
-    position: relative; overflow: hidden; height: 24px; cursor: pointer; 
-    display: block; 
-    color: rgba(255,255,255,0.8); 
-    text-decoration: none;
-    font-family: var(--font-body); font-size: 0.95rem; letter-spacing: 2px;
-    font-weight: 500; 
-  }
-  
-  .nav-item span {
-    display: block;
-    transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1);
-  }
-  
-  .nav-item .hover-text {
-    position: absolute; top: 100%; left: 0; width: 100%;
-    color: var(--brand-light);
-  }
-
-  .nav-item:hover .original-text { transform: translateY(-100%); }
-  .nav-item:hover .hover-text { transform: translateY(-100%); }
+  .nav-item { position: relative; overflow: hidden; height: 24px; cursor: pointer; display: block; color: rgba(255,255,255,0.8); font-family: var(--font-body); font-size: 0.95rem; letter-spacing: 2px; font-weight: 500; text-decoration: none; }
+  .nav-item span { display: block; transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1); }
+  .nav-item .hover-text { position: absolute; top: 100%; left: 0; width: 100%; color: var(--brand-light); }
+  .nav-item:hover .original-text { transform: translateY(-100%); } .nav-item:hover .hover-text { transform: translateY(-100%); }
   .nav-item.active .original-text { color: var(--brand-light); }
 
   /* --- Hero Section --- */
@@ -277,18 +210,6 @@
   .hero::after { bottom: 0; }
   .loaded .hero::before, .loaded .hero::after { height: 6vh; } 
 
-  .particles-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 2; pointer-events: none; overflow: hidden; }
-  .particle {
-    position: absolute; background: radial-gradient(circle, var(--brand-light) 0%, transparent 70%);
-    border-radius: 50%; opacity: 0; animation: floatParticle 10s infinite ease-in-out;
-  }
-  @keyframes floatParticle {
-    0% { transform: translateY(0) translateX(0); opacity: 0; }
-    20% { opacity: 0.6; }
-    80% { opacity: 0.6; }
-    100% { transform: translateY(-120px) translateX(30px); opacity: 0; }
-  }
-
   .bg-video-wrap { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; background: #000; }
   .video-overlay {
     position: absolute; top: 0; left: 0; width: 100%; height: 100%;
@@ -304,7 +225,6 @@
 
   .hero-content {
     position: relative; z-index: 10; text-align: center; max-width: 1000px;
-    transform-style: preserve-3d; transition: transform 0.1s ease-out; 
   }
   
   .hero-title {
@@ -312,10 +232,10 @@
     line-height: 1.1; margin: 0; color: #fff; letter-spacing: 5px;
     background: var(--silver-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
     filter: drop-shadow(0 10px 30px rgba(0,0,0,0.8));
-    opacity: 1; font-weight: 900; 
+    font-weight: 900; 
   }
   .hero-title span {
-    font-family: var(--font-serif); font-weight: 900; font-style: normal;
+    font-family: var(--font-serif); font-weight: 900; 
     background: linear-gradient(135deg, #FFD700 0%, #FF8C00 100%);
     -webkit-background-clip: text; -webkit-text-fill-color: transparent;
     filter: drop-shadow(0 0 25px rgba(255, 140, 0, 0.6));
@@ -343,7 +263,10 @@
   }
   
   .scroll-indicator {
-    position: absolute; bottom: 10vh; left: 50%; transform: translateX(-50%);
+    position: absolute; 
+    /* 🔴 修改：將 bottom 從 10vh 改為 40px，避免與上方按鈕重疊 */
+    bottom: 40px; 
+    left: 50%; transform: translateX(-50%);
     z-index: 10; opacity: 0; transition: opacity 1s 2s;
     display: flex; flex-direction: column; align-items: center; gap: 12px;
     cursor: pointer;
@@ -393,6 +316,7 @@
   }
   .btn-ghost:hover { border-color: var(--brand-primary); color: #fff; background: rgba(255, 140, 0, 0.15); }
 
+  /* 服務區塊 */
   .services-section { padding: 150px 8%; position: relative; z-index: 2; background: transparent; }
   .section-header { text-align: center; margin-bottom: 80px; position: relative; z-index: 2; }
   .section-title { font-family: var(--font-body); font-size: 2.8rem; color: #fff; margin: 0; letter-spacing: 5px; font-weight: 700; }
@@ -507,6 +431,23 @@
   }
   @media (max-width: 768px) {
     .bts-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    .header { padding: 20px; }
+    .nav { display: none; } 
+    .hero-title { font-size: 3.5rem; }
+    .hero-ctas { 
+      flex-direction: row; 
+      width: 100%; max-width: 100%; margin: 50px auto 0; padding: 0 20px; gap: 15px; 
+    }
+    .btn { width: auto; flex: 1; text-align: center; padding: 12px 10px; }
+    .card-number { font-size: 6rem; right: 10px; }
+    .footer-watermark { font-size: 25vw; }
+    .footer h2 { font-size: 2.5rem; letter-spacing: 5px; }
+    
+    /* 🔴 修改：手機版設定 */
+    .scroll-indicator { bottom: 20px; gap: 8px; }
+    .scroll-line { height: 30px; }
+    .scroll-text { font-size: 0.7rem; }
+    .hero-content { margin-bottom: 40px; }
   }
 
   footer {
@@ -533,25 +474,6 @@
   }
   .manifesto { font-size: 1.1rem; color: var(--text-sub); line-height: 2; margin-bottom: 50px; font-weight: 300; letter-spacing: 1px; }
   .copyright { font-size: 0.8rem; color: #444; margin-top: 50px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 30px; letter-spacing: 1px; }
-
-  @media (max-width: 768px) {
-    .header { padding: 20px; }
-    .nav { display: none; } 
-    .hero-title { font-size: 3.5rem; }
-    .hero-ctas { 
-      flex-direction: row; 
-      width: 100%; max-width: 100%; margin: 50px auto 0; padding: 0 20px; gap: 15px; 
-    }
-    .btn { width: auto; flex: 1; text-align: center; padding: 12px 10px; }
-    .card-number { font-size: 6rem; right: 10px; }
-    .footer-watermark { font-size: 25vw; }
-    .footer h2 { font-size: 2.5rem; letter-spacing: 5px; }
-    
-    .scroll-indicator { bottom: 5vh; gap: 8px; }
-    .scroll-line { height: 30px; }
-    .scroll-text { font-size: 0.7rem; }
-    .hero-content { margin-bottom: 40px; }
-  }
 </style>
 </head>
 <body class="loading-state">
@@ -559,12 +481,13 @@
   <div class="page-transition-curtain"></div>
   <div class="cursor"></div>
   <div class="loader">
-    <div class="loader-text-logo">Uprise<span>.</span></div>
+    <img src="images/uploads/logo.png" class="loader-logo-img" alt="Uprise">
   </div>
   <div class="ambient-light">
     <div class="ambient-blob"></div>
     <div class="ambient-blob"></div>
   </div>
+  <div class="particles-container" id="particles"></div>
 
   <!-- 極簡聲音按鈕 -->
   <div id="sound-btn" class="sound-equalizer hover-trigger">
@@ -668,17 +591,16 @@
 
   <script>
     // --- 防盜機制 (Anti-Theft) ---
-    
-    // 1. 禁止右鍵
+    // 禁止右鍵
     document.addEventListener('contextmenu', event => event.preventDefault());
 
-    // 2. 禁止複製 (但允許選取文字)
+    // 禁止複製 (但允許選取文字)
     document.addEventListener('copy', event => {
         event.preventDefault();
         // 選擇性：可以跳出提示或什麼都不做
     });
 
-    // 3. 禁止快速鍵 (F12, Ctrl+U, Ctrl+S, Ctrl+C, Ctrl+Shift+I)
+    // 禁止快速鍵 (F12, Ctrl+U, Ctrl+S, Ctrl+C, Ctrl+Shift+I)
     document.onkeydown = function(e) {
         if(e.keyCode == 123) { // F12
             return false;
@@ -739,16 +661,31 @@
     let currentData = null;
 
     document.addEventListener('DOMContentLoaded', () => {
-      // 初始化 AOS 動畫庫
-      AOS.init({
-        duration: 1000,
-        easing: 'ease-out-cubic',
-        once: false, // 修改：改成 false，讓動畫每次捲動進入視窗時都會重新觸發
-        mirror: true, // 修改：改成 true，讓往回捲動時元素會恢復初始狀態，再次下滑時才有動畫效果
-        offset: 50 // 提早一點觸發
-      });
+      // 延遲移除 Loading 遮罩與初始化 AOS
+      setTimeout(() => {
+        document.querySelector('.loader').classList.add('hidden');
+        document.querySelector('.page-transition-curtain').classList.add('reveal');
+        document.body.classList.remove('loading-state');
+        document.body.classList.add('loaded-state');
+        // 🔴 關鍵修復：手動加入 .loaded 類別，讓 CSS 中的 .scroll-indicator 顯示
+        document.body.classList.add('loaded');
+        
+        // 確保遮罩移除後才初始化 AOS
+        AOS.init({
+            duration: 1000,
+            easing: 'ease-out-cubic',
+            once: false, // 允許重複播放
+            mirror: true, // 允許反向播放
+            offset: 50
+        });
+        
+        // 觸發文字閃爍特效
+        setTimeout(() => {
+            const subtitle = document.getElementById('hero-subtitle');
+            if(subtitle) subtitle.classList.add('shutter-flash');
+        }, 1500); 
+      }, 2200); // 配合 CSS Logo 動畫時間 (約 2.5s)
 
-      // 讀取 CMS 設定檔 (index.md)
       fetch('content/index.md')
         .then(response => {
           if (!response.ok) throw new Error("CMS Data Not Found");
@@ -756,7 +693,6 @@
         })
         .then(text => {
           try {
-            // 解析 YAML 前置資料 (Frontmatter)
             const parsedData = jsyaml.load(text.split('---')[1]);
             currentData = parsedData || fallbackData;
             initPage(currentData);
@@ -772,7 +708,6 @@
           initPage(fallbackData);
         });
 
-      // 啟動頁面特效
       createParticles();
       initCursor();
       initHeroParallax();
@@ -780,7 +715,6 @@
       initPageTransition();
       initSoundToggle();
       
-      // 下滑按鈕事件
       const scrollBtn = document.getElementById('scroll-btn');
       if (scrollBtn) {
         scrollBtn.addEventListener('click', () => {
@@ -789,17 +723,25 @@
       }
     });
 
-    // 頁面初始化邏輯
     function initPage(data) {
-      // 1. 更新 Logo 邏輯
-      const logoImg = document.querySelector('.logo img');
-      if (data.logo && logoImg) {
-          logoImg.src = data.logo;
+      // 1. 更新 Logo 與 Favicon (動態讀取)
+      let logoUrl = data.logo;
+      let faviconUrl = data.favicon || data.logo; // 如果沒有 Favicon，就用 Logo
+
+      if(logoUrl) {
+          const navLogo = document.querySelector('.logo img');
+          const loaderLogo = document.querySelector('.loader-logo-img');
+          if(navLogo) navLogo.src = logoUrl;
+          if(loaderLogo) loaderLogo.src = logoUrl;
       }
-      
+
+      if(faviconUrl) {
+          const favicon = document.querySelector('link[rel="icon"]');
+          if(favicon) favicon.href = faviconUrl;
+      }
+
       updateVideoSource();
 
-      // 2. 渲染服務項目 (Services)
       const grid = document.getElementById('services-grid');
       grid.innerHTML = '';
       const services = data.services || fallbackData.services;
@@ -832,7 +774,6 @@
               <p>${item.description}</p>
             </div>
         `;
-        // 卡片 3D 懸浮效果
         card.addEventListener('mousemove', (e) => {
           const rect = card.getBoundingClientRect();
           const x = e.clientX - rect.left;
@@ -847,7 +788,6 @@
         grid.appendChild(card);
       });
 
-      // 3. 渲染工作花絮 (BTS)
       const btsGrid = document.getElementById('bts-grid');
       btsGrid.innerHTML = '';
       const btsData = data.behind_the_scenes || fallbackData.behind_the_scenes;
@@ -856,6 +796,7 @@
         btsData.forEach((item, index) => {
           const btsItem = document.createElement('div');
           btsItem.className = 'bts-item hover-trigger';
+          // AOS 屬性
           btsItem.setAttribute('data-aos', 'zoom-in');
           btsItem.setAttribute('data-aos-delay', index * 100);
           
@@ -864,28 +805,12 @@
         });
       }
 
-      // 4. 刷新 AOS 動畫
+      // 重新整理 AOS
       setTimeout(() => {
         AOS.refresh(); 
       }, 100);
-
-      // 5. 移除 Loading 畫面
-      setTimeout(() => {
-        document.querySelector('.loader').classList.add('hidden');
-        document.querySelector('.page-transition-curtain').classList.add('reveal');
-        document.body.classList.remove('loading-state');
-        document.body.classList.add('loaded-state');
-        document.body.classList.add('loaded');
-        
-        // 觸發文字閃爍特效
-        setTimeout(() => {
-            const subtitle = document.getElementById('hero-subtitle');
-            if(subtitle) subtitle.classList.add('shutter-flash');
-        }, 1500); 
-      }, 500); 
     }
 
-    // 聲音開關控制
     function initSoundToggle() {
       const video = document.getElementById('bg-video');
       const btn = document.getElementById('sound-btn');
@@ -903,7 +828,6 @@
       });
     }
 
-    // 影片來源更新 (RWD 判斷)
     function updateVideoSource() {
       if (!currentData) return;
       
@@ -926,7 +850,6 @@
         updateVideoSource();
     });
 
-    // 頁面轉場特效
     function initPageTransition() {
       const links = document.querySelectorAll('.page-link');
       const curtain = document.querySelector('.page-transition-curtain');
@@ -941,10 +864,8 @@
       });
     }
 
-    // 滾動監聽 (Navbar 變化 & Parallax)
     window.addEventListener('scroll', () => {
       const scrollY = window.scrollY;
-      const docHeight = document.body.scrollHeight - window.innerHeight;
       const header = document.getElementById('header');
 
       if (scrollY > 50) header.classList.add('scrolled');
@@ -965,7 +886,6 @@
       }
     });
 
-    // Hero 區塊滑鼠視差
     function initHeroParallax() {
       const hero = document.getElementById('hero-section');
       const content = document.getElementById('hero-content');
@@ -979,7 +899,6 @@
       });
     }
 
-    // 磁吸按鈕效果
     function initMagneticButtons() {
       const buttons = document.querySelectorAll('.magnetic-btn');
       buttons.forEach(btn => {
@@ -995,7 +914,6 @@
       });
     }
 
-    // 粒子背景特效
     function createParticles() {
       const container = document.getElementById('particles');
       const particleCount = 25; 
@@ -1013,7 +931,6 @@
       }
     }
 
-    // 自訂游標特效
     function initCursor() {
       if (window.matchMedia("(pointer: fine)").matches) {
         const cursor = document.querySelector('.cursor');

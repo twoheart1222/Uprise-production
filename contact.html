@@ -6,328 +6,124 @@
 
 <title>聯絡我們 | 推手影像製作有限公司 Uprise-Production</title>
 
+<!-- Favicon (預設) -->
 <link rel="icon" type="image/png" href="images/uploads/logo.png">
 
 <meta name="description" content="立即透過表單、電話或 Email 聯絡 Uprise-Production，討論您的商業廣告或品牌影片需求。">
 <link rel="canonical" href="https://www.uprise-videoproduction.com/contact.html">
 
-<!-- Fonts -->
+<!-- Fonts & CSS -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Italiana&family=Noto+Sans+TC:wght@300;400;500;700;900&family=Noto+Serif+TC:wght@700;900&display=swap" rel="stylesheet">
-<!-- FontAwesome -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-<!-- AOS Animation Library CSS -->
 <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
 <!-- Libraries -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
 
 <style>
-  /* --- 核心變數 (全站統一) --- */
+  /* --- 核心變數 --- */
   :root { 
-    --bg-color: #050505;       
-    --card-bg: rgba(20, 20, 20, 0.6); 
-    --text-main: #FFFFFF;      
-    --text-sub: #B0B0B0;       
-    --brand-primary: #FF8C00;  
-    --brand-light: #FFD700;    
+    --bg-color: #050505; --card-bg: rgba(20, 20, 20, 0.6); 
+    --text-main: #FFFFFF; --text-sub: #B0B0B0; 
+    --brand-primary: #FF8C00; --brand-light: #FFD700; 
     --brand-gradient: linear-gradient(135deg, #FFD700, #FF8C00);
     --silver-gradient: linear-gradient(to bottom, #ffffff 40%, #a0a0a0 100%);
-    
-    --font-display: 'Italiana', serif;
-    --font-body: 'Noto Sans TC', sans-serif;
-    --font-serif: 'Noto Serif TC', serif;
-    
+    --font-display: 'Italiana', serif; --font-body: 'Noto Sans TC', sans-serif; --font-serif: 'Noto Serif TC', serif;
     --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
+    --ease-cinematic: cubic-bezier(0.22, 1, 0.36, 1);
   }
-
   * { box-sizing: border-box; cursor: none; }
-
   html { scroll-behavior: smooth; }
-
   ::-webkit-scrollbar { width: 5px; }
   ::-webkit-scrollbar-track { background: #000; }
   ::-webkit-scrollbar-thumb { background: #444; border-radius: 10px; }
   ::-webkit-scrollbar-thumb:hover { background: var(--brand-primary); }
-
   ::selection { background: var(--brand-light); color: #000; }
+  body { margin: 0; padding: 0; font-family: var(--font-body); background-color: var(--bg-color); color: var(--text-main); overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+  img { -webkit-user-drag: none; pointer-events: none; }
 
-  body {
-    margin: 0; padding: 0;
-    font-family: var(--font-body);
-    background-color: var(--bg-color);
-    color: var(--text-main);
-    overflow-x: hidden;
-    -webkit-font-smoothing: antialiased;
-  }
-
-  /* 禁止圖片拖曳 (防盜) */
-  img {
-    -webkit-user-drag: none;
-    -khtml-user-drag: none;
-    -moz-user-drag: none;
-    -o-user-drag: none;
-    pointer-events: none;
-  }
-
-  /* --- 轉場與載入 --- */
-  #main-wrapper {
-    transition: filter 0.6s ease, transform 0.6s ease;
-    width: 100%; position: relative; z-index: 1; 
-  }
-  body.exiting #main-wrapper { filter: blur(10px) brightness(0.8); transform: scale(0.98); pointer-events: none; }
-  body.loading-state #main-wrapper { filter: blur(20px); opacity: 0; }
-  body.loaded-state #main-wrapper { filter: blur(0); opacity: 1; transform: scale(1); }
-
-  .page-transition-curtain {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: #000; z-index: 100000; transform: translateY(0);
-    transition: transform 1s cubic-bezier(0.87, 0, 0.13, 1); pointer-events: none;
-  }
+  /* 載入動畫 */
+  .page-transition-curtain { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 100000; transform: translateY(0); transition: transform 1s cubic-bezier(0.87, 0, 0.13, 1); pointer-events: none; }
   .page-transition-curtain.reveal { transform: translateY(-100%); } 
   .page-transition-curtain.cover { transform: translateY(0); }
-
-  .loader {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: #000; z-index: 200000; 
-    display: flex; justify-content: center; align-items: center;
-    transition: opacity 0.8s ease, visibility 0.8s;
-  }
+  .loader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 200000; display: flex; justify-content: center; align-items: center; transition: opacity 0.8s ease, visibility 0.8s; }
   .loader.hidden { opacity: 0; visibility: hidden; }
-  
-  .loader-text-logo {
-    font-family: var(--font-display); font-size: 3rem; color: #fff;
-    letter-spacing: 5px; text-transform: uppercase;
-    animation: logoFadeInOut 2.5s ease forwards;
-  }
-  .loader-text-logo span { color: var(--brand-light); }
-  @keyframes logoFadeInOut { 
-    0% { opacity: 0; transform: scale(0.9); } 40% { opacity: 1; transform: scale(1); }
-    90% { opacity: 1; transform: scale(1); } 100% { opacity: 0; transform: scale(1.1); }
+  /* Logo 電影感聚焦動畫 */
+  .loader-logo-img { width: auto; height: 90px; max-width: 80vw; object-fit: contain; opacity: 0; transform: scale(0.8); filter: blur(10px); animation: cinematicLogoReveal 2.5s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
+  @keyframes cinematicLogoReveal { 
+    0% { opacity: 0; transform: scale(0.8) translateY(10px); filter: blur(10px) brightness(0.5); } 
+    30% { opacity: 1; transform: scale(1) translateY(0); filter: blur(0px) brightness(1); }
+    70% { opacity: 1; transform: scale(1.05); filter: blur(0px) brightness(1.1) drop-shadow(0 0 15px rgba(255, 215, 0, 0.6)); }
+    100% { opacity: 0; transform: scale(1.15) translateY(-5px); filter: blur(5px) brightness(1.5); } 
   }
 
-  .cursor {
-    position: fixed; top: 0; left: 0; width: 12px; height: 12px;
-    background: var(--brand-light); border-radius: 50%; pointer-events: none; 
-    z-index: 2147483647; transform: translate(-50%, -50%);
-    box-shadow: 0 0 15px rgba(255, 215, 0, 0.9);
-    transition: width 0.3s, height 0.3s; will-change: transform;
-  }
-  body.hovered .cursor {
-    width: 60px; height: 60px; background: rgba(255, 215, 0, 0.05);
-    border: 1px solid rgba(255, 215, 0, 0.8); box-shadow: 0 0 30px rgba(255, 215, 0, 0.4);
-  }
+  /* 游標 */
+  .cursor { position: fixed; top: 0; left: 0; width: 12px; height: 12px; background: var(--brand-light); border-radius: 50%; pointer-events: none; z-index: 2147483647; transform: translate(-50%, -50%); box-shadow: 0 0 15px rgba(255, 215, 0, 0.9); transition: width 0.3s, height 0.3s; will-change: transform; }
+  body.hovered .cursor { width: 60px; height: 60px; background: rgba(255, 215, 0, 0.05); border: 1px solid rgba(255, 215, 0, 0.8); box-shadow: 0 0 30px rgba(255, 215, 0, 0.4); }
   body.clicking .cursor { transform: translate(-50%, -50%) scale(0.9); background: var(--brand-primary); }
-
-  .ambient-light {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    pointer-events: none; z-index: 0; overflow: hidden;
-  }
-  .ambient-blob {
-    position: absolute; width: 900px; height: 900px;
-    background: radial-gradient(circle, rgba(255, 140, 0, 0.04) 0%, transparent 60%);
-    border-radius: 50%; filter: blur(80px); opacity: 0.5;
-    animation: moveBlob 25s infinite alternate ease-in-out;
-  }
-  .ambient-blob:nth-child(1) { top: -20%; left: -10%; animation-delay: 0s; }
-  .ambient-blob:nth-child(2) { bottom: -20%; right: -10%; animation-duration: 35s; animation-direction: reverse; }
+  
+  /* 環境 */
+  .ambient-light { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; overflow: hidden; }
+  .ambient-blob { position: absolute; width: 900px; height: 900px; background: radial-gradient(circle, rgba(255, 140, 0, 0.04) 0%, transparent 60%); border-radius: 50%; filter: blur(80px); opacity: 0.5; animation: moveBlob 25s infinite alternate ease-in-out; }
+  .ambient-blob:nth-child(1) { top: -20%; left: -10%; } .ambient-blob:nth-child(2) { bottom: -20%; right: -10%; }
   @keyframes moveBlob { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(50px, 50px) scale(1.1); } }
-
   .particles-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 2; pointer-events: none; overflow: hidden; }
-  .particle {
-    position: absolute; background: radial-gradient(circle, var(--brand-light) 0%, transparent 70%);
-    border-radius: 50%; opacity: 0; animation: floatParticle 10s infinite ease-in-out;
-  }
-  @keyframes floatParticle {
-    0% { transform: translateY(0) translateX(0); opacity: 0; }
-    20% { opacity: 0.6; } 80% { opacity: 0.6; }
-    100% { transform: translateY(-120px) translateX(30px); opacity: 0; }
-  }
+  .particle { position: absolute; background: radial-gradient(circle, var(--brand-light) 0%, transparent 70%); border-radius: 50%; opacity: 0; animation: floatParticle 10s infinite ease-in-out; }
+  @keyframes floatParticle { 0% { transform: translateY(0) translateX(0); opacity: 0; } 20% { opacity: 0.6; } 80% { opacity: 0.6; } 100% { transform: translateY(-120px) translateX(30px); opacity: 0; } }
 
-  /* 極簡聲音按鈕 */
-  #sound-btn {
-    position: fixed; bottom: 40px; right: 40px; z-index: 9000;
-    display: none; gap: 8px; align-items: flex-end; height: 24px;
-    cursor: pointer; background: transparent; border: none; padding: 5px; width: auto;
-  }
-  #sound-btn:hover { transform: scale(1.1); }
-  .sound-label { font-family: var(--font-body); font-size: 0.75rem; letter-spacing: 2px; color: rgba(255,255,255,0.7); font-weight: 500; margin-right: 5px; margin-bottom: 2px; }
-  .sound-bar { width: 3px; background-color: #fff; opacity: 0.8; border-radius: 2px; height: 3px; transition: height 0.3s, background-color 0.3s; }
-  #sound-btn.is-playing .sound-bar { background-color: var(--brand-light); animation: soundWaveAnim 1s ease-in-out infinite; }
-  #sound-btn.is-playing .sound-label { color: var(--brand-light); }
-  @keyframes soundWaveAnim { 0% { height: 3px; } 50% { height: 20px; } 100% { height: 3px; } }
-
-  /* --- 導覽列 --- */
-  .header {
-    position: fixed; top: 0; left: 0; width: 100%; padding: 30px 50px;
-    display: flex; justify-content: space-between; align-items: center;
-    z-index: 100; background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent); 
-    transition: all 0.5s;
-  }
-  .header.scrolled { 
-    background: rgba(5, 5, 5, 0.9); backdrop-filter: blur(20px); 
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding: 20px 50px;
-  }
+  /* 導覽列 */
+  .header { position: fixed; top: 0; left: 0; width: 100%; padding: 30px 50px; display: flex; justify-content: space-between; align-items: center; z-index: 100; background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent); transition: all 0.5s; }
+  .header.scrolled { background: rgba(5, 5, 5, 0.9); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding: 20px 50px; }
   .logo { display: flex; align-items: center; gap: 12px; text-decoration: none; color: #fff; }
-  .logo img { height: 38px; width: auto; transition: transform 0.5s; }
+  .logo img { height: 38px; width: auto; transition: transform 0.5s; object-fit: contain; }
   .logo:hover img { transform: rotate(5deg) scale(1.05); }
   .logo-text { font-family: var(--font-display); font-size: 1.2rem; letter-spacing: 2px; text-transform: uppercase; color: #fff; }
   .logo-text span { color: var(--brand-light); }
-  
   .nav { display: flex; gap: 30px; } 
   .nav-item { position: relative; overflow: hidden; height: 24px; cursor: pointer; display: block; color: rgba(255,255,255,0.8); font-family: var(--font-body); font-size: 0.95rem; letter-spacing: 2px; font-weight: 500; text-decoration: none; }
-  .nav-item span.original-text { display: block; transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1); }
-  .nav-item span.hover-text { position: absolute; top: 100%; left: 0; width: 100%; color: var(--brand-light); transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1); white-space: nowrap; }
-  .nav-item:hover span.original-text { transform: translateY(-100%); }
-  .nav-item:hover span.hover-text { transform: translateY(-100%); }
-  .nav-item.active span.original-text { color: var(--brand-light); }
+  .nav-item span { display: block; transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1); }
+  .nav-item .hover-text { position: absolute; top: 100%; left: 0; width: 100%; color: var(--brand-light); }
+  .nav-item:hover .original-text { transform: translateY(-100%); } .nav-item:hover .hover-text { transform: translateY(-100%); }
+  .nav-item.active .original-text { color: var(--brand-light); }
 
-  /* --- 聯絡頁面 Header --- */
-  .contact-hero {
-    padding-top: 180px; padding-bottom: 80px; text-align: center;
-    position: relative; z-index: 10;
-  }
-  .page-label {
-    font-family: var(--font-display); font-size: 0.9rem; letter-spacing: 4px;
-    color: var(--brand-light); margin-bottom: 20px; display: block; opacity: 0;
-  }
-  .page-title {
-    font-family: var(--font-serif); font-size: clamp(3rem, 8vw, 5rem);
-    font-weight: 900; color: #fff; line-height: 1.1; margin: 0 0 20px;
-    background: var(--brand-gradient); 
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-    filter: drop-shadow(0 0 30px rgba(255, 140, 0, 0.5)); opacity: 0;
-  }
-  .page-subtitle {
-    font-family: var(--font-body); font-size: 1.1rem; color: rgba(255,255,255,0.7);
-    max-width: 600px; margin: 0 auto; line-height: 1.8; letter-spacing: 1px; opacity: 0;
-  }
-  .title-divider {
-    width: 80px; height: 3px; background: var(--brand-gradient);
-    margin: 40px auto 0; border-radius: 2px; opacity: 0;
-  }
+  /* Contact Page */
+  .contact-hero { padding-top: 180px; padding-bottom: 80px; text-align: center; position: relative; z-index: 10; }
+  .page-label { font-family: var(--font-display); font-size: 0.9rem; letter-spacing: 4px; color: var(--brand-light); margin-bottom: 20px; display: block; }
+  .page-title { font-family: var(--font-serif); font-size: clamp(3rem, 8vw, 5rem); font-weight: 900; color: #fff; line-height: 1.1; margin: 0 0 20px; background: var(--brand-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 0 30px rgba(255, 140, 0, 0.5)); letter-spacing: 10px; opacity: 0; transform: scale(1.1); filter: blur(5px); transition: all 1.5s var(--ease-cinematic); }
+  .page-title.aos-animate { opacity: 1; letter-spacing: 0; transform: scale(1); filter: blur(0); }
+  .page-subtitle { font-family: var(--font-body); font-size: 1.1rem; color: rgba(255,255,255,0.7); max-width: 600px; margin: 0 auto; line-height: 1.8; letter-spacing: 1px; }
+  .title-divider { width: 0; height: 3px; background: var(--brand-gradient); margin: 40px auto 0; border-radius: 2px; transition: width 1.2s var(--ease-cinematic); }
+  .title-divider.aos-animate { width: 80px; }
 
-  /* --- 聯絡區塊 (Grid Layout) --- */
-  .contact-container {
-    max-width: 1200px; margin: 0 auto 100px; padding: 0 40px;
-    display: grid; grid-template-columns: 1fr 1.5fr; gap: 60px;
-    position: relative; z-index: 10;
-  }
-
-  /* 通用玻璃卡片 */
-  .glass-card {
-    background: var(--card-bg);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 12px; padding: 50px 40px;
-    backdrop-filter: blur(10px);
-    box-shadow: 0 20px 40px rgba(0,0,0,0.5);
-    position: relative; overflow: hidden;
-  }
-  /* 流光層 */
-  .glass-card::before {
-    content: ''; position: absolute; inset: 0; border-radius: 12px; padding: 1px;
-    background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.3), transparent);
-    background-size: 200% 100%;
-    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor; mask-composite: exclude;
-    pointer-events: none; animation: shimmerBorder 3s linear infinite; opacity: 0.6;
-  }
+  .contact-container { max-width: 1200px; margin: 0 auto 100px; padding: 0 40px; display: grid; grid-template-columns: 1fr 1.5fr; gap: 60px; position: relative; z-index: 10; }
+  .glass-card { background: var(--card-bg); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 12px; padding: 50px 40px; backdrop-filter: blur(10px); box-shadow: 0 20px 40px rgba(0,0,0,0.5); position: relative; overflow: hidden; }
+  .glass-card::before { content: ''; position: absolute; inset: 0; border-radius: 12px; padding: 1px; background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.3), transparent); background-size: 200% 100%; -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite: xor; mask-composite: exclude; pointer-events: none; animation: shimmerBorder 3s linear infinite; opacity: 0.6; }
   @keyframes shimmerBorder { 0% { background-position: -150% 0; } 100% { background-position: 150% 0; } }
 
-  /* 左側：資訊卡 */
   .info-card { text-align: left; }
-  .info-card h2 {
-    font-family: var(--font-serif); font-size: 1.8rem; margin: 0 0 15px; color: #fff;
-    background: var(--silver-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-  }
+  .info-card h2 { font-family: var(--font-serif); font-size: 1.8rem; margin: 0 0 15px; color: #fff; background: var(--silver-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
   .info-desc { color: #aaa; margin-bottom: 40px; line-height: 1.6; font-size: 1rem; }
-  
   .contact-item { margin-bottom: 25px; }
-  .contact-item label { 
-    display: block; font-size: 0.8rem; color: var(--brand-primary); 
-    text-transform: uppercase; letter-spacing: 2px; margin-bottom: 5px; font-weight: 700;
-  }
-  .contact-item p, .contact-item a { 
-    font-size: 1.1rem; color: #fff; text-decoration: none; font-weight: 500; transition: 0.3s; 
-    font-family: var(--font-body);
-  }
+  .contact-item label { display: block; font-size: 0.8rem; color: var(--brand-primary); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 5px; font-weight: 700; }
+  .contact-item p, .contact-item a { font-size: 1.1rem; color: #fff; text-decoration: none; font-weight: 500; transition: 0.3s; font-family: var(--font-body); }
   .contact-item a:hover { color: var(--brand-light); text-shadow: 0 0 10px rgba(255,183,0,0.5); }
 
-  /* 右側：表單卡 */
   .form-card form { display: flex; flex-direction: column; gap: 25px; }
-  
-  .input-group label {
-    display: block; color: #ccc; margin-bottom: 10px; font-size: 0.9rem; letter-spacing: 1px;
-  }
-  .input-group input, .input-group textarea {
-    width: 100%; padding: 15px; 
-    background: rgba(255,255,255,0.03);
-    border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 4px;
-    color: #fff; font-size: 1rem;
-    transition: 0.3s;
-    font-family: var(--font-body);
-  }
-  .input-group input:focus, .input-group textarea:focus {
-    outline: none;
-    border-color: var(--brand-primary);
-    background: rgba(255,183,0,0.05);
-    box-shadow: 0 0 15px rgba(255,140,0,0.1);
-  }
+  .input-group label { display: block; color: #ccc; margin-bottom: 10px; font-size: 0.9rem; letter-spacing: 1px; }
+  .input-group input, .input-group textarea { width: 100%; padding: 15px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 4px; color: #fff; font-size: 1rem; transition: 0.3s; font-family: var(--font-body); }
+  .input-group input:focus, .input-group textarea:focus { outline: none; border-color: var(--brand-primary); background: rgba(255,183,0,0.05); box-shadow: 0 0 15px rgba(255,140,0,0.1); }
 
-  /* 磁吸按鈕 (簡化版 - 移除重複動畫) */
-  .btn-submit {
-    padding: 16px; border-radius: 2px; border: none;
-    background: var(--brand-gradient); color: #000;
-    font-size: 1rem; font-weight: 600; letter-spacing: 2px;
-    cursor: pointer; position: relative; overflow: hidden;
-    transition: background 0.3s, transform 0.3s, box-shadow 0.3s;
-    width: 100%;
-  }
-  
-  /* 🔴 修改：預設不執行流光動畫，避免運算負擔 */
-  .btn-submit::after {
-    content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.8), transparent);
-    transform: skewX(-20deg); 
-    pointer-events: none;
-  }
-  
-  /* 🔴 修改：只有 Hover 時才閃爍一次 */
-  .btn-submit:hover::after {
-    animation: btnShine 0.75s ease-in-out;
-  }
+  /* Submit Button (Simplified) */
+  .btn-submit { padding: 16px; border-radius: 2px; border: none; background: var(--brand-gradient); color: #000; font-size: 1rem; font-weight: 600; letter-spacing: 2px; cursor: pointer; position: relative; overflow: hidden; transition: background 0.3s, transform 0.3s, box-shadow 0.3s; width: 100%; }
+  .btn-submit::after { content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.8), transparent); transform: skewX(-20deg); pointer-events: none; }
+  .btn-submit:hover::after { animation: btnShine 0.75s ease-in-out; }
   @keyframes btnShine { 0% { left: -100%; } 100% { left: 200%; } }
-  
-  .btn-submit:hover { 
-    box-shadow: 0 10px 30px rgba(255, 140, 0, 0.3); filter: brightness(1.1); 
-    transform: translateY(-2px);
-  }
-
-  /* 🔴 狀態樣式：載入中 */
-  .btn-submit.loading {
-    opacity: 0.7;
-    cursor: wait;
-    pointer-events: none; /* 關鍵：停止滑鼠事件偵測 */
-  }
-
-  /* 🔴 狀態樣式：成功 */
-  .btn-submit.success {
-    background: #28a745 !important; /* 綠色 */
-    color: #fff !important;
-    box-shadow: none;
-    pointer-events: none;
-    transform: none !important; /* 移除位移 */
-  }
-
-  /* 🔴 狀態樣式：失敗 */
-  .btn-submit.error {
-    background: #dc3545 !important; /* 紅色 */
-    color: #fff !important;
-    transform: none !important;
-  }
+  .btn-submit:hover { box-shadow: 0 10px 30px rgba(255, 140, 0, 0.3); filter: brightness(1.1); transform: translateY(-2px); }
+  .btn-submit.loading { opacity: 0.7; cursor: wait; pointer-events: none; }
+  .btn-submit.success { background: #28a745 !important; color: #fff !important; box-shadow: none; pointer-events: none; transform: none !important; }
+  .btn-submit.error { background: #dc3545 !important; color: #fff !important; transform: none !important; }
 
   /* Footer */
   footer { padding: 120px 8% 60px; border-top: 1px solid rgba(255,255,255,0.05); background: #020202; text-align: center; position: relative; overflow: hidden; }
@@ -338,7 +134,6 @@
   .manifesto { font-size: 1.1rem; color: var(--text-sub); line-height: 2; margin-bottom: 50px; font-weight: 300; letter-spacing: 1px; }
   .copyright { font-size: 0.8rem; color: #444; margin-top: 50px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 30px; letter-spacing: 1px; }
 
-  /* RWD */
   @media (max-width: 900px) {
     .contact-hero { padding-top: 140px; }
     .contact-container { grid-template-columns: 1fr; gap: 40px; }
@@ -353,24 +148,14 @@
   <div class="page-transition-curtain"></div>
   <div class="cursor"></div>
   <div class="loader">
-    <div class="loader-text-logo">Uprise<span>.</span></div>
+    <img src="images/uploads/logo.png" class="loader-logo-img" alt="Uprise">
   </div>
-  <div class="ambient-light">
-    <div class="ambient-blob"></div>
-    <div class="ambient-blob"></div>
-  </div>
-  
+  <div class="ambient-light"><div class="ambient-blob"></div><div class="ambient-blob"></div></div>
   <div class="particles-container" id="particles"></div>
 
-  <!-- 極簡聲音按鈕 -->
   <div id="sound-btn" class="hover-trigger">
     <span class="sound-label">SOUND</span>
-    <div class="sound-bars">
-      <div class="sound-bar"></div>
-      <div class="sound-bar"></div>
-      <div class="sound-bar"></div>
-      <div class="sound-bar"></div>
-    </div>
+    <div class="sound-bars"><div class="sound-bar"></div><div class="sound-bar"></div><div class="sound-bar"></div><div class="sound-bar"></div></div>
   </div>
 
   <div id="main-wrapper">
@@ -381,21 +166,11 @@
       </a>
       
       <nav class="nav">
-        <a href="index.html" class="nav-item hover-trigger page-link">
-            <span class="original-text">首頁</span><span class="hover-text">首頁</span>
-        </a>
-        <a href="works.html" class="nav-item hover-trigger page-link">
-            <span class="original-text">作品</span><span class="hover-text">作品</span>
-        </a>
-        <a href="team.html" class="nav-item hover-trigger page-link">
-            <span class="original-text">團隊</span><span class="hover-text">團隊</span>
-        </a>
-        <a href="about.html" class="nav-item hover-trigger page-link">
-            <span class="original-text">關於</span><span class="hover-text">關於</span>
-        </a>
-        <a href="contact.html" class="nav-item hover-trigger page-link active">
-            <span class="original-text">聯絡</span><span class="hover-text">聯絡</span>
-        </a>
+        <a href="index.html" class="nav-item hover-trigger page-link"><span class="original-text">首頁</span><span class="hover-text">首頁</span></a>
+        <a href="works.html" class="nav-item hover-trigger page-link"><span class="original-text">作品</span><span class="hover-text">作品</span></a>
+        <a href="team.html" class="nav-item hover-trigger page-link"><span class="original-text">團隊</span><span class="hover-text">團隊</span></a>
+        <a href="about.html" class="nav-item hover-trigger page-link"><span class="original-text">關於</span><span class="hover-text">關於</span></a>
+        <a href="contact.html" class="nav-item hover-trigger page-link active"><span class="original-text">聯絡</span><span class="hover-text">聯絡</span></a>
       </nav>
     </header>
 
@@ -462,32 +237,18 @@
       <div class="footer-watermark" id="footer-mark">UPRISE</div>
       <div class="footer-content" data-aos="fade-up" data-aos-offset="50">
         <h2>推手<span>影像</span></h2>
-        <p class="manifesto">
-          我們不僅是影像的製造者，更是品牌價值的推動者。<br>
-          致力於將抽象的意念，轉化為具象的視覺衝擊。
-        </p>
-        <div class="copyright">Copyright © 2025 推手影像製作有限公司. All rights reserved.</div>
+        <p class="manifesto">我們不僅是影像的製造者，更是品牌價值的推動者。<br>致力於將抽象的意念，轉化為具象的視覺衝擊。</p>
+        <div class="copyright">Copyright © 2025 推手影像製作有限公司. All rights reserved.<br>臺中市西區民龍里臺灣大道二段285號31樓 | +886 937672279</div>
       </div>
     </footer>
   </div>
 
-  <!-- AOS Script -->
   <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-
   <script>
-    // --- 防盜機制 (Anti-Theft) ---
-    document.addEventListener('contextmenu', event => event.preventDefault());
-    document.addEventListener('copy', event => event.preventDefault());
-    document.onkeydown = function(e) {
-        if(e.keyCode == 123) return false; // F12
-        if(e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) return false;
-        if(e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) return false;
-        if(e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) return false;
-        if(e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) return false;
-        if(e.ctrlKey && e.keyCode == 'S'.charCodeAt(0)) return false;
-    }
+    document.addEventListener('contextmenu', e => e.preventDefault());
+    document.addEventListener('copy', e => e.preventDefault());
+    document.onkeydown = function(e) { if(e.keyCode == 123) return false; }
 
-    // 預設資料
     const fallbackData = {
       title: "聯絡我們",
       subtitle: "準備好開始您的影像計畫了嗎？",
@@ -497,30 +258,43 @@
     };
 
     document.addEventListener('DOMContentLoaded', () => {
-      // 1. 延遲移除 Loading 遮罩與初始化 AOS
       setTimeout(() => {
         document.querySelector('.loader').classList.add('hidden');
         document.querySelector('.page-transition-curtain').classList.add('reveal');
         document.body.classList.remove('loading-state');
         document.body.classList.add('loaded-state');
         
-        // 2. 確保遮罩移除後才初始化 AOS
-        AOS.init({
-            duration: 1000,
-            easing: 'ease-out-cubic',
-            once: false,
-            mirror: true,
-            offset: 50
-        });
-      }, 2200); // 配合 Logo 動畫時間
+        AOS.init({ duration: 1000, easing: 'ease-out-cubic', once: false, mirror: true, offset: 50 });
+      }, 2200);
 
-      // CMS
+      // 1. 全站通用設定 (Logo & Favicon)
+      fetch('content/index.md')
+        .then(r => r.ok ? r.text() : Promise.reject())
+        .then(text => {
+          const parts = text.split('---');
+          const data = jsyaml.load(parts.length > 1 ? parts[1] : text);
+          let logoUrl = data.logo;
+          let faviconUrl = data.favicon || data.logo;
+
+          if(logoUrl) {
+            const navLogo = document.querySelector('.logo img');
+            if(navLogo) navLogo.src = logoUrl;
+            const loaderLogo = document.querySelector('.loader-logo-img');
+            if(loaderLogo) loaderLogo.src = logoUrl;
+          }
+          if(faviconUrl) {
+            const favicon = document.querySelector('link[rel="icon"]');
+            if(favicon) favicon.href = faviconUrl;
+          }
+        })
+        .catch(e => console.log("Global settings not found"));
+
+      // 2. 頁面資料
       fetch('content/contact.md')
         .then(r => r.ok ? r.text() : Promise.reject())
         .then(text => {
           const parts = text.split('---');
           const data = jsyaml.load(parts.length > 1 ? parts[1] : text);
-          
           if(data.title) document.getElementById('page-title').innerText = data.title;
           if(data.subtitle) document.getElementById('page-subtitle').innerText = data.subtitle;
           if(data.address) document.getElementById('info-address').innerText = data.address;
@@ -536,22 +310,20 @@
           }
         })
         .catch(() => {
-            // Fallback
             document.getElementById('info-address').innerText = fallbackData.address;
             document.getElementById('info-email').innerText = fallbackData.email;
             document.getElementById('info-phone').innerText = fallbackData.phone;
         });
 
-      // 🔴 表單送出優化邏輯 (簡化版)
+      // 簡化版送出邏輯
       const form = document.getElementById("contact-form");
       form.addEventListener("submit", async (event) => {
           event.preventDefault();
           const btn = document.getElementById("submit-btn");
-          const originalText = "送出詢問"; // 保存原始文字
+          const originalText = "送出詢問";
           
-          // 1. 切換為 Loading 狀態
           btn.innerHTML = '傳送中... <i class="fas fa-circle-notch fa-spin"></i>';
-          btn.classList.add('loading'); // CSS: pointer-events: none (防止連點與磁吸運算)
+          btn.classList.add('loading');
           btn.disabled = true;
           
           try {
@@ -560,31 +332,20 @@
                 body: new FormData(event.target),
                 headers: { 'Accept': 'application/json' }
             });
-            
             if (response.ok) {
-                // 2. 切換為 成功 狀態
                 btn.innerHTML = '傳送成功！ <i class="fas fa-check"></i>';
-                btn.classList.remove('loading');
-                btn.classList.add('success'); // CSS: 綠色背景
+                btn.classList.remove('loading'); btn.classList.add('success');
                 form.reset();
-                
-                // 3. 3秒後復原
                 setTimeout(() => {
                     btn.innerHTML = originalText;
                     btn.classList.remove('success');
                     btn.disabled = false;
                 }, 3000);
-            } else {
-                throw new Error();
-            }
+            } else { throw new Error(); }
           } catch (error) {
-              // 4. 切換為 失敗 狀態
               btn.innerHTML = '傳送失敗，請重試';
-              btn.classList.remove('loading');
-              btn.classList.add('error'); // CSS: 紅色背景
+              btn.classList.remove('loading'); btn.classList.add('error');
               btn.disabled = false;
-              
-              // 3秒後復原
               setTimeout(() => {
                   btn.innerHTML = originalText;
                   btn.classList.remove('error');
@@ -592,51 +353,21 @@
           }
       });
 
-      initCursor();
-      initPageTransition();
-      createParticles();
-      initMagneticButtons();
-      initSoundToggle();
+      initCursor(); initPageTransition(); createParticles(); initMagneticButtons(); initSoundToggle();
     });
 
-    // JS Logic (Unified)
     function initCursor() { if (window.matchMedia("(pointer: fine)").matches) { const cursor = document.querySelector('.cursor'); let mouseX=0, mouseY=0, cursorX=0, cursorY=0; document.addEventListener('mousemove', e => { mouseX=e.clientX; mouseY=e.clientY; }); document.addEventListener('mousedown', () => document.body.classList.add('clicking')); document.addEventListener('mouseup', () => document.body.classList.remove('clicking')); function animate() { cursorX+=(mouseX-cursorX)*0.5; cursorY+=(mouseY-cursorY)*0.5; cursor.style.transform=`translate(${cursorX}px, ${cursorY}px) translate(-50%, -50%)`; requestAnimationFrame(animate); } animate(); document.body.addEventListener('mouseenter', e=>{ if(e.target.closest('.hover-trigger')) document.body.classList.add('hovered'); }, true); document.body.addEventListener('mouseleave', e=>{ if(e.target.closest('.hover-trigger')) document.body.classList.remove('hovered'); }, true); } }
     function createParticles() { const container = document.getElementById('particles'); if(!container) return; for (let i = 0; i < 20; i++) { const p = document.createElement('div'); p.classList.add('particle'); const size = Math.random() * 3 + 1 + 'px'; p.style.width = size; p.style.height = size; p.style.left = Math.random() * 100 + '%'; p.style.top = Math.random() * 100 + '%'; p.style.animationDelay = Math.random() * 5 + 's'; p.style.animationDuration = Math.random() * 10 + 10 + 's'; container.appendChild(p); } }
     function initPageTransition() { const links = document.querySelectorAll('.page-link'); const curtain = document.querySelector('.page-transition-curtain'); links.forEach(link => { link.addEventListener('click', (e) => { e.preventDefault(); const href = link.getAttribute('href'); curtain.classList.remove('reveal'); curtain.classList.add('cover'); setTimeout(() => { window.location.href = href; }, 800); }); }); }
-    
-    // 磁吸按鈕 (增加判斷：如果正在 loading 就不執行磁吸，節省效能)
-    function initMagneticButtons() { 
-        const buttons = document.querySelectorAll('.magnetic-btn'); 
-        buttons.forEach(btn => { 
-            btn.addEventListener('mousemove', (e) => { 
-                if(btn.classList.contains('loading')) return; // 🔴 傳送中不執行磁吸
-                const rect = btn.getBoundingClientRect(); 
-                const x = e.clientX - rect.left - rect.width / 2; 
-                const y = e.clientY - rect.top - rect.height / 2; 
-                btn.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`; 
-            }); 
-            btn.addEventListener('mouseleave', () => { 
-                btn.style.transform = `translate(0px, 0px)`; 
-            }); 
-        }); 
-    }
-    
+    function initMagneticButtons() { const buttons = document.querySelectorAll('.magnetic-btn'); buttons.forEach(btn => { btn.addEventListener('mousemove', (e) => { if(btn.classList.contains('loading')) return; const rect = btn.getBoundingClientRect(); const x = e.clientX - rect.left - rect.width / 2; const y = e.clientY - rect.top - rect.height / 2; btn.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`; }); btn.addEventListener('mouseleave', () => { btn.style.transform = `translate(0px, 0px)`; }); }); }
     function initSoundToggle() { const btn = document.getElementById('sound-btn'); if(btn) btn.style.display = 'none'; }
 
     window.addEventListener('scroll', () => {
         const header = document.querySelector('.header');
-        
         if(window.scrollY > 50) header.classList.add('scrolled');
         else header.classList.remove('scrolled');
-
         const footerMark = document.getElementById('footer-mark');
-        if(footerMark) {
-            const footerOffset = document.querySelector('footer').offsetTop;
-            if(window.scrollY > footerOffset - window.innerHeight) {
-                const delta = window.scrollY - (footerOffset - window.innerHeight);
-                footerMark.style.transform = `translate(-50%, -50%) translateY(${delta * -0.1}px)`;
-            }
-        }
+        if(footerMark) { const footerOffset = document.querySelector('footer').offsetTop; if(window.scrollY > footerOffset - window.innerHeight) { const delta = window.scrollY - (footerOffset - window.innerHeight); footerMark.style.transform = `translate(-50%, -50%) translateY(${delta * -0.1}px)`; } }
     });
   </script>
 </body>

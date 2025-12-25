@@ -16,33 +16,32 @@ collections:
         fields:
           - {label: "網站標題", name: "title", widget: "string", default: "Uprise-Production"}
           
-          # 🔴 重點修改：將 name 改為 "logo" 以對應前端程式，並加入提示
-          - {label: "網站 Logo", name: "logo", widget: "image", required: false, hint: "建議上傳透明背景的 PNG 圖檔，以達到最佳顯示效果"}
+          # 既有的 Logo
+          - {label: "網站 Logo (網頁左上角)", name: "logo", widget: "image", required: false, hint: "建議上傳透明背景的 PNG 圖檔"}
           
-          # 🔴 影片設定 (分開上傳)
+          # 🔴 新增：Favicon 欄位
+          - {label: "瀏覽器標籤圖示 (Favicon)", name: "favicon", widget: "image", required: false, hint: "請上傳 1:1 正方形圖片 (建議 512x512 px)"}
+          
           - {label: "背景影片 (電腦版 - 橫式 16:9)", name: "hero_video", widget: "file", required: false}
-          - {label: "背景影片 (手機版 - 直式 9:16)", name: "hero_video_mobile", widget: "file", required: false, hint: "若未上傳，手機將使用電腦版影片"}
-          
+          - {label: "背景影片 (手機版 - 直式 9:16)", name: "hero_video_mobile", widget: "file", required: false}
           - {label: "主視覺標語", name: "hero_text", widget: "string", default: "看見故事的力量"}
           
-          # 🔴 服務項目
           - label: "服務項目"
             name: "services"
             widget: "list"
             fields:
               - {label: "服務名稱", name: "title", widget: "string"}
               - {label: "服務描述", name: "description", widget: "text"}
-              - {label: "Icon 代碼 (FontAwesome)", name: "iconClass", widget: "string", required: false, hint: "例如: fa-solid fa-video"}
+              - {label: "Icon 代碼 (FontAwesome)", name: "iconClass", widget: "string", required: false}
               - {label: "Icon 圖片 (備用)", name: "icon", widget: "image", required: false}
           
-          # 🔴 新增：工作花絮 (拖曳可調整順序)
-          - label: "工作花絮 (Behind The Scenes)"
+          - label: "工作花絮"
             name: "behind_the_scenes"
             widget: "list"
             summary: '{{caption}}'
             fields:
               - {label: "照片", name: "image", widget: "image"}
-              - {label: "描述 (僅供後台辨識用)", name: "caption", widget: "string", required: false}
+              - {label: "描述", name: "caption", widget: "string", required: false}
 
       # --- 2. 作品頁 (Works) ---
       - label: "作品總覽 (Works)"
@@ -52,44 +51,38 @@ collections:
           - {label: "頁面主標題", name: "title", widget: "string", default: "精選作品集"}
           - {label: "頁面副標題", name: "subtitle", widget: "text", default: "收錄歷年來的影像精華"}
           
-          # 定義共用的影片欄位結構 (YAML Anchor)
           - label: "📂 品牌形象廣告 (Brand Image)"
             name: "portfolio_brand"
             widget: "list"
             collapsed: true
-            summary: '{{title}}'
             fields: &video_fields
               - {label: "作品名稱", name: "title", widget: "string"}
               - {label: "客戶名稱", name: "client", widget: "string", required: false}
               - {label: "影片連結 (YouTube)", name: "link", widget: "string"}
-              - {label: "封面圖片 (選填)", name: "image", widget: "image", required: false, hint: "若未上傳將自動抓取 YouTube 縮圖"}
+              - {label: "封面圖片 (選填)", name: "image", widget: "image", required: false}
 
-          - label: "📂 產品形象廣告 (Product Video)"
+          - label: "📂 產品形象廣告"
             name: "portfolio_product"
             widget: "list"
             collapsed: true
-            summary: '{{title}}'
             fields: *video_fields
 
-          - label: "📂 公部門宣傳影片 (Public Sector)"
+          - label: "📂 公部門宣傳影片"
             name: "portfolio_public"
             widget: "list"
             collapsed: true
-            summary: '{{title}}'
             fields: *video_fields
 
-          - label: "📂 活動紀錄 (Event Highlight)"
+          - label: "📂 活動紀錄"
             name: "portfolio_event"
             widget: "list"
             collapsed: true
-            summary: '{{title}}'
             fields: *video_fields
 
-          - label: "📂 其他 (Other)"
+          - label: "📂 其他"
             name: "portfolio_other"
             widget: "list"
             collapsed: true
-            summary: '{{title}}'
             fields: *video_fields
 
       # --- 3. 團隊頁 (Team) ---
@@ -108,18 +101,35 @@ collections:
               - {label: "職稱", name: "role", widget: "string"}
               - {label: "頭像", name: "avatar", widget: "image"}
               - {label: "簡介 (短)", name: "bio", widget: "text"}
-              - {label: "詳細介紹 (長 - 支援 Markdown)", name: "full_bio", widget: "markdown", required: false}
-              - {label: "Instagram 連結", name: "ig_url", widget: "string", required: false}
+              - {label: "詳細介紹 (長)", name: "full_bio", widget: "markdown", required: false}
+              - {label: "Instagram", name: "ig_url", widget: "string", required: false}
               - {label: "作品集連結", name: "portfolio_url", widget: "string", required: false}
 
-      # --- 4. 關於頁 ---
+      # --- 4. 關於頁 (About) ---
       - label: "關於我們 (About)"
         name: "about"
         file: "content/about.md"
         fields:
           - {label: "標題", name: "title", widget: "string"}
           - {label: "副標題", name: "subtitle", widget: "string"}
-          - {label: "內文 (支援 Markdown)", name: "body", widget: "markdown"}
+          - {label: "公司簡介 (內文)", name: "body", widget: "markdown"}
+          
+          - label: "核心價值 (Core Values)"
+            name: "values_list"
+            widget: "list"
+            summary: '{{title}}'
+            fields:
+              - {label: "價值標題", name: "title", widget: "string", default: "專業"}
+              - {label: "價值描述", name: "desc", widget: "text"}
+              - {label: "Icon (FontAwesome)", name: "icon", widget: "string", default: "fa-solid fa-star", required: false}
+
+          - label: "服務流程 (Service Process)"
+            name: "process_list"
+            widget: "list"
+            summary: '{{step}}'
+            fields:
+              - {label: "步驟名稱", name: "step", widget: "string"}
+              - {label: "步驟說明", name: "desc", widget: "text"}
 
       # --- 5. 聯絡頁 ---
       - label: "聯絡我們 (Contact)"

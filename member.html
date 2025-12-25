@@ -114,17 +114,45 @@
   }
   .loader.hidden { opacity: 0; visibility: hidden; }
   
-  .loader-text-logo {
-    font-family: var(--font-display); font-size: 3rem; color: #fff;
-    letter-spacing: 5px; text-transform: uppercase;
-    animation: logoFadeInOut 2.5s ease forwards;
+  /* Logo 電影感聚焦動畫 */
+  .loader-logo-img {
+    width: auto;
+    height: 90px; /* 稍微放大一點 */
+    max-width: 80vw;
+    object-fit: contain;
+    /* 初始狀態 */
+    opacity: 0;
+    transform: scale(0.8);
+    filter: blur(10px);
+    /* 套用新動畫 */
+    animation: cinematicLogoReveal 2.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
   }
-  .loader-text-logo span { color: var(--brand-light); }
-  @keyframes logoFadeInOut { 
-    0% { opacity: 0; transform: scale(0.9); } 40% { opacity: 1; transform: scale(1); }
-    90% { opacity: 1; transform: scale(1); } 100% { opacity: 0; transform: scale(1.1); }
+  
+  @keyframes cinematicLogoReveal { 
+    0% { 
+      opacity: 0; 
+      transform: scale(0.8) translateY(10px);
+      filter: blur(10px) brightness(0.5);
+    } 
+    30% { 
+      opacity: 1; 
+      transform: scale(1) translateY(0);
+      filter: blur(0px) brightness(1);
+    }
+    70% {
+      opacity: 1;
+      transform: scale(1.05); /* 微幅呼吸放大 */
+      /* 加入品牌色金色光暈 */
+      filter: blur(0px) brightness(1.1) drop-shadow(0 0 15px rgba(255, 215, 0, 0.6)); 
+    }
+    100% { 
+      opacity: 0; 
+      transform: scale(1.15) translateY(-5px);
+      filter: blur(5px) brightness(1.5); /* 結尾淡出時稍微模糊 */
+    } 
   }
 
+  /* 游標 */
   .cursor {
     position: fixed; top: 0; left: 0; width: 12px; height: 12px;
     background: var(--brand-light); border-radius: 50%; pointer-events: none; 
@@ -189,7 +217,7 @@
     border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding: 20px 50px;
   }
   .logo { display: flex; align-items: center; gap: 12px; text-decoration: none; color: #fff; }
-  .logo img { height: 38px; width: auto; transition: transform 0.5s; }
+  .logo img { height: 38px; width: auto; transition: transform 0.5s; object-fit: contain; }
   .logo:hover img { transform: rotate(5deg) scale(1.05); }
   .logo-text { font-family: var(--font-display); font-size: 1.2rem; letter-spacing: 2px; text-transform: uppercase; color: #fff; }
   .logo-text span { color: var(--brand-light); }
@@ -290,10 +318,12 @@
     box-shadow: 0 0 30px rgba(0,0,0,0.8); /* 圖片本身陰影 */
   }
 
-  /* 照片本體 */
+  /* 🔴 修改：自動人臉置中 (Smart Portrait Alignment) */
   .profile-img { 
     width: 100%; height: 100%; 
-    object-fit: cover; object-position: center center; 
+    object-fit: cover; 
+    /* 關鍵：將焦點設在上方 25%，通常是臉部位置 */
+    object-position: center 25%;
     filter: blur(10px) brightness(1.5); /* 初始狀態 */
     transform: scale(1.3);
     transition: all 1.8s var(--ease-cinematic);
@@ -459,7 +489,7 @@
   <div class="page-transition-curtain"></div>
   <div class="cursor"></div>
   <div class="loader">
-    <div class="loader-text-logo">Uprise<span>.</span></div>
+    <img src="images/uploads/logo.png" class="loader-logo-img" alt="Uprise">
   </div>
   <div class="ambient-light">
     <div class="ambient-blob"></div>
@@ -614,6 +644,28 @@
       const urlParams = new URLSearchParams(window.location.search);
       const memberId = urlParams.get('id') || 0; 
 
+      // 1. 全站通用設定 (Logo & Favicon)
+      fetch('content/index.md')
+        .then(r => r.ok ? r.text() : Promise.reject())
+        .then(text => {
+          const parts = text.split('---');
+          const data = jsyaml.load(parts.length > 1 ? parts[1] : text);
+          let logoUrl = data.logo;
+          let faviconUrl = data.favicon || data.logo;
+
+          if(logoUrl) {
+            const navLogo = document.querySelector('.logo img');
+            if(navLogo) navLogo.src = logoUrl;
+            const loaderLogo = document.querySelector('.loader-logo-img');
+            if(loaderLogo) loaderLogo.src = logoUrl;
+          }
+          if(faviconUrl) {
+            const favicon = document.querySelector('link[rel="icon"]');
+            if(favicon) favicon.href = faviconUrl;
+          }
+        })
+        .catch(e => console.log("Global settings not found"));
+
       // 嘗試讀取 CMS 資料
       fetch('content/team.md')
         .then(r => {
@@ -652,6 +704,7 @@
             ? `<a href="${m.portfolio_url}" target="_blank" class="btn btn-primary hover-trigger magnetic-btn">查看作品集</a>` 
             : '';
             
+        // 🔴 IG 按鈕使用 .btn-instagram class
         const igBtn = m.ig_url
             ? `<a href="${m.ig_url}" target="_blank" class="btn btn-ghost btn-instagram hover-trigger magnetic-btn"><i class="fab fa-instagram"></i> <span>Instagram</span></a>`
             : '';

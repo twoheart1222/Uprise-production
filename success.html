@@ -1,11 +1,12 @@
 <!doctype html>
-<html lang="zh-Hant">
+<html lang="zh-Hant" oncontextmenu="return false">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 
 <title>訊息已送出 | 推手影像製作有限公司 Uprise-Production</title>
 
+<!-- Favicon (預設) -->
 <link rel="icon" type="image/png" href="images/uploads/logo.png">
 
 <meta name="description" content="您的訊息已成功送出！感謝您的聯繫，Uprise-Production（推手影像）團隊將會盡快回覆您的影像製作需求。">
@@ -22,24 +23,19 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
 
 <style>
-  /* --- 核心變數 (全站統一) --- */
+  /* --- 核心變數 --- */
   :root { 
     --bg-color: #050505;       
-    --card-bg: rgba(20, 20, 20, 0.4); 
+    --card-bg: rgba(20, 20, 20, 0.6); 
     --text-main: #FFFFFF;      
     --text-sub: #B0B0B0;       
     --brand-primary: #FF8C00;  
     --brand-light: #FFD700;    
     --brand-gradient: linear-gradient(135deg, #FFD700, #FF8C00);
     --silver-gradient: linear-gradient(to bottom, #ffffff 40%, #a0a0a0 100%);
-    
-    /* 修正：回歸優雅的金色慶祝漸層 */
-    --celebrate-gradient: linear-gradient(135deg, #FFF8DC 0%, #FFD700 50%, #FF8C00 100%);
-    
     --font-display: 'Italiana', serif;
     --font-body: 'Noto Sans TC', sans-serif;
     --font-serif: 'Noto Serif TC', serif;
-    
     --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
   }
 
@@ -58,25 +54,16 @@
     -webkit-font-smoothing: antialiased;
   }
 
+  /* 禁止圖片拖曳 */
+  img { -webkit-user-drag: none; pointer-events: none; }
+
   /* --- 轉場與載入 --- */
   #main-wrapper {
-    transition: filter 0.6s ease, transform 0.6s ease;
     width: 100%; height: 100%;
     display: flex; justify-content: center; align-items: center;
     position: relative; z-index: 1; 
   }
-  body.exiting #main-wrapper { filter: blur(10px) brightness(0.8); transform: scale(0.98); pointer-events: none; }
-  body.loading-state #main-wrapper { filter: blur(20px); opacity: 0; }
-  body.loaded-state #main-wrapper { filter: blur(0); opacity: 1; transform: scale(1); }
-
-  .page-transition-curtain {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: #000; z-index: 100000; transform: translateY(0);
-    transition: transform 1s cubic-bezier(0.87, 0, 0.13, 1); pointer-events: none;
-  }
-  .page-transition-curtain.reveal { transform: translateY(-100%); } 
-  .page-transition-curtain.cover { transform: translateY(0); }
-
+  
   .loader {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
     background: #000; z-index: 200000; 
@@ -85,15 +72,18 @@
   }
   .loader.hidden { opacity: 0; visibility: hidden; }
   
-  .loader-text-logo {
-    font-family: var(--font-display); font-size: 3rem; color: #fff;
-    letter-spacing: 5px; text-transform: uppercase;
-    animation: logoFadeInOut 2.5s ease forwards;
+  /* 🔴 Logo 電影感聚焦動畫 (與全站統一) */
+  .loader-logo-img {
+    width: auto; height: 90px; max-width: 80vw;
+    object-fit: contain;
+    opacity: 0; transform: scale(0.8); filter: blur(10px);
+    animation: cinematicLogoReveal 2.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
   }
-  .loader-text-logo span { color: var(--brand-light); }
-  @keyframes logoFadeInOut { 
-    0% { opacity: 0; transform: scale(0.9); } 40% { opacity: 1; transform: scale(1); }
-    90% { opacity: 1; transform: scale(1); } 100% { opacity: 0; transform: scale(1.1); }
+  @keyframes cinematicLogoReveal { 
+    0% { opacity: 0; transform: scale(0.8) translateY(10px); filter: blur(10px) brightness(0.5); } 
+    30% { opacity: 1; transform: scale(1) translateY(0); filter: blur(0px) brightness(1); }
+    70% { opacity: 1; transform: scale(1.05); filter: blur(0px) brightness(1.1) drop-shadow(0 0 15px rgba(255, 215, 0, 0.6)); }
+    100% { opacity: 0; transform: scale(1.15) translateY(-5px); filter: blur(5px) brightness(1.5); } 
   }
 
   /* 游標 */
@@ -110,53 +100,38 @@
   }
   body.clicking .cursor { transform: translate(-50%, -50%) scale(0.9); background: var(--brand-primary); }
 
-  /* 🔴 修正：統一為琥珀金極光 (Amber Aurora) */
+  /* 琥珀金極光背景 */
   .ambient-light {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
     pointer-events: none; z-index: 0; overflow: hidden;
   }
   .ambient-blob {
-    position: absolute;
-    width: 900px; height: 900px;
-    border-radius: 50%;
-    filter: blur(100px);
-    opacity: 0.3; /* 降低不透明度，更柔和 */
+    position: absolute; width: 900px; height: 900px;
+    border-radius: 50%; filter: blur(100px); opacity: 0.3;
     animation: moveBlob 25s infinite alternate ease-in-out;
   }
-  /* 左上：淡金 */
   .ambient-blob:nth-child(1) { 
     top: -20%; left: -10%; 
     background: radial-gradient(circle, rgba(255, 215, 0, 0.08) 0%, transparent 60%);
-    animation-delay: 0s; 
   }
-  /* 右下：暖橘 */
   .ambient-blob:nth-child(2) { 
     bottom: -20%; right: -10%; 
     background: radial-gradient(circle, rgba(255, 140, 0, 0.08) 0%, transparent 60%);
     animation-duration: 35s; animation-direction: reverse; 
   }
-  /* 中間：微白光，增加通透感 */
   .ambient-blob:nth-child(3) { 
     top: 50%; left: 50%; width: 600px; height: 600px;
     transform: translate(-50%, -50%);
     background: radial-gradient(circle, rgba(255, 255, 255, 0.02) 0%, transparent 60%);
     animation: pulseBlob 10s infinite alternate ease-in-out;
   }
-
-  @keyframes moveBlob {
-    0% { transform: translate(0, 0) scale(1); }
-    100% { transform: translate(30px, 30px) scale(1.05); }
-  }
-  @keyframes pulseBlob {
-    0% { opacity: 0.2; transform: translate(-50%, -50%) scale(1); }
-    100% { opacity: 0.4; transform: translate(-50%, -50%) scale(1.1); }
-  }
+  @keyframes moveBlob { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(30px, 30px) scale(1.05); } }
+  @keyframes pulseBlob { 0% { opacity: 0.2; transform: translate(-50%, -50%) scale(1); } 100% { opacity: 0.4; transform: translate(-50%, -50%) scale(1.1); } }
 
   .particles-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 2; pointer-events: none; overflow: hidden; }
   .particle {
     position: absolute; border-radius: 50%; opacity: 0; 
     animation: floatParticle 10s infinite ease-in-out;
-    box-shadow: 0 0 5px currentColor;
   }
   @keyframes floatParticle {
     0% { transform: translateY(0) translateX(0) scale(0); opacity: 0; }
@@ -181,10 +156,9 @@
   }
   @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
 
-  /* 🔴 修正：金屬流光邊框 (單色系) */
+  /* 金屬流光邊框 */
   .border-shimmer {
     position: absolute; inset: 0; border-radius: 12px; padding: 1.5px;
-    /* 改回金色流動 */
     background: linear-gradient(90deg, transparent, #FFD700, rgba(255,255,255,0.8), #FF8C00, transparent);
     background-size: 200% 100%;
     -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
@@ -193,23 +167,20 @@
   }
   @keyframes shimmerBorder { 0% { background-position: -150% 0; } 100% { background-position: 150% 0; } }
 
-  /* 🔴 修正：Icon 金屬質感 */
+  /* Icon 金屬質感 */
   .success-icon-wrap {
     width: 90px; height: 90px; margin: 0 auto 30px;
     border-radius: 50%;
     border: 2px solid transparent; 
-    background: 
-      linear-gradient(#111, #111) padding-box,
-      var(--brand-gradient) border-box; /* 金色邊框 */
+    background: linear-gradient(#111, #111) padding-box, var(--brand-gradient) border-box;
     display: flex; justify-content: center; align-items: center;
     font-size: 3rem;
-    box-shadow: 0 0 40px rgba(255, 183, 0, 0.15); /* 金色陰影 */
+    box-shadow: 0 0 40px rgba(255, 183, 0, 0.15);
     animation: pulse 2s infinite;
   }
   .success-icon-wrap i {
     background: var(--brand-gradient);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
     filter: drop-shadow(0 0 10px rgba(255, 183, 0, 0.5));
   }
   @keyframes pulse { 
@@ -256,10 +227,10 @@
   <div class="page-transition-curtain"></div>
   <div class="cursor"></div>
   <div class="loader">
-    <div class="loader-text-logo">Uprise<span>.</span></div>
+    <!-- 預設 Logo (JS 會嘗試讀取後台設定覆蓋) -->
+    <img src="images/uploads/logo.png" class="loader-logo-img" alt="Uprise">
   </div>
   
-  <!-- 🔴 修正：單色系舒適極光 (Gold/Amber) -->
   <div class="ambient-light">
     <div class="ambient-blob"></div>
     <div class="ambient-blob"></div>
@@ -281,17 +252,46 @@
   </div>
 
   <script>
+    // --- 防盜機制 ---
+    document.addEventListener('contextmenu', e => e.preventDefault());
+    document.addEventListener('copy', e => e.preventDefault());
+    document.onkeydown = function(e) {
+        if(e.keyCode == 123) return false;
+        if(e.ctrlKey && e.shiftKey && (e.keyCode == 'I'.charCodeAt(0) || e.keyCode == 'C'.charCodeAt(0) || e.keyCode == 'J'.charCodeAt(0))) return false;
+        if(e.ctrlKey && (e.keyCode == 'U'.charCodeAt(0) || e.keyCode == 'S'.charCodeAt(0))) return false;
+    }
+
     document.addEventListener('DOMContentLoaded', () => {
-      // 載入動畫
+      // 載入動畫 (延遲 2.2s 以配合 Logo 動畫)
       setTimeout(() => {
         document.querySelector('.loader').classList.add('hidden');
-        document.querySelector('.page-transition-curtain').classList.add('reveal');
         document.body.classList.remove('loading-state');
         document.body.classList.add('loaded-state');
-      }, 1000); 
+      }, 2200); 
       
+      // 1. 全站通用設定讀取 (Logo & Favicon)
+      fetch('content/index.md')
+        .then(r => r.ok ? r.text() : Promise.reject())
+        .then(text => {
+          const parts = text.split('---');
+          const data = jsyaml.load(parts.length > 1 ? parts[1] : text);
+          
+          let logoUrl = data.logo;
+          let faviconUrl = data.favicon || data.logo;
+
+          if(logoUrl) {
+            const loaderLogo = document.querySelector('.loader-logo-img');
+            if(loaderLogo) loaderLogo.src = logoUrl;
+          }
+          if(faviconUrl) {
+            const favicon = document.querySelector('link[rel="icon"]');
+            if(favicon) favicon.href = faviconUrl;
+          }
+        })
+        .catch(e => console.log("Global settings not found"));
+
       initCursor();
-      createParticles(); // 🔴 啟動金銀粒子
+      createParticles();
       initMagneticButtons();
       initPageTransition();
     });
@@ -299,7 +299,7 @@
     // --- 共用 JS 邏輯 ---
     function initCursor() { if (window.matchMedia("(pointer: fine)").matches) { const cursor = document.querySelector('.cursor'); let mouseX=window.innerWidth/2, mouseY=window.innerHeight/2, cursorX=mouseX, cursorY=mouseY; document.addEventListener('mousemove', e => { mouseX=e.clientX; mouseY=e.clientY; }); document.addEventListener('mousedown', () => document.body.classList.add('clicking')); document.addEventListener('mouseup', () => document.body.classList.remove('clicking')); function animate() { cursorX+=(mouseX-cursorX)*0.5; cursorY+=(mouseY-cursorY)*0.5; cursor.style.transform=`translate(${cursorX}px, ${cursorY}px) translate(-50%, -50%)`; requestAnimationFrame(animate); } animate(); document.body.addEventListener('mouseenter', e=>{ if(e.target.closest('.hover-trigger')) document.body.classList.add('hovered'); }, true); document.body.addEventListener('mouseleave', e=>{ if(e.target.closest('.hover-trigger')) document.body.classList.remove('hovered'); }, true); } }
     
-    // 🔴 修正：香檳金氣泡粒子
+    // 香檳金氣泡粒子
     function createParticles() { 
       const container = document.getElementById('particles'); 
       if(!container) return; 
@@ -326,7 +326,19 @@
     
     function initMagneticButtons() { const buttons = document.querySelectorAll('.magnetic-btn'); buttons.forEach(btn => { btn.addEventListener('mousemove', (e) => { const rect = btn.getBoundingClientRect(); const x = e.clientX - rect.left - rect.width / 2; const y = e.clientY - rect.top - rect.height / 2; btn.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`; }); btn.addEventListener('mouseleave', () => { btn.style.transform = `translate(0px, 0px)`; }); }); }
 
-    function initPageTransition() { const links = document.querySelectorAll('.page-link'); const curtain = document.querySelector('.page-transition-curtain'); links.forEach(link => { link.addEventListener('click', (e) => { e.preventDefault(); const href = link.getAttribute('href'); curtain.classList.remove('reveal'); curtain.classList.add('cover'); setTimeout(() => { window.location.href = href; }, 800); }); }); }
+    function initPageTransition() { 
+        const links = document.querySelectorAll('.page-link'); 
+        // 這裡不需要 curtain (因為是單一狀態頁面)，直接跳轉
+        links.forEach(link => { 
+            link.addEventListener('click', (e) => { 
+                e.preventDefault(); 
+                const href = link.getAttribute('href'); 
+                // 簡單淡出
+                document.body.style.opacity = 0;
+                setTimeout(() => { window.location.href = href; }, 500); 
+            }); 
+        }); 
+    }
   </script>
 </body>
 </html>

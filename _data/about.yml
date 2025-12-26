@@ -1,24 +1,5 @@
-title: "ABOUT US"
-subtitle: "關於推手影像"
-values_list:
-  - title: "專業品質"
-    desc: "我們堅持最高的製作標準，為客戶呈現最完美的影像作品。"
-    icon: "fa-solid fa-star"
-  - title: "創意無限"
-    desc: "不拘泥於傳統框架，用創新的視角訴說故事。"
-    icon: "fa-solid fa-lightbulb"
-  - title: "溝通至上"
-    desc: "深入了解客戶需求，確保成品符合期待。"
-    icon: "fa-solid fa-comments"
-process_list:
-  - step: "01 需求溝通"
-    desc: "了解您的品牌精神與影片製作目的，確立風格方向。"
-  - step: "02 腳本企劃"
-    desc: "將創意轉化為具體的腳本與分鏡，確認拍攝細節。"
-  - step: "03 拍攝製作"
-    desc: "專業團隊進駐執行拍攝，捕捉最完美的畫面。"
-  - step: "04 後期剪輯"
-    desc: "透過剪輯、調色與特效，賦予影片靈魂。"
+title: ABOUT US
+subtitle: 關於推手影像
 company_intro: |
   ## 推手影像製作有限公司
 

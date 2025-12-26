@@ -178,13 +178,13 @@ content:
 
   # -------------------------------------------------------
   # 4. 關於我們 (About)
-  # 對應檔案: content/about.md
+  # 改為編輯 Data 檔
   # -------------------------------------------------------
   - name: "about"
     label: "ℹ️ 關於我們"
     type: "file"
-    path: "content/about.md"
-    format: "frontmatter"
+    path: "_data/about.yml"  # 注意：路徑改為 _data/about.yml
+    format: "yaml"           # 注意：格式改為 yaml
     fields:
       - name: "title"
         label: "頁面標題"
@@ -207,7 +207,6 @@ content:
           - name: "icon"
             label: "Icon 代碼"
             type: "string"
-            hint: "例如: fa-solid fa-star"
 
       - name: "process_list"
         label: "🔄 服務流程區塊"
@@ -217,16 +216,15 @@ content:
           - name: "step"
             label: "步驟名稱"
             type: "string"
-            hint: "例如: 需求溝通"
           - name: "desc"
             label: "步驟說明"
             type: "text"
 
-      - name: "body"
-        label: "下方詳細內文"
-        type: "rich-text"
-        hint: "支援圖片、引用與 Markdown 格式"
-
+      - name: "company_intro"
+        label: "公司簡介內文 (Markdown)"
+        type: "markdown" 
+        
+  # (其他頁面請依照此模式建立對應的 _data 設定)
   # -------------------------------------------------------
   # 5. 聯絡資訊 (Contact)
   # 對應檔案: content/contact.md
@@ -252,3 +250,4 @@ content:
       - name: "phone"
         label: "電話"
         type: "string"
+

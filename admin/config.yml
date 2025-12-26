@@ -1,23 +1,35 @@
-backend:
-  name: github
-  repo: twoheart1222/Uprise-production
-  branch: main
-  base_url: https://uprise-auth.uprisevideoproduction.workers.dev
+# ----------------------------
+# Decap CMS 最簡單配置（Cloudflare + Public Repo）
+# ----------------------------
 
-media_folder: "static/uploads"
-public_folder: "/uploads"
+backend:
+  name: github                   # 使用 GitHub backend
+  repo: twoheart1222/Uprise-production  # 你的 GitHub 公開 repo
+  branch: main                   # GitHub 預設分支
+
+media_folder: "static/uploads"   # 上傳媒體檔案在專案的資料夾
+public_folder: "/uploads"        # 網站存取媒體的路徑
+
+publish_mode: simple             # 直接 commit，不需要 pull request
 
 collections:
-  - name: "portfolio" # 集合名稱 (英文)
-    label: "作品集" # 顯示名稱 (中文)
-    folder: "content/portfolio" # 內容存檔位置 (之後我們要手動建這個資料夾)
-    create: true # 允許新增
-    slug: "{{year}}-{{slug}}" # 檔名格式
-    format: "json" # 這裡關鍵！設為 json 方便你的 JS 讀取
-    fields: # 欄位設定
-      - {label: "專案標題", name: "title", widget: "string"}
-      - {label: "發布日期", name: "date", widget: "datetime"}
-      - {label: "封面圖片", name: "thumbnail", widget: "image"}
-      - {label: "影片連結 (YouTube/Vimeo)", name: "video_url", widget: "string"}
-      - {label: "客戶名稱", name: "client", widget: "string", required: false}
-      - {label: "專案介紹", name: "body", widget: "markdown"}
+  - name: "pages"                # 集合名稱，可自訂
+    label: "Pages"               # 後台顯示名稱
+    folder: "content/pages"      # markdown 或內容檔案位置
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Body", name: "body", widget: "markdown" }
+      - { label: "Cover Image", name: "cover", widget: "image", required: false }
+
+  - name: "blog"
+    label: "Blog"
+    folder: "content/blog"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Date", name: "date", widget: "datetime" }
+      - { label: "Body", name: "body", widget: "markdown" }
+      - { label: "Cover Image", name: "cover", widget: "image", required: false }

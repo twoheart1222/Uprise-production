@@ -2,7 +2,7 @@ backend:
   name: github
   repo: twoheart1222/uprise-production
   branch: main 
-  base_url: https://uprise-oauth.linjiayou.workers.dev/callback
+  base_url: https://uprise-oauth.uprisevideoproduction.workers.dev
   auth_endpoint: auth # 不需要改
 
 media_folder: "images/uploads" # 你上傳的圖片會存在這裡

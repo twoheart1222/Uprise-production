@@ -1,12 +1,12 @@
 # 1. 媒體庫設定
 media:
-  input: "images/uploads"
-  output: "/images/uploads"
+  input: "images/uploads"      # 圖片存放在 GitHub 的路徑
+  output: "/images/uploads"    # 網頁讀取圖片的路徑
   categories: ["logo", "works", "team", "others"]
 
 # 2. 內容欄位設定
 content:
-  # --- 1. 首頁 (Home) ---
+  # --- 1. 首頁 (對應 content/index.md) ---
   - name: "home"
     label: "🏠 首頁 (Home)"
     type: "file"
@@ -19,23 +19,22 @@ content:
       - name: "logo"
         label: "網站 Logo"
         type: "image"
-      - name: "favicon"
-        label: "Favicon (網頁圖示)"
-        type: "image"
       - name: "hero_text"
         label: "主視覺標語"
         type: "string"
       - name: "hero_video"
-        label: "背景影片 (電腦版 URL)"
+        label: "背景影片 URL (電腦版)"
         type: "string"
+        comment: "請輸入影片連結 (如 Cloudinary 或 YouTube mp4)"
       - name: "hero_video_mobile"
-        label: "背景影片 (手機版 URL)"
+        label: "背景影片 URL (手機版)"
         type: "string"
       
-      # 對應你 index.md 裡的 services
+      # 服務項目 (目前檔案內 services 為空，後台可新增)
       - name: "services"
         label: "🛠️ 服務項目"
         type: "list"
+        item_label: "{{title}}"
         fields:
           - name: "title"
             label: "服務名稱"
@@ -44,23 +43,23 @@ content:
             label: "描述"
             type: "string"
           - name: "iconClass"
-            label: "Icon 代碼"
+            label: "Icon Class (FontAwesome)"
             type: "string"
 
-      # 對應你 index.md 裡的 behind_the_scenes
+      # 工作花絮 (目前檔案內無此欄位，新增後會自動寫入)
       - name: "behind_the_scenes"
-        label: "📸 工作花絮"
+        label: "📸 工作花絮圖片牆"
         type: "list"
+        item_label: "{{caption}}"
         fields:
           - name: "image"
             label: "照片"
             type: "image"
           - name: "caption"
-            label: "描述"
+            label: "描述 (選填)"
             type: "string"
 
-  # --- 2. 作品頁 (Works) ---
-  # 這邊完全對應你 works.md 裡的分類
+  # --- 2. 作品集 (對應 content/works.md) ---
   - name: "works"
     label: "🎬 作品總覽 (Works)"
     type: "file"
@@ -74,12 +73,12 @@ content:
         label: "頁面副標題"
         type: "string"
 
-      # 共用欄位設定 (YAML Anchor)
+      # 對應 works.md 裡的五個分類
       - name: "portfolio_brand"
         label: "📂 品牌形象廣告"
         type: "list"
-        item_label: "{{title}}"
-        fields: &work_fields
+        item_label: "{{title}} - {{client}}"
+        fields: &work_fields # 共用欄位設定
           - name: "title"
             label: "作品標題"
             type: "string"
@@ -87,10 +86,10 @@ content:
             label: "客戶名稱"
             type: "string"
           - name: "link"
-            label: "影片連結 (YouTube)"
+            label: "影片連結"
             type: "string"
           - name: "image"
-            label: "封面圖 (選填，若無自動抓YT)"
+            label: "封面圖 (選填)"
             type: "image"
 
       - name: "portfolio_product"
@@ -100,7 +99,7 @@ content:
         fields: *work_fields
 
       - name: "portfolio_public"
-        label: "📂 公部門宣傳影片"
+        label: "📂 公部門宣傳"
         type: "list"
         item_label: "{{title}}"
         fields: *work_fields
@@ -117,7 +116,7 @@ content:
         item_label: "{{title}}"
         fields: *work_fields
 
-  # --- 3. 團隊頁 (Team) ---
+  # --- 3. 團隊 (對應 content/team.md) ---
   - name: "team"
     label: "👥 團隊介紹 (Team)"
     type: "file"
@@ -145,11 +144,11 @@ content:
             label: "大頭照"
             type: "image"
           - name: "bio"
-            label: "簡短介紹"
+            label: "簡介 (短)"
             type: "string"
             widget: "text"
           - name: "full_bio"
-            label: "完整介紹 (Markdown)"
+            label: "完整介紹 (長)" # 這是林家佑導演特有的欄位
             type: "rich-text"
           - name: "portfolio_url"
             label: "作品集連結"
@@ -158,7 +157,7 @@ content:
             label: "Instagram 連結"
             type: "string"
 
-  # --- 4. 關於頁 (About) ---
+  # --- 4. 關於我們 (對應 content/about.md) ---
   - name: "about"
     label: "ℹ️ 關於我們 (About)"
     type: "file"
@@ -171,16 +170,13 @@ content:
       - name: "subtitle"
         label: "頁面副標題"
         type: "string"
-      
-      # 這裡對應 about.md 下方的文字內容
       - name: "body"
-        label: "公司簡介內文"
+        label: "內文"
         type: "rich-text"
 
-      # 你的 HTML 支援這些區塊，雖然目前的 md 檔還沒有，
-      # 但加上去後你就可以在後台直接新增了！
+      # 這些是 HTML 支援但目前 MD 檔尚未填寫的欄位，預留給後台新增
       - name: "values_list"
-        label: "💎 核心價值 (選填)"
+        label: "💎 核心價值"
         type: "list"
         fields:
           - name: "title"
@@ -190,21 +186,21 @@ content:
             label: "描述"
             type: "string"
           - name: "icon"
-            label: "Icon Class"
+            label: "Icon (例如: fa-solid fa-star)"
             type: "string"
 
       - name: "process_list"
-        label: "🔄 服務流程 (選填)"
+        label: "🔄 服務流程"
         type: "list"
         fields:
           - name: "step"
-            label: "步驟名稱"
+            label: "步驟"
             type: "string"
           - name: "desc"
             label: "說明"
             type: "string"
 
-  # --- 5. 聯絡頁 (Contact) ---
+  # --- 5. 聯絡我們 (對應 content/contact.md) ---
   - name: "contact"
     label: "📞 聯絡資訊 (Contact)"
     type: "file"
@@ -212,11 +208,12 @@ content:
     format: "frontmatter"
     fields:
       - name: "title"
-        label: "頁面標題"
+        label: "標題"
         type: "string"
       - name: "subtitle"
-        label: "頁面副標題"
+        label: "副標題"
         type: "string"
+        widget: "text"
       - name: "address"
         label: "地址"
         type: "string"

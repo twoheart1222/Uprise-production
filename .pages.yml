@@ -1,38 +1,41 @@
-# 1. 圖片上傳設定
+# 1. 圖片設定：這會啟用圖片庫功能
 media:
-  input: "images/uploads"      # 上傳的圖片會存到 GitHub 的這個資料夾
-  output: "/images/uploads"    # 網頁讀取圖片時的路徑前綴
-  categories: ["general", "team", "works"] # (選用) 圖片分類標籤
+  input: "images/uploads"      # 你的圖片實際存放在 GitHub 的位置
+  output: "/images/uploads"    # 網站在 HTML 讀取時的路徑
+  categories: ["工作花絮", "作品封面", "成員照"] # 讓你在選圖片時可以分類，比較好找
 
-# 2. 網站內容設定
+# 2. 內容設定
 content:
   # --- 首頁 (index.md) ---
   - name: "home"
-    label: "首頁設定 (Home)"
+    label: "🏠 首頁與花絮 (Home)"
     type: "file"
     path: "content/index.md"
-    format: "frontmatter" # 告訴 CMS 讀取 --- 夾住的 YAML 區塊
+    format: "frontmatter"
     fields:
       - name: "title"
         label: "網頁標題"
         type: "string"
-      - name: "logo"
-        label: "網站 Logo"
-        type: "image"
-      - name: "hero_text"
-        label: "主視覺文字 (Hero Text)"
-        type: "string"
-      - name: "hero_video"
-        label: "電腦版背景影片 URL"
-        type: "string"
-        comment: "請填入影片連結 (例如 Cloudinary 或 YouTube mp4 連結)"
-      - name: "hero_video_mobile"
-        label: "手機版背景影片 URL"
-        type: "string"
       
+      # [視覺化設定] 這裡就是你要的「可拖拉排序」圖片牆
+      - name: "behind_the_scenes"
+        label: "📸 工作花絮圖片牆 (可拖曳排序)"
+        type: "list"             # 設定為列表，這樣就可以新增多張
+        default: []              # 預設為空
+        item_label: "照片: {{caption}}" # 在列表中顯示說明文字，方便辨識
+        fields:
+          - name: "image"
+            label: "上傳照片"
+            type: "image"        # 這會顯示上傳按鈕與圖片預覽
+          - name: "caption"
+            label: "照片說明 (選填)"
+            type: "string"
+
+      # 服務項目
       - name: "services"
-        label: "專業服務區塊"
+        label: "🛠️ 服務項目 (可排序)"
         type: "list"
+        item_label: "{{title}}"
         fields:
           - name: "title"
             label: "服務名稱"
@@ -41,103 +44,12 @@ content:
             label: "服務說明"
             type: "string"
           - name: "iconClass"
-            label: "FontAwesome Icon 代碼"
-            type: "string"
-            comment: "例如: fa-solid fa-video"
-
-      - name: "behind_the_scenes"
-        label: "工作花絮圖片牆"
-        type: "list"
-        fields:
-          - name: "image"
-            label: "花絮照片"
-            type: "image"
-
-  # --- 關於我們 (about.md) ---
-  - name: "about"
-    label: "關於我們 (About)"
-    type: "file"
-    path: "content/about.md"
-    format: "frontmatter"
-    fields:
-      - name: "title"
-        label: "頁面大標題"
-        type: "string"
-      - name: "subtitle"
-        label: "頁面副標題"
-        type: "string"
-      - name: "body"
-        label: "公司簡介內文"
-        type: "rich-text" # 這是主要的大段落文字編輯器
-      
-      - name: "values_list"
-        label: "核心價值區塊"
-        type: "list"
-        fields:
-          - name: "title"
-            label: "價值標題"
-            type: "string"
-          - name: "desc"
-            label: "詳細說明"
-            type: "string"
-          - name: "icon"
             label: "Icon 代碼"
-            type: "string"
-
-      - name: "process_list"
-        label: "服務流程步驟"
-        type: "list"
-        fields:
-          - name: "step"
-            label: "步驟名稱"
-            type: "string"
-          - name: "desc"
-            label: "步驟說明"
-            type: "string"
-
-  # --- 團隊成員 (team.md) ---
-  - name: "team"
-    label: "團隊成員 (Team)"
-    type: "file"
-    path: "content/team.md"
-    format: "frontmatter"
-    fields:
-      - name: "title"
-        label: "頁面標題"
-        type: "string"
-      - name: "subtitle"
-        label: "頁面副標題"
-        type: "string"
-      - name: "members"
-        label: "成員列表"
-        type: "list"
-        item_label: "{{name}}" # 在列表顯示成員名字，方便辨識
-        fields:
-          - name: "name"
-            label: "姓名"
-            type: "string"
-          - name: "role"
-            label: "職稱"
-            type: "string"
-          - name: "avatar"
-            label: "大頭照"
-            type: "image"
-          - name: "bio"
-            label: "簡短介紹 (卡片顯示)"
-            type: "string"
-          - name: "full_bio"
-            label: "完整介紹 (內頁顯示)"
-            type: "rich-text"
-          - name: "portfolio_url"
-            label: "作品集連結"
-            type: "string"
-          - name: "ig_url"
-            label: "Instagram 連結"
             type: "string"
 
   # --- 作品集 (works.md) ---
   - name: "works"
-    label: "作品集 (Works)"
+    label: "🎬 作品集管理 (Works)"
     type: "file"
     path: "content/works.md"
     format: "frontmatter"
@@ -145,15 +57,16 @@ content:
       - name: "title"
         label: "頁面標題"
         type: "string"
-      - name: "subtitle"
-        label: "頁面副標題"
-        type: "string"
       
-      # 分類 1: 品牌形象
+      # 為了讓你更好管理，我們把不同分類的作品做成不同的列表
       - name: "portfolio_brand"
-        label: "【分類】品牌形象廣告"
+        label: "1️⃣ 品牌形象廣告 (拖曳調整順序)"
         type: "list"
-        fields: &work_fields # 使用 YAML 錨點重複利用欄位設定
+        item_label: "{{title}} - {{client}}" # 列表上顯示標題和客戶
+        fields: &work_fields # 定義一次，下面重複使用
+          - name: "image"
+            label: "作品封面圖"
+            type: "image"
           - name: "title"
             label: "作品標題"
             type: "string"
@@ -161,55 +74,79 @@ content:
             label: "客戶名稱"
             type: "string"
           - name: "link"
-            label: "影片連結 (YouTube)"
+            label: "影片連結 (YouTube/Vimeo)"
             type: "string"
-          - name: "image"
-            label: "封面圖 (選填，若無則抓取YT縮圖)"
-            type: "image"
-      
-      # 分類 2: 產品形象
+
       - name: "portfolio_product"
-        label: "【分類】產品形象廣告"
+        label: "2️⃣ 產品形象廣告"
         type: "list"
-        fields: *work_fields # 引用上面的設定
-      
-      # 分類 3: 公部門
+        item_label: "{{title}}"
+        fields: *work_fields # 引用上面的欄位設定
+
       - name: "portfolio_public"
-        label: "【分類】公部門宣傳"
+        label: "3️⃣ 公部門宣傳"
         type: "list"
+        item_label: "{{title}}"
         fields: *work_fields
 
-      # 分類 4: 活動紀錄
-      - name: "portfolio_event"
-        label: "【分類】活動紀錄"
+  # --- 團隊成員 (team.md) ---
+  - name: "team"
+    label: "👥 團隊成員 (Team)"
+    type: "file"
+    path: "content/team.md"
+    format: "frontmatter"
+    fields:
+      - name: "title"
+        label: "標題"
+        type: "string"
+      - name: "members"
+        label: "成員名單 (可拖曳排序)"
         type: "list"
-        fields: *work_fields
+        item_label: "{{name}} - {{role}}" # 列表顯示：林小明 - 導演
+        fields:
+          - name: "avatar"
+            label: "大頭照"
+            type: "image"
+          - name: "name"
+            label: "姓名"
+            type: "string"
+          - name: "role"
+            label: "職稱"
+            type: "string"
+          - name: "bio"
+            label: "簡介"
+            type: "string"
 
-      # 分類 5: 其他
-      - name: "portfolio_other"
-        label: "【分類】其他作品"
-        type: "list"
-        fields: *work_fields
+  # --- 關於我們 (about.md) ---
+  - name: "about"
+    label: "ℹ️ 關於我們 (About)"
+    type: "file"
+    path: "content/about.md"
+    format: "frontmatter"
+    fields:
+      - name: "title"
+        label: "標題"
+        type: "string"
+      - name: "body"
+        label: "內文"
+        type: "rich-text"
 
   # --- 聯絡我們 (contact.md) ---
   - name: "contact"
-    label: "聯絡資訊 (Contact)"
+    label: "📞 聯絡資訊 (Contact)"
     type: "file"
     path: "content/contact.md"
     format: "frontmatter"
     fields:
       - name: "title"
-        label: "頁面標題"
-        type: "string"
-      - name: "subtitle"
-        label: "頁面副標題"
-        type: "string"
-      - name: "address"
-        label: "公司地址"
+        label: "標題"
         type: "string"
       - name: "email"
-        label: "聯絡信箱"
+        label: "Email"
         type: "string"
       - name: "phone"
-        label: "聯絡電話"
+        label: "電話"
+        type: "string"
+      - name: "address"
+        label: "地址"
         type: "string"

@@ -1,10 +1,10 @@
 backend:
   name: github
   repo: twoheart1222/Uprise-production
-  branch: main 
- 
-media_folder: "images/uploads" # 你上傳的圖片會存在這裡
-public_folder: "/images/uploads"
+  branch: main
+
+media_folder: "static/uploads"
+public_folder: "/uploads"
 
 collections:
   - name: "portfolio" # 集合名稱 (英文)

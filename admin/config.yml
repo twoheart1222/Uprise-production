@@ -1,7 +1,7 @@
 backend:
   name: github
-  repo: twoheart1222/uprise-production  # 👈 這裡目前是全小寫，請確認 GitHub 上真的是小寫嗎？
-  branch: main                          # 👈 請確認你的 GitHub 分支真的是 main (而不是 master)
+  repo: twoheart1222/Uprise-production
+  branch: main
   base_url: https://uprise-auth.uprisevideoproduction.workers.dev
 
 media_folder: "images/uploads"

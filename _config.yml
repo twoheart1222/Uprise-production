@@ -1,0 +1,7 @@
+encoding: utf-8
+markdown: kramdown
+theme: null
+# 允許使用 _data 資料夾內的資料
+collections:
+  data:
+    output: false

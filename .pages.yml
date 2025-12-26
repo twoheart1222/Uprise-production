@@ -5,7 +5,7 @@ media:
 
 content:
   # -------------------------------------------------------
-  # 1. 首頁 (index.md)
+  # 1. 首頁 (讀取 content/index.md)
   # -------------------------------------------------------
   - name: "home"
     label: "🏠 首頁 (Home)"
@@ -23,12 +23,13 @@ content:
         label: "主視覺標語"
         type: "string"
       - name: "hero_video"
-        label: "電腦版背景影片"
+        label: "背景影片 URL (電腦版)"
         type: "string"
       - name: "hero_video_mobile"
-        label: "手機版背景影片"
+        label: "背景影片 URL (手機版)"
         type: "string"
       
+      # 服務項目
       - name: "services"
         label: "🛠️ 服務項目 (可拖曳排序)"
         type: "list"
@@ -41,9 +42,10 @@ content:
             label: "描述"
             type: "string"
           - name: "iconClass"
-            label: "Icon代碼"
+            label: "Icon Class"
             type: "string"
 
+      # 工作花絮
       - name: "behind_the_scenes"
         label: "📸 工作花絮 (可拖曳排序)"
         type: "list"
@@ -57,7 +59,7 @@ content:
             type: "string"
 
   # -------------------------------------------------------
-  # 2. 作品集 (works.md) - 這裡設定了五個分類列表
+  # 2. 作品集 (讀取 content/works.md)
   # -------------------------------------------------------
   - name: "works"
     label: "🎬 作品總覽 (Works)"
@@ -72,9 +74,9 @@ content:
         label: "頁面副標題"
         type: "string"
 
-      # --- 分類 1: 品牌形象 ---
+      # --- [分類1] 品牌形象 (已設定可拖曳排序) ---
       - name: "portfolio_brand"
-        label: "📂 品牌形象廣告 (點開可拖曳排序)"
+        label: "📂 品牌形象廣告"
         type: "list"
         item_label: "{{title}} - {{client}}"
         fields:
@@ -85,15 +87,15 @@ content:
             label: "客戶名稱"
             type: "string"
           - name: "link"
-            label: "影片連結 (YouTube)"
+            label: "影片連結 (YouTube/Vimeo)"
             type: "string"
           - name: "image"
             label: "封面圖"
             type: "image"
 
-      # --- 分類 2: 產品形象 ---
+      # --- [分類2] 產品形象 ---
       - name: "portfolio_product"
-        label: "📂 產品形象廣告 (點開可拖曳排序)"
+        label: "📂 產品形象廣告"
         type: "list"
         item_label: "{{title}}"
         fields:
@@ -110,9 +112,9 @@ content:
             label: "封面圖"
             type: "image"
 
-      # --- 分類 3: 公部門 ---
+      # --- [分類3] 公部門宣傳 ---
       - name: "portfolio_public"
-        label: "📂 公部門宣傳 (點開可拖曳排序)"
+        label: "📂 公部門宣傳"
         type: "list"
         item_label: "{{title}}"
         fields:
@@ -129,9 +131,9 @@ content:
             label: "封面圖"
             type: "image"
 
-      # --- 分類 4: 活動紀錄 ---
+      # --- [分類4] 活動紀錄 ---
       - name: "portfolio_event"
-        label: "📂 活動紀錄 (點開可拖曳排序)"
+        label: "📂 活動紀錄"
         type: "list"
         item_label: "{{title}}"
         fields:
@@ -148,9 +150,9 @@ content:
             label: "封面圖"
             type: "image"
 
-      # --- 分類 5: 其他 ---
+      # --- [分類5] 其他作品 ---
       - name: "portfolio_other"
-        label: "📂 其他作品 (點開可拖曳排序)"
+        label: "📂 其他作品"
         type: "list"
         item_label: "{{title}}"
         fields:
@@ -168,7 +170,7 @@ content:
             type: "image"
 
   # -------------------------------------------------------
-  # 3. 團隊 (team.md)
+  # 3. 團隊 (讀取 content/team.md)
   # -------------------------------------------------------
   - name: "team"
     label: "👥 團隊介紹 (Team)"
@@ -177,10 +179,10 @@ content:
     format: "frontmatter"
     fields:
       - name: "title"
-        label: "標題"
+        label: "頁面標題"
         type: "string"
       - name: "subtitle"
-        label: "副標題"
+        label: "頁面副標題"
         type: "string"
       - name: "members"
         label: "成員名單 (可拖曳排序)"
@@ -197,21 +199,21 @@ content:
             label: "大頭照"
             type: "image"
           - name: "bio"
-            label: "簡介"
+            label: "簡短介紹"
             type: "string"
             widget: "text"
           - name: "full_bio"
-            label: "完整介紹"
+            label: "完整介紹 (Markdown)"
             type: "rich-text"
           - name: "portfolio_url"
-            label: "作品連結"
+            label: "作品集連結"
             type: "string"
           - name: "ig_url"
-            label: "IG 連結"
+            label: "Instagram 連結"
             type: "string"
 
   # -------------------------------------------------------
-  # 4. 關於我們 (about.md)
+  # 4. 關於我們 (讀取 content/about.md)
   # -------------------------------------------------------
   - name: "about"
     label: "ℹ️ 關於我們 (About)"
@@ -220,14 +222,40 @@ content:
     format: "frontmatter"
     fields:
       - name: "title"
-        label: "標題"
+        label: "頁面標題"
+        type: "string"
+      - name: "subtitle"
+        label: "頁面副標題"
         type: "string"
       - name: "body"
         label: "內文"
         type: "rich-text"
+      - name: "values_list"
+        label: "核心價值"
+        type: "list"
+        fields:
+          - name: "title"
+            label: "標題"
+            type: "string"
+          - name: "desc"
+            label: "描述"
+            type: "string"
+          - name: "icon"
+            label: "Icon (FontAwesome)"
+            type: "string"
+      - name: "process_list"
+        label: "服務流程"
+        type: "list"
+        fields:
+          - name: "step"
+            label: "步驟"
+            type: "string"
+          - name: "desc"
+            label: "說明"
+            type: "string"
 
   # -------------------------------------------------------
-  # 5. 聯絡我們 (contact.md)
+  # 5. 聯絡我們 (讀取 content/contact.md)
   # -------------------------------------------------------
   - name: "contact"
     label: "📞 聯絡資訊 (Contact)"
@@ -237,6 +265,9 @@ content:
     fields:
       - name: "title"
         label: "標題"
+        type: "string"
+      - name: "subtitle"
+        label: "副標題"
         type: "string"
       - name: "address"
         label: "地址"

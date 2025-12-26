@@ -1,8 +1,8 @@
 backend:
   name: github
-  repo: twoheart1222/Uprise-production  # 你的 GitHub 帳號/專案名稱
-  branch: main
-  base_url: https://uprise-auth.uprisevideoproduction.workers.dev # 你的 Worker 網址 (不要加 /callback)
+  repo: twoheart1222/uprise-production  # 👈 這裡目前是全小寫，請確認 GitHub 上真的是小寫嗎？
+  branch: main                          # 👈 請確認你的 GitHub 分支真的是 main (而不是 master)
+  base_url: https://uprise-auth.uprisevideoproduction.workers.dev
 
 media_folder: "images/uploads"
 public_folder: "/images/uploads"

@@ -1,14 +1,18 @@
+# 1. 媒體庫設定 (這會讀取您 images/uploads 資料夾的照片)
 media:
   input: "images/uploads"
   output: "/images/uploads"
   categories: ["logo", "works", "team", "others"]
 
+# 2. 內容設定
 content:
-  # --- 首頁 ---
+  # -------------------------------------------------------
+  # 🔗 連結 1: 首頁 (讀取 content/index.md)
+  # -------------------------------------------------------
   - name: "home"
-    label: "🏠 首頁"
+    label: "🏠 首頁 (Home)"
     type: "file"
-    path: "content/index.md"
+    path: "content/index.md"  # <--- 關鍵！這裡指向您的檔案
     format: "frontmatter"
     fields:
       - name: "title"
@@ -21,11 +25,13 @@ content:
         label: "主視覺標語"
         type: "string"
       - name: "hero_video"
-        label: "電腦版背景影片"
+        label: "背景影片 URL (電腦版)"
         type: "string"
       - name: "hero_video_mobile"
-        label: "手機版背景影片"
+        label: "背景影片 URL (手機版)"
         type: "string"
+      
+      # [服務項目]
       - name: "services"
         label: "🛠️ 服務項目"
         type: "list"
@@ -38,10 +44,12 @@ content:
             label: "描述"
             type: "string"
           - name: "iconClass"
-            label: "Icon 代碼"
+            label: "Icon Class"
             type: "string"
+
+      # [工作花絮]
       - name: "behind_the_scenes"
-        label: "📸 工作花絮"
+        label: "📸 工作花絮 (可拖曳排序)"
         type: "list"
         item_label: "{{caption}}"
         fields:
@@ -52,11 +60,13 @@ content:
             label: "描述"
             type: "string"
 
-  # --- 作品集 (這裡會讀取您 works.md 裡的資料) ---
+  # -------------------------------------------------------
+  # 🔗 連結 2: 作品集 (讀取 content/works.md)
+  # -------------------------------------------------------
   - name: "works"
-    label: "🎬 作品總覽"
+    label: "🎬 作品總覽 (Works)"
     type: "file"
-    path: "content/works.md"
+    path: "content/works.md"  # <--- 關鍵！這會讓後台讀取您現有的作品
     format: "frontmatter"
     fields:
       - name: "title"
@@ -66,12 +76,12 @@ content:
         label: "頁面副標題"
         type: "string"
 
-      # [分類1] 品牌形象
+      # [分類 1: 品牌形象] (支援拖曳排序 & 連結)
       - name: "portfolio_brand"
-        label: "📂 品牌形象廣告 (拖曳排序)"
+        label: "📂 品牌形象廣告 (可拖曳排序)"
         type: "list"
-        item_label: "{{title}} ({{client}})"
-        fields:
+        item_label: "{{title}} - {{client}}"
+        fields: &work_fields  # 設定共用欄位格式
           - name: "title"
             label: "作品標題"
             type: "string"
@@ -79,103 +89,58 @@ content:
             label: "客戶名稱"
             type: "string"
           - name: "link"
-            label: "影片連結"
+            label: "影片連結 (YouTube)"
             type: "string"
           - name: "image"
-            label: "封面圖"
+            label: "封面圖 (選填，若無則自動抓YT)"
             type: "image"
 
-      # [分類2] 產品形象
+      # [分類 2: 產品形象]
       - name: "portfolio_product"
-        label: "📂 產品形象廣告 (拖曳排序)"
+        label: "📂 產品形象廣告 (可拖曳排序)"
         type: "list"
         item_label: "{{title}}"
-        fields:
-          - name: "title"
-            label: "作品標題"
-            type: "string"
-          - name: "client"
-            label: "客戶名稱"
-            type: "string"
-          - name: "link"
-            label: "影片連結"
-            type: "string"
-          - name: "image"
-            label: "封面圖"
-            type: "image"
+        fields: *work_fields
 
-      # [分類3] 公部門
+      # [分類 3: 公部門]
       - name: "portfolio_public"
-        label: "📂 公部門宣傳 (拖曳排序)"
+        label: "📂 公部門宣傳 (可拖曳排序)"
         type: "list"
         item_label: "{{title}}"
-        fields:
-          - name: "title"
-            label: "作品標題"
-            type: "string"
-          - name: "client"
-            label: "客戶名稱"
-            type: "string"
-          - name: "link"
-            label: "影片連結"
-            type: "string"
-          - name: "image"
-            label: "封面圖"
-            type: "image"
+        fields: *work_fields
 
-      # [分類4] 活動紀錄
+      # [分類 4: 活動紀錄]
       - name: "portfolio_event"
-        label: "📂 活動紀錄 (拖曳排序)"
+        label: "📂 活動紀錄 (可拖曳排序)"
         type: "list"
         item_label: "{{title}}"
-        fields:
-          - name: "title"
-            label: "作品標題"
-            type: "string"
-          - name: "client"
-            label: "客戶名稱"
-            type: "string"
-          - name: "link"
-            label: "影片連結"
-            type: "string"
-          - name: "image"
-            label: "封面圖"
-            type: "image"
+        fields: *work_fields
 
-      # [分類5] 其他
+      # [分類 5: 其他]
       - name: "portfolio_other"
-        label: "📂 其他作品 (拖曳排序)"
+        label: "📂 其他作品 (可拖曳排序)"
         type: "list"
         item_label: "{{title}}"
-        fields:
-          - name: "title"
-            label: "作品標題"
-            type: "string"
-          - name: "client"
-            label: "客戶名稱"
-            type: "string"
-          - name: "link"
-            label: "影片連結"
-            type: "string"
-          - name: "image"
-            label: "封面圖"
-            type: "image"
+        fields: *work_fields
 
-  # --- 團隊 ---
+  # -------------------------------------------------------
+  # 🔗 連結 3: 團隊 (讀取 content/team.md)
+  # -------------------------------------------------------
   - name: "team"
-    label: "👥 團隊介紹"
+    label: "👥 團隊介紹 (Team)"
     type: "file"
-    path: "content/team.md"
+    path: "content/team.md"  # <--- 關鍵！
     format: "frontmatter"
     fields:
       - name: "title"
-        label: "標題"
+        label: "頁面標題"
         type: "string"
       - name: "subtitle"
-        label: "副標題"
+        label: "頁面副標題"
         type: "string"
+      
       - name: "members"
-        label: "成員名單"
+        label: "成員名單 (可拖曳排序)"
         type: "list"
         item_label: "{{name}} - {{role}}"
         fields:
@@ -193,33 +158,67 @@ content:
             type: "string"
             widget: "text"
           - name: "full_bio"
-            label: "完整介紹"
-            type: "rich-text"
+            label: "完整介紹 (詳細經歷)"
+            type: "rich-text"  # 這會讀取您 team.md 裡的 Markdown 長文
           - name: "portfolio_url"
-            label: "作品連結"
+            label: "作品集連結"
             type: "string"
           - name: "ig_url"
-            label: "IG 連結"
+            label: "Instagram 連結"
             type: "string"
 
-  # --- 關於 & 聯絡 ---
+  # -------------------------------------------------------
+  # 🔗 連結 4: 關於我們 (讀取 content/about.md)
+  # -------------------------------------------------------
   - name: "about"
-    label: "ℹ️ 關於我們"
+    label: "ℹ️ 關於我們 (About)"
     type: "file"
-    path: "content/about.md"
+    path: "content/about.md"  # <--- 關鍵！
     format: "frontmatter"
     fields:
       - name: "title"
-        label: "標題"
+        label: "頁面標題"
+        type: "string"
+      - name: "subtitle"
+        label: "頁面副標題"
         type: "string"
       - name: "body"
         label: "內文"
         type: "rich-text"
 
+      # 這些欄位您的檔案目前沒有，但加上去後，您就可以在後台直接新增資料！
+      - name: "values_list"
+        label: "💎 核心價值 (選填)"
+        type: "list"
+        fields:
+          - name: "title"
+            label: "標題"
+            type: "string"
+          - name: "desc"
+            label: "描述"
+            type: "string"
+          - name: "icon"
+            label: "Icon (例如: fa-solid fa-star)"
+            type: "string"
+
+      - name: "process_list"
+        label: "🔄 服務流程 (選填)"
+        type: "list"
+        fields:
+          - name: "step"
+            label: "步驟"
+            type: "string"
+          - name: "desc"
+            label: "說明"
+            type: "string"
+
+  # -------------------------------------------------------
+  # 🔗 連結 5: 聯絡我們 (讀取 content/contact.md)
+  # -------------------------------------------------------
   - name: "contact"
-    label: "📞 聯絡資訊"
+    label: "📞 聯絡資訊 (Contact)"
     type: "file"
-    path: "content/contact.md"
+    path: "content/contact.md"  # <--- 關鍵！
     format: "frontmatter"
     fields:
       - name: "title"
@@ -228,6 +227,7 @@ content:
       - name: "subtitle"
         label: "副標題"
         type: "string"
+        widget: "text"
       - name: "address"
         label: "地址"
         type: "string"

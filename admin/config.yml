@@ -1,6 +1,6 @@
 backend:
   name: github
-  repo: twoheart1222/Uprise-production
+  repo:twoheart1222/Uprise-production
   branch: main 
   base_url: https://uprise-oauth.uprisevideoproduction.workers.dev
   auth_endpoint: auth # 不需要改

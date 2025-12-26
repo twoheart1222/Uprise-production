@@ -6,22 +6,18 @@
 
 <title>推手影像製作有限公司 Uprise-Production | 敘事與美學的極致</title>
 
-<!-- Favicon (預設，JS 會自動讀取後台設定覆蓋) -->
 <link rel="icon" type="image/png" href="images/uploads/logo.png">
 
 <meta name="description" content="Uprise-Production 推手影像｜以極致的影像美學，探索品牌深度的敘事可能。">
 <link rel="canonical" href="https://www.uprise-videoproduction.com/index.html">
 
-<!-- Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Italiana&family=Noto+Sans+TC:wght@300;400;500;700;900&family=Noto+Serif+TC:wght@700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-<!-- AOS Animation Library CSS -->
 <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
-<!-- Libraries -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
 
 <style>
@@ -264,7 +260,6 @@
   
   .scroll-indicator {
     position: absolute; 
-    /* 🔴 修改：將 bottom 從 10vh 改為 40px，避免與上方按鈕重疊 */
     bottom: 40px; 
     left: 50%; transform: translateX(-50%);
     z-index: 10; opacity: 0; transition: opacity 1s 2s;
@@ -443,7 +438,6 @@
     .footer-watermark { font-size: 25vw; }
     .footer h2 { font-size: 2.5rem; letter-spacing: 5px; }
     
-    /* 🔴 修改：手機版設定 */
     .scroll-indicator { bottom: 20px; gap: 8px; }
     .scroll-line { height: 30px; }
     .scroll-text { font-size: 0.7rem; }
@@ -489,7 +483,6 @@
   </div>
   <div class="particles-container" id="particles"></div>
 
-  <!-- 極簡聲音按鈕 -->
   <div id="sound-btn" class="sound-equalizer hover-trigger">
     <span class="sound-label">SOUND</span>
     <div class="sound-bars">
@@ -534,7 +527,6 @@
         </div>
         <div class="particles-container" id="particles"></div>
         <div class="hero-content" id="hero-content">
-          <!-- AOS trigger for Hero Content -->
           <h1 class="hero-title" id="hero-title" data-aos="zoom-out" data-aos-duration="2000" data-aos-delay="1200">推手<span>影像</span></h1>
           <p class="hero-subtitle" id="hero-subtitle" data-aos="fade-up" data-aos-delay="2000">電影級影像製作團隊</p>
           <div class="hero-ctas" data-aos="fade-up" data-aos-delay="2200">
@@ -557,7 +549,6 @@
         <div class="services-grid" id="services-grid"></div>
       </section>
 
-      <!-- 工作花絮區塊 -->
       <section class="bts-section">
         <div class="section-header" data-aos="fade-up" data-aos-duration="1000">
           <h2 class="section-title">工作花絮</h2>
@@ -586,7 +577,6 @@
     </footer>
   </div>
 
-  <!-- AOS Script -->
   <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 
   <script>
@@ -631,6 +621,7 @@
       logo: "images/uploads/logo.png",
       video: "https://res.cloudinary.com/dfnfcyglu/video/upload/v1763893930/hero_bg_ickrbe.mp4",
       hero_video_mobile: "https://res.cloudinary.com/dfnfcyglu/video/upload/v1763893930/hero_bg_ickrbe.mp4", 
+      hero_text: "推手<span>影像</span>", // 預設主標題
       services: [
         {
           title: "商業/品牌形象廣告",
@@ -649,12 +640,12 @@
         }
       ],
       behind_the_scenes: [
-        { image: "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" },
-        { image: "https://images.unsplash.com/photo-1598550476439-6847785fcea6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" },
-        { image: "https://images.unsplash.com/photo-1533561098733-722129d2b276?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" },
-        { image: "https://images.unsplash.com/photo-1585644198306-399564c7b275?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" },
-        { image: "https://images.unsplash.com/photo-1521791136064-7986c2920216?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" },
-        { image: "https://images.unsplash.com/photo-1626814026160-2237a95fc5a0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" }
+        { image: "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", caption: "拍攝現場" },
+        { image: "https://images.unsplash.com/photo-1598550476439-6847785fcea6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", caption: "燈光設定" },
+        { image: "https://images.unsplash.com/photo-1533561098733-722129d2b276?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", caption: "導演指導" },
+        { image: "https://images.unsplash.com/photo-1585644198306-399564c7b275?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", caption: "後期製作" },
+        { image: "https://images.unsplash.com/photo-1521791136064-7986c2920216?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", caption: "團隊合作" },
+        { image: "https://images.unsplash.com/photo-1626814026160-2237a95fc5a0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", caption: "攝影機操作" }
       ]
     };
 
@@ -724,7 +715,11 @@
     });
 
     function initPage(data) {
-      // 1. 更新 Logo 與 Favicon (動態讀取)
+      // 1. 更新標題與 Logo
+      if(data.title) {
+          document.title = data.title;
+      }
+
       let logoUrl = data.logo;
       let faviconUrl = data.favicon || data.logo; // 如果沒有 Favicon，就用 Logo
 
@@ -740,8 +735,15 @@
           if(favicon) favicon.href = faviconUrl;
       }
 
+      // 2. 更新 Hero 文字 (支援 HTML，例如 <span>)
+      if (data.hero_text) {
+          const heroTitle = document.getElementById('hero-title');
+          if(heroTitle) heroTitle.innerHTML = data.hero_text;
+      }
+
       updateVideoSource();
 
+      // 3. 更新服務項目
       const grid = document.getElementById('services-grid');
       grid.innerHTML = '';
       const services = data.services || fallbackData.services;
@@ -788,6 +790,7 @@
         grid.appendChild(card);
       });
 
+      // 4. 更新工作花絮 (Visual Work Gallery)
       const btsGrid = document.getElementById('bts-grid');
       btsGrid.innerHTML = '';
       const btsData = data.behind_the_scenes || fallbackData.behind_the_scenes;
@@ -800,7 +803,9 @@
           btsItem.setAttribute('data-aos', 'zoom-in');
           btsItem.setAttribute('data-aos-delay', index * 100);
           
-          btsItem.innerHTML = `<img src="${item.image}" alt="BTS">`;
+          // 使用 item.caption 做為圖片描述 (alt 和 title)
+          const caption = item.caption || "工作花絮";
+          btsItem.innerHTML = `<img src="${item.image}" alt="${caption}" title="${caption}">`;
           btsGrid.appendChild(btsItem);
         });
       }

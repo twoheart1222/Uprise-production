@@ -5,45 +5,57 @@ media:
 
 content:
   # -------------------------------------------------------
-  # 1. 首頁
+  # 1. 首頁 (Home)
+  # 對應檔案: content/index.md
   # -------------------------------------------------------
   - name: "home"
-    label: "🏠 首頁 (v2)"
+    label: "🏠 首頁設定"
     type: "file"
     path: "content/index.md"
     format: "frontmatter"
     fields:
       - name: "title"
-        label: "網站標題"
+        label: "瀏覽器標題 (Browser Title)"
         type: "string"
       - name: "logo"
         label: "網站 Logo"
         type: "image"
+      - name: "favicon"
+        label: "瀏覽器小圖示 (Favicon)"
+        type: "image"
+        hint: "建議使用正方形圖片 (如 32x32 或 64x64)"
       - name: "hero_text"
         label: "主視覺標語"
         type: "string"
+        hint: "支援 HTML 標籤，例如 <span>強調文字</span>"
       - name: "hero_video"
-        label: "電腦版背景影片"
+        label: "電腦版背景影片 URL"
         type: "string"
       - name: "hero_video_mobile"
-        label: "手機版背景影片"
+        label: "手機版背景影片 URL"
         type: "string"
+      
       - name: "services"
-        label: "服務項目"
+        label: "🛠️ 服務項目列表"
         type: "list"
         item_label: "{{title}}"
         fields:
           - name: "title"
-            label: "名稱"
+            label: "服務名稱"
             type: "string"
           - name: "description"
-            label: "描述"
+            label: "服務描述"
             type: "string"
           - name: "iconClass"
-            label: "Icon代码"
+            label: "FontAwesome Icon 代碼"
             type: "string"
+            hint: "例如: fa-solid fa-video"
+          - name: "icon"
+            label: "或上傳 Icon 圖片"
+            type: "image"
+
       - name: "behind_the_scenes"
-        label: "工作花絮"
+        label: "📸 工作花絮照片"
         type: "list"
         item_label: "{{caption}}"
         fields:
@@ -51,20 +63,21 @@ content:
             label: "照片"
             type: "image"
           - name: "caption"
-            label: "描述"
+            label: "描述 (Alt Text)"
             type: "string"
 
   # -------------------------------------------------------
-  # 2. 作品集 (完全展開版 - 無錨點)
+  # 2. 作品集 (Works)
+  # 對應檔案: content/works.md
   # -------------------------------------------------------
   - name: "works"
-    label: "🎬 作品總覽 (v2)"
+    label: "🎬 作品集管理"
     type: "file"
     path: "content/works.md"
     format: "frontmatter"
     fields:
       - name: "title"
-        label: "頁面標題"
+        label: "頁面大標題"
         type: "string"
       - name: "subtitle"
         label: "頁面副標題"
@@ -75,107 +88,61 @@ content:
         label: "📂 品牌形象廣告"
         type: "list"
         item_label: "{{title}}"
-        fields:
+        fields: &work_fields
           - name: "title"
-            label: "標題"
+            label: "影片標題"
             type: "string"
           - name: "client"
-            label: "客戶"
+            label: "客戶名稱"
             type: "string"
           - name: "link"
-            label: "連結"
+            label: "影片連結 (YouTube)"
             type: "string"
           - name: "image"
-            label: "封面圖"
+            label: "封面縮圖 (選填)"
             type: "image"
+            hint: "若留空將自動抓取 YouTube 縮圖"
 
-      # 分類 2
+      # 分類 2 (使用 YAML 錨點 &work_fields 重複使用欄位設定)
       - name: "portfolio_product"
         label: "📂 產品形象廣告"
         type: "list"
         item_label: "{{title}}"
-        fields:
-          - name: "title"
-            label: "標題"
-            type: "string"
-          - name: "client"
-            label: "客戶"
-            type: "string"
-          - name: "link"
-            label: "連結"
-            type: "string"
-          - name: "image"
-            label: "封面圖"
-            type: "image"
+        fields: *work_fields
 
       # 分類 3
       - name: "portfolio_public"
         label: "📂 公部門宣傳"
         type: "list"
         item_label: "{{title}}"
-        fields:
-          - name: "title"
-            label: "標題"
-            type: "string"
-          - name: "client"
-            label: "客戶"
-            type: "string"
-          - name: "link"
-            label: "連結"
-            type: "string"
-          - name: "image"
-            label: "封面圖"
-            type: "image"
+        fields: *work_fields
 
       # 分類 4
       - name: "portfolio_event"
         label: "📂 活動紀錄"
         type: "list"
         item_label: "{{title}}"
-        fields:
-          - name: "title"
-            label: "標題"
-            type: "string"
-          - name: "client"
-            label: "客戶"
-            type: "string"
-          - name: "link"
-            label: "連結"
-            type: "string"
-          - name: "image"
-            label: "封面圖"
-            type: "image"
+        fields: *work_fields
 
       # 分類 5
       - name: "portfolio_other"
         label: "📂 其他作品"
         type: "list"
         item_label: "{{title}}"
-        fields:
-          - name: "title"
-            label: "標題"
-            type: "string"
-          - name: "client"
-            label: "客戶"
-            type: "string"
-          - name: "link"
-            label: "連結"
-            type: "string"
-          - name: "image"
-            label: "封面圖"
-            type: "image"
+        fields: *work_fields
 
   # -------------------------------------------------------
-  # 3. 團隊
+  # 3. 團隊 (Team)
+  # 對應檔案: content/team.md
   # -------------------------------------------------------
   - name: "team"
-    label: "👥 團隊介紹 (v2)"
+    label: "👥 團隊成員"
     type: "file"
     path: "content/team.md"
     format: "frontmatter"
     fields:
       - name: "title"
-        label: "標題"
+        label: "頁面標題"
         type: "string"
       - name: "subtitle"
         label: "副標題"
@@ -183,7 +150,7 @@ content:
       - name: "members"
         label: "成員名單"
         type: "list"
-        item_label: "{{name}}"
+        item_label: "{{name}} - {{role}}"
         fields:
           - name: "name"
             label: "姓名"
@@ -195,43 +162,86 @@ content:
             label: "大頭照"
             type: "image"
           - name: "bio"
-            label: "簡介"
-            type: "string"
-            widget: "text"
+            label: "卡片簡介 (短)"
+            type: "text"
+            hint: "顯示在團隊列表卡片上的簡短介紹"
           - name: "full_bio"
-            label: "完整介紹"
+            label: "個人詳細介紹 (長)"
             type: "rich-text"
+            hint: "顯示在點擊後的個人頁面，支援 Markdown"
           - name: "portfolio_url"
-            label: "連結"
+            label: "個人作品集連結"
             type: "string"
           - name: "ig_url"
-            label: "IG"
+            label: "Instagram 連結"
             type: "string"
 
   # -------------------------------------------------------
-  # 4. 關於 & 聯絡
+  # 4. 關於我們 (About)
+  # 對應檔案: content/about.md
   # -------------------------------------------------------
   - name: "about"
-    label: "ℹ️ 關於我們 (v2)"
+    label: "ℹ️ 關於我們"
     type: "file"
     path: "content/about.md"
     format: "frontmatter"
     fields:
       - name: "title"
-        label: "標題"
+        label: "頁面標題"
         type: "string"
-      - name: "body"
-        label: "內文"
-        type: "rich-text"
+      - name: "subtitle"
+        label: "頁面副標題"
+        type: "string"
+      
+      - name: "values_list"
+        label: "💎 核心價值區塊"
+        type: "list"
+        item_label: "{{title}}"
+        fields:
+          - name: "title"
+            label: "價值標題"
+            type: "string"
+          - name: "desc"
+            label: "描述內容"
+            type: "text"
+          - name: "icon"
+            label: "Icon 代碼"
+            type: "string"
+            hint: "例如: fa-solid fa-star"
 
+      - name: "process_list"
+        label: "🔄 服務流程區塊"
+        type: "list"
+        item_label: "{{step}}"
+        fields:
+          - name: "step"
+            label: "步驟名稱"
+            type: "string"
+            hint: "例如: 需求溝通"
+          - name: "desc"
+            label: "步驟說明"
+            type: "text"
+
+      - name: "body"
+        label: "下方詳細內文"
+        type: "rich-text"
+        hint: "支援圖片、引用與 Markdown 格式"
+
+  # -------------------------------------------------------
+  # 5. 聯絡資訊 (Contact)
+  # 對應檔案: content/contact.md
+  # -------------------------------------------------------
   - name: "contact"
-    label: "📞 聯絡資訊 (v2)"
+    label: "📞 聯絡資訊"
     type: "file"
     path: "content/contact.md"
     format: "frontmatter"
     fields:
       - name: "title"
-        label: "標題"
+        label: "頁面標題"
+        type: "string"
+      - name: "subtitle"
+        label: "頁面副標題"
         type: "string"
       - name: "address"
         label: "地址"

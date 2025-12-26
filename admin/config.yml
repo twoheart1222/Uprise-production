@@ -2,6 +2,7 @@ backend:
   name: github
   repo: twoheart1222/Uprise-production
   branch: main
+  base_url: https://uprise-auth.uprisevideoproduction.workers.dev
 
 media_folder: "static/uploads"
 public_folder: "/uploads"

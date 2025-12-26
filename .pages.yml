@@ -6,7 +6,7 @@ media:
 
 # 2. 內容欄位設定
 content:
-  # --- 1. 首頁 (index.md) ---
+  # --- 1. 首頁 (對應 content/index.md) ---
   - name: "home"
     label: "🏠 首頁 (Home)"
     type: "file"
@@ -16,21 +16,21 @@ content:
       - name: "title"
         label: "網站標題"
         type: "string"
-      - name: "logo"
-        label: "網站 Logo"
-        type: "image"
       - name: "hero_text"
         label: "主視覺標語"
         type: "string"
-        default: "推動故事的力量"
+      
+      # 這些是您 index.md 裡有的欄位，即使目前是空的，設定好後就能在後台新增
+      - name: "logo"
+        label: "網站 Logo"
+        type: "image"
       - name: "hero_video"
         label: "背景影片 URL (電腦版)"
         type: "string"
       - name: "hero_video_mobile"
         label: "背景影片 URL (手機版)"
         type: "string"
-      
-      # 對應您 index.md 目前空的 services: []，保留此設定讓您未來可新增
+
       - name: "services"
         label: "🛠️ 服務項目"
         type: "list"
@@ -43,10 +43,9 @@ content:
             label: "描述"
             type: "string"
           - name: "iconClass"
-            label: "Icon Class (FontAwesome)"
+            label: "Icon Class"
             type: "string"
 
-      # 對應未來可能新增的花絮
       - name: "behind_the_scenes"
         label: "📸 工作花絮"
         type: "list"
@@ -59,8 +58,8 @@ content:
             label: "描述"
             type: "string"
 
-  # --- 2. 作品集 (works.md) ---
-  # 您的檔案裡有這 5 個分類，這裡必須精準對應
+  # --- 2. 作品集 (對應 content/works.md) ---
+  # 設定為 list 類型，您就可以在後台拖曳調整順序
   - name: "works"
     label: "🎬 作品總覽 (Works)"
     type: "file"
@@ -76,10 +75,10 @@ content:
 
       # [分類1] 品牌形象廣告
       - name: "portfolio_brand"
-        label: "📂 品牌形象廣告"
+        label: "📂 品牌形象廣告 (可拖曳排序)"
         type: "list"
         item_label: "{{title}} - {{client}}"
-        fields: &work_fields # 設定共用欄位
+        fields: &work_fields # 共用設定
           - name: "title"
             label: "作品標題"
             type: "string"
@@ -87,41 +86,41 @@ content:
             label: "客戶名稱"
             type: "string"
           - name: "link"
-            label: "影片連結 (YouTube)"
+            label: "影片連結 (YouTube URL)"
             type: "string"
           - name: "image"
-            label: "封面圖 (選填)"
+            label: "封面圖 (選填，若無則自動抓取 YouTube 縮圖)"
             type: "image"
 
       # [分類2] 產品形象廣告
       - name: "portfolio_product"
-        label: "📂 產品形象廣告"
+        label: "📂 產品形象廣告 (可拖曳排序)"
         type: "list"
         item_label: "{{title}}"
-        fields: *work_fields # 引用上面的設定
+        fields: *work_fields
 
       # [分類3] 公部門宣傳
       - name: "portfolio_public"
-        label: "📂 公部門宣傳"
+        label: "📂 公部門宣傳 (可拖曳排序)"
         type: "list"
         item_label: "{{title}}"
         fields: *work_fields
 
       # [分類4] 活動紀錄
       - name: "portfolio_event"
-        label: "📂 活動紀錄"
+        label: "📂 活動紀錄 (可拖曳排序)"
         type: "list"
         item_label: "{{title}}"
         fields: *work_fields
 
       # [分類5] 其他
       - name: "portfolio_other"
-        label: "📂 其他作品"
+        label: "📂 其他作品 (可拖曳排序)"
         type: "list"
         item_label: "{{title}}"
         fields: *work_fields
 
-  # --- 3. 團隊 (team.md) ---
+  # --- 3. 團隊 (對應 content/team.md) ---
   - name: "team"
     label: "👥 團隊介紹 (Team)"
     type: "file"
@@ -136,7 +135,7 @@ content:
         type: "string"
       
       - name: "members"
-        label: "成員名單"
+        label: "成員名單 (可拖曳排序)"
         type: "list"
         item_label: "{{name}} - {{role}}"
         fields:
@@ -155,7 +154,7 @@ content:
             widget: "text"
           - name: "full_bio"
             label: "完整介紹 (詳細經歷)"
-            type: "rich-text" # 這裡會顯示您 Markdown 裡的詳細內容
+            type: "rich-text" # 對應您 Markdown 裡的詳細介紹
           - name: "portfolio_url"
             label: "作品集連結"
             type: "string"
@@ -163,7 +162,7 @@ content:
             label: "Instagram 連結"
             type: "string"
 
-  # --- 4. 關於我們 (about.md) ---
+  # --- 4. 關於我們 (對應 content/about.md) ---
   - name: "about"
     label: "ℹ️ 關於我們 (About)"
     type: "file"
@@ -176,39 +175,11 @@ content:
       - name: "subtitle"
         label: "頁面副標題"
         type: "string"
-      
-      # 您的 about.md 主要是靠下方的 body 內文
       - name: "body"
         label: "內文"
         type: "rich-text"
 
-      # 預留給未來使用，若您想用清單管理價值觀
-      - name: "values_list"
-        label: "💎 核心價值 (選填)"
-        type: "list"
-        fields:
-          - name: "title"
-            label: "標題"
-            type: "string"
-          - name: "desc"
-            label: "描述"
-            type: "string"
-          - name: "icon"
-            label: "Icon"
-            type: "string"
-
-      - name: "process_list"
-        label: "🔄 服務流程 (選填)"
-        type: "list"
-        fields:
-          - name: "step"
-            label: "步驟"
-            type: "string"
-          - name: "desc"
-            label: "說明"
-            type: "string"
-
-  # --- 5. 聯絡我們 (contact.md) ---
+  # --- 5. 聯絡我們 (對應 content/contact.md) ---
   - name: "contact"
     label: "📞 聯絡資訊 (Contact)"
     type: "file"

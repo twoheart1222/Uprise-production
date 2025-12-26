@@ -1,8 +1,8 @@
 backend:
   name: github
-  repo: 你的Github帳號/你的專案名稱 # 例如：linjiayou/uprise-website
-  branch: main # 或是 master，看你的主分支叫什麼
-  base_url: https://你的Worker網址 # 例如 https://uprise-oauth.linjiayou.workers.dev
+  repo: twoheart1222/uprise-production
+  branch: main 
+  base_url: https://uprise-oauth.linjiayou.workers.dev/callback
   auth_endpoint: auth # 不需要改
 
 media_folder: "images/uploads" # 你上傳的圖片會存在這裡

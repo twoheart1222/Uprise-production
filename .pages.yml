@@ -4,7 +4,7 @@ media:
   output: "/images/uploads"
   categories: ["logo", "works", "team", "others"]
 
-# 2. 內容欄位設定 (已對照你提供的舊版設定進行轉換)
+# 2. 內容欄位設定
 content:
   # --- 1. 首頁 (Home) ---
   - name: "home"
@@ -16,57 +16,41 @@ content:
       - name: "title"
         label: "網站標題"
         type: "string"
-        default: "Uprise-Production"
-      
       - name: "logo"
-        label: "網站 Logo (左上角)"
+        label: "網站 Logo"
         type: "image"
-        comment: "建議上傳透明背景的 PNG 圖檔"
-
-      # 🔴 新增：完美對應你的舊需求
       - name: "favicon"
-        label: "瀏覽器標籤圖示 (Favicon)"
+        label: "Favicon (網頁圖示)"
         type: "image"
-        comment: "建議上傳 1:1 正方形圖片 (512x512 px)"
-
-      - name: "hero_video"
-        label: "背景影片 (電腦版 16:9)"
-        type: "string"
-        comment: "請填入影片連結或檔案路徑 (例如 /images/uploads/video.mp4)"
-
-      - name: "hero_video_mobile"
-        label: "背景影片 (手機版 9:16)"
-        type: "string"
-
       - name: "hero_text"
         label: "主視覺標語"
         type: "string"
-        default: "看見故事的力量"
-
+      - name: "hero_video"
+        label: "背景影片 (電腦版 URL)"
+        type: "string"
+      - name: "hero_video_mobile"
+        label: "背景影片 (手機版 URL)"
+        type: "string"
+      
+      # 對應你 index.md 裡的 services
       - name: "services"
         label: "🛠️ 服務項目"
         type: "list"
-        item_label: "{{title}}"
         fields:
           - name: "title"
             label: "服務名稱"
             type: "string"
           - name: "description"
-            label: "服務描述"
+            label: "描述"
             type: "string"
-            widget: "text" # 多行文字
           - name: "iconClass"
-            label: "Icon 代碼 (FontAwesome)"
+            label: "Icon 代碼"
             type: "string"
-            comment: "例如: fa-solid fa-video"
-          - name: "icon"
-            label: "Icon 圖片 (備用)"
-            type: "image"
 
+      # 對應你 index.md 裡的 behind_the_scenes
       - name: "behind_the_scenes"
         label: "📸 工作花絮"
         type: "list"
-        item_label: "{{caption}}"
         fields:
           - name: "image"
             label: "照片"
@@ -76,6 +60,7 @@ content:
             type: "string"
 
   # --- 2. 作品頁 (Works) ---
+  # 這邊完全對應你 works.md 裡的分類
   - name: "works"
     label: "🎬 作品總覽 (Works)"
     type: "file"
@@ -83,56 +68,54 @@ content:
     format: "frontmatter"
     fields:
       - name: "title"
-        label: "頁面主標題"
+        label: "頁面標題"
         type: "string"
-        default: "精選作品集"
       - name: "subtitle"
         label: "頁面副標題"
         type: "string"
-        default: "收錄歷年來的影像精華"
 
-      # 使用 YAML 錨點 (&video_fields) 來重複利用欄位設定，保持簡潔
+      # 共用欄位設定 (YAML Anchor)
       - name: "portfolio_brand"
         label: "📂 品牌形象廣告"
         type: "list"
-        item_label: "{{title}} - {{client}}"
-        fields: &video_fields
+        item_label: "{{title}}"
+        fields: &work_fields
           - name: "title"
-            label: "作品名稱"
+            label: "作品標題"
             type: "string"
           - name: "client"
             label: "客戶名稱"
             type: "string"
           - name: "link"
-            label: "影片連結 (YouTube/Vimeo)"
+            label: "影片連結 (YouTube)"
             type: "string"
           - name: "image"
-            label: "封面圖片 (選填)"
+            label: "封面圖 (選填，若無自動抓YT)"
             type: "image"
 
       - name: "portfolio_product"
         label: "📂 產品形象廣告"
         type: "list"
         item_label: "{{title}}"
-        fields: *video_fields # 引用上面的設定
+        fields: *work_fields
 
       - name: "portfolio_public"
         label: "📂 公部門宣傳影片"
         type: "list"
         item_label: "{{title}}"
-        fields: *video_fields
+        fields: *work_fields
 
       - name: "portfolio_event"
         label: "📂 活動紀錄"
         type: "list"
         item_label: "{{title}}"
-        fields: *video_fields
+        fields: *work_fields
 
       - name: "portfolio_other"
-        label: "📂 其他"
+        label: "📂 其他作品"
         type: "list"
         item_label: "{{title}}"
-        fields: *video_fields
+        fields: *work_fields
 
   # --- 3. 團隊頁 (Team) ---
   - name: "team"
@@ -142,14 +125,13 @@ content:
     format: "frontmatter"
     fields:
       - name: "title"
-        label: "頁面主標題"
+        label: "頁面標題"
         type: "string"
-        default: "專業團隊"
       - name: "subtitle"
-        label: "頁面副標"
+        label: "頁面副標題"
         type: "string"
       - name: "members"
-        label: "成員列表"
+        label: "成員名單"
         type: "list"
         item_label: "{{name}} - {{role}}"
         fields:
@@ -160,19 +142,20 @@ content:
             label: "職稱"
             type: "string"
           - name: "avatar"
-            label: "頭像"
+            label: "大頭照"
             type: "image"
           - name: "bio"
-            label: "簡介 (短)"
+            label: "簡短介紹"
             type: "string"
+            widget: "text"
           - name: "full_bio"
-            label: "詳細介紹 (長)"
-            type: "rich-text" # 對應 markdown
-          - name: "ig_url"
-            label: "Instagram"
-            type: "string"
+            label: "完整介紹 (Markdown)"
+            type: "rich-text"
           - name: "portfolio_url"
             label: "作品集連結"
+            type: "string"
+          - name: "ig_url"
+            label: "Instagram 連結"
             type: "string"
 
   # --- 4. 關於頁 (About) ---
@@ -183,55 +166,56 @@ content:
     format: "frontmatter"
     fields:
       - name: "title"
-        label: "標題"
+        label: "頁面標題"
         type: "string"
       - name: "subtitle"
-        label: "副標題"
+        label: "頁面副標題"
         type: "string"
+      
+      # 這裡對應 about.md 下方的文字內容
       - name: "body"
-        label: "公司簡介 (內文)"
+        label: "公司簡介內文"
         type: "rich-text"
 
+      # 你的 HTML 支援這些區塊，雖然目前的 md 檔還沒有，
+      # 但加上去後你就可以在後台直接新增了！
       - name: "values_list"
-        label: "💎 核心價值"
+        label: "💎 核心價值 (選填)"
         type: "list"
-        item_label: "{{title}}"
         fields:
           - name: "title"
-            label: "價值標題"
+            label: "標題"
             type: "string"
           - name: "desc"
-            label: "價值描述"
+            label: "描述"
             type: "string"
           - name: "icon"
-            label: "Icon (FontAwesome)"
+            label: "Icon Class"
             type: "string"
-            default: "fa-solid fa-star"
 
       - name: "process_list"
-        label: "🔄 服務流程"
+        label: "🔄 服務流程 (選填)"
         type: "list"
-        item_label: "{{step}}"
         fields:
           - name: "step"
             label: "步驟名稱"
             type: "string"
           - name: "desc"
-            label: "步驟說明"
+            label: "說明"
             type: "string"
 
   # --- 5. 聯絡頁 (Contact) ---
   - name: "contact"
-    label: "📞 聯絡我們 (Contact)"
+    label: "📞 聯絡資訊 (Contact)"
     type: "file"
     path: "content/contact.md"
     format: "frontmatter"
     fields:
       - name: "title"
-        label: "標題"
+        label: "頁面標題"
         type: "string"
       - name: "subtitle"
-        label: "副標題"
+        label: "頁面副標題"
         type: "string"
       - name: "address"
         label: "地址"

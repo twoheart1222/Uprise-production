@@ -1,14 +1,12 @@
-# 1. 媒體庫設定
 media:
   input: "images/uploads"
   output: "/images/uploads"
   categories: ["logo", "works", "team", "others"]
 
-# 2. 內容欄位設定
 content:
-  # --- 1. 首頁 (index.md) ---
+  # --- 首頁 ---
   - name: "home"
-    label: "🏠 首頁 (Home)"
+    label: "🏠 首頁"
     type: "file"
     path: "content/index.md"
     format: "frontmatter"
@@ -16,22 +14,20 @@ content:
       - name: "title"
         label: "網站標題"
         type: "string"
-      - name: "hero_text"
-        label: "主視覺標語"
-        type: "string"
       - name: "logo"
         label: "網站 Logo"
         type: "image"
+      - name: "hero_text"
+        label: "主視覺標語"
+        type: "string"
       - name: "hero_video"
-        label: "背景影片 URL (電腦版)"
+        label: "電腦版背景影片"
         type: "string"
       - name: "hero_video_mobile"
-        label: "背景影片 URL (手機版)"
+        label: "手機版背景影片"
         type: "string"
-
-      # 服務項目
       - name: "services"
-        label: "🛠️ 服務項目 (可拖曳排序)"
+        label: "🛠️ 服務項目"
         type: "list"
         item_label: "{{title}}"
         fields:
@@ -42,12 +38,10 @@ content:
             label: "描述"
             type: "string"
           - name: "iconClass"
-            label: "Icon Class"
+            label: "Icon 代碼"
             type: "string"
-
-      # 工作花絮
       - name: "behind_the_scenes"
-        label: "📸 工作花絮 (可拖曳排序)"
+        label: "📸 工作花絮"
         type: "list"
         item_label: "{{caption}}"
         fields:
@@ -58,10 +52,9 @@ content:
             label: "描述"
             type: "string"
 
-  # --- 2. 作品集 (works.md) ---
-  # 這邊會讀取你現有的資料，你會看到「蜜蜂故事館」等內容
+  # --- 作品集 (這裡會讀取您 works.md 裡的資料) ---
   - name: "works"
-    label: "🎬 作品總覽 (Works)"
+    label: "🎬 作品總覽"
     type: "file"
     path: "content/works.md"
     format: "frontmatter"
@@ -73,11 +66,11 @@ content:
         label: "頁面副標題"
         type: "string"
 
-      # [分類1] 品牌形象廣告
+      # [分類1] 品牌形象
       - name: "portfolio_brand"
-        label: "📂 品牌形象廣告 (可拖曳排序)"
+        label: "📂 品牌形象廣告 (拖曳排序)"
         type: "list"
-        item_label: "{{title}} - {{client}}"
+        item_label: "{{title}} ({{client}})"
         fields:
           - name: "title"
             label: "作品標題"
@@ -86,15 +79,15 @@ content:
             label: "客戶名稱"
             type: "string"
           - name: "link"
-            label: "影片連結 (YouTube)"
+            label: "影片連結"
             type: "string"
           - name: "image"
-            label: "封面圖 (選填)"
+            label: "封面圖"
             type: "image"
 
-      # [分類2] 產品形象廣告
+      # [分類2] 產品形象
       - name: "portfolio_product"
-        label: "📂 產品形象廣告 (可拖曳排序)"
+        label: "📂 產品形象廣告 (拖曳排序)"
         type: "list"
         item_label: "{{title}}"
         fields:
@@ -105,15 +98,15 @@ content:
             label: "客戶名稱"
             type: "string"
           - name: "link"
-            label: "影片連結 (YouTube)"
+            label: "影片連結"
             type: "string"
           - name: "image"
-            label: "封面圖 (選填)"
+            label: "封面圖"
             type: "image"
 
-      # [分類3] 公部門宣傳
+      # [分類3] 公部門
       - name: "portfolio_public"
-        label: "📂 公部門宣傳 (可拖曳排序)"
+        label: "📂 公部門宣傳 (拖曳排序)"
         type: "list"
         item_label: "{{title}}"
         fields:
@@ -124,15 +117,15 @@ content:
             label: "客戶名稱"
             type: "string"
           - name: "link"
-            label: "影片連結 (YouTube)"
+            label: "影片連結"
             type: "string"
           - name: "image"
-            label: "封面圖 (選填)"
+            label: "封面圖"
             type: "image"
 
       # [分類4] 活動紀錄
       - name: "portfolio_event"
-        label: "📂 活動紀錄 (可拖曳排序)"
+        label: "📂 活動紀錄 (拖曳排序)"
         type: "list"
         item_label: "{{title}}"
         fields:
@@ -143,15 +136,15 @@ content:
             label: "客戶名稱"
             type: "string"
           - name: "link"
-            label: "影片連結 (YouTube)"
+            label: "影片連結"
             type: "string"
           - name: "image"
-            label: "封面圖 (選填)"
+            label: "封面圖"
             type: "image"
 
       # [分類5] 其他
       - name: "portfolio_other"
-        label: "📂 其他作品 (可拖曳排序)"
+        label: "📂 其他作品 (拖曳排序)"
         type: "list"
         item_label: "{{title}}"
         fields:
@@ -162,28 +155,27 @@ content:
             label: "客戶名稱"
             type: "string"
           - name: "link"
-            label: "影片連結 (YouTube)"
+            label: "影片連結"
             type: "string"
           - name: "image"
-            label: "封面圖 (選填)"
+            label: "封面圖"
             type: "image"
 
-  # --- 3. 團隊 (team.md) ---
+  # --- 團隊 ---
   - name: "team"
-    label: "👥 團隊介紹 (Team)"
+    label: "👥 團隊介紹"
     type: "file"
     path: "content/team.md"
     format: "frontmatter"
     fields:
       - name: "title"
-        label: "頁面標題"
+        label: "標題"
         type: "string"
       - name: "subtitle"
-        label: "頁面副標題"
+        label: "副標題"
         type: "string"
-      
       - name: "members"
-        label: "成員名單 (可拖曳排序)"
+        label: "成員名單"
         type: "list"
         item_label: "{{name}} - {{role}}"
         fields:
@@ -201,35 +193,31 @@ content:
             type: "string"
             widget: "text"
           - name: "full_bio"
-            label: "完整介紹 (Markdown)"
+            label: "完整介紹"
             type: "rich-text"
           - name: "portfolio_url"
-            label: "作品集連結"
+            label: "作品連結"
             type: "string"
           - name: "ig_url"
-            label: "Instagram 連結"
+            label: "IG 連結"
             type: "string"
 
-  # --- 4. 關於我們 (about.md) ---
+  # --- 關於 & 聯絡 ---
   - name: "about"
-    label: "ℹ️ 關於我們 (About)"
+    label: "ℹ️ 關於我們"
     type: "file"
     path: "content/about.md"
     format: "frontmatter"
     fields:
       - name: "title"
-        label: "頁面標題"
-        type: "string"
-      - name: "subtitle"
-        label: "頁面副標題"
+        label: "標題"
         type: "string"
       - name: "body"
         label: "內文"
         type: "rich-text"
 
-  # --- 5. 聯絡我們 (contact.md) ---
   - name: "contact"
-    label: "📞 聯絡資訊 (Contact)"
+    label: "📞 聯絡資訊"
     type: "file"
     path: "content/contact.md"
     format: "frontmatter"
@@ -240,7 +228,6 @@ content:
       - name: "subtitle"
         label: "副標題"
         type: "string"
-        widget: "text"
       - name: "address"
         label: "地址"
         type: "string"

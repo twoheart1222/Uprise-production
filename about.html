@@ -1,10 +1,13 @@
+---
+---
 <!doctype html>
 <html lang="zh-Hant" oncontextmenu="return false">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 
-<title>關於我們 | 推手影像製作有限公司 Uprise-Production</title>
+<!-- 1. 使用 Liquid 變數替換標題 -->
+<title>{{ site.data.about.title | default: "關於我們" }} | 推手影像製作有限公司 Uprise-Production</title>
 
 <!-- 瀏覽器標籤 Logo (預設) -->
 <link rel="icon" type="image/png" href="images/uploads/logo.png">
@@ -24,17 +27,17 @@
 
 <!-- Libraries -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/2.1.0/showdown.min.js"></script>
+<!-- 移除 showdown.js 因為 Jekyll 會在後端處理 Markdown -->
 
 <style>
   /* --- 核心變數 (統一風格) --- */
   :root { 
-    --bg-color: #050505;       
+    --bg-color: #050505;        
     --card-bg: rgba(20, 20, 20, 0.4); 
     --text-main: #FFFFFF;      
-    --text-sub: #B0B0B0;       
-    --brand-primary: #FF8C00;  
-    --brand-light: #FFD700;    
+    --text-sub: #B0B0B0;        
+    --brand-primary: #FF8C00;   
+    --brand-light: #FFD700;     
     --brand-gradient: linear-gradient(135deg, #FFD700, #FF8C00);
     --silver-gradient: linear-gradient(to bottom, #ffffff 40%, #a0a0a0 100%);
     
@@ -99,7 +102,7 @@
     transition: opacity 0.8s ease, visibility 0.8s;
   }
   .loader.hidden { opacity: 0; visibility: hidden; }
-  
+   
   /* Logo 電影感聚焦動畫 */
   .loader-logo-img {
     width: auto;
@@ -111,7 +114,7 @@
     filter: blur(10px);
     animation: cinematicLogoReveal 2.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
   }
-  
+   
   @keyframes cinematicLogoReveal { 
     0% { 
       opacity: 0; 
@@ -208,7 +211,7 @@
   .logo:hover img { transform: rotate(5deg) scale(1.05); }
   .logo-text { font-family: var(--font-display); font-size: 1.2rem; letter-spacing: 2px; text-transform: uppercase; color: #fff; }
   .logo-text span { color: var(--brand-light); }
-  
+   
   .nav { display: flex; gap: 30px; } 
   .nav-item { position: relative; overflow: hidden; height: 24px; cursor: pointer; display: block; color: rgba(255,255,255,0.8); font-family: var(--font-body); font-size: 0.95rem; letter-spacing: 2px; font-weight: 500; text-decoration: none; }
   .nav-item span.original-text { display: block; transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1); }
@@ -245,7 +248,7 @@
     font-family: var(--font-body); font-size: 1.1rem; color: rgba(255,255,255,0.7);
     max-width: 600px; margin: 0 auto; line-height: 1.8; letter-spacing: 1px;
   }
-  
+   
   /* 分隔線動畫：從中心展開 */
   .title-divider {
     width: 0; /* 初始寬度 */
@@ -308,13 +311,13 @@
     max-width: 800px; margin: 0 auto; padding: 0 20px 100px;
     position: relative; z-index: 10;
   }
-  
+   
   /* 段落設定 */
   .cms-content p {
     font-size: 1.1rem; line-height: 2; color: #ddd; margin-bottom: 2em;
     font-weight: 300; letter-spacing: 0.5px;
   }
-  
+   
   /* 標題設定 */
   .cms-content h2 {
     font-family: var(--font-serif); font-size: 2.2rem; font-weight: 900;
@@ -330,7 +333,7 @@
     transition: height 0.8s var(--ease-out-expo);
   }
   .cms-content h2.aos-animate::before { height: 80%; }
-  
+   
   .cms-content h3 {
     font-family: var(--font-body); font-size: 1.5rem; font-weight: 700;
     color: var(--brand-light); margin-top: 2.5em; margin-bottom: 1em;
@@ -341,7 +344,7 @@
     padding-left: 20px; margin-bottom: 2em; color: #ccc;
   }
   .cms-content li { margin-bottom: 0.8em; line-height: 1.8; }
-  
+   
   /* 🔴 引用 (Blockquote) - 電影感掃光特效 */
   .cms-content blockquote {
     position: relative;
@@ -376,7 +379,7 @@
   /* 觸發狀態 */
   .cms-content blockquote.aos-animate::before { transform: scaleX(1); }
   .cms-content blockquote.aos-animate::after { transform: scaleY(1); }
-  
+   
   /* 3. 文字浮現 */
   .cms-content blockquote p {
     opacity: 0; transform: translateX(20px);
@@ -471,24 +474,52 @@
     <main>
       <section class="about-hero">
         <span class="page-label" data-aos="fade-down" data-aos-delay="200">ABOUT US</span>
-        <h1 class="page-title" id="page-title" data-aos="fade" data-aos-delay="300" data-aos-duration="1500">關於推手</h1>
-        <p class="page-subtitle" id="page-subtitle" data-aos="fade-up" data-aos-delay="600">探索我們對影像的熱情與堅持</p>
+        <!-- 2. 使用 Liquid 替換主標題 -->
+        <h1 class="page-title" id="page-title" data-aos="fade" data-aos-delay="300" data-aos-duration="1500">{{ site.data.about.title | default: "關於推手" }}</h1>
+        <!-- 3. 使用 Liquid 替換副標題 -->
+        <p class="page-subtitle" id="page-subtitle" data-aos="fade-up" data-aos-delay="600">{{ site.data.about.subtitle | default: "探索我們對影像的熱情與堅持" }}</p>
         <div class="title-divider" data-aos="fade" data-aos-delay="800"></div>
       </section>
 
-      <!-- 1. 核心價值區塊 (從後台讀取) -->
+      <!-- 1. 核心價值區塊 (伺服器端渲染) -->
       <div id="values-section" class="section-block">
-        <!-- JS 渲染內容 -->
+        {% if site.data.about.values_list %}
+        <h2 class="block-title" data-aos="fade-up">核心價值</h2>
+        <div class="values-grid">
+            {% for item in site.data.about.values_list %}
+            <!-- 自動計算延遲時間 delay -->
+            <div class="value-card" data-aos="fade-up" data-aos-delay="{{ forloop.index0 | times: 100 }}">
+                <div class="value-icon"><i class="{{ item.icon }}"></i></div>
+                <h3 class="value-title">{{ item.title }}</h3>
+                <p class="value-desc">{{ item.desc }}</p>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
       </div>
 
-      <!-- 2. 服務流程區塊 (從後台讀取) -->
+      <!-- 2. 服務流程區塊 (伺服器端渲染) -->
       <div id="process-section" class="section-block">
-        <!-- JS 渲染內容 -->
+        {% if site.data.about.process_list %}
+        <h2 class="block-title" data-aos="fade-up">服務流程</h2>
+        <div class="process-list">
+            {% for item in site.data.about.process_list %}
+            <div class="process-item" data-aos="fade-left" data-aos-delay="{{ forloop.index0 | times: 100 }}">
+                <div class="step-num">0{{ forloop.index }}</div>
+                <div class="step-content">
+                    <h3>{{ item.step }}</h3>
+                    <p>{{ item.desc }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
       </div>
 
-      <!-- 3. 公司簡介內文 (Markdown) -->
+      <!-- 3. 公司簡介內文 (Markdown 伺服器端渲染) -->
       <div id="cms-body" class="cms-content">
-        <p style="text-align:center; color:#666;">Loading Content...</p>
+         <!-- 使用 markdownify filter 將 Markdown 轉為 HTML -->
+         {{ site.data.about.company_intro | markdownify }}
       </div>
     </main>
 
@@ -521,27 +552,6 @@
         if(e.ctrlKey && e.keyCode == 'S'.charCodeAt(0)) return false;
     }
 
-    // 預設資料 (Fallback)
-    const fallbackData = {
-      title: "關於推手",
-      subtitle: "探索我們對影像的熱情與堅持",
-      body: `
-# 我們的故事
-**推手影像 (Uprise-Production)** 成立於 2015 年，由一群對影像充滿熱情的職人所組成。我們相信，每一幀畫面都有其獨特的靈魂，每一個品牌都有值得被看見的故事。
-
-> 「影像不只是紀錄，更是一種情感的傳遞與價值的延伸。」
-
-## 核心價值
-我們專注於 **電影級影像製作**，從前期的腳本企劃、中期的專業拍攝，到後期的精細剪輯與特效，每一個環節都力求完美。我們不只是執行者，更是您的 **品牌推手**。
-
-## 服務流程
-1. **需求溝通**：深入了解您的品牌理念與目標。
-2. **創意發想**：提供獨特的視覺觀點與腳本提案。
-3. **專業執行**：運用電影級設備與團隊進行拍攝。
-4. **後期製作**：剪輯、調色、特效，賦予影像生命力。
-      `
-    };
-
     document.addEventListener('DOMContentLoaded', () => {
       // 1. 延遲移除 Loading 遮罩與初始化 AOS
       setTimeout(() => {
@@ -560,37 +570,11 @@
         });
       }, 2200); // 配合 CSS Logo 動畫時間 (約 2.5s)
 
-      // 讀取 CMS 資料
-      fetch('content/about.md')
-        .then(r => {
-            if(!r.ok) throw new Error("CMS Data Not Found");
-            return r.text();
-        })
-        .then(text => {
-          const parts = text.split('---');
-          const data = jsyaml.load(parts.length > 1 ? parts[1] : text);
-          
-          if(data.title) document.getElementById('page-title').innerText = data.title;
-          if(data.subtitle) document.getElementById('page-subtitle').innerText = data.subtitle;
-          
-          // 渲染 Markdown
-          if(parts.length > 2) {
-              const converter = new showdown.Converter({ simpleLineBreaks: true });
-              const html = converter.makeHtml(parts.slice(2).join('---'));
-              const cmsBody = document.getElementById('cms-body');
-              cmsBody.innerHTML = html;
-              
-              // 🔴 為 CMS 內容自動加入 AOS 動畫
-              applyAOStoCMS(cmsBody);
-          }
-          
-          // 渲染 Values & Process
-          renderPage(data, parts);
-        })
-        .catch(err => {
-            console.log("Using fallback about data");
-            renderPage(fallbackData, null, true);
-        });
+      // 3. 為伺服器渲染的 Markdown 內容手動加入 AOS 動畫屬性
+      const cmsBody = document.getElementById('cms-body');
+      if(cmsBody) {
+          applyAOStoCMS(cmsBody);
+      }
 
       initCursor();
       initPageTransition();
@@ -598,9 +582,7 @@
       initSoundToggle(); 
     });
     
-    // 🔴 關鍵邏輯：加入跨頁讀取功能
-    // 說明：因為「關於我們」頁面目前讀取的是 content/about.md，但 Logo 等全站設定可能存在 content/index.md
-    // 這裡我們追加一個 fetch 去讀取 index.md 的 logo 設定
+    // 🔴 關鍵邏輯：加入跨頁讀取功能 (保留 Index 的 Logo 設定)
     fetch('content/index.md')
       .then(r => r.ok ? r.text() : Promise.reject())
       .then(text => {
@@ -628,64 +610,6 @@
         }
       })
       .catch(e => console.log("Global settings not found, using default logo"));
-
-    function renderPage(data, parts, isFallback = false) {
-        // 1. 基本資訊
-        if(data.title) document.getElementById('page-title').innerText = data.title;
-        if(data.subtitle) document.getElementById('page-subtitle').innerText = data.subtitle;
-
-        // 2. 渲染 核心價值 (Values)
-        const valuesSection = document.getElementById('values-section');
-        const values = data.values_list || fallbackData.values_list; // 使用 fallback 如果 CMS 沒填
-        
-        if (values && values.length > 0) {
-            let html = '<h2 class="block-title" data-aos="fade-up">核心價值</h2><div class="values-grid">';
-            values.forEach((v, i) => {
-                const icon = v.icon || 'fa-solid fa-star';
-                html += `
-                  <div class="value-card" data-aos="fade-up" data-aos-delay="${i * 100}">
-                    <div class="value-icon"><i class="${icon}"></i></div>
-                    <h3 class="value-title">${v.title}</h3>
-                    <p class="value-desc">${v.desc}</p>
-                  </div>
-                `;
-            });
-            html += '</div>';
-            valuesSection.innerHTML = html;
-        }
-
-        // 3. 渲染 服務流程 (Process)
-        const processSection = document.getElementById('process-section');
-        const process = data.process_list || fallbackData.process_list;
-        
-        if (process && process.length > 0) {
-            let html = '<h2 class="block-title" data-aos="fade-up">服務流程</h2><div class="process-list">';
-            process.forEach((p, i) => {
-                html += `
-                  <div class="process-item" data-aos="fade-left" data-aos-delay="${i * 100}">
-                    <div class="step-num">0${i + 1}</div>
-                    <div class="step-content">
-                      <h3>${p.step || p.title}</h3>
-                      <p>${p.desc || p.content}</p>
-                    </div>
-                  </div>
-                `;
-            });
-            html += '</div>';
-            processSection.innerHTML = html;
-        }
-
-        // 4. 渲染 Markdown 內文 (如果是 Fallback 模式)
-        if (isFallback) {
-             const cmsBody = document.getElementById('cms-body');
-             const converter = new showdown.Converter({ simpleLineBreaks: true });
-             cmsBody.innerHTML = converter.makeHtml(fallbackData.body);
-             applyAOStoCMS(cmsBody);
-        }
-        
-        // 刷新 AOS
-        setTimeout(() => AOS.refresh(), 100);
-    }
 
     // 自動為 CMS 內容加入細緻動畫
     function applyAOStoCMS(container) {

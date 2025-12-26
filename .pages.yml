@@ -1,0 +1,36 @@
+# 圖片上傳設定
+media:
+  input: "images"      # 你的圖片在 GitHub 裡的資料夾名稱 (請確認你根目錄有這個資料夾)
+  output: "/images"    # 網站在讀取圖片時的路徑
+
+# 內容設定
+content:
+  # 如果你想編輯網站的全域設定 (例如：修改頁尾版權、聯絡資訊)
+  # 建議把這些文字存在一個 data.json 檔裡讓 HTML 讀取，這樣比較好編輯
+  - name: "settings"
+    label: "網站設定"
+    type: "file"       # 這代表它是一個單一檔案，不是文章列表
+    path: "data/site.json" # 你存放文字檔的路徑
+    fields:
+      - name: "title"
+        label: "網站標題"
+        type: "string"
+      - name: "footer_text"
+        label: "頁尾文字"
+        type: "string"
+
+  # 如果你未來想寫部落格 (Markdown 檔案)
+  - name: "posts"
+    label: "最新消息"
+    type: "collection" # 這代表它是一個資料夾，裡面有很多文章
+    path: "posts"      # 你的文章資料夾
+    fields:
+      - name: "title"
+        label: "標題"
+        type: "string"
+      - name: "date"
+        label: "日期"
+        type: "date"
+      - name: "body"
+        label: "內文"
+        type: "rich-text" # 這會顯示編輯器

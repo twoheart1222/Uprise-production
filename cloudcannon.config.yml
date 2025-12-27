@@ -1,17 +1,35 @@
-# 設定 CloudCannon 後台輸入框的樣式
+# 1. 設定左側選單 (Collections)
+# 這樣 CloudCannon 才知道要去哪裡找檔案顯示在側邊欄
+collections_config:
+  content:
+    path: content
+    glob: "*.md"
+    label: "網站內容資料庫" # 這就是左側會出現的按鈕名稱
+    icon: "notes"
+    output: false
+
+# 2. 設定輸入框樣式 (_inputs)
+# 這部分是為了讓您的編輯體驗更好
 _inputs:
-  # 設定成員列表中的 bio 為多行文字框 (中等大小)
+  # 讓成員簡介 (Bio) 變成多行文字框
   "members[*].bio":
     type: textarea
     options:
       rows: 4
   
-  # 設定成員列表中的 full_bio 為 Markdown 編輯器 (超大格，可排版)
+  # 讓詳細介紹 (Full Bio) 變成超大 Markdown 編輯器
   "members[*].full_bio":
     type: markdown
     options:
-      height: 300
+      height: 400
+      empty_text: "在此輸入詳細介紹..."
       
-  # 確保圖片欄位顯示為圖片選擇器
+  # 確保列表中的圖片欄位顯示為上傳按鈕
   "members[*].image":
+    type: image
+    options:
+      accept: ["image/*"]
+  
+  # 確保一般圖片欄位也是上傳按鈕
+  "image":
     type: image

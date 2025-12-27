@@ -87,7 +87,7 @@
   .hamburger.active span:nth-child(2) { opacity: 0; }
   .hamburger.active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
 
-  /* 手機版選單 (直式) */
+  /* 手機版選單 */
   .mobile-menu {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
     background: rgba(5, 5, 5, 0.98); backdrop-filter: blur(10px); z-index: 150;
@@ -112,9 +112,32 @@
   /* About Pages Styles */
   .about-hero { padding-top: 180px; padding-bottom: 80px; text-align: center; position: relative; z-index: 10; }
   .page-label { font-family: var(--font-display); font-size: 0.9rem; letter-spacing: 4px; color: var(--brand-light); margin-bottom: 20px; display: block; }
-  .page-title { font-family: var(--font-serif); font-size: clamp(3rem, 8vw, 5rem); font-weight: 900; color: #fff; line-height: 1.1; margin: 0 0 20px; background: var(--brand-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 0 30px rgba(255, 140, 0, 0.5)); letter-spacing: 10px; opacity: 0; transform: scale(1.1); filter: blur(5px); transition: all 1.5s var(--ease-cinematic); }
+  
+  .page-title { 
+    font-family: var(--font-serif); font-size: clamp(3rem, 8vw, 5rem); 
+    font-weight: 900; color: #fff; line-height: 1.1; margin: 0 0 20px; 
+    background: var(--brand-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; 
+    filter: drop-shadow(0 0 30px rgba(255, 140, 0, 0.5)); 
+    letter-spacing: 10px; opacity: 0; transform: scale(1.1); filter: blur(5px); 
+    transition: all 1.5s var(--ease-cinematic); 
+  }
   .page-title.aos-animate { opacity: 1; letter-spacing: 0; transform: scale(1); filter: blur(0); }
-  .page-subtitle { font-family: var(--font-body); font-size: 1.1rem; color: rgba(255,255,255,0.7); max-width: 600px; margin: 0 auto; line-height: 1.8; letter-spacing: 1px; }
+
+  .page-subtitle { 
+    font-family: var(--font-body); font-size: 1.1rem; color: rgba(255,255,255,0.7); 
+    max-width: 600px; margin: 0 auto; line-height: 1.8; letter-spacing: 1px; 
+  }
+
+  .shutter-flash { animation: shutterAnim 2.5s cubic-bezier(0.1, 0.9, 0.2, 1) forwards; }
+  @keyframes shutterAnim {
+    0% { opacity: 0; filter: blur(20px) brightness(5); letter-spacing: 20px; }
+    20% { opacity: 1; filter: blur(5px) brightness(2); }
+    30% { opacity: 0.1; filter: brightness(1); }
+    40% { opacity: 1; filter: blur(0) brightness(1.5); letter-spacing: 5px; } 
+    60% { filter: brightness(1); }
+    100% { opacity: 1; filter: blur(0); letter-spacing: 5px; }
+  }
+
   .title-divider { width: 0; height: 3px; background: var(--brand-gradient); margin: 40px auto 0; border-radius: 2px; transition: width 1.2s var(--ease-cinematic); }
   .title-divider.aos-animate { width: 80px; }
 
@@ -146,12 +169,38 @@
   .cms-content h2::before { content: ''; position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 4px; height: 0; background: var(--brand-primary); transition: height 0.8s var(--ease-out-expo); }
   .cms-content h2.aos-animate::before { height: 80%; }
   .cms-content h3 { font-family: var(--font-body); font-size: 1.5rem; font-weight: 700; color: var(--brand-light); margin-top: 2.5em; margin-bottom: 1em; }
-  .cms-content blockquote { position: relative; margin: 4em 0; padding: 2em 3em; border-left: none; background: transparent; font-family: var(--font-serif); font-size: 1.4rem; font-style: italic; line-height: 1.8; color: rgba(255,255,255,0.9); border-radius: 4px; overflow: hidden; isolation: isolate; }
-  .cms-content blockquote::before { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(255, 140, 0, 0.2) 0%, rgba(255, 215, 0, 0.05) 100%); transform: scaleX(0); transform-origin: left; transition: transform 1.2s cubic-bezier(0.22, 1, 0.36, 1); z-index: -1; }
-  .cms-content blockquote::after { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: var(--brand-primary); transform: scaleY(0); transform-origin: top; transition: transform 0.8s var(--ease-out-expo) 0.5s; z-index: 1; }
-  .cms-content blockquote.aos-animate::before { transform: scaleX(1); } .cms-content blockquote.aos-animate::after { transform: scaleY(1); }
+  
+  /* 🔴 引用 (Blockquote) - 電影感掃光特效 */
+  .cms-content blockquote {
+    position: relative;
+    margin: 4em 0; padding: 2em 3em;
+    border-left: none; 
+    background: transparent;
+    font-family: var(--font-serif); font-size: 1.4rem; font-style: italic; line-height: 1.8;
+    color: rgba(255,255,255,0.9);
+    border-radius: 4px;
+    overflow: hidden; 
+    isolation: isolate;
+  }
+  .cms-content blockquote::before {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(90deg, rgba(255, 140, 0, 0.2) 0%, rgba(255, 215, 0, 0.05) 100%);
+    transform: scaleX(0); transform-origin: left;
+    transition: transform 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+    z-index: -1;
+  }
+  .cms-content blockquote::after {
+    content: ''; position: absolute; left: 0; top: 0; bottom: 0;
+    width: 4px; background: var(--brand-primary);
+    transform: scaleY(0); transform-origin: bottom;
+    transition: transform 0.8s var(--ease-out-expo) 0.5s;
+    z-index: 1;
+  }
+  .cms-content blockquote.aos-animate::before { transform: scaleX(1); }
+  .cms-content blockquote.aos-animate::after { transform: scaleY(1); }
   .cms-content blockquote p { opacity: 0; transform: translateX(20px); transition: all 1s ease 0.4s; margin: 0; }
   .cms-content blockquote.aos-animate p { opacity: 1; transform: translateX(0); }
+
   .cms-content img { max-width: 100%; border-radius: 2px; margin: 3em 0; box-shadow: 0 10px 40px rgba(0,0,0,0.5); border: 1px solid rgba(255, 255, 255, 0.1); transition: 0.5s var(--ease-out-expo); }
   .cms-content img:hover { transform: scale(1.02); box-shadow: 0 20px 60px rgba(255, 140, 0, 0.15); border-color: rgba(255, 255, 255, 0.3); }
 
@@ -166,7 +215,6 @@
 
   @media (max-width: 768px) {
     .header { padding: 20px; } .nav { display: none; } 
-    /* 手機版顯示漢堡 */
     .hamburger { display: flex; }
     .about-hero { padding-top: 140px; } .page-title { font-size: 3rem; }
     .footer h2 { font-size: 2.5rem; letter-spacing: 5px; }
@@ -265,9 +313,15 @@
         document.body.classList.remove('loading-state');
         document.body.classList.add('loaded-state');
         AOS.init({ duration: 1000, easing: 'ease-out-cubic', once: false, mirror: true, offset: 50 });
+        
+        // 🔴 觸發副標題閃爍特效
+        setTimeout(() => {
+            const subtitle = document.getElementById('page-subtitle');
+            if(subtitle) subtitle.classList.add('shutter-flash');
+        }, 1500); 
       }, 2200);
 
-      // 讀取 about.md (防快取)
+      // 讀取 about.md
       fetch('content/about.md?t=' + new Date().getTime())
         .then(r => r.ok ? r.text() : Promise.reject())
         .then(text => {
@@ -277,7 +331,7 @@
           if(data.title) document.getElementById('page-title').innerText = data.title;
           if(data.subtitle) document.getElementById('page-subtitle').innerText = data.subtitle;
           
-          // 渲染 Markdown
+          // 渲染 Markdown (故事)
           if(parts.length > 2) {
               const converter = new showdown.Converter({ simpleLineBreaks: true });
               const html = converter.makeHtml(parts.slice(2).join('---'));
@@ -293,7 +347,7 @@
             renderPage(fallbackData, null, true);
         });
 
-      // 讀取 Logo from index.md
+      // 讀取 Global Logo
       fetch('content/index.md?t=' + new Date().getTime())
         .then(r => r.ok ? r.text() : Promise.reject())
         .then(text => {
@@ -307,7 +361,7 @@
       initCursor(); initPageTransition(); createParticles(); initSoundToggle(); initMenu();
     });
 
-    // 漢堡選單邏輯
+    // 漢堡選單
     function initMenu() {
         const hamburger = document.getElementById('hamburger-btn');
         const mobileMenu = document.getElementById('mobile-menu');
@@ -332,9 +386,8 @@
     }
 
     function renderPage(data) {
-        // 渲染 核心價值
+        // Values
         const valuesSection = document.getElementById('values-section');
-        // 檢查是否有 values_list 資料，如果沒有就隱藏
         if (data.values_list && data.values_list.length > 0) {
             let html = '<h2 class="block-title" data-aos="fade-up">核心價值</h2><div class="values-grid">';
             data.values_list.forEach((v, i) => {
@@ -344,10 +397,10 @@
             html += '</div>';
             valuesSection.innerHTML = html;
         } else {
-            valuesSection.innerHTML = ''; // 清空
+            valuesSection.innerHTML = ''; 
         }
 
-        // 渲染 服務流程
+        // Process
         const processSection = document.getElementById('process-section');
         if (data.process_list && data.process_list.length > 0) {
             let html = '<h2 class="block-title" data-aos="fade-up">服務流程</h2><div class="process-list">';
@@ -367,7 +420,13 @@
         container.querySelectorAll('h2').forEach(el => { el.setAttribute('data-aos', 'fade-right'); el.setAttribute('data-aos-delay', '100'); });
         container.querySelectorAll('h3').forEach(el => { el.setAttribute('data-aos', 'fade-up'); el.setAttribute('data-aos-delay', '150'); });
         container.querySelectorAll('p, ul, ol').forEach((el, index) => { if(el.closest('blockquote')) return; el.setAttribute('data-aos', 'fade-up'); el.setAttribute('data-aos-delay', (index % 5) * 50); });
-        container.querySelectorAll('blockquote').forEach(el => { el.setAttribute('data-aos', 'fade'); el.setAttribute('data-aos-offset', '200'); });
+        
+        // 🔴 觸發引用掃光特效
+        container.querySelectorAll('blockquote').forEach(el => { 
+            el.setAttribute('data-aos', 'fade'); 
+            el.setAttribute('data-aos-offset', '200'); 
+        });
+        
         container.querySelectorAll('img').forEach(el => { el.setAttribute('data-aos', 'zoom-in-up'); el.setAttribute('data-aos-duration', '1200'); });
         setTimeout(() => { AOS.refresh(); }, 100);
     }

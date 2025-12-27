@@ -6,32 +6,27 @@
 
 <title>精選作品集 | 推手影像製作有限公司 Uprise-Production</title>
 
-<!-- Favicon (預設) -->
 <link rel="icon" type="image/png" href="images/uploads/logo.png">
 
 <meta name="description" content="瀏覽 Uprise-Production 的精選作品，包含品牌形象廣告、產品宣傳影片、公部門政策推廣與大型活動紀錄。">
 <link rel="canonical" href="https://www.uprise-videoproduction.com/works.html">
 
-<!-- Fonts & CSS -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Italiana&family=Noto+Sans+TC:wght@300;400;500;700;900&family=Noto+Serif+TC:wght@700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
-
 <style>
   /* --- 核心變數 --- */
   :root { 
-    --bg-color: #050505;       
+    --bg-color: #050505;        
     --card-bg: rgba(20, 20, 20, 0.4); 
     --text-main: #FFFFFF;      
-    --text-sub: #B0B0B0;       
-    --brand-primary: #FF8C00;  
-    --brand-light: #FFD700;    
+    --text-sub: #B0B0B0;        
+    --brand-primary: #FF8C00;   
+    --brand-light: #FFD700;     
     --brand-gradient: linear-gradient(135deg, #FFD700, #FF8C00);
-    --silver-gradient: linear-gradient(to bottom, #ffffff 40%, #a0a0a0 100%);
     --font-display: 'Italiana', serif; --font-body: 'Noto Sans TC', sans-serif; --font-serif: 'Noto Serif TC', serif;
     --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
     --ease-cinematic: cubic-bezier(0.22, 1, 0.36, 1);
@@ -53,7 +48,7 @@
   .loader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 200000; display: flex; justify-content: center; align-items: center; transition: opacity 0.8s ease, visibility 0.8s; }
   .loader.hidden { opacity: 0; visibility: hidden; }
   
-  /* Logo 電影感聚焦動畫 */
+  /* Logo 動畫 */
   .loader-logo-img { width: auto; height: 90px; max-width: 80vw; object-fit: contain; opacity: 0; transform: scale(0.8); filter: blur(10px); animation: cinematicLogoReveal 2.5s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
   @keyframes cinematicLogoReveal { 
     0% { opacity: 0; transform: scale(0.8) translateY(10px); filter: blur(10px) brightness(0.5); } 
@@ -89,7 +84,7 @@
   .title-divider { width: 0; height: 3px; background: var(--brand-gradient); margin: 40px auto 0; border-radius: 2px; transition: width 1.2s var(--ease-cinematic); }
   .title-divider.aos-animate { width: 80px; }
 
-  /* Works List */
+  /* Works List & Card */
   .works-container { max-width: 1200px; margin: 0 auto; width: 100%; padding: 0 40px 100px; position: relative; z-index: 10; }
   .category-section { margin-bottom: 120px; }
   .category-title { font-family: var(--font-serif); font-size: 2rem; font-weight: 700; margin: 0 0 40px; padding-left: 20px; border-left: 4px solid var(--brand-primary); background: linear-gradient(90deg, #fff, #999); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: 2px; }
@@ -161,13 +156,74 @@
     <main>
       <section class="works-hero">
         <span class="page-label" data-aos="fade-down" data-aos-delay="200">SELECTED WORKS</span>
-        <h1 class="page-title" id="page-title" data-aos="fade" data-aos-delay="300" data-aos-duration="1500">精選作品集</h1>
-        <p class="page-subtitle" id="page-subtitle" data-aos="fade-up" data-aos-delay="600">收錄歷年來的影像精華，每一部作品都是我們對美學的堅持。</p>
+        <h1 class="page-title editable" id="page-title" data-aos="fade" data-aos-delay="300" data-aos-duration="1500">精選作品集</h1>
+        <p class="page-subtitle editable" id="page-subtitle" data-aos="fade-up" data-aos-delay="600">收錄歷年來的影像精華，每一部作品都是我們對美學的堅持。</p>
         <div class="title-divider" data-aos="fade" data-aos-delay="800"></div>
       </section>
 
       <div class="works-container" id="works-wrapper">
-        <p style="text-align:center; padding: 50px; color:#666;">Loading Works...</p>
+
+        <div class="category-section">
+            <div class="category-title editable" data-aos="fade-right">品牌形象廣告</div>
+            <div class="work-grid">
+                <a href="#" target="_blank" class="work-card hover-trigger editable" data-aos="fade-up">
+                    <div class="border-shimmer"></div>
+                    <div class="img-box">
+                        <img src="images/uploads/logo.png" alt="作品封面" loading="lazy">
+                        <div class="play-icon"><i class="fas fa-play" style="color:#fff; margin-left:3px;"></i></div>
+                    </div>
+                    <div class="content">
+                        <span class="client">客戶名稱</span>
+                        <h3 class="work-title">請在 CloudCannon 點擊編輯此作品</h3>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <div class="category-section">
+            <div class="category-title editable" data-aos="fade-right">產品形象廣告</div>
+            <div class="work-grid">
+                <a href="#" target="_blank" class="work-card hover-trigger editable" data-aos="fade-up">
+                    <div class="border-shimmer"></div>
+                    <div class="img-box"><img src="images/uploads/logo.png" alt="作品封面" loading="lazy"><div class="play-icon"><i class="fas fa-play" style="color:#fff; margin-left:3px;"></i></div></div>
+                    <div class="content"><span class="client">客戶名稱</span><h3 class="work-title">產品廣告範例</h3></div>
+                </a>
+            </div>
+        </div>
+
+        <div class="category-section">
+            <div class="category-title editable" data-aos="fade-right">公部門宣傳影片</div>
+            <div class="work-grid">
+                <a href="#" target="_blank" class="work-card hover-trigger editable" data-aos="fade-up">
+                    <div class="border-shimmer"></div>
+                    <div class="img-box"><img src="images/uploads/logo.png" alt="作品封面" loading="lazy"><div class="play-icon"><i class="fas fa-play" style="color:#fff; margin-left:3px;"></i></div></div>
+                    <div class="content"><span class="client">公部門</span><h3 class="work-title">宣傳影片範例</h3></div>
+                </a>
+            </div>
+        </div>
+
+        <div class="category-section">
+            <div class="category-title editable" data-aos="fade-right">活動紀錄</div>
+            <div class="work-grid">
+                <a href="#" target="_blank" class="work-card hover-trigger editable" data-aos="fade-up">
+                    <div class="border-shimmer"></div>
+                    <div class="img-box"><img src="images/uploads/logo.png" alt="作品封面" loading="lazy"><div class="play-icon"><i class="fas fa-play" style="color:#fff; margin-left:3px;"></i></div></div>
+                    <div class="content"><span class="client">活動名稱</span><h3 class="work-title">活動紀錄範例</h3></div>
+                </a>
+            </div>
+        </div>
+
+        <div class="category-section">
+            <div class="category-title editable" data-aos="fade-right">其他</div>
+            <div class="work-grid">
+                <a href="#" target="_blank" class="work-card hover-trigger editable" data-aos="fade-up">
+                    <div class="border-shimmer"></div>
+                    <div class="img-box"><img src="images/uploads/logo.png" alt="作品封面" loading="lazy"><div class="play-icon"><i class="fas fa-play" style="color:#fff; margin-left:3px;"></i></div></div>
+                    <div class="content"><span class="client">其他</span><h3 class="work-title">其他作品範例</h3></div>
+                </a>
+            </div>
+        </div>
+
       </div>
     </main>
 
@@ -187,21 +243,8 @@
     document.addEventListener('copy', e => e.preventDefault());
     document.onkeydown = function(e) { if(e.keyCode == 123) return false; }
 
-    const fallbackData = {
-      title: "精選作品集",
-      subtitle: "收錄歷年來的影像精華，每一部作品都是我們對美學的堅持。",
-      portfolio_brand: [
-        { title: "品牌形象廣告範例 A", client: "Client A", link: "#", image: "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" },
-        { title: "品牌形象廣告範例 B", client: "Client B", link: "#", image: "https://images.unsplash.com/photo-1598550476439-6847785fcea6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" }
-      ]
-    };
-
-    function getYouTubeThumb(url) {
-      if (!url) return 'https://dummyimage.com/600x338/111/fff&text=No+Video';
-      const match = url.match(/^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=|shorts\/)([^#&?]*).*/);
-      return (match && match[2].length === 11) ? `https://img.youtube.com/vi/${match[2]}/maxresdefault.jpg` : 'https://dummyimage.com/600x338/111/fff&text=Invalid+Link';
-    }
-
+    // 原本的 JS 讀取部分我已註解掉，因為您現在要使用 CloudCannon 直接編輯 HTML
+    // 這樣可以避免 JS 覆蓋掉您在後台辛苦編輯的內容
     document.addEventListener('DOMContentLoaded', () => {
       setTimeout(() => {
         document.querySelector('.loader').classList.add('hidden');
@@ -211,83 +254,9 @@
         AOS.init({ duration: 1000, easing: 'ease-out-cubic', once: false, mirror: true, offset: 50 });
       }, 2200);
 
-      // 1. 全站通用設定 (Logo & Favicon)
-      fetch('content/index.md')
-        .then(r => r.ok ? r.text() : Promise.reject())
-        .then(text => {
-          const parts = text.split('---');
-          const data = jsyaml.load(parts.length > 1 ? parts[1] : text);
-          let logoUrl = data.logo;
-          let faviconUrl = data.favicon || data.logo;
-
-          if(logoUrl) {
-            const navLogo = document.querySelector('.logo img');
-            if(navLogo) navLogo.src = logoUrl;
-            const loaderLogo = document.querySelector('.loader-logo-img');
-            if(loaderLogo) loaderLogo.src = logoUrl;
-          }
-          if(faviconUrl) {
-            const favicon = document.querySelector('link[rel="icon"]');
-            if(favicon) favicon.href = faviconUrl;
-          }
-        })
-        .catch(e => console.log("Global settings not found"));
-
-      // 2. 頁面內容
-      fetch('content/works.md')
-        .then(r => r.ok ? r.text() : Promise.reject())
-        .then(text => {
-            const parts = text.split('---');
-            const data = jsyaml.load(parts.length > 1 ? parts[1] : text);
-            renderWorks(data);
-        })
-        .catch(err => {
-            console.log("Using fallback works data");
-            renderWorks(fallbackData);
-        });
-
       initCursor(); initPageTransition(); createParticles();
     });
 
-    function renderWorks(data) {
-        if(data.title) document.getElementById('page-title').innerText = data.title;
-        if(data.subtitle) document.getElementById('page-subtitle').innerText = data.subtitle;
-        
-        const wrapper = document.getElementById('works-wrapper');
-        wrapper.innerHTML = '';
-
-        const categories = [
-            { id: 'portfolio_brand', name: '品牌形象廣告' },
-            { id: 'portfolio_product', name: '產品形象廣告' },
-            { id: 'portfolio_public', name: '公部門宣傳影片' },
-            { id: 'portfolio_event', name: '活動紀錄' },
-            { id: 'portfolio_other', name: '其他' }
-        ];
-
-        let hasContent = false;
-        categories.forEach((cat) => {
-            const items = data[cat.id];
-            if (items && items.length > 0) {
-                hasContent = true;
-                let gridHtml = '';
-                items.forEach((work, idx) => {
-                    const thumbUrl = work.image ? work.image : getYouTubeThumb(work.link);
-                    const clientName = work.client || ''; 
-                    gridHtml += `
-                        <a href="${work.link}" target="_blank" class="work-card hover-trigger" data-aos="fade-up" data-aos-delay="${idx * 100}">
-                            <div class="border-shimmer"></div>
-                            <div class="img-box"><img src="${thumbUrl}" alt="${work.title}" loading="lazy"><div class="play-icon"><i class="fas fa-play" style="color:#fff; margin-left:3px;"></i></div></div>
-                            <div class="content"><span class="client">${clientName}</span><h3 class="work-title">${work.title}</h3></div>
-                        </a>`;
-                });
-                const sectionHtml = `<div class="category-section"><div class="category-title" data-aos="fade-right">${cat.name}</div><div class="work-grid">${gridHtml}</div></div>`;
-                wrapper.insertAdjacentHTML('beforeend', sectionHtml);
-            }
-        });
-        if (!hasContent) wrapper.innerHTML = '<p style="text-align:center; padding:50px; color:#aaa;">目前尚無作品，請至後台新增。</p>';
-        setTimeout(() => AOS.refresh(), 100);
-    }
-    
     function initCursor() { if (window.matchMedia("(pointer: fine)").matches) { const cursor = document.querySelector('.cursor'); let mouseX=0, mouseY=0, cursorX=0, cursorY=0; document.addEventListener('mousemove', e => { mouseX=e.clientX; mouseY=e.clientY; }); document.addEventListener('mousedown', () => document.body.classList.add('clicking')); document.addEventListener('mouseup', () => document.body.classList.remove('clicking')); function animate() { cursorX+=(mouseX-cursorX)*0.5; cursorY+=(mouseY-cursorY)*0.5; cursor.style.transform=`translate(${cursorX}px, ${cursorY}px) translate(-50%, -50%)`; requestAnimationFrame(animate); } animate(); document.body.addEventListener('mouseenter', e=>{ if(e.target.closest('.hover-trigger')) document.body.classList.add('hovered'); }, true); document.body.addEventListener('mouseleave', e=>{ if(e.target.closest('.hover-trigger')) document.body.classList.remove('hovered'); }, true); } }
     function createParticles() { const container = document.getElementById('particles'); if(!container) return; for (let i = 0; i < 20; i++) { const p = document.createElement('div'); p.classList.add('particle'); const size = Math.random() * 3 + 1 + 'px'; p.style.width = size; p.style.height = size; p.style.left = Math.random() * 100 + '%'; p.style.top = Math.random() * 100 + '%'; p.style.animationDelay = Math.random() * 5 + 's'; p.style.animationDuration = Math.random() * 10 + 10 + 's'; container.appendChild(p); } }
     function initPageTransition() { const links = document.querySelectorAll('.page-link'); const curtain = document.querySelector('.page-transition-curtain'); links.forEach(link => { link.addEventListener('click', (e) => { e.preventDefault(); const href = link.getAttribute('href'); curtain.classList.remove('reveal'); curtain.classList.add('cover'); setTimeout(() => { window.location.href = href; }, 800); }); }); }

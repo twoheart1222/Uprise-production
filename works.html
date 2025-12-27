@@ -21,7 +21,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
 
 <style>
-  /* --- 核心變數 (與首頁統一) --- */
+  /* --- 核心變數 --- */
   :root { 
     --bg-color: #050505;       
     --card-bg: rgba(20, 20, 20, 0.4); 
@@ -62,9 +62,6 @@
   /* 禁止圖片拖曳 */
   img {
     -webkit-user-drag: none;
-    -khtml-user-drag: none;
-    -moz-user-drag: none;
-    -o-user-drag: none;
     pointer-events: none;
   }
 
@@ -93,7 +90,6 @@
   }
   .loader.hidden { opacity: 0; visibility: hidden; }
   
-  /* Logo 電影感聚焦動畫 */
   .loader-logo-img {
     width: auto; height: 90px; max-width: 80vw; object-fit: contain;
     opacity: 0; transform: scale(0.8); filter: blur(10px);
@@ -170,7 +166,7 @@
   .nav-item:hover span.hover-text { transform: translateY(-100%); }
   .nav-item.active span.original-text { color: var(--brand-light); }
 
-  /* --- 🔴 Mobile Menu (直式排列、大字體、寬間距) --- */
+  /* --- 🔴 手機版選單 (修正顯示問題) --- */
   .hamburger { display: none; flex-direction: column; gap: 6px; cursor: pointer; z-index: 200; width: 30px; }
   .hamburger span { width: 100%; height: 2px; background: #fff; transition: 0.3s; }
   .hamburger.active span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
@@ -178,40 +174,37 @@
   .hamburger.active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
   
   .mobile-menu {
-    position: fixed; inset: 0; background: rgba(5,5,5,0.98); backdrop-filter: blur(10px); z-index: 150;
+    position: fixed; inset: 0; 
+    background: rgba(5,5,5,0.98); 
+    backdrop-filter: blur(10px); 
+    z-index: 150;
     display: flex; flex-direction: column; justify-content: center; align-items: center;
     opacity: 0; pointer-events: none; transition: 0.5s;
   }
   .mobile-menu.active { opacity: 1; pointer-events: all; }
   
-  /* 選單容器：直式排列 */
+  /* 選單容器 */
   .mobile-nav {
-    display: flex; 
-    flex-direction: column; /* 直式 */
-    justify-content: center; 
-    align-items: center; 
-    gap: 30px; /* 寬間距 */
-    width: 100%;
+    display: flex; flex-direction: column; justify-content: center; align-items: center; 
+    gap: 30px; width: 100%; position: relative; z-index: 151; /* 確保內容在背景之上 */
   }
 
-  /* 選單連結：大字體 */
+  /* 選單連結 */
   .mobile-nav-link { 
     font-family: var(--font-serif); 
-    font-size: 2rem; /* 2rem 字體 */
-    color: #fff; 
-    text-decoration: none; 
-    margin: 0; 
-    font-weight: 700; 
-    letter-spacing: 2px;
-    opacity: 0; 
-    transform: translateY(20px); 
+    font-size: 2rem; color: #fff; 
+    text-decoration: none; margin: 0; 
+    font-weight: 700; letter-spacing: 2px;
+    opacity: 0; transform: translateY(20px); 
     transition: 0.5s; 
     white-space: nowrap;
+    display: block; /* 確保佔據空間 */
   }
-  .mobile-menu.active .mobile-nav-link { opacity: 1; transform: translateY(0); }
+  /* 當選單開啟時，強制顯示 */
+  .mobile-menu.active .mobile-nav-link { opacity: 1 !important; transform: translateY(0); }
   .mobile-nav-link:hover { color: var(--brand-light); }
   
-  /* 依序進場動畫 */
+  /* 依序進場 */
   .mobile-menu.active .mobile-nav-link:nth-child(1) { transition-delay: 0.1s; }
   .mobile-menu.active .mobile-nav-link:nth-child(2) { transition-delay: 0.2s; }
   .mobile-menu.active .mobile-nav-link:nth-child(3) { transition-delay: 0.3s; }
@@ -219,117 +212,32 @@
   .mobile-menu.active .mobile-nav-link:nth-child(5) { transition-delay: 0.5s; }
 
   /* --- 作品頁面 Header --- */
-  .works-hero {
-    padding-top: 180px; padding-bottom: 80px; text-align: center;
-    position: relative; z-index: 10;
-  }
-  .page-label {
-    font-family: var(--font-display); font-size: 0.9rem; letter-spacing: 4px;
-    color: var(--brand-light); margin-bottom: 20px; display: block;
-  }
-  .page-title {
-    font-family: var(--font-serif); font-size: clamp(3rem, 8vw, 5rem);
-    font-weight: 900; color: #fff; line-height: 1.1; margin: 0 0 20px;
-    background: var(--brand-gradient); 
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-    filter: drop-shadow(0 0 30px rgba(255, 140, 0, 0.5));
-  }
-  .page-subtitle {
-    font-family: var(--font-body); font-size: 1.1rem; color: rgba(255,255,255,0.7);
-    max-width: 600px; margin: 0 auto; line-height: 1.8; letter-spacing: 1px;
-  }
-  .title-divider {
-    width: 80px; height: 3px; background: var(--brand-gradient);
-    margin: 40px auto 0; border-radius: 2px;
-  }
+  .works-hero { padding-top: 180px; padding-bottom: 80px; text-align: center; position: relative; z-index: 10; }
+  .page-label { font-family: var(--font-display); font-size: 0.9rem; letter-spacing: 4px; color: var(--brand-light); margin-bottom: 20px; display: block; }
+  .page-title { font-family: var(--font-serif); font-size: clamp(3rem, 8vw, 5rem); font-weight: 900; color: #fff; line-height: 1.1; margin: 0 0 20px; background: var(--brand-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 0 30px rgba(255, 140, 0, 0.5)); }
+  .page-subtitle { font-family: var(--font-body); font-size: 1.1rem; color: rgba(255,255,255,0.7); max-width: 600px; margin: 0 auto; line-height: 1.8; letter-spacing: 1px; }
+  .title-divider { width: 80px; height: 3px; background: var(--brand-gradient); margin: 40px auto 0; border-radius: 2px; }
 
   /* --- 作品列表 --- */
-  .works-container {
-    max-width: 1200px; margin: 0 auto; width: 100%; padding: 0 40px 100px;
-    position: relative; z-index: 10;
-  }
-  .category-section { margin-bottom: 120px; } /* AOS 會控制 opacity, 這裡不需預設 0 */
+  .works-container { max-width: 1200px; margin: 0 auto; width: 100%; padding: 0 40px 100px; position: relative; z-index: 10; }
+  .category-section { margin-bottom: 120px; }
+  .category-title { font-family: var(--font-serif); font-size: 2rem; font-weight: 700; margin: 0 0 40px; padding-left: 20px; border-left: 4px solid var(--brand-primary); background: linear-gradient(90deg, #fff, #999); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: 2px; }
+  .work-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 40px; }
 
-  .category-title {
-    font-family: var(--font-serif); font-size: 2rem; font-weight: 700;
-    margin: 0 0 40px; padding-left: 20px;
-    border-left: 4px solid var(--brand-primary);
-    background: linear-gradient(90deg, #fff, #999);
-    -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
-    letter-spacing: 2px;
-  }
-
-  .work-grid {
-    display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 40px;
-  }
-
-  /* 作品卡片 */
-  .work-card {
-    display: block; text-decoration: none; position: relative;
-    background: var(--card-bg);
-    border-radius: 4px; overflow: hidden;
-    /* 基礎邊框 */
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    transition: 0.5s var(--ease-out-expo);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-  }
-
-  /* 流光層 */
-  .work-card .border-shimmer {
-    position: absolute; inset: 0; border-radius: 4px; padding: 1px;
-    background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.5), transparent);
-    background-size: 200% 100%;
-    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor; mask-composite: exclude;
-    pointer-events: none; animation: shimmerBorder 3s linear infinite; opacity: 0.6; z-index: 2;
-  }
+  .work-card { display: block; text-decoration: none; position: relative; background: var(--card-bg); border-radius: 4px; overflow: hidden; border: 1px solid rgba(255, 255, 255, 0.08); transition: 0.5s var(--ease-out-expo); box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+  .work-card .border-shimmer { position: absolute; inset: 0; border-radius: 4px; padding: 1px; background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.5), transparent); background-size: 200% 100%; -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite: xor; mask-composite: exclude; pointer-events: none; animation: shimmerBorder 3s linear infinite; opacity: 0.6; z-index: 2; }
   @keyframes shimmerBorder { 0% { background-position: -150% 0; } 100% { background-position: 150% 0; } }
 
-  /* 圖片區域 */
-  .img-box {
-    width: 100%; aspect-ratio: 16/9; overflow: hidden; position: relative; background: #000;
-  }
-  .img-box img {
-    width: 100%; height: 100%; object-fit: cover;
-    transition: transform 0.8s var(--ease-out-expo), filter 0.8s;
-    filter: brightness(0.9);
-  }
-  
-  /* 播放按鈕 */
-  .play-icon {
-    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.8);
-    width: 60px; height: 60px; border-radius: 50%;
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    backdrop-filter: blur(5px);
-    display: flex; justify-content: center; align-items: center;
-    opacity: 0; transition: 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-    z-index: 2;
-  }
-  .play-icon::after {
-    content: ''; margin-left: 4px;
-    border-left: 14px solid #fff; border-top: 9px solid transparent; border-bottom: 9px solid transparent;
-  }
+  .img-box { width: 100%; aspect-ratio: 16/9; overflow: hidden; position: relative; background: #000; }
+  .img-box img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.8s var(--ease-out-expo), filter 0.8s; filter: brightness(0.9); }
+  .play-icon { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.8); width: 60px; height: 60px; border-radius: 50%; background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.3); backdrop-filter: blur(5px); display: flex; justify-content: center; align-items: center; opacity: 0; transition: 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); z-index: 2; }
+  .play-icon::after { content: ''; margin-left: 4px; border-left: 14px solid #fff; border-top: 9px solid transparent; border-bottom: 9px solid transparent; }
 
-  /* 內容區域 */
   .content { padding: 25px 20px; position: relative; z-index: 1; }
-  .client {
-    font-family: var(--font-body); font-size: 0.8rem; color: var(--brand-light);
-    letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px; display: block; font-weight: 600;
-  }
-  h3.work-title {
-    font-family: var(--font-serif); font-size: 1.4rem; color: #fff; margin: 0; font-weight: 700; line-height: 1.4;
-    transition: color 0.3s;
-    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
-  }
+  .client { font-family: var(--font-body); font-size: 0.8rem; color: var(--brand-light); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px; display: block; font-weight: 600; }
+  h3.work-title { font-family: var(--font-serif); font-size: 1.4rem; color: #fff; margin: 0; font-weight: 700; line-height: 1.4; transition: color 0.3s; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 
-  /* Hover Effects */
-  .work-card:hover {
-    transform: translateY(-8px);
-    background: rgba(30, 30, 30, 0.8);
-    box-shadow: 0 20px 60px rgba(0,0,0,0.6);
-    border-color: rgba(255, 183, 0, 0.3);
-  }
+  .work-card:hover { transform: translateY(-8px); background: rgba(30, 30, 30, 0.8); box-shadow: 0 20px 60px rgba(0,0,0,0.6); border-color: rgba(255, 183, 0, 0.3); }
   .work-card:hover .img-box img { transform: scale(1.05); filter: brightness(1.1); }
   .work-card:hover .play-icon { opacity: 1; transform: translate(-50%, -50%) scale(1); background: var(--brand-gradient); border: none; box-shadow: 0 0 20px rgba(255, 140, 0, 0.6); }
   .work-card:hover h3.work-title { color: var(--brand-light); }
@@ -349,9 +257,7 @@
     .works-hero { padding-top: 140px; } .page-title { font-size: 3rem; }
     .footer h2 { font-size: 2.5rem; letter-spacing: 5px; }
     .work-grid { grid-template-columns: 1fr; }
-    
-    /* 漢堡選單顯示設定 */
-    .hamburger { display: flex; }
+    .hamburger { display: flex; } /* 確保手機版顯示漢堡 */
   }
 </style>
 </head>
@@ -439,20 +345,12 @@
   <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 
   <script>
-    // --- 防盜機制 (Anti-Theft) ---
-    document.addEventListener('contextmenu', event => event.preventDefault());
-    document.addEventListener('copy', event => { event.preventDefault(); });
-    document.onkeydown = function(e) {
-        if(e.keyCode == 123) return false; // F12
-        if(e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) return false;
-        if(e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) return false;
-        if(e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) return false;
-        if(e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) return false;
-        if(e.ctrlKey && e.keyCode == 'S'.charCodeAt(0)) return false;
-        if(e.ctrlKey && e.keyCode == 'C'.charCodeAt(0)) return false;
-    }
+    // --- 防盜機制 ---
+    document.addEventListener('contextmenu', e => e.preventDefault());
+    document.addEventListener('copy', e => e.preventDefault());
+    document.onkeydown = function(e) { if(e.keyCode == 123) return false; }
 
-    // 預設資料 (Fallback)
+    // Fallback Data
     const fallbackData = {
       title: "精選作品集",
       subtitle: "收錄歷年來的影像精華，每一部作品都是我們對美學的堅持。",
@@ -470,37 +368,34 @@
     }
 
     document.addEventListener('DOMContentLoaded', () => {
-      // 1. 初始化 AOS
+      // Init AOS
       AOS.init({ duration: 1000, easing: 'ease-out-cubic', once: false, mirror: true, offset: 50 });
 
-      // 2. 開始讀取作品資料
+      // Fetch Data
       fetch('content/works.md')
         .then(r => {
             if(!r.ok) throw new Error("CMS Data Not Found");
             return r.text();
         })
         .then(text => {
-            // 解析 Front Matter (---包夾的內容)
             const yamlText = text.replace(/^-{3}([\s\S]+?)-{3}[\s\S]*/, '$1');
             const data = jsyaml.load(yamlText);
             renderWorks(data);
-            
-            // 延遲移除 Loading，確保 Logo 動畫播完
             setTimeout(removeLoader, 2200);
         })
         .catch(err => {
-            console.log("Using fallback works data", err);
+            console.log("Using fallback", err);
             renderWorks(fallbackData);
-            // 就算失敗也要移除 Loading
             setTimeout(removeLoader, 2200);
         });
 
       initCursor();
       initPageTransition();
       createParticles();
-      initMenu(); // 🔴 啟動漢堡選單邏輯
+      initMenu(); // 🔴 確保呼叫選單初始化函數
     });
 
+    // 🔴 選單邏輯
     function initMenu() {
         const hamburger = document.getElementById('hamburger-btn');
         const mobileMenu = document.getElementById('mobile-menu');
@@ -511,7 +406,6 @@
                 mobileMenu.classList.toggle('active');
             });
             
-            // 點擊選單項目後關閉選單
             document.querySelectorAll('.mobile-nav-link').forEach(link => {
                 link.addEventListener('click', () => {
                     hamburger.classList.remove('active');
@@ -554,7 +448,6 @@
                     const thumbUrl = work.image ? work.image : getYouTubeThumb(work.link);
                     const clientName = work.client || ''; 
                     
-                    // 每張卡片都加上 AOS fade-up
                     gridHtml += `
                         <a href="${work.link}" target="_blank" class="work-card hover-trigger" data-aos="fade-up" data-aos-delay="${idx * 100}">
                             <div class="border-shimmer"></div>
@@ -569,7 +462,6 @@
                         </a>`;
                 });
 
-                // 分類區塊標題與容器也加上動畫
                 const sectionHtml = `
                     <div class="category-section" data-aos="fade-up" data-aos-delay="50">
                         <div class="category-title" data-aos="fade-right">${cat.name}</div>
@@ -580,11 +472,7 @@
         });
 
         if (!hasContent) wrapper.innerHTML = '<p style="text-align:center; padding:50px; color:#aaa;">目前尚無作品，請至後台新增。</p>';
-        
-        // 內容生成完畢後，重新整理 AOS 以確保動畫正確觸發
-        setTimeout(() => {
-            AOS.refresh();
-        }, 100);
+        setTimeout(() => { AOS.refresh(); }, 100);
     }
     
     function initCursor() { if (window.matchMedia("(pointer: fine)").matches) { const cursor = document.querySelector('.cursor'); let mouseX=0, mouseY=0, cursorX=0, cursorY=0; document.addEventListener('mousemove', e => { mouseX=e.clientX; mouseY=e.clientY; }); document.addEventListener('mousedown', () => document.body.classList.add('clicking')); document.addEventListener('mouseup', () => document.body.classList.remove('clicking')); function animate() { cursorX+=(mouseX-cursorX)*0.5; cursorY+=(mouseY-cursorY)*0.5; cursor.style.transform=`translate(${cursorX}px, ${cursorY}px) translate(-50%, -50%)`; requestAnimationFrame(animate); } animate(); document.body.addEventListener('mouseenter', e=>{ if(e.target.closest('.hover-trigger')) document.body.classList.add('hovered'); }, true); document.body.addEventListener('mouseleave', e=>{ if(e.target.closest('.hover-trigger')) document.body.classList.remove('hovered'); }, true); } }

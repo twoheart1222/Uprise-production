@@ -1,20 +1,17 @@
-paths:
-  static: ''
-  uploads: uploads
-timezone: Asia/Taipei
-markdown:
-  engine: commonmark
-  options: {}
-collections_config:
-  pages:
-    path: ''
-    icon: wysiwyg
-  content:
-    path: content
-    icon: wysiwyg
-  data:
-    path: data
-    icon: data_usage
-  data_1:
-    path: _data
-    icon: dataset
+# 設定 CloudCannon 後台輸入框的樣式
+_inputs:
+  # 設定成員列表中的 bio 為多行文字框 (中等大小)
+  "members[*].bio":
+    type: textarea
+    options:
+      rows: 4
+  
+  # 設定成員列表中的 full_bio 為 Markdown 編輯器 (超大格，可排版)
+  "members[*].full_bio":
+    type: markdown
+    options:
+      height: 300
+      
+  # 確保圖片欄位顯示為圖片選擇器
+  "members[*].image":
+    type: image

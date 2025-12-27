@@ -1,10 +1,7 @@
 ---
 title: 關於推手
 subtitle: 探索我們對影像的熱情與堅持
-values_list:
-  - title: 專業執行
-    icon: fa-solid fa-video
-    desc: 運用電影級設備與嚴謹流程，確保每一個專案的高品質呈現。
+
 process_list:
   - step: 需求溝通
     content: 深入了解您的品牌理念、目標受眾與預期成效，量身打造影像策略。

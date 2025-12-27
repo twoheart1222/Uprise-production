@@ -6,19 +6,15 @@
 
 <title>專業團隊 | 推手影像製作有限公司 Uprise-Production</title>
 
-<!-- Favicon (預設) -->
 <link rel="icon" type="image/png" href="images/uploads/logo.png">
 
-<!-- Fonts & CSS -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Italiana&family=Noto+Sans+TC:wght@300;400;500;700;900&family=Noto+Serif+TC:wght@700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
-<!-- Libraries -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/2.1.0/showdown.min.js"></script>
 
 <style>
   /* --- 核心變數 --- */
@@ -84,6 +80,36 @@
   .nav-item:hover .original-text { transform: translateY(-100%); } .nav-item:hover .hover-text { transform: translateY(-100%); }
   .nav-item.active .original-text { color: var(--brand-light); }
 
+  /* 漢堡選單 */
+  .hamburger { display: none; flex-direction: column; gap: 6px; cursor: pointer; z-index: 200; width: 30px; }
+  .hamburger span { width: 100%; height: 2px; background: #fff; transition: 0.3s; }
+  .hamburger.active span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+  .hamburger.active span:nth-child(2) { opacity: 0; }
+  .hamburger.active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+  /* 手機版選單 (直式排列) */
+  .mobile-menu {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(5, 5, 5, 0.98); backdrop-filter: blur(10px); z-index: 150;
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
+    opacity: 0; pointer-events: none; transition: opacity 0.5s ease;
+  }
+  .mobile-menu.active { opacity: 1; pointer-events: all; }
+  
+  .mobile-nav { display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 30px; width: 100%; }
+  .mobile-nav-link {
+    font-family: var(--font-serif); font-size: 2rem; color: #fff; text-decoration: none;
+    margin: 0; font-weight: 700; letter-spacing: 2px;
+    opacity: 0; transform: translateY(20px); transition: 0.5s; white-space: nowrap;
+  }
+  .mobile-menu.active .mobile-nav-link { opacity: 1; transform: translateY(0); }
+  .mobile-nav-link:hover { color: var(--brand-light); }
+  .mobile-menu.active .mobile-nav-link:nth-child(1) { transition-delay: 0.1s; }
+  .mobile-menu.active .mobile-nav-link:nth-child(2) { transition-delay: 0.2s; }
+  .mobile-menu.active .mobile-nav-link:nth-child(3) { transition-delay: 0.3s; }
+  .mobile-menu.active .mobile-nav-link:nth-child(4) { transition-delay: 0.4s; }
+  .mobile-menu.active .mobile-nav-link:nth-child(5) { transition-delay: 0.5s; }
+
   /* Team Hero */
   main { min-height: 100vh; }
   .team-hero { padding-top: 180px; padding-bottom: 80px; text-align: center; position: relative; z-index: 10; }
@@ -98,15 +124,8 @@
   .team-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 50px; max-width: 1200px; margin: 0 auto 100px; padding: 0 40px; position: relative; z-index: 10; }
   .member-card { background: var(--card-bg); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 12px; transition: 0.4s var(--ease-out-expo); position: relative; backdrop-filter: blur(10px); display: flex; flex-direction: column; align-items: center; text-align: center; padding: 50px 30px; cursor: pointer; }
   
-  /* 🔴 修改：自動人臉置中 (Smart Portrait Alignment) */
   .member-image-wrap { width: 180px; height: 180px; border-radius: 50%; overflow: hidden; position: relative; border: 3px solid transparent; background: linear-gradient(135deg, #333, #111) padding-box, var(--brand-gradient) border-box; margin-bottom: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); transition: transform 0.4s; }
-  .member-img { 
-    width: 100%; height: 100%; 
-    object-fit: cover; 
-    /* 關鍵：將焦點設在上方 25%，通常是臉部位置 */
-    object-position: center 25%; 
-    filter: none; transition: transform 0.8s; 
-  }
+  .member-img { width: 100%; height: 100%; object-fit: cover; object-position: center 25%; filter: none; transition: transform 0.8s; }
   
   .member-info { width: 100%; }
   .member-name { font-family: var(--font-serif); font-size: 1.8rem; color: #fff; margin: 0 0 10px; font-weight: 700; letter-spacing: 1px; }
@@ -132,6 +151,7 @@
 
   @media (max-width: 768px) {
     .header { padding: 20px; } .nav { display: none; } 
+    .hamburger { display: flex; }
     .team-hero { padding-top: 140px; } .page-title { font-size: 3rem; }
     .footer h2 { font-size: 2.5rem; letter-spacing: 5px; }
     .member-card { max-width: 350px; margin: 0 auto; }
@@ -142,16 +162,27 @@
 
   <div class="page-transition-curtain"></div>
   <div class="cursor"></div>
+  
   <div class="loader">
     <img src="images/uploads/logo.png" class="loader-logo-img" alt="Uprise">
   </div>
+  
   <div class="ambient-light"><div class="ambient-blob"></div><div class="ambient-blob"></div></div>
   <div class="particles-container" id="particles"></div>
 
-  <!-- 極簡聲音按鈕 -->
   <div id="sound-btn" class="hover-trigger">
     <span class="sound-label">SOUND</span>
     <div class="sound-bars"><div class="sound-bar"></div><div class="sound-bar"></div><div class="sound-bar"></div><div class="sound-bar"></div></div>
+  </div>
+
+  <div class="mobile-menu" id="mobile-menu">
+    <nav class="mobile-nav">
+       <a href="index.html" class="mobile-nav-link page-link">首頁</a>
+       <a href="works.html" class="mobile-nav-link page-link">作品</a>
+       <a href="team.html" class="mobile-nav-link page-link">團隊</a>
+       <a href="about.html" class="mobile-nav-link page-link">關於</a>
+       <a href="contact.html" class="mobile-nav-link page-link">聯絡</a>
+    </nav>
   </div>
 
   <div id="main-wrapper">
@@ -168,6 +199,10 @@
         <a href="about.html" class="nav-item hover-trigger page-link"><span class="original-text">關於</span><span class="hover-text">關於</span></a>
         <a href="contact.html" class="nav-item hover-trigger page-link"><span class="original-text">聯絡</span><span class="hover-text">聯絡</span></a>
       </nav>
+
+      <div class="hamburger hover-trigger" id="hamburger-btn">
+        <span></span><span></span><span></span>
+      </div>
     </header>
 
     <main>
@@ -216,30 +251,8 @@
         AOS.init({ duration: 1000, easing: 'ease-out-cubic', once: false, mirror: true, offset: 50 });
       }, 2200);
 
-      // 1. 全站通用設定 (Logo & Favicon)
-      fetch('content/index.md')
-        .then(r => r.ok ? r.text() : Promise.reject())
-        .then(text => {
-          const parts = text.split('---');
-          const data = jsyaml.load(parts.length > 1 ? parts[1] : text);
-          let logoUrl = data.logo;
-          let faviconUrl = data.favicon || data.logo;
-
-          if(logoUrl) {
-            const navLogo = document.querySelector('.logo img');
-            if(navLogo) navLogo.src = logoUrl;
-            const loaderLogo = document.querySelector('.loader-logo-img');
-            if(loaderLogo) loaderLogo.src = logoUrl;
-          }
-          if(faviconUrl) {
-            const favicon = document.querySelector('link[rel="icon"]');
-            if(favicon) favicon.href = faviconUrl;
-          }
-        })
-        .catch(e => console.log("Global settings not found"));
-
-      // 2. 頁面資料
-      fetch('content/team.md')
+      // 🔴 讀取團隊資料 (加入 ?t= 防快取)
+      fetch('content/team.md?t=' + new Date().getTime())
         .then(r => r.ok ? r.text() : Promise.reject())
         .then(text => {
           const parts = text.split('---');
@@ -251,8 +264,36 @@
             renderTeam(fallbackData);
         });
 
-      initCursor(); initPageTransition(); createParticles(); initMagneticButtons(); initSoundToggle(); 
+      initCursor(); initPageTransition(); createParticles(); initMagneticButtons(); initSoundToggle(); initMenu();
     });
+
+    // 🔴 漢堡選單邏輯
+    function initMenu() {
+        const hamburger = document.getElementById('hamburger-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        if (hamburger && mobileMenu) {
+            hamburger.addEventListener('click', () => {
+                hamburger.classList.toggle('active');
+                mobileMenu.classList.toggle('active');
+            });
+            
+            document.querySelectorAll('.mobile-nav-link').forEach(link => {
+                link.addEventListener('click', () => {
+                    hamburger.classList.remove('active');
+                    mobileMenu.classList.remove('active');
+                });
+            });
+
+            // 點擊背景關閉
+            mobileMenu.addEventListener('click', (e) => {
+                if (e.target === mobileMenu || e.target.classList.contains('mobile-nav')) {
+                    hamburger.classList.remove('active');
+                    mobileMenu.classList.remove('active');
+                }
+            });
+        }
+    }
 
     function renderTeam(data) {
         if (data.title) document.getElementById('page-title').innerText = data.title;

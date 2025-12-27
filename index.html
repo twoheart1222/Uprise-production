@@ -6,18 +6,22 @@
 
 <title>推手影像製作有限公司 Uprise-Production | 敘事與美學的極致</title>
 
+<!-- Favicon (預設，JS 會自動讀取後台設定覆蓋) -->
 <link rel="icon" type="image/png" href="images/uploads/logo.png">
 
 <meta name="description" content="Uprise-Production 推手影像｜以極致的影像美學，探索品牌深度的敘事可能。">
 <link rel="canonical" href="https://www.uprise-videoproduction.com/index.html">
 
+<!-- Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Italiana&family=Noto+Sans+TC:wght@300;400;500;700;900&family=Noto+Serif+TC:wght@700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
+<!-- AOS Animation Library CSS -->
 <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
+<!-- Libraries -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
 
 <style>
@@ -182,15 +186,54 @@
   .logo { display: flex; align-items: center; gap: 12px; text-decoration: none; color: #fff; }
   .logo img { height: 38px; width: auto; transition: transform 0.5s; object-fit: contain; }
   .logo:hover img { transform: rotate(5deg) scale(1.05); }
-  .logo-text { font-family: var(--font-display); font-size: 1.2rem; letter-spacing: 2px; text-transform: uppercase; color: #fff; }
-  .logo-text span { color: var(--brand-light); }
   
+  /* 桌機版選單 */
   .nav { display: flex; gap: 30px; } 
   .nav-item { position: relative; overflow: hidden; height: 24px; cursor: pointer; display: block; color: rgba(255,255,255,0.8); font-family: var(--font-body); font-size: 0.95rem; letter-spacing: 2px; font-weight: 500; text-decoration: none; }
   .nav-item span { display: block; transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1); }
   .nav-item .hover-text { position: absolute; top: 100%; left: 0; width: 100%; color: var(--brand-light); }
   .nav-item:hover .original-text { transform: translateY(-100%); } .nav-item:hover .hover-text { transform: translateY(-100%); }
   .nav-item.active .original-text { color: var(--brand-light); }
+
+  /* 🔴 新增：漢堡選單按鈕 */
+  .hamburger {
+    display: none; /* 預設隱藏，手機版顯示 */
+    flex-direction: column; gap: 6px; cursor: pointer; z-index: 200; width: 30px;
+  }
+  .hamburger span {
+    width: 100%; height: 2px; background: #fff; transition: 0.3s;
+  }
+  /* 漢堡變形動畫 */
+  .hamburger.active span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+  .hamburger.active span:nth-child(2) { opacity: 0; }
+  .hamburger.active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+  /* 🔴 新增：手機版全螢幕選單 */
+  .mobile-menu {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(5, 5, 5, 0.98); 
+    backdrop-filter: blur(10px);
+    z-index: 150;
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
+    opacity: 0; pointer-events: none; /* 預設隱藏 */
+    transition: opacity 0.5s ease;
+  }
+  .mobile-menu.active { opacity: 1; pointer-events: all; }
+  
+  .mobile-nav-link {
+    font-family: var(--font-serif); font-size: 2rem; color: #fff; text-decoration: none;
+    margin: 15px 0; font-weight: 700; letter-spacing: 2px;
+    opacity: 0; transform: translateY(20px); transition: 0.5s;
+  }
+  .mobile-menu.active .mobile-nav-link { opacity: 1; transform: translateY(0); }
+  .mobile-nav-link:hover { color: var(--brand-light); }
+  /* 依序延遲進場 */
+  .mobile-menu.active .mobile-nav-link:nth-child(1) { transition-delay: 0.1s; }
+  .mobile-menu.active .mobile-nav-link:nth-child(2) { transition-delay: 0.2s; }
+  .mobile-menu.active .mobile-nav-link:nth-child(3) { transition-delay: 0.3s; }
+  .mobile-menu.active .mobile-nav-link:nth-child(4) { transition-delay: 0.4s; }
+  .mobile-menu.active .mobile-nav-link:nth-child(5) { transition-delay: 0.5s; }
+
 
   /* --- Hero Section --- */
   .hero {
@@ -425,9 +468,12 @@
     .bts-grid { grid-template-columns: repeat(3, 1fr); }
   }
   @media (max-width: 768px) {
+    /* 🔴 RWD 設定：隱藏桌機導覽，顯示漢堡選單 */
+    .nav { display: none; }
+    .hamburger { display: flex; }
+    
     .bts-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
     .header { padding: 20px; }
-    .nav { display: none; } 
     .hero-title { font-size: 3.5rem; }
     .hero-ctas { 
       flex-direction: row; 
@@ -437,7 +483,6 @@
     .card-number { font-size: 6rem; right: 10px; }
     .footer-watermark { font-size: 25vw; }
     .footer h2 { font-size: 2.5rem; letter-spacing: 5px; }
-    
     .scroll-indicator { bottom: 20px; gap: 8px; }
     .scroll-line { height: 30px; }
     .scroll-text { font-size: 0.7rem; }
@@ -483,6 +528,7 @@
   </div>
   <div class="particles-container" id="particles"></div>
 
+  <!-- 極簡聲音按鈕 -->
   <div id="sound-btn" class="sound-equalizer hover-trigger">
     <span class="sound-label">SOUND</span>
     <div class="sound-bars">
@@ -493,6 +539,17 @@
     </div>
   </div>
 
+  <!-- 🔴 新增：手機版選單 -->
+  <div class="mobile-menu" id="mobile-menu">
+    <nav class="mobile-nav">
+       <a href="index.html" class="mobile-nav-link page-link">首頁</a>
+       <a href="works.html" class="mobile-nav-link page-link">作品</a>
+       <a href="team.html" class="mobile-nav-link page-link">團隊</a>
+       <a href="about.html" class="mobile-nav-link page-link">關於</a>
+       <a href="contact.html" class="mobile-nav-link page-link">聯絡</a>
+    </nav>
+  </div>
+
   <div id="main-wrapper">
     <header class="header" id="header" data-aos="fade-down" data-aos-duration="1200" data-aos-delay="2200">
       <a href="index.html" class="logo hover-trigger">
@@ -500,6 +557,7 @@
         <span class="logo-text" style="display:none;">Uprise<span>.</span></span>
       </a>
       
+      <!-- 桌機版導覽列 -->
       <nav class="nav">
         <a href="index.html" class="nav-item hover-trigger page-link active">
             <span class="original-text">首頁</span><span class="hover-text">首頁</span>
@@ -517,6 +575,13 @@
             <span class="original-text">聯絡</span><span class="hover-text">聯絡</span>
         </a>
       </nav>
+
+      <!-- 🔴 新增：漢堡選單按鈕 -->
+      <div class="hamburger hover-trigger" id="hamburger-btn">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
     </header>
 
     <main>
@@ -527,6 +592,7 @@
         </div>
         <div class="particles-container" id="particles"></div>
         <div class="hero-content" id="hero-content">
+          <!-- AOS trigger for Hero Content -->
           <h1 class="hero-title" id="hero-title" data-aos="zoom-out" data-aos-duration="2000" data-aos-delay="1200">推手<span>影像</span></h1>
           <p class="hero-subtitle" id="hero-subtitle" data-aos="fade-up" data-aos-delay="2000">電影級影像製作團隊</p>
           <div class="hero-ctas" data-aos="fade-up" data-aos-delay="2200">
@@ -549,6 +615,7 @@
         <div class="services-grid" id="services-grid"></div>
       </section>
 
+      <!-- 工作花絮區塊 -->
       <section class="bts-section">
         <div class="section-header" data-aos="fade-up" data-aos-duration="1000">
           <h2 class="section-title">工作花絮</h2>
@@ -567,7 +634,7 @@
           我們不僅是影像的製造者，更是品牌價值的推動者。<br>
           致力於將抽象的意念，轉化為具象的視覺衝擊。<br>
           從腳本企劃、電影級拍攝到後期特效，<br>
-          推手影像以極致的職人精神，訴說著每一個值得被看見的故事。
+          推手影像以極致的職人精神，訴說每一個值得被看見的故事。
         </p>
         <div class="copyright">
           Copyright © 2025 推手影像製作有限公司 Uprise-Production. All rights reserved.<br>
@@ -577,6 +644,7 @@
     </footer>
   </div>
 
+  <!-- AOS Script -->
   <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 
   <script>
@@ -615,13 +683,12 @@
         }
     }
 
-    // 預設資料 (Fallback) - 用於無網路或 CMS 故障時
+    // 預設資料 (Fallback)
     const fallbackData = {
       // 增加 Logo 欄位預設值
       logo: "images/uploads/logo.png",
       video: "https://res.cloudinary.com/dfnfcyglu/video/upload/v1763893930/hero_bg_ickrbe.mp4",
       hero_video_mobile: "https://res.cloudinary.com/dfnfcyglu/video/upload/v1763893930/hero_bg_ickrbe.mp4", 
-      hero_text: "推手<span>影像</span>", // 預設主標題
       services: [
         {
           title: "商業/品牌形象廣告",
@@ -640,12 +707,12 @@
         }
       ],
       behind_the_scenes: [
-        { image: "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", caption: "拍攝現場" },
-        { image: "https://images.unsplash.com/photo-1598550476439-6847785fcea6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", caption: "燈光設定" },
-        { image: "https://images.unsplash.com/photo-1533561098733-722129d2b276?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", caption: "導演指導" },
-        { image: "https://images.unsplash.com/photo-1585644198306-399564c7b275?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", caption: "後期製作" },
-        { image: "https://images.unsplash.com/photo-1521791136064-7986c2920216?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", caption: "團隊合作" },
-        { image: "https://images.unsplash.com/photo-1626814026160-2237a95fc5a0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", caption: "攝影機操作" }
+        { image: "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" },
+        { image: "https://images.unsplash.com/photo-1598550476439-6847785fcea6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" },
+        { image: "https://images.unsplash.com/photo-1533561098733-722129d2b276?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" },
+        { image: "https://images.unsplash.com/photo-1585644198306-399564c7b275?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" },
+        { image: "https://images.unsplash.com/photo-1521791136064-7986c2920216?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" },
+        { image: "https://images.unsplash.com/photo-1626814026160-2237a95fc5a0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" }
       ]
     };
 
@@ -658,7 +725,7 @@
         document.querySelector('.page-transition-curtain').classList.add('reveal');
         document.body.classList.remove('loading-state');
         document.body.classList.add('loaded-state');
-        // 🔴 關鍵修復：手動加入 .loaded 類別，讓 CSS 中的 .scroll-indicator 顯示
+        // 關鍵修復：手動加入 .loaded 類別，讓 CSS 中的 .scroll-indicator 顯示
         document.body.classList.add('loaded');
         
         // 確保遮罩移除後才初始化 AOS
@@ -706,6 +773,26 @@
       initPageTransition();
       initSoundToggle();
       
+      // 🔴 漢堡選單邏輯
+      const hamburger = document.getElementById('hamburger-btn');
+      const mobileMenu = document.getElementById('mobile-menu');
+      
+      if(hamburger && mobileMenu) {
+        hamburger.addEventListener('click', () => {
+           hamburger.classList.toggle('active');
+           mobileMenu.classList.toggle('active');
+        });
+        
+        // 點擊選單連結後自動關閉選單
+        const mobileLinks = document.querySelectorAll('.mobile-nav-link');
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                mobileMenu.classList.remove('active');
+            });
+        });
+      }
+      
       const scrollBtn = document.getElementById('scroll-btn');
       if (scrollBtn) {
         scrollBtn.addEventListener('click', () => {
@@ -715,11 +802,7 @@
     });
 
     function initPage(data) {
-      // 1. 更新標題與 Logo
-      if(data.title) {
-          document.title = data.title;
-      }
-
+      // 1. 更新 Logo 與 Favicon (動態讀取)
       let logoUrl = data.logo;
       let faviconUrl = data.favicon || data.logo; // 如果沒有 Favicon，就用 Logo
 
@@ -735,15 +818,8 @@
           if(favicon) favicon.href = faviconUrl;
       }
 
-      // 2. 更新 Hero 文字 (支援 HTML，例如 <span>)
-      if (data.hero_text) {
-          const heroTitle = document.getElementById('hero-title');
-          if(heroTitle) heroTitle.innerHTML = data.hero_text;
-      }
-
       updateVideoSource();
 
-      // 3. 更新服務項目
       const grid = document.getElementById('services-grid');
       grid.innerHTML = '';
       const services = data.services || fallbackData.services;
@@ -790,7 +866,6 @@
         grid.appendChild(card);
       });
 
-      // 4. 更新工作花絮 (Visual Work Gallery)
       const btsGrid = document.getElementById('bts-grid');
       btsGrid.innerHTML = '';
       const btsData = data.behind_the_scenes || fallbackData.behind_the_scenes;
@@ -803,9 +878,7 @@
           btsItem.setAttribute('data-aos', 'zoom-in');
           btsItem.setAttribute('data-aos-delay', index * 100);
           
-          // 使用 item.caption 做為圖片描述 (alt 和 title)
-          const caption = item.caption || "工作花絮";
-          btsItem.innerHTML = `<img src="${item.image}" alt="${caption}" title="${caption}">`;
+          btsItem.innerHTML = `<img src="${item.image}" alt="BTS">`;
           btsGrid.appendChild(btsItem);
         });
       }

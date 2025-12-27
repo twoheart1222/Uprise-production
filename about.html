@@ -8,14 +8,10 @@
 
 <link rel="icon" type="image/png" href="images/uploads/logo.png">
 
-<meta name="description" content="Uprise-Production 推手影像｜以極致的影像美學，探索品牌深度的敘事可能。">
-<link rel="canonical" href="https://www.uprise-videoproduction.com/about.html">
-
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Italiana&family=Noto+Sans+TC:wght@300;400;500;700;900&family=Noto+Serif+TC:wght@700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
 <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
@@ -33,7 +29,6 @@
     --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
     --ease-cinematic: cubic-bezier(0.22, 1, 0.36, 1);
   }
-
   * { box-sizing: border-box; cursor: none; }
   html { scroll-behavior: smooth; }
   ::-webkit-scrollbar { width: 5px; }
@@ -62,7 +57,7 @@
   .cursor { position: fixed; top: 0; left: 0; width: 12px; height: 12px; background: var(--brand-light); border-radius: 50%; pointer-events: none; z-index: 2147483647; transform: translate(-50%, -50%); box-shadow: 0 0 15px rgba(255, 215, 0, 0.9); transition: width 0.3s, height 0.3s; will-change: transform; }
   body.hovered .cursor { width: 60px; height: 60px; background: rgba(255, 215, 0, 0.05); border: 1px solid rgba(255, 215, 0, 0.8); box-shadow: 0 0 30px rgba(255, 215, 0, 0.4); }
   body.clicking .cursor { transform: translate(-50%, -50%) scale(0.9); background: var(--brand-primary); }
-
+  
   /* 環境 */
   .ambient-light { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; overflow: hidden; }
   .ambient-blob { position: absolute; width: 900px; height: 900px; background: radial-gradient(circle, rgba(255, 140, 0, 0.04) 0%, transparent 60%); border-radius: 50%; filter: blur(80px); opacity: 0.5; animation: moveBlob 25s infinite alternate ease-in-out; }
@@ -81,9 +76,9 @@
   .nav { display: flex; gap: 30px; } 
   .nav-item { position: relative; overflow: hidden; height: 24px; cursor: pointer; display: block; color: rgba(255,255,255,0.8); font-family: var(--font-body); font-size: 0.95rem; letter-spacing: 2px; font-weight: 500; text-decoration: none; }
   .nav-item span.original-text { display: block; transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1); }
-  .nav-item span.hover-text { position: absolute; top: 100%; left: 0; width: 100%; color: var(--brand-light); transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1); white-space: nowrap; }
-  .nav-item:hover span.original-text { transform: translateY(-100%); } .nav-item:hover span.hover-text { transform: translateY(-100%); }
-  .nav-item.active span.original-text { color: var(--brand-light); }
+  .nav-item span.hover-text { position: absolute; top: 100%; left: 0; width: 100%; color: var(--brand-light); }
+  .nav-item:hover .original-text { transform: translateY(-100%); } .nav-item:hover .hover-text { transform: translateY(-100%); }
+  .nav-item.active .original-text { color: var(--brand-light); }
 
   /* 漢堡選單 */
   .hamburger { display: none; flex-direction: column; gap: 6px; cursor: pointer; z-index: 200; width: 30px; }
@@ -92,7 +87,7 @@
   .hamburger.active span:nth-child(2) { opacity: 0; }
   .hamburger.active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
 
-  /* 手機版選單 */
+  /* 手機版選單 (直式) */
   .mobile-menu {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
     background: rgba(5, 5, 5, 0.98); backdrop-filter: blur(10px); z-index: 150;
@@ -183,11 +178,9 @@
 
   <div class="page-transition-curtain"></div>
   <div class="cursor"></div>
-  
   <div class="loader">
     <img src="images/uploads/logo.png" class="loader-logo-img" alt="Uprise">
   </div>
-  
   <div class="ambient-light"><div class="ambient-blob"></div><div class="ambient-blob"></div></div>
   <div class="particles-container" id="particles"></div>
 
@@ -234,13 +227,13 @@
         <div class="title-divider" data-aos="fade" data-aos-delay="800"></div>
       </section>
 
-      <div id="values-section" class="section-block"></div>
-
-      <div id="process-section" class="section-block"></div>
-
       <div id="cms-body" class="cms-content">
         <p style="text-align:center; color:#666;">Loading Content...</p>
       </div>
+
+      <div id="process-section" class="section-block"></div>
+
+      <div id="values-section" class="section-block"></div>
     </main>
 
     <footer>
@@ -281,11 +274,10 @@
           const parts = text.split('---');
           const data = jsyaml.load(parts.length > 1 ? parts[1] : text);
           
-          // 基本資料
           if(data.title) document.getElementById('page-title').innerText = data.title;
           if(data.subtitle) document.getElementById('page-subtitle').innerText = data.subtitle;
           
-          // 渲染內文 Markdown
+          // 渲染 Markdown
           if(parts.length > 2) {
               const converter = new showdown.Converter({ simpleLineBreaks: true });
               const html = converter.makeHtml(parts.slice(2).join('---'));
@@ -301,7 +293,7 @@
             renderPage(fallbackData, null, true);
         });
 
-      // 讀取 Logo (from index.md)
+      // 讀取 Logo from index.md
       fetch('content/index.md?t=' + new Date().getTime())
         .then(r => r.ok ? r.text() : Promise.reject())
         .then(text => {
@@ -315,7 +307,7 @@
       initCursor(); initPageTransition(); createParticles(); initSoundToggle(); initMenu();
     });
 
-    // 🔴 漢堡選單邏輯
+    // 漢堡選單邏輯
     function initMenu() {
         const hamburger = document.getElementById('hamburger-btn');
         const mobileMenu = document.getElementById('mobile-menu');
@@ -339,9 +331,10 @@
         }
     }
 
-    function renderPage(data, parts, isFallback = false) {
-        // Values
+    function renderPage(data) {
+        // 渲染 核心價值
         const valuesSection = document.getElementById('values-section');
+        // 檢查是否有 values_list 資料，如果沒有就隱藏
         if (data.values_list && data.values_list.length > 0) {
             let html = '<h2 class="block-title" data-aos="fade-up">核心價值</h2><div class="values-grid">';
             data.values_list.forEach((v, i) => {
@@ -350,9 +343,11 @@
             });
             html += '</div>';
             valuesSection.innerHTML = html;
+        } else {
+            valuesSection.innerHTML = ''; // 清空
         }
 
-        // Process
+        // 渲染 服務流程
         const processSection = document.getElementById('process-section');
         if (data.process_list && data.process_list.length > 0) {
             let html = '<h2 class="block-title" data-aos="fade-up">服務流程</h2><div class="process-list">';
@@ -361,7 +356,10 @@
             });
             html += '</div>';
             processSection.innerHTML = html;
+        } else {
+            processSection.innerHTML = '';
         }
+        
         setTimeout(() => AOS.refresh(), 100);
     }
 
@@ -373,7 +371,7 @@
         container.querySelectorAll('img').forEach(el => { el.setAttribute('data-aos', 'zoom-in-up'); el.setAttribute('data-aos-duration', '1200'); });
         setTimeout(() => { AOS.refresh(); }, 100);
     }
-
+    
     function initCursor() { if (window.matchMedia("(pointer: fine)").matches) { const cursor = document.querySelector('.cursor'); let mouseX=0, mouseY=0, cursorX=0, cursorY=0; document.addEventListener('mousemove', e => { mouseX=e.clientX; mouseY=e.clientY; }); document.addEventListener('mousedown', () => document.body.classList.add('clicking')); document.addEventListener('mouseup', () => document.body.classList.remove('clicking')); function animate() { cursorX+=(mouseX-cursorX)*0.5; cursorY+=(mouseY-cursorY)*0.5; cursor.style.transform=`translate(${cursorX}px, ${cursorY}px) translate(-50%, -50%)`; requestAnimationFrame(animate); } animate(); document.body.addEventListener('mouseenter', e=>{ if(e.target.closest('.hover-trigger')) document.body.classList.add('hovered'); }, true); document.body.addEventListener('mouseleave', e=>{ if(e.target.closest('.hover-trigger')) document.body.classList.remove('hovered'); }, true); } }
     function createParticles() { const container = document.getElementById('particles'); if(!container) return; for (let i = 0; i < 20; i++) { const p = document.createElement('div'); p.classList.add('particle'); const size = Math.random() * 3 + 1 + 'px'; p.style.width = size; p.style.height = size; p.style.left = Math.random() * 100 + '%'; p.style.top = Math.random() * 100 + '%'; p.style.animationDelay = Math.random() * 5 + 's'; p.style.animationDuration = Math.random() * 10 + 10 + 's'; container.appendChild(p); } }
     function initPageTransition() { const links = document.querySelectorAll('.page-link'); const curtain = document.querySelector('.page-transition-curtain'); links.forEach(link => { link.addEventListener('click', (e) => { e.preventDefault(); const href = link.getAttribute('href'); curtain.classList.remove('reveal'); curtain.classList.add('cover'); setTimeout(() => { window.location.href = href; }, 800); }); }); }

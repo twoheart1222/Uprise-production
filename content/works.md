@@ -57,7 +57,4 @@ portfolio_other:
   - title: 台中立委參選人江肇國政策宣傳影片
     client: 台中立委參選人江肇國
     link: https://youtu.be/vXgXWo_2u-s
-  - title: test
-    client: test
-    link: https://www.youtube.com/watch?v=4j0hzu2zTmg
 ---

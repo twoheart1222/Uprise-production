@@ -6,398 +6,159 @@
 
 <title>關於我們 | 推手影像製作有限公司 Uprise-Production</title>
 
-<!-- 瀏覽器標籤 Logo (預設) -->
 <link rel="icon" type="image/png" href="images/uploads/logo.png">
 
 <meta name="description" content="Uprise-Production 推手影像｜以極致的影像美學，探索品牌深度的敘事可能。">
 <link rel="canonical" href="https://www.uprise-videoproduction.com/about.html">
 
-<!-- Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Italiana&family=Noto+Sans+TC:wght@300;400;500;700;900&family=Noto+Serif+TC:wght@700;900&display=swap" rel="stylesheet">
-<!-- FontAwesome -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-<!-- AOS Animation Library CSS -->
 <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
-<!-- Libraries -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/2.1.0/showdown.min.js"></script>
 
 <style>
-  /* --- 核心變數 (統一風格) --- */
+  /* --- 核心變數 --- */
   :root { 
-    --bg-color: #050505;       
-    --card-bg: rgba(20, 20, 20, 0.4); 
-    --text-main: #FFFFFF;      
-    --text-sub: #B0B0B0;       
-    --brand-primary: #FF8C00;  
-    --brand-light: #FFD700;    
+    --bg-color: #050505; --card-bg: rgba(20, 20, 20, 0.4); 
+    --text-main: #FFFFFF; --text-sub: #B0B0B0; 
+    --brand-primary: #FF8C00; --brand-light: #FFD700; 
     --brand-gradient: linear-gradient(135deg, #FFD700, #FF8C00);
     --silver-gradient: linear-gradient(to bottom, #ffffff 40%, #a0a0a0 100%);
-    
-    --font-display: 'Italiana', serif;
-    --font-body: 'Noto Sans TC', sans-serif;
-    --font-serif: 'Noto Serif TC', serif;
-    
+    --font-display: 'Italiana', serif; --font-body: 'Noto Sans TC', sans-serif; --font-serif: 'Noto Serif TC', serif;
     --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
     --ease-cinematic: cubic-bezier(0.22, 1, 0.36, 1);
   }
 
   * { box-sizing: border-box; cursor: none; }
-
   html { scroll-behavior: smooth; }
-
   ::-webkit-scrollbar { width: 5px; }
   ::-webkit-scrollbar-track { background: #000; }
   ::-webkit-scrollbar-thumb { background: #444; border-radius: 10px; }
   ::-webkit-scrollbar-thumb:hover { background: var(--brand-primary); }
-
   ::selection { background: var(--brand-light); color: #000; }
+  body { margin: 0; padding: 0; font-family: var(--font-body); background-color: var(--bg-color); color: var(--text-main); overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+  img { -webkit-user-drag: none; pointer-events: none; }
 
-  body {
-    margin: 0; padding: 0;
-    font-family: var(--font-body);
-    background-color: var(--bg-color);
-    color: var(--text-main);
-    overflow-x: hidden;
-    -webkit-font-smoothing: antialiased;
-  }
-
-  /* 禁止圖片拖曳 (防盜) */
-  img {
-    -webkit-user-drag: none;
-    -khtml-user-drag: none;
-    -moz-user-drag: none;
-    -o-user-drag: none;
-    pointer-events: none;
-  }
-
-  /* --- 轉場與載入 --- */
-  #main-wrapper {
-    transition: filter 0.6s ease, transform 0.6s ease;
-    width: 100%; position: relative; z-index: 1; 
-  }
-  body.exiting #main-wrapper { filter: blur(10px) brightness(0.8); transform: scale(0.98); pointer-events: none; }
-  body.loading-state #main-wrapper { filter: blur(20px); opacity: 0; }
-  body.loaded-state #main-wrapper { filter: blur(0); opacity: 1; transform: scale(1); }
-
-  .page-transition-curtain {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: #000; z-index: 100000; transform: translateY(0);
-    transition: transform 1s cubic-bezier(0.87, 0, 0.13, 1); pointer-events: none;
-  }
+  /* 載入動畫 */
+  .page-transition-curtain { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 100000; transform: translateY(0); transition: transform 1s cubic-bezier(0.87, 0, 0.13, 1); pointer-events: none; }
   .page-transition-curtain.reveal { transform: translateY(-100%); } 
   .page-transition-curtain.cover { transform: translateY(0); }
-
-  .loader {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: #000; z-index: 200000; 
-    display: flex; justify-content: center; align-items: center;
-    transition: opacity 0.8s ease, visibility 0.8s;
-  }
+  .loader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 200000; display: flex; justify-content: center; align-items: center; transition: opacity 0.8s ease, visibility 0.8s; }
   .loader.hidden { opacity: 0; visibility: hidden; }
-  
-  /* Logo 電影感聚焦動畫 */
-  .loader-logo-img {
-    width: auto;
-    height: 90px; 
-    max-width: 80vw;
-    object-fit: contain;
-    opacity: 0;
-    transform: scale(0.8);
-    filter: blur(10px);
-    animation: cinematicLogoReveal 2.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-  }
-  
+  .loader-logo-img { width: auto; height: 90px; max-width: 80vw; object-fit: contain; opacity: 0; transform: scale(0.8); filter: blur(10px); animation: cinematicLogoReveal 2.5s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
   @keyframes cinematicLogoReveal { 
-    0% { 
-      opacity: 0; 
-      transform: scale(0.8) translateY(10px);
-      filter: blur(10px) brightness(0.5);
-    } 
-    30% { 
-      opacity: 1; 
-      transform: scale(1) translateY(0);
-      filter: blur(0px) brightness(1);
-    }
-    70% {
-      opacity: 1;
-      transform: scale(1.05); /* 微幅呼吸放大 */
-      filter: blur(0px) brightness(1.1) drop-shadow(0 0 15px rgba(255, 215, 0, 0.6)); 
-    }
-    100% { 
-      opacity: 0; 
-      transform: scale(1.15) translateY(-5px);
-      filter: blur(5px) brightness(1.5); /* 結尾淡出時稍微模糊 */
-    } 
+    0% { opacity: 0; transform: scale(0.8) translateY(10px); filter: blur(10px) brightness(0.5); } 
+    30% { opacity: 1; transform: scale(1) translateY(0); filter: blur(0px) brightness(1); }
+    70% { opacity: 1; transform: scale(1.05); filter: blur(0px) brightness(1.1) drop-shadow(0 0 15px rgba(255, 215, 0, 0.6)); }
+    100% { opacity: 0; transform: scale(1.15) translateY(-5px); filter: blur(5px) brightness(1.5); } 
   }
 
   /* 游標 */
-  .cursor {
-    position: fixed; top: 0; left: 0; width: 12px; height: 12px;
-    background: var(--brand-light); border-radius: 50%; pointer-events: none; 
-    z-index: 2147483647; transform: translate(-50%, -50%);
-    box-shadow: 0 0 15px rgba(255, 215, 0, 0.9);
-    transition: width 0.3s, height 0.3s; will-change: transform;
-  }
-  body.hovered .cursor {
-    width: 60px; height: 60px; background: rgba(255, 215, 0, 0.05);
-    border: 1px solid rgba(255, 215, 0, 0.8); box-shadow: 0 0 30px rgba(255, 215, 0, 0.4);
-  }
+  .cursor { position: fixed; top: 0; left: 0; width: 12px; height: 12px; background: var(--brand-light); border-radius: 50%; pointer-events: none; z-index: 2147483647; transform: translate(-50%, -50%); box-shadow: 0 0 15px rgba(255, 215, 0, 0.9); transition: width 0.3s, height 0.3s; will-change: transform; }
+  body.hovered .cursor { width: 60px; height: 60px; background: rgba(255, 215, 0, 0.05); border: 1px solid rgba(255, 215, 0, 0.8); box-shadow: 0 0 30px rgba(255, 215, 0, 0.4); }
   body.clicking .cursor { transform: translate(-50%, -50%) scale(0.9); background: var(--brand-primary); }
 
-  /* 環境特效 */
-  .ambient-light {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    pointer-events: none; z-index: 0; overflow: hidden;
-  }
-  .ambient-blob {
-    position: absolute; width: 900px; height: 900px;
-    background: radial-gradient(circle, rgba(255, 140, 0, 0.04) 0%, transparent 60%);
-    border-radius: 50%; filter: blur(80px); opacity: 0.5;
-    animation: moveBlob 25s infinite alternate ease-in-out;
-  }
-  .ambient-blob:nth-child(1) { top: -20%; left: -10%; animation-delay: 0s; }
-  .ambient-blob:nth-child(2) { bottom: -20%; right: -10%; animation-duration: 35s; animation-direction: reverse; }
+  /* 環境 */
+  .ambient-light { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; overflow: hidden; }
+  .ambient-blob { position: absolute; width: 900px; height: 900px; background: radial-gradient(circle, rgba(255, 140, 0, 0.04) 0%, transparent 60%); border-radius: 50%; filter: blur(80px); opacity: 0.5; animation: moveBlob 25s infinite alternate ease-in-out; }
+  .ambient-blob:nth-child(1) { top: -20%; left: -10%; } .ambient-blob:nth-child(2) { bottom: -20%; right: -10%; }
   @keyframes moveBlob { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(50px, 50px) scale(1.1); } }
-
   .particles-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 2; pointer-events: none; overflow: hidden; }
-  .particle {
-    position: absolute; background: radial-gradient(circle, var(--brand-light) 0%, transparent 70%);
-    border-radius: 50%; opacity: 0; animation: floatParticle 10s infinite ease-in-out;
-  }
-  @keyframes floatParticle {
-    0% { transform: translateY(0) translateX(0); opacity: 0; }
-    20% { opacity: 0.6; } 80% { opacity: 0.6; }
-    100% { transform: translateY(-120px) translateX(30px); opacity: 0; }
-  }
+  .particle { position: absolute; background: radial-gradient(circle, var(--brand-light) 0%, transparent 70%); border-radius: 50%; opacity: 0; animation: floatParticle 10s infinite ease-in-out; }
+  @keyframes floatParticle { 0% { transform: translateY(0) translateX(0); opacity: 0; } 20% { opacity: 0.6; } 80% { opacity: 0.6; } 100% { transform: translateY(-120px) translateX(30px); opacity: 0; } }
 
-  /* 聲音按鈕 */
-  #sound-btn {
-    position: fixed; bottom: 40px; right: 40px; z-index: 9000;
-    display: none; gap: 8px; align-items: flex-end; height: 24px;
-    cursor: pointer; background: transparent; border: none; padding: 5px; width: auto;
-  }
-  #sound-btn:hover { transform: scale(1.1); }
-  .sound-label { font-family: var(--font-body); font-size: 0.75rem; letter-spacing: 2px; color: rgba(255,255,255,0.7); font-weight: 500; margin-right: 5px; margin-bottom: 2px; }
-  .sound-bar { width: 3px; background-color: #fff; opacity: 0.8; border-radius: 2px; height: 3px; transition: height 0.3s, background-color 0.3s; }
-  #sound-btn.is-playing .sound-bar { background-color: var(--brand-light); animation: soundWaveAnim 1s ease-in-out infinite; }
-  #sound-btn.is-playing .sound-label { color: var(--brand-light); }
-  #sound-btn.is-playing .sound-bar:nth-child(1) { animation-delay: 0.0s; }
-  #sound-btn.is-playing .sound-bar:nth-child(2) { animation-delay: 0.2s; }
-  #sound-btn.is-playing .sound-bar:nth-child(3) { animation-delay: 0.4s; }
-  #sound-btn.is-playing .sound-bar:nth-child(4) { animation-delay: 0.1s; }
-  @keyframes soundWaveAnim { 0% { height: 3px; } 50% { height: 20px; } 100% { height: 3px; } }
-
-  /* --- 導覽列 --- */
-  .header {
-    position: fixed; top: 0; left: 0; width: 100%; padding: 30px 50px;
-    display: flex; justify-content: space-between; align-items: center;
-    z-index: 100; background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent); 
-    transition: all 0.5s;
-  }
-  .header.scrolled { 
-    background: rgba(5, 5, 5, 0.9); backdrop-filter: blur(20px); 
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding: 20px 50px;
-  }
+  /* 導覽列 */
+  .header { position: fixed; top: 0; left: 0; width: 100%; padding: 30px 50px; display: flex; justify-content: space-between; align-items: center; z-index: 100; background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent); transition: all 0.5s; }
+  .header.scrolled { background: rgba(5, 5, 5, 0.9); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding: 20px 50px; }
   .logo { display: flex; align-items: center; gap: 12px; text-decoration: none; color: #fff; }
   .logo img { height: 38px; width: auto; transition: transform 0.5s; object-fit: contain; }
   .logo:hover img { transform: rotate(5deg) scale(1.05); }
-  .logo-text { font-family: var(--font-display); font-size: 1.2rem; letter-spacing: 2px; text-transform: uppercase; color: #fff; }
-  .logo-text span { color: var(--brand-light); }
-  
   .nav { display: flex; gap: 30px; } 
   .nav-item { position: relative; overflow: hidden; height: 24px; cursor: pointer; display: block; color: rgba(255,255,255,0.8); font-family: var(--font-body); font-size: 0.95rem; letter-spacing: 2px; font-weight: 500; text-decoration: none; }
   .nav-item span.original-text { display: block; transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1); }
   .nav-item span.hover-text { position: absolute; top: 100%; left: 0; width: 100%; color: var(--brand-light); transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1); white-space: nowrap; }
-  .nav-item:hover span.original-text { transform: translateY(-100%); }
-  .nav-item:hover span.hover-text { transform: translateY(-100%); }
+  .nav-item:hover span.original-text { transform: translateY(-100%); } .nav-item:hover span.hover-text { transform: translateY(-100%); }
   .nav-item.active span.original-text { color: var(--brand-light); }
 
-  /* --- 關於頁面 Header (Cinematic) --- */
-  .about-hero {
-    padding-top: 180px; padding-bottom: 80px; text-align: center;
-    position: relative; z-index: 10;
-  }
-  .page-label {
-    font-family: var(--font-display); font-size: 0.9rem; letter-spacing: 4px;
-    color: var(--brand-light); margin-bottom: 20px; display: block;
-  }
-  .page-title {
-    font-family: var(--font-serif); font-size: clamp(3rem, 8vw, 5rem);
-    font-weight: 900; color: #fff; line-height: 1.1; margin: 0 0 20px;
-    background: var(--brand-gradient); 
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-    filter: drop-shadow(0 0 30px rgba(255, 140, 0, 0.5));
-    /* 電影字卡效果 */
-    letter-spacing: 10px; opacity: 0; transform: scale(1.1); filter: blur(5px);
-    transition: all 1.5s var(--ease-cinematic);
-  }
-  /* AOS 觸發後的狀態 */
-  .page-title.aos-animate {
-    opacity: 1; letter-spacing: 0; transform: scale(1); filter: blur(0);
-  }
+  /* 漢堡選單 */
+  .hamburger { display: none; flex-direction: column; gap: 6px; cursor: pointer; z-index: 200; width: 30px; }
+  .hamburger span { width: 100%; height: 2px; background: #fff; transition: 0.3s; }
+  .hamburger.active span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+  .hamburger.active span:nth-child(2) { opacity: 0; }
+  .hamburger.active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
 
-  .page-subtitle {
-    font-family: var(--font-body); font-size: 1.1rem; color: rgba(255,255,255,0.7);
-    max-width: 600px; margin: 0 auto; line-height: 1.8; letter-spacing: 1px;
+  /* 手機版選單 */
+  .mobile-menu {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(5, 5, 5, 0.98); backdrop-filter: blur(10px); z-index: 150;
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
+    opacity: 0; pointer-events: none; transition: opacity 0.5s ease;
   }
-  
-  /* 分隔線動畫：從中心展開 */
-  .title-divider {
-    width: 0; /* 初始寬度 */
-    height: 3px; background: var(--brand-gradient);
-    margin: 40px auto 0; border-radius: 2px;
-    transition: width 1.2s var(--ease-cinematic);
+  .mobile-menu.active { opacity: 1; pointer-events: all; }
+  .mobile-nav { display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 30px; width: 100%; }
+  .mobile-nav-link {
+    font-family: var(--font-serif); font-size: 2rem; color: #fff; text-decoration: none;
+    margin: 0; font-weight: 700; letter-spacing: 2px;
+    opacity: 0; transform: translateY(20px); transition: 0.5s; white-space: nowrap;
   }
+  .mobile-menu.active .mobile-nav-link { opacity: 1; transform: translateY(0); }
+  .mobile-nav-link:hover { color: var(--brand-light); }
+  .mobile-menu.active .mobile-nav-link:nth-child(1) { transition-delay: 0.1s; }
+  .mobile-menu.active .mobile-nav-link:nth-child(2) { transition-delay: 0.2s; }
+  .mobile-menu.active .mobile-nav-link:nth-child(3) { transition-delay: 0.3s; }
+  .mobile-menu.active .mobile-nav-link:nth-child(4) { transition-delay: 0.4s; }
+  .mobile-menu.active .mobile-nav-link:nth-child(5) { transition-delay: 0.5s; }
+
+  /* About Pages Styles */
+  .about-hero { padding-top: 180px; padding-bottom: 80px; text-align: center; position: relative; z-index: 10; }
+  .page-label { font-family: var(--font-display); font-size: 0.9rem; letter-spacing: 4px; color: var(--brand-light); margin-bottom: 20px; display: block; }
+  .page-title { font-family: var(--font-serif); font-size: clamp(3rem, 8vw, 5rem); font-weight: 900; color: #fff; line-height: 1.1; margin: 0 0 20px; background: var(--brand-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 0 30px rgba(255, 140, 0, 0.5)); letter-spacing: 10px; opacity: 0; transform: scale(1.1); filter: blur(5px); transition: all 1.5s var(--ease-cinematic); }
+  .page-title.aos-animate { opacity: 1; letter-spacing: 0; transform: scale(1); filter: blur(0); }
+  .page-subtitle { font-family: var(--font-body); font-size: 1.1rem; color: rgba(255,255,255,0.7); max-width: 600px; margin: 0 auto; line-height: 1.8; letter-spacing: 1px; }
+  .title-divider { width: 0; height: 3px; background: var(--brand-gradient); margin: 40px auto 0; border-radius: 2px; transition: width 1.2s var(--ease-cinematic); }
   .title-divider.aos-animate { width: 80px; }
 
-  /* --- 核心價值與服務流程樣式 --- */
-  .section-block {
-    max-width: 1200px; margin: 0 auto 100px; padding: 0 40px; position: relative; z-index: 10;
-  }
-  .block-title {
-    font-family: var(--font-serif); font-size: 2rem; margin-bottom: 50px; color: #fff;
-    text-align: center; position: relative;
-  }
-  .block-title::after {
-    content: ''; display: block; width: 40px; height: 2px; background: var(--brand-primary);
-    margin: 20px auto 0;
-  }
+  /* Content Blocks */
+  .section-block { max-width: 1200px; margin: 0 auto 100px; padding: 0 40px; position: relative; z-index: 10; }
+  .block-title { font-family: var(--font-serif); font-size: 2rem; margin-bottom: 50px; color: #fff; text-align: center; position: relative; }
+  .block-title::after { content: ''; display: block; width: 40px; height: 2px; background: var(--brand-primary); margin: 20px auto 0; }
 
-  /* 核心價值 (Grid) */
-  .values-grid {
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 40px;
-  }
-  .value-card {
-    background: var(--card-bg); border: 1px solid rgba(255,255,255,0.08);
-    padding: 40px 30px; border-radius: 8px; text-align: center;
-    transition: 0.5s; backdrop-filter: blur(10px);
-  }
-  .value-card:hover {
-    transform: translateY(-10px); background: rgba(30,30,30,0.8);
-    border-color: var(--brand-primary);
-  }
+  /* Values Grid */
+  .values-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 40px; }
+  .value-card { background: var(--card-bg); border: 1px solid rgba(255,255,255,0.08); padding: 40px 30px; border-radius: 8px; text-align: center; transition: 0.5s; backdrop-filter: blur(10px); }
+  .value-card:hover { transform: translateY(-10px); background: rgba(30,30,30,0.8); border-color: var(--brand-primary); }
   .value-icon { font-size: 3rem; color: var(--brand-light); margin-bottom: 20px; }
   .value-title { font-family: var(--font-serif); font-size: 1.5rem; color: #fff; margin-bottom: 15px; }
   .value-desc { color: #aaa; line-height: 1.6; }
 
-  /* 服務流程 (Steps) */
-  .process-list {
-    display: flex; flex-direction: column; gap: 30px; max-width: 800px; margin: 0 auto;
-  }
-  .process-item {
-    display: flex; gap: 30px; align-items: flex-start;
-    padding: 30px; background: rgba(255,255,255,0.03); border-radius: 8px;
-    border-left: 4px solid var(--brand-primary);
-    transition: 0.3s;
-  }
+  /* Process List */
+  .process-list { display: flex; flex-direction: column; gap: 30px; max-width: 800px; margin: 0 auto; }
+  .process-item { display: flex; gap: 30px; align-items: flex-start; padding: 30px; background: rgba(255,255,255,0.03); border-radius: 8px; border-left: 4px solid var(--brand-primary); transition: 0.3s; }
   .process-item:hover { background: rgba(255,255,255,0.05); transform: translateX(10px); }
-  .step-num {
-    font-family: var(--font-display); font-size: 3rem; color: rgba(255,255,255,0.1);
-    line-height: 1; font-weight: 700;
-  }
+  .step-num { font-family: var(--font-display); font-size: 3rem; color: rgba(255,255,255,0.1); line-height: 1; font-weight: 700; }
   .step-content h3 { font-family: var(--font-serif); font-size: 1.4rem; color: #fff; margin: 0 0 10px; }
   .step-content p { color: #ccc; margin: 0; line-height: 1.6; }
 
-  /* --- CMS 內容區域 (Typography Style) --- */
-  .cms-content {
-    max-width: 800px; margin: 0 auto; padding: 0 20px 100px;
-    position: relative; z-index: 10;
-  }
-  
-  /* 段落設定 */
-  .cms-content p {
-    font-size: 1.1rem; line-height: 2; color: #ddd; margin-bottom: 2em;
-    font-weight: 300; letter-spacing: 0.5px;
-  }
-  
-  /* 標題設定 */
-  .cms-content h2 {
-    font-family: var(--font-serif); font-size: 2.2rem; font-weight: 900;
-    color: #fff; margin-top: 3em; margin-bottom: 1em; letter-spacing: 2px;
-    background: linear-gradient(to right, #fff, #999);
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-    position: relative; padding-left: 20px;
-  }
-  /* H2 左側裝飾線 */
-  .cms-content h2::before {
-    content: ''; position: absolute; left: 0; top: 50%; transform: translateY(-50%);
-    width: 4px; height: 0; background: var(--brand-primary);
-    transition: height 0.8s var(--ease-out-expo);
-  }
+  /* CMS Content */
+  .cms-content { max-width: 800px; margin: 0 auto; padding: 0 20px 100px; position: relative; z-index: 10; }
+  .cms-content p { font-size: 1.1rem; line-height: 2; color: #ddd; margin-bottom: 2em; font-weight: 300; letter-spacing: 0.5px; }
+  .cms-content h2 { font-family: var(--font-serif); font-size: 2.2rem; font-weight: 900; color: #fff; margin-top: 3em; margin-bottom: 1em; letter-spacing: 2px; background: linear-gradient(to right, #fff, #999); -webkit-background-clip: text; -webkit-text-fill-color: transparent; position: relative; padding-left: 20px; }
+  .cms-content h2::before { content: ''; position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 4px; height: 0; background: var(--brand-primary); transition: height 0.8s var(--ease-out-expo); }
   .cms-content h2.aos-animate::before { height: 80%; }
-  
-  .cms-content h3 {
-    font-family: var(--font-body); font-size: 1.5rem; font-weight: 700;
-    color: var(--brand-light); margin-top: 2.5em; margin-bottom: 1em;
-  }
-
-  /* 列表 */
-  .cms-content ul, .cms-content ol {
-    padding-left: 20px; margin-bottom: 2em; color: #ccc;
-  }
-  .cms-content li { margin-bottom: 0.8em; line-height: 1.8; }
-  
-  /* 🔴 引用 (Blockquote) - 電影感掃光特效 */
-  .cms-content blockquote {
-    position: relative;
-    margin: 4em 0; padding: 2em 3em;
-    border-left: none; 
-    background: transparent;
-    font-family: var(--font-serif); font-size: 1.4rem; font-style: italic; line-height: 1.8;
-    color: rgba(255,255,255,0.9);
-    border-radius: 4px;
-    overflow: hidden; 
-    isolation: isolate;
-  }
-
-  /* 1. 背景掃光 (金色漸層) */
-  .cms-content blockquote::before {
-    content: ''; position: absolute; inset: 0;
-    background: linear-gradient(90deg, rgba(255, 140, 0, 0.2) 0%, rgba(255, 215, 0, 0.05) 100%);
-    transform: scaleX(0); transform-origin: left;
-    transition: transform 1.2s cubic-bezier(0.22, 1, 0.36, 1);
-    z-index: -1;
-  }
-
-  /* 2. 左側亮條 (由上而下) */
-  .cms-content blockquote::after {
-    content: ''; position: absolute; left: 0; top: 0; bottom: 0;
-    width: 4px; background: var(--brand-primary);
-    transform: scaleY(0); transform-origin: top;
-    transition: transform 0.8s var(--ease-out-expo) 0.5s;
-    z-index: 1;
-  }
-
-  /* 觸發狀態 */
-  .cms-content blockquote.aos-animate::before { transform: scaleX(1); }
-  .cms-content blockquote.aos-animate::after { transform: scaleY(1); }
-  
-  /* 3. 文字浮現 */
-  .cms-content blockquote p {
-    opacity: 0; transform: translateX(20px);
-    transition: all 1s ease 0.4s; margin: 0;
-  }
-  .cms-content blockquote.aos-animate p {
-    opacity: 1; transform: translateX(0);
-  }
-
-  /* 圖片樣式 */
-  .cms-content img {
-    max-width: 100%; border-radius: 2px; margin: 3em 0;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.5);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    transition: 0.5s var(--ease-out-expo);
-  }
-  .cms-content img:hover {
-    transform: scale(1.02);
-    box-shadow: 0 20px 60px rgba(255, 140, 0, 0.15); /* 金色光暈 */
-    border-color: rgba(255, 255, 255, 0.3);
-  }
+  .cms-content h3 { font-family: var(--font-body); font-size: 1.5rem; font-weight: 700; color: var(--brand-light); margin-top: 2.5em; margin-bottom: 1em; }
+  .cms-content blockquote { position: relative; margin: 4em 0; padding: 2em 3em; border-left: none; background: transparent; font-family: var(--font-serif); font-size: 1.4rem; font-style: italic; line-height: 1.8; color: rgba(255,255,255,0.9); border-radius: 4px; overflow: hidden; isolation: isolate; }
+  .cms-content blockquote::before { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(255, 140, 0, 0.2) 0%, rgba(255, 215, 0, 0.05) 100%); transform: scaleX(0); transform-origin: left; transition: transform 1.2s cubic-bezier(0.22, 1, 0.36, 1); z-index: -1; }
+  .cms-content blockquote::after { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: var(--brand-primary); transform: scaleY(0); transform-origin: top; transition: transform 0.8s var(--ease-out-expo) 0.5s; z-index: 1; }
+  .cms-content blockquote.aos-animate::before { transform: scaleX(1); } .cms-content blockquote.aos-animate::after { transform: scaleY(1); }
+  .cms-content blockquote p { opacity: 0; transform: translateX(20px); transition: all 1s ease 0.4s; margin: 0; }
+  .cms-content blockquote.aos-animate p { opacity: 1; transform: translateX(0); }
+  .cms-content img { max-width: 100%; border-radius: 2px; margin: 3em 0; box-shadow: 0 10px 40px rgba(0,0,0,0.5); border: 1px solid rgba(255, 255, 255, 0.1); transition: 0.5s var(--ease-out-expo); }
+  .cms-content img:hover { transform: scale(1.02); box-shadow: 0 20px 60px rgba(255, 140, 0, 0.15); border-color: rgba(255, 255, 255, 0.3); }
 
   /* Footer */
   footer { padding: 120px 8% 60px; border-top: 1px solid rgba(255,255,255,0.05); background: #020202; text-align: center; position: relative; overflow: hidden; }
@@ -410,6 +171,8 @@
 
   @media (max-width: 768px) {
     .header { padding: 20px; } .nav { display: none; } 
+    /* 手機版顯示漢堡 */
+    .hamburger { display: flex; }
     .about-hero { padding-top: 140px; } .page-title { font-size: 3rem; }
     .footer h2 { font-size: 2.5rem; letter-spacing: 5px; }
     .cms-content { padding: 0 20px; font-size: 1rem; }
@@ -420,26 +183,27 @@
 
   <div class="page-transition-curtain"></div>
   <div class="cursor"></div>
+  
   <div class="loader">
-    <!-- 預設 Logo (若後台有設定，JS 會覆蓋) -->
     <img src="images/uploads/logo.png" class="loader-logo-img" alt="Uprise">
   </div>
-  <div class="ambient-light">
-    <div class="ambient-blob"></div>
-    <div class="ambient-blob"></div>
-  </div>
   
+  <div class="ambient-light"><div class="ambient-blob"></div><div class="ambient-blob"></div></div>
   <div class="particles-container" id="particles"></div>
 
-  <!-- 極簡聲音按鈕 -->
   <div id="sound-btn" class="hover-trigger">
     <span class="sound-label">SOUND</span>
-    <div class="sound-bars">
-      <div class="sound-bar"></div>
-      <div class="sound-bar"></div>
-      <div class="sound-bar"></div>
-      <div class="sound-bar"></div>
-    </div>
+    <div class="sound-bars"><div class="sound-bar"></div><div class="sound-bar"></div><div class="sound-bar"></div><div class="sound-bar"></div></div>
+  </div>
+
+  <div class="mobile-menu" id="mobile-menu">
+    <nav class="mobile-nav">
+       <a href="index.html" class="mobile-nav-link page-link">首頁</a>
+       <a href="works.html" class="mobile-nav-link page-link">作品</a>
+       <a href="team.html" class="mobile-nav-link page-link">團隊</a>
+       <a href="about.html" class="mobile-nav-link page-link">關於</a>
+       <a href="contact.html" class="mobile-nav-link page-link">聯絡</a>
+    </nav>
   </div>
 
   <div id="main-wrapper">
@@ -450,22 +214,16 @@
       </a>
       
       <nav class="nav">
-        <a href="index.html" class="nav-item hover-trigger page-link">
-            <span class="original-text">首頁</span><span class="hover-text">首頁</span>
-        </a>
-        <a href="works.html" class="nav-item hover-trigger page-link">
-            <span class="original-text">作品</span><span class="hover-text">作品</span>
-        </a>
-        <a href="team.html" class="nav-item hover-trigger page-link">
-            <span class="original-text">團隊</span><span class="hover-text">團隊</span>
-        </a>
-        <a href="about.html" class="nav-item hover-trigger page-link active">
-            <span class="original-text">關於</span><span class="hover-text">關於</span>
-        </a>
-        <a href="contact.html" class="nav-item hover-trigger page-link">
-            <span class="original-text">聯絡</span><span class="hover-text">聯絡</span>
-        </a>
+        <a href="index.html" class="nav-item hover-trigger page-link"><span class="original-text">首頁</span><span class="hover-text">首頁</span></a>
+        <a href="works.html" class="nav-item hover-trigger page-link"><span class="original-text">作品</span><span class="hover-text">作品</span></a>
+        <a href="team.html" class="nav-item hover-trigger page-link"><span class="original-text">團隊</span><span class="hover-text">團隊</span></a>
+        <a href="about.html" class="nav-item hover-trigger page-link active"><span class="original-text">關於</span><span class="hover-text">關於</span></a>
+        <a href="contact.html" class="nav-item hover-trigger page-link"><span class="original-text">聯絡</span><span class="hover-text">聯絡</span></a>
       </nav>
+
+      <div class="hamburger hover-trigger" id="hamburger-btn">
+        <span></span><span></span><span></span>
+      </div>
     </header>
 
     <main>
@@ -476,17 +234,10 @@
         <div class="title-divider" data-aos="fade" data-aos-delay="800"></div>
       </section>
 
-      <!-- 1. 核心價值區塊 (從後台讀取) -->
-      <div id="values-section" class="section-block">
-        <!-- JS 渲染內容 -->
-      </div>
+      <div id="values-section" class="section-block"></div>
 
-      <!-- 2. 服務流程區塊 (從後台讀取) -->
-      <div id="process-section" class="section-block">
-        <!-- JS 渲染內容 -->
-      </div>
+      <div id="process-section" class="section-block"></div>
 
-      <!-- 3. 公司簡介內文 (Markdown) -->
       <div id="cms-body" class="cms-content">
         <p style="text-align:center; color:#666;">Loading Content...</p>
       </div>
@@ -496,239 +247,133 @@
       <div class="footer-watermark" id="footer-mark">UPRISE</div>
       <div class="footer-content" data-aos="fade-up" data-aos-offset="50">
         <h2>推手<span>影像</span></h2>
-        <p class="manifesto">
-          我們不僅是影像的製造者，更是品牌價值的推動者。<br>
-          致力於將抽象的意念，轉化為具象的視覺衝擊。
-        </p>
+        <p class="manifesto">我們不僅是影像的製造者，更是品牌價值的推動者。<br>致力於將抽象的意念，轉化為具象的視覺衝擊。</p>
         <div class="copyright">Copyright © 2025 推手影像製作有限公司. All rights reserved.</div>
       </div>
     </footer>
   </div>
 
-  <!-- AOS Script -->
   <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-
   <script>
-    // --- 防盜機制 (Anti-Theft) ---
-    document.addEventListener('contextmenu', event => event.preventDefault());
-    document.addEventListener('copy', event => event.preventDefault());
-    document.onkeydown = function(e) {
-        if(e.keyCode == 123) return false; // F12
-        if(e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) return false;
-        if(e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) return false;
-        if(e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) return false;
-        if(e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) return false;
-        if(e.ctrlKey && e.keyCode == 'S'.charCodeAt(0)) return false;
-    }
+    document.addEventListener('contextmenu', e => e.preventDefault());
+    document.addEventListener('copy', e => e.preventDefault());
+    document.onkeydown = function(e) { if(e.keyCode == 123) return false; }
 
-    // 預設資料 (Fallback)
     const fallbackData = {
       title: "關於推手",
       subtitle: "探索我們對影像的熱情與堅持",
-      body: `
-# 我們的故事
-**推手影像 (Uprise-Production)** 成立於 2015 年，由一群對影像充滿熱情的職人所組成。我們相信，每一幀畫面都有其獨特的靈魂，每一個品牌都有值得被看見的故事。
-
-> 「影像不只是紀錄，更是一種情感的傳遞與價值的延伸。」
-
-## 核心價值
-我們專注於 **電影級影像製作**，從前期的腳本企劃、中期的專業拍攝，到後期的精細剪輯與特效，每一個環節都力求完美。我們不只是執行者，更是您的 **品牌推手**。
-
-## 服務流程
-1. **需求溝通**：深入了解您的品牌理念與目標。
-2. **創意發想**：提供獨特的視覺觀點與腳本提案。
-3. **專業執行**：運用電影級設備與團隊進行拍攝。
-4. **後期製作**：剪輯、調色、特效，賦予影像生命力。
-      `
+      body: `## Loading...\n請確認 content/about.md 是否存在。`
     };
 
     document.addEventListener('DOMContentLoaded', () => {
-      // 1. 延遲移除 Loading 遮罩與初始化 AOS
       setTimeout(() => {
         document.querySelector('.loader').classList.add('hidden');
         document.querySelector('.page-transition-curtain').classList.add('reveal');
         document.body.classList.remove('loading-state');
         document.body.classList.add('loaded-state');
-        
-        // 2. 確保遮罩移除後才初始化 AOS，避免動畫在背景偷跑
-        AOS.init({
-            duration: 1000,
-            easing: 'ease-out-cubic',
-            once: false,
-            mirror: true,
-            offset: 50
-        });
-      }, 2200); // 配合 CSS Logo 動畫時間 (約 2.5s)
+        AOS.init({ duration: 1000, easing: 'ease-out-cubic', once: false, mirror: true, offset: 50 });
+      }, 2200);
 
-      // 讀取 CMS 資料
-      fetch('content/about.md')
-        .then(r => {
-            if(!r.ok) throw new Error("CMS Data Not Found");
-            return r.text();
-        })
+      // 讀取 about.md (防快取)
+      fetch('content/about.md?t=' + new Date().getTime())
+        .then(r => r.ok ? r.text() : Promise.reject())
         .then(text => {
           const parts = text.split('---');
           const data = jsyaml.load(parts.length > 1 ? parts[1] : text);
           
+          // 基本資料
           if(data.title) document.getElementById('page-title').innerText = data.title;
           if(data.subtitle) document.getElementById('page-subtitle').innerText = data.subtitle;
           
-          // 渲染 Markdown
+          // 渲染內文 Markdown
           if(parts.length > 2) {
               const converter = new showdown.Converter({ simpleLineBreaks: true });
               const html = converter.makeHtml(parts.slice(2).join('---'));
               const cmsBody = document.getElementById('cms-body');
               cmsBody.innerHTML = html;
-              
-              // 🔴 為 CMS 內容自動加入 AOS 動畫
               applyAOStoCMS(cmsBody);
           }
           
-          // 渲染 Values & Process
-          renderPage(data, parts);
+          renderPage(data);
         })
         .catch(err => {
             console.log("Using fallback about data");
             renderPage(fallbackData, null, true);
         });
 
-      initCursor();
-      initPageTransition();
-      createParticles();
-      initSoundToggle(); 
+      // 讀取 Logo (from index.md)
+      fetch('content/index.md?t=' + new Date().getTime())
+        .then(r => r.ok ? r.text() : Promise.reject())
+        .then(text => {
+            const data = jsyaml.load(text.split('---')[1]);
+            if(data.logo) {
+                document.querySelector('.logo img').src = data.logo;
+                document.querySelector('.loader-logo-img').src = data.logo;
+            }
+        });
+
+      initCursor(); initPageTransition(); createParticles(); initSoundToggle(); initMenu();
     });
-    
-    // 🔴 關鍵邏輯：加入跨頁讀取功能
-    // 說明：因為「關於我們」頁面目前讀取的是 content/about.md，但 Logo 等全站設定可能存在 content/index.md
-    // 這裡我們追加一個 fetch 去讀取 index.md 的 logo 設定
-    fetch('content/index.md')
-      .then(r => r.ok ? r.text() : Promise.reject())
-      .then(text => {
-        const parts = text.split('---');
-        const data = jsyaml.load(parts.length > 1 ? parts[1] : text);
-        
-        // 優先順序：Favicon 欄位 > Logo 欄位
-        let faviconUrl = data.favicon || data.logo;
-        let logoUrl = data.logo;
 
-        if(logoUrl) {
-          // 更新導覽列 Logo
-          const navLogo = document.querySelector('.logo img');
-          if(navLogo) navLogo.src = logoUrl;
-          
-          // 更新載入動畫 Logo
-          const loaderLogo = document.querySelector('.loader-logo-img');
-          if(loaderLogo) loaderLogo.src = logoUrl;
+    // 🔴 漢堡選單邏輯
+    function initMenu() {
+        const hamburger = document.getElementById('hamburger-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        if (hamburger && mobileMenu) {
+            hamburger.addEventListener('click', () => {
+                hamburger.classList.toggle('active');
+                mobileMenu.classList.toggle('active');
+            });
+            document.querySelectorAll('.mobile-nav-link').forEach(link => {
+                link.addEventListener('click', () => {
+                    hamburger.classList.remove('active');
+                    mobileMenu.classList.remove('active');
+                });
+            });
+            mobileMenu.addEventListener('click', (e) => {
+                if (e.target === mobileMenu || e.target.classList.contains('mobile-nav')) {
+                    hamburger.classList.remove('active');
+                    mobileMenu.classList.remove('active');
+                }
+            });
         }
-
-        if(faviconUrl) {
-           // 更新 Favicon
-           const faviconLink = document.querySelector('link[rel="icon"]');
-           if(faviconLink) faviconLink.href = faviconUrl;
-        }
-      })
-      .catch(e => console.log("Global settings not found, using default logo"));
+    }
 
     function renderPage(data, parts, isFallback = false) {
-        // 1. 基本資訊
-        if(data.title) document.getElementById('page-title').innerText = data.title;
-        if(data.subtitle) document.getElementById('page-subtitle').innerText = data.subtitle;
-
-        // 2. 渲染 核心價值 (Values)
+        // Values
         const valuesSection = document.getElementById('values-section');
-        const values = data.values_list || fallbackData.values_list; // 使用 fallback 如果 CMS 沒填
-        
-        if (values && values.length > 0) {
+        if (data.values_list && data.values_list.length > 0) {
             let html = '<h2 class="block-title" data-aos="fade-up">核心價值</h2><div class="values-grid">';
-            values.forEach((v, i) => {
+            data.values_list.forEach((v, i) => {
                 const icon = v.icon || 'fa-solid fa-star';
-                html += `
-                  <div class="value-card" data-aos="fade-up" data-aos-delay="${i * 100}">
-                    <div class="value-icon"><i class="${icon}"></i></div>
-                    <h3 class="value-title">${v.title}</h3>
-                    <p class="value-desc">${v.desc}</p>
-                  </div>
-                `;
+                html += `<div class="value-card" data-aos="fade-up" data-aos-delay="${i * 100}"><div class="value-icon"><i class="${icon}"></i></div><h3 class="value-title">${v.title}</h3><p class="value-desc">${v.desc}</p></div>`;
             });
             html += '</div>';
             valuesSection.innerHTML = html;
         }
 
-        // 3. 渲染 服務流程 (Process)
+        // Process
         const processSection = document.getElementById('process-section');
-        const process = data.process_list || fallbackData.process_list;
-        
-        if (process && process.length > 0) {
+        if (data.process_list && data.process_list.length > 0) {
             let html = '<h2 class="block-title" data-aos="fade-up">服務流程</h2><div class="process-list">';
-            process.forEach((p, i) => {
-                html += `
-                  <div class="process-item" data-aos="fade-left" data-aos-delay="${i * 100}">
-                    <div class="step-num">0${i + 1}</div>
-                    <div class="step-content">
-                      <h3>${p.step || p.title}</h3>
-                      <p>${p.desc || p.content}</p>
-                    </div>
-                  </div>
-                `;
+            data.process_list.forEach((p, i) => {
+                html += `<div class="process-item" data-aos="fade-left" data-aos-delay="${i * 100}"><div class="step-num">0${i + 1}</div><div class="step-content"><h3>${p.step || p.title}</h3><p>${p.desc || p.content}</p></div></div>`;
             });
             html += '</div>';
             processSection.innerHTML = html;
         }
-
-        // 4. 渲染 Markdown 內文 (如果是 Fallback 模式)
-        if (isFallback) {
-             const cmsBody = document.getElementById('cms-body');
-             const converter = new showdown.Converter({ simpleLineBreaks: true });
-             cmsBody.innerHTML = converter.makeHtml(fallbackData.body);
-             applyAOStoCMS(cmsBody);
-        }
-        
-        // 刷新 AOS
         setTimeout(() => AOS.refresh(), 100);
     }
 
-    // 自動為 CMS 內容加入細緻動畫
     function applyAOStoCMS(container) {
-        // H2: 從右側滑入 (配合 CSS 飾條動畫)
-        container.querySelectorAll('h2').forEach(el => {
-            el.setAttribute('data-aos', 'fade-right');
-            el.setAttribute('data-aos-delay', '100');
-        });
-
-        // H3: 淡入上浮
-        container.querySelectorAll('h3').forEach(el => {
-            el.setAttribute('data-aos', 'fade-up');
-            el.setAttribute('data-aos-delay', '150');
-        });
-
-        // 段落與列表: 順序淡入
-        container.querySelectorAll('p, ul, ol').forEach((el, index) => {
-            // 跳過 Blockquote 內的 P，避免雙重動畫
-            if(el.closest('blockquote')) return;
-            
-            el.setAttribute('data-aos', 'fade-up');
-            el.setAttribute('data-aos-delay', (index % 5) * 50); 
-        });
-
-        // 🔴 引用: 使用簡單 fade 觸發 CSS 掃光動畫 (恢復特效)
-        container.querySelectorAll('blockquote').forEach(el => {
-            el.setAttribute('data-aos', 'fade');
-            el.setAttribute('data-aos-offset', '200'); 
-        });
-
-        // 圖片: 縮放上浮
-        container.querySelectorAll('img').forEach(el => {
-            el.setAttribute('data-aos', 'zoom-in-up');
-            el.setAttribute('data-aos-duration', '1200');
-        });
-        
-        // 重新整理 AOS 以抓取新加入的元素
-        setTimeout(() => {
-            AOS.refresh();
-        }, 100);
+        container.querySelectorAll('h2').forEach(el => { el.setAttribute('data-aos', 'fade-right'); el.setAttribute('data-aos-delay', '100'); });
+        container.querySelectorAll('h3').forEach(el => { el.setAttribute('data-aos', 'fade-up'); el.setAttribute('data-aos-delay', '150'); });
+        container.querySelectorAll('p, ul, ol').forEach((el, index) => { if(el.closest('blockquote')) return; el.setAttribute('data-aos', 'fade-up'); el.setAttribute('data-aos-delay', (index % 5) * 50); });
+        container.querySelectorAll('blockquote').forEach(el => { el.setAttribute('data-aos', 'fade'); el.setAttribute('data-aos-offset', '200'); });
+        container.querySelectorAll('img').forEach(el => { el.setAttribute('data-aos', 'zoom-in-up'); el.setAttribute('data-aos-duration', '1200'); });
+        setTimeout(() => { AOS.refresh(); }, 100);
     }
-    
-    // --- 共用 JS 邏輯 ---
+
     function initCursor() { if (window.matchMedia("(pointer: fine)").matches) { const cursor = document.querySelector('.cursor'); let mouseX=0, mouseY=0, cursorX=0, cursorY=0; document.addEventListener('mousemove', e => { mouseX=e.clientX; mouseY=e.clientY; }); document.addEventListener('mousedown', () => document.body.classList.add('clicking')); document.addEventListener('mouseup', () => document.body.classList.remove('clicking')); function animate() { cursorX+=(mouseX-cursorX)*0.5; cursorY+=(mouseY-cursorY)*0.5; cursor.style.transform=`translate(${cursorX}px, ${cursorY}px) translate(-50%, -50%)`; requestAnimationFrame(animate); } animate(); document.body.addEventListener('mouseenter', e=>{ if(e.target.closest('.hover-trigger')) document.body.classList.add('hovered'); }, true); document.body.addEventListener('mouseleave', e=>{ if(e.target.closest('.hover-trigger')) document.body.classList.remove('hovered'); }, true); } }
     function createParticles() { const container = document.getElementById('particles'); if(!container) return; for (let i = 0; i < 20; i++) { const p = document.createElement('div'); p.classList.add('particle'); const size = Math.random() * 3 + 1 + 'px'; p.style.width = size; p.style.height = size; p.style.left = Math.random() * 100 + '%'; p.style.top = Math.random() * 100 + '%'; p.style.animationDelay = Math.random() * 5 + 's'; p.style.animationDuration = Math.random() * 10 + 10 + 's'; container.appendChild(p); } }
     function initPageTransition() { const links = document.querySelectorAll('.page-link'); const curtain = document.querySelector('.page-transition-curtain'); links.forEach(link => { link.addEventListener('click', (e) => { e.preventDefault(); const href = link.getAttribute('href'); curtain.classList.remove('reveal'); curtain.classList.add('cover'); setTimeout(() => { window.location.href = href; }, 800); }); }); }
@@ -736,9 +381,9 @@
 
     window.addEventListener('scroll', () => {
         const header = document.querySelector('.header');
-        
-        if(window.scrollY > 50) header.classList.add('scrolled');
-        else header.classList.remove('scrolled');
+        if(window.scrollY > 50) header.classList.add('scrolled'); else header.classList.remove('scrolled');
+        const footerMark = document.getElementById('footer-mark');
+        if(footerMark) { const footerOffset = document.querySelector('footer').offsetTop; if(window.scrollY > footerOffset - window.innerHeight) { const delta = window.scrollY - (footerOffset - window.innerHeight); footerMark.style.transform = `translate(-50%, -50%) translateY(${delta * -0.1}px)`; } }
     });
   </script>
 </body>

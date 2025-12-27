@@ -9,7 +9,8 @@ members:
       推手影像製作有限公司（Uprise-Production）的創辦人與導演。
       現在就讀臺灣藝術大學電影系碩士。
     portfolio_url: https://uprise-videoproduction.com/works
-    ig_url: https://www.instagram.com/harry.lin_jiayou?igsh=MXNyNXlpdDIzZmozMg%3D%3D&utm_source=qr
+    ig_url: >-
+      https://www.instagram.com/harry.lin_jiayou?igsh=MXNyNXlpdDIzZmozMg%3D%3D&utm_source=qr
     full_bio: >-
       ####
       [](https://stv.naer.edu.tw/i-fun-filmfestival/movie_view.jsp?unitpost_id=455)**推手影像製作有限公司（Uprise-Production）的創辦人與導演。**
@@ -27,7 +28,8 @@ members:
       ##### 短片《流量底限》 導演
 
 
-      ##### 愛學影展線上觀看:<https://stv.naer.edu.tw/i-fun-filmfestival/movie_view.jsp?unitpost_id=455>
+      #####
+      愛學影展線上觀看:<https://stv.naer.edu.tw/i-fun-filmfestival/movie_view.jsp?unitpost_id=455>
   - name: 傅啓榮
     role: 合作導演 Co-director
     avatar: /images/uploads/s__22126679.jpg
@@ -38,5 +40,11 @@ members:
     avatar: /images/uploads/79e26a98-64e1-41ba-8d2e-a2ba95f031ca.jpg
     bio: 以強烈個人美學為核心，結合次文化、色彩衝擊、飛行攝影與互動藝術，打造跨界且具反叛精神的影像世界
     ig_url: https://www.instagram.com/conan_0906?igsh=MzBuMnF1ajB5NDd5
-    full_bio: "##### 以強烈個人美學為核心，結合次文化、色彩衝擊、飛行攝影與互動藝術，打造跨界且具反叛精神的影像世界"
+    full_bio: '##### 以強烈個人美學為核心，結合次文化、色彩衝擊、飛行攝影與互動藝術，打造跨界且具反叛精神的影像世界'
+  - name: TEST
+    role: TEST
+    avatar: ''
+    bio: TESET
+    ig_url: ''
+    full_bio: TEST
 ---

@@ -15,6 +15,7 @@
 <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/2.1.0/showdown.min.js"></script>
 
 <style>
   /* --- 核心變數 --- */
@@ -44,7 +45,6 @@
   .page-transition-curtain.cover { transform: translateY(0); }
   .loader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 200000; display: flex; justify-content: center; align-items: center; transition: opacity 0.8s ease, visibility 0.8s; }
   .loader.hidden { opacity: 0; visibility: hidden; }
-  /* Logo 電影感聚焦動畫 */
   .loader-logo-img { width: auto; height: 90px; max-width: 80vw; object-fit: contain; opacity: 0; transform: scale(0.8); filter: blur(10px); animation: cinematicLogoReveal 2.5s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
   @keyframes cinematicLogoReveal { 
     0% { opacity: 0; transform: scale(0.8) translateY(10px); filter: blur(10px) brightness(0.5); } 
@@ -58,7 +58,7 @@
   body.hovered .cursor { width: 60px; height: 60px; background: rgba(255, 215, 0, 0.05); border: 1px solid rgba(255, 215, 0, 0.8); box-shadow: 0 0 30px rgba(255, 215, 0, 0.4); }
   body.clicking .cursor { transform: translate(-50%, -50%) scale(0.9); background: var(--brand-primary); }
   
-  /* 環境 */
+  /* 環境特效 */
   .ambient-light { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; overflow: hidden; }
   .ambient-blob { position: absolute; width: 900px; height: 900px; background: radial-gradient(circle, rgba(255, 140, 0, 0.04) 0%, transparent 60%); border-radius: 50%; filter: blur(80px); opacity: 0.5; animation: moveBlob 25s infinite alternate ease-in-out; }
   .ambient-blob:nth-child(1) { top: -20%; left: -10%; } .ambient-blob:nth-child(2) { bottom: -20%; right: -10%; }
@@ -95,7 +95,6 @@
     opacity: 0; pointer-events: none; transition: opacity 0.5s ease;
   }
   .mobile-menu.active { opacity: 1; pointer-events: all; }
-  
   .mobile-nav { display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 30px; width: 100%; }
   .mobile-nav-link {
     font-family: var(--font-serif); font-size: 2rem; color: #fff; text-decoration: none;
@@ -130,7 +129,14 @@
   .member-info { width: 100%; }
   .member-name { font-family: var(--font-serif); font-size: 1.8rem; color: #fff; margin: 0 0 10px; font-weight: 700; letter-spacing: 1px; }
   .member-role { font-family: var(--font-body); font-size: 0.85rem; color: var(--brand-light); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 20px; display: block; font-weight: 600; }
-  .member-bio { font-family: var(--font-body); font-size: 0.95rem; color: #aaa; line-height: 1.8; margin-bottom: 30px; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+  
+  /* 🔴 關鍵修改：加入 white-space: pre-wrap; 讓換行符號生效 */
+  .member-bio { 
+    font-family: var(--font-body); font-size: 0.95rem; color: #aaa; line-height: 1.8; margin-bottom: 30px; 
+    /* 這裡！讓後台的 Enter 換行可以顯示 */
+    white-space: pre-wrap; 
+  }
+  
   .action-row { display: flex; gap: 15px; justify-content: center; align-items: center; }
   .portfolio-link { font-size: 0.85rem; color: #000; text-decoration: none; background: var(--brand-gradient); padding: 10px 24px; border-radius: 50px; font-weight: 600; letter-spacing: 1px; transition: 0.3s; display: inline-flex; align-items: center; justify-content: center; }
   .portfolio-link:hover { box-shadow: 0 0 20px rgba(255, 140, 0, 0.6); transform: translateY(-2px); filter: brightness(1.1); }
@@ -162,11 +168,9 @@
 
   <div class="page-transition-curtain"></div>
   <div class="cursor"></div>
-  
   <div class="loader">
     <img src="images/uploads/logo.png" class="loader-logo-img" alt="Uprise">
   </div>
-  
   <div class="ambient-light"><div class="ambient-blob"></div><div class="ambient-blob"></div></div>
   <div class="particles-container" id="particles"></div>
 
@@ -232,7 +236,6 @@
     document.addEventListener('copy', e => e.preventDefault());
     document.onkeydown = function(e) { if(e.keyCode == 123) return false; }
 
-    // 預設資料 (Fallback)
     const fallbackData = {
       title: "專業團隊",
       subtitle: "一群對影像充滿熱情的職人",
@@ -250,7 +253,7 @@
         AOS.init({ duration: 1000, easing: 'ease-out-cubic', once: false, mirror: true, offset: 50 });
       }, 2200);
 
-      // 🔴 讀取團隊資料 (注意這裡欄位名稱是 image 不是 avatar)
+      // 🔴 讀取團隊資料 (防快取)
       fetch('content/team.md?t=' + new Date().getTime())
         .then(r => r.ok ? r.text() : Promise.reject())
         .then(text => {
@@ -263,14 +266,24 @@
             renderTeam(fallbackData);
         });
 
+      // 讀取 Global 設定
+      fetch('content/index.md')
+        .then(r => r.ok ? r.text() : Promise.reject())
+        .then(text => {
+            const data = jsyaml.load(text.split('---')[1]);
+            if(data.logo) {
+                document.querySelector('.logo img').src = data.logo;
+                document.querySelector('.loader-logo-img').src = data.logo;
+            }
+        });
+
       initCursor(); initPageTransition(); createParticles(); initMagneticButtons(); initSoundToggle(); initMenu();
     });
 
-    // 漢堡選單
+    // 漢堡選單邏輯
     function initMenu() {
         const hamburger = document.getElementById('hamburger-btn');
         const mobileMenu = document.getElementById('mobile-menu');
-        
         if (hamburger && mobileMenu) {
             hamburger.addEventListener('click', () => {
                 hamburger.classList.toggle('active');
@@ -300,7 +313,7 @@
 
         if (data.members && data.members.length > 0) {
             data.members.forEach((m, index) => {
-                // 🔴 修改：使用 m.image
+                // 讀取 image 欄位
                 const avatar = m.image || 'https://dummyimage.com/400x400/333/fff&text=No+Img';
                 let buttonsHtml = '';
                 if (m.portfolio_url) buttonsHtml += `<a href="${m.portfolio_url}" target="_blank" class="portfolio-link hover-trigger">作品集</a>`;
@@ -310,13 +323,15 @@
                 card.className = 'member-card hover-trigger'; 
                 card.setAttribute('data-aos', 'fade-up');
                 card.setAttribute('data-aos-delay', index * 100);
-                card.onclick = () => window.location.href = `member.html?id=${index}`;
-                card.style.cursor = 'pointer';
+                
+                // 如果有 full_bio 或點擊需要展開，可以在這裡加邏輯，目前保持純展示
+                card.style.cursor = 'default';
                 
                 card.innerHTML = `
                     <div class="member-image-wrap"><img src="${avatar}" class="member-img" alt="${m.name}"></div>
                     <div class="member-info">
-                        <h3 class="member-name">${m.name}</h3><span class="member-role">${m.role}</span><p class="member-bio">${m.bio}</p>
+                        <h3 class="member-name">${m.name}</h3><span class="member-role">${m.role}</span>
+                        <div class="member-bio">${m.bio || ''}</div>
                         <div class="action-row" onclick="event.stopPropagation()">${buttonsHtml}</div>
                     </div>`;
                 container.appendChild(card);

@@ -15,7 +15,6 @@
 <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/2.1.0/showdown.min.js"></script>
 
 <style>
   /* --- 核心變數 --- */
@@ -37,6 +36,8 @@
   ::-webkit-scrollbar-thumb:hover { background: var(--brand-primary); }
   ::selection { background: var(--brand-light); color: #000; }
   body { margin: 0; padding: 0; font-family: var(--font-body); background-color: var(--bg-color); color: var(--text-main); overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+  
+  /* 禁止圖片拖曳，但允許點擊穿透 */
   img { -webkit-user-drag: none; pointer-events: none; }
 
   /* 載入動畫 */
@@ -45,6 +46,7 @@
   .page-transition-curtain.cover { transform: translateY(0); }
   .loader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 200000; display: flex; justify-content: center; align-items: center; transition: opacity 0.8s ease, visibility 0.8s; }
   .loader.hidden { opacity: 0; visibility: hidden; }
+  /* Logo 動畫 */
   .loader-logo-img { width: auto; height: 90px; max-width: 80vw; object-fit: contain; opacity: 0; transform: scale(0.8); filter: blur(10px); animation: cinematicLogoReveal 2.5s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
   @keyframes cinematicLogoReveal { 
     0% { opacity: 0; transform: scale(0.8) translateY(10px); filter: blur(10px) brightness(0.5); } 
@@ -58,7 +60,7 @@
   body.hovered .cursor { width: 60px; height: 60px; background: rgba(255, 215, 0, 0.05); border: 1px solid rgba(255, 215, 0, 0.8); box-shadow: 0 0 30px rgba(255, 215, 0, 0.4); }
   body.clicking .cursor { transform: translate(-50%, -50%) scale(0.9); background: var(--brand-primary); }
   
-  /* 環境特效 */
+  /* 環境 */
   .ambient-light { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; overflow: hidden; }
   .ambient-blob { position: absolute; width: 900px; height: 900px; background: radial-gradient(circle, rgba(255, 140, 0, 0.04) 0%, transparent 60%); border-radius: 50%; filter: blur(80px); opacity: 0.5; animation: moveBlob 25s infinite alternate ease-in-out; }
   .ambient-blob:nth-child(1) { top: -20%; left: -10%; } .ambient-blob:nth-child(2) { bottom: -20%; right: -10%; }
@@ -121,20 +123,33 @@
 
   /* Team Grid */
   .team-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 50px; max-width: 1200px; margin: 0 auto 100px; padding: 0 40px; position: relative; z-index: 10; }
-  .member-card { background: var(--card-bg); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 12px; transition: 0.4s var(--ease-out-expo); position: relative; backdrop-filter: blur(10px); display: flex; flex-direction: column; align-items: center; text-align: center; padding: 50px 30px; cursor: pointer; }
+  
+  /* Member Card - 互動設定 */
+  .member-card { 
+    background: var(--card-bg); 
+    border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 12px; 
+    transition: 0.4s var(--ease-out-expo); 
+    position: relative; backdrop-filter: blur(10px); 
+    display: flex; flex-direction: column; align-items: center; text-align: center; 
+    padding: 50px 30px; 
+    cursor: pointer; /* 🔴 強制顯示手型游標 */
+  }
   
   .member-image-wrap { width: 180px; height: 180px; border-radius: 50%; overflow: hidden; position: relative; border: 3px solid transparent; background: linear-gradient(135deg, #333, #111) padding-box, var(--brand-gradient) border-box; margin-bottom: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); transition: transform 0.4s; }
-  .member-img { width: 100%; height: 100%; object-fit: cover; object-position: center 25%; filter: none; transition: transform 0.8s; }
+  
+  .member-img { 
+    width: 100%; height: 100%; 
+    object-fit: cover; object-position: center 25%; 
+    filter: none; transition: transform 0.8s; 
+  }
   
   .member-info { width: 100%; }
   .member-name { font-family: var(--font-serif); font-size: 1.8rem; color: #fff; margin: 0 0 10px; font-weight: 700; letter-spacing: 1px; }
   .member-role { font-family: var(--font-body); font-size: 0.85rem; color: var(--brand-light); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 20px; display: block; font-weight: 600; }
   
-  /* 🔴 關鍵修改：加入 white-space: pre-wrap; 讓換行符號生效 */
   .member-bio { 
     font-family: var(--font-body); font-size: 0.95rem; color: #aaa; line-height: 1.8; margin-bottom: 30px; 
-    /* 這裡！讓後台的 Enter 換行可以顯示 */
-    white-space: pre-wrap; 
+    white-space: pre-wrap; /* 支援後台換行 */
   }
   
   .action-row { display: flex; gap: 15px; justify-content: center; align-items: center; }
@@ -142,6 +157,7 @@
   .portfolio-link:hover { box-shadow: 0 0 20px rgba(255, 140, 0, 0.6); transform: translateY(-2px); filter: brightness(1.1); }
   .portfolio-link.ig-btn { background: transparent; border: 1px solid rgba(255, 255, 255, 0.2); color: rgba(255, 255, 255, 0.8); }
   .portfolio-link.ig-btn:hover { background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); border-color: transparent; color: #fff; box-shadow: 0 0 20px rgba(220, 39, 67, 0.6); }
+  
   .member-card:hover { transform: translateY(-10px); box-shadow: 0 20px 60px rgba(0,0,0,0.6); border-color: rgba(255, 183, 0, 0.4); background: rgba(30, 30, 30, 0.6); }
   .member-card:hover .member-image-wrap { transform: scale(1.05); box-shadow: 0 0 30px rgba(255, 140, 0, 0.3); }
   .member-card:hover .member-img { transform: scale(1.1); }
@@ -168,9 +184,11 @@
 
   <div class="page-transition-curtain"></div>
   <div class="cursor"></div>
+  
   <div class="loader">
     <img src="images/uploads/logo.png" class="loader-logo-img" alt="Uprise">
   </div>
+  
   <div class="ambient-light"><div class="ambient-blob"></div><div class="ambient-blob"></div></div>
   <div class="particles-container" id="particles"></div>
 
@@ -267,7 +285,7 @@
         });
 
       // 讀取 Global 設定
-      fetch('content/index.md')
+      fetch('content/index.md?t=' + new Date().getTime())
         .then(r => r.ok ? r.text() : Promise.reject())
         .then(text => {
             const data = jsyaml.load(text.split('---')[1]);
@@ -280,7 +298,7 @@
       initCursor(); initPageTransition(); createParticles(); initMagneticButtons(); initSoundToggle(); initMenu();
     });
 
-    // 漢堡選單邏輯
+    // 漢堡選單
     function initMenu() {
         const hamburger = document.getElementById('hamburger-btn');
         const mobileMenu = document.getElementById('mobile-menu');
@@ -313,7 +331,6 @@
 
         if (data.members && data.members.length > 0) {
             data.members.forEach((m, index) => {
-                // 讀取 image 欄位
                 const avatar = m.image || 'https://dummyimage.com/400x400/333/fff&text=No+Img';
                 let buttonsHtml = '';
                 if (m.portfolio_url) buttonsHtml += `<a href="${m.portfolio_url}" target="_blank" class="portfolio-link hover-trigger">作品集</a>`;
@@ -324,8 +341,10 @@
                 card.setAttribute('data-aos', 'fade-up');
                 card.setAttribute('data-aos-delay', index * 100);
                 
-                // 如果有 full_bio 或點擊需要展開，可以在這裡加邏輯，目前保持純展示
-                card.style.cursor = 'default';
+                // 🔴 關鍵修復：這裡加入點擊事件
+                card.onclick = function() {
+                    window.location.href = `member.html?id=${index}`;
+                };
                 
                 card.innerHTML = `
                     <div class="member-image-wrap"><img src="${avatar}" class="member-img" alt="${m.name}"></div>
@@ -349,8 +368,7 @@
 
     window.addEventListener('scroll', () => {
         const header = document.querySelector('.header');
-        if(window.scrollY > 50) header.classList.add('scrolled');
-        else header.classList.remove('scrolled');
+        if(window.scrollY > 50) header.classList.add('scrolled'); else header.classList.remove('scrolled');
         const footerMark = document.getElementById('footer-mark');
         if(footerMark) { const footerOffset = document.querySelector('footer').offsetTop; if(window.scrollY > footerOffset - window.innerHeight) { const delta = window.scrollY - (footerOffset - window.innerHeight); footerMark.style.transform = `translate(-50%, -50%) translateY(${delta * -0.1}px)`; } }
     });

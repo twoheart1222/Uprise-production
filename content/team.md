@@ -14,10 +14,16 @@ members:
     ig_url: >-
       https://www.instagram.com/harry.lin_jiayou?igsh=MXNyNXlpdDIzZmozMg%3D%3D&utm_source=qr
     full_bio: >-
-      #### **推手影像製作有限公司（Uprise-Production）的創辦人與導演。**
+      #### **推手影像製作有限公司**
 
 
-      #### **現在就讀台灣藝術大學電系碩士。**
+      **（Uprise-Production）**
+
+
+      **的創辦人與導演。**
+
+
+      **現在就讀臺灣藝術大學電影系碩士。**
 
 
       #### 短片《流量底限》

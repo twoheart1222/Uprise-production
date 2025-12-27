@@ -59,7 +59,7 @@
     -webkit-font-smoothing: antialiased;
   }
 
-  /* 禁止圖片拖曳 (防盜) */
+  /* 禁止圖片拖曳 */
   img {
     -webkit-user-drag: none;
     -khtml-user-drag: none;
@@ -93,15 +93,17 @@
   }
   .loader.hidden { opacity: 0; visibility: hidden; }
   
-  .loader-text-logo {
-    font-family: var(--font-display); font-size: 3rem; color: #fff;
-    letter-spacing: 5px; text-transform: uppercase;
-    animation: logoFadeInOut 2.5s ease forwards;
+  /* Logo 電影感聚焦動畫 */
+  .loader-logo-img {
+    width: auto; height: 90px; max-width: 80vw; object-fit: contain;
+    opacity: 0; transform: scale(0.8); filter: blur(10px);
+    animation: cinematicLogoReveal 2.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
   }
-  .loader-text-logo span { color: var(--brand-light); }
-  @keyframes logoFadeInOut { 
-    0% { opacity: 0; transform: scale(0.9); } 40% { opacity: 1; transform: scale(1); }
-    90% { opacity: 1; transform: scale(1); } 100% { opacity: 0; transform: scale(1.1); }
+  @keyframes cinematicLogoReveal {
+    0% { opacity: 0; transform: scale(0.8) translateY(10px); filter: blur(10px) brightness(0.5); }
+    30% { opacity: 1; transform: scale(1) translateY(0); filter: blur(0px) brightness(1); }
+    70% { opacity: 1; transform: scale(1.05); filter: blur(0px) brightness(1.1) drop-shadow(0 0 15px rgba(255, 215, 0, 0.6)); }
+    100% { opacity: 0; transform: scale(1.15) translateY(-5px); filter: blur(5px) brightness(1.5); }
   }
 
   /* --- 游標與特效 --- */
@@ -167,6 +169,54 @@
   .nav-item:hover span.original-text { transform: translateY(-100%); }
   .nav-item:hover span.hover-text { transform: translateY(-100%); }
   .nav-item.active span.original-text { color: var(--brand-light); }
+
+  /* --- 🔴 Mobile Menu (直式排列、大字體、寬間距) --- */
+  .hamburger { display: none; flex-direction: column; gap: 6px; cursor: pointer; z-index: 200; width: 30px; }
+  .hamburger span { width: 100%; height: 2px; background: #fff; transition: 0.3s; }
+  .hamburger.active span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+  .hamburger.active span:nth-child(2) { opacity: 0; }
+  .hamburger.active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+  
+  .mobile-menu {
+    position: fixed; inset: 0; background: rgba(5,5,5,0.98); backdrop-filter: blur(10px); z-index: 150;
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
+    opacity: 0; pointer-events: none; transition: 0.5s;
+  }
+  .mobile-menu.active { opacity: 1; pointer-events: all; }
+  
+  /* 選單容器：直式排列 */
+  .mobile-nav {
+    display: flex; 
+    flex-direction: column; /* 直式 */
+    justify-content: center; 
+    align-items: center; 
+    gap: 30px; /* 寬間距 */
+    width: 100%;
+  }
+
+  /* 選單連結：大字體 */
+  .mobile-nav-link { 
+    font-family: var(--font-serif); 
+    font-size: 2rem; /* 2rem 字體 */
+    color: #fff; 
+    text-decoration: none; 
+    margin: 0; 
+    font-weight: 700; 
+    letter-spacing: 2px;
+    opacity: 0; 
+    transform: translateY(20px); 
+    transition: 0.5s; 
+    white-space: nowrap;
+  }
+  .mobile-menu.active .mobile-nav-link { opacity: 1; transform: translateY(0); }
+  .mobile-nav-link:hover { color: var(--brand-light); }
+  
+  /* 依序進場動畫 */
+  .mobile-menu.active .mobile-nav-link:nth-child(1) { transition-delay: 0.1s; }
+  .mobile-menu.active .mobile-nav-link:nth-child(2) { transition-delay: 0.2s; }
+  .mobile-menu.active .mobile-nav-link:nth-child(3) { transition-delay: 0.3s; }
+  .mobile-menu.active .mobile-nav-link:nth-child(4) { transition-delay: 0.4s; }
+  .mobile-menu.active .mobile-nav-link:nth-child(5) { transition-delay: 0.5s; }
 
   /* --- 作品頁面 Header --- */
   .works-hero {
@@ -299,6 +349,9 @@
     .works-hero { padding-top: 140px; } .page-title { font-size: 3rem; }
     .footer h2 { font-size: 2.5rem; letter-spacing: 5px; }
     .work-grid { grid-template-columns: 1fr; }
+    
+    /* 漢堡選單顯示設定 */
+    .hamburger { display: flex; }
   }
 </style>
 </head>
@@ -306,9 +359,11 @@
 
   <div class="page-transition-curtain"></div>
   <div class="cursor"></div>
+  
   <div class="loader">
-    <div class="loader-text-logo">Uprise<span>.</span></div>
+    <img src="images/uploads/logo.png" class="loader-logo-img" alt="Uprise">
   </div>
+  
   <div class="ambient-light">
     <div class="ambient-blob"></div>
     <div class="ambient-blob"></div>
@@ -339,7 +394,21 @@
             <span class="original-text">聯絡</span><span class="hover-text">聯絡</span>
         </a>
       </nav>
+
+      <div class="hamburger hover-trigger" id="hamburger-btn">
+        <span></span><span></span><span></span>
+      </div>
     </header>
+
+    <div class="mobile-menu" id="mobile-menu">
+      <nav class="mobile-nav">
+         <a href="index.html" class="mobile-nav-link page-link">首頁</a>
+         <a href="works.html" class="mobile-nav-link page-link">作品</a>
+         <a href="team.html" class="mobile-nav-link page-link">團隊</a>
+         <a href="about.html" class="mobile-nav-link page-link">關於</a>
+         <a href="contact.html" class="mobile-nav-link page-link">聯絡</a>
+      </nav>
+    </div>
 
     <main>
       <section class="works-hero">
@@ -416,20 +485,41 @@
             const data = jsyaml.load(yamlText);
             renderWorks(data);
             
-            // 資料載入成功後，移除 Loading (延遲一點點讓畫面順暢)
-            setTimeout(removeLoader, 500);
+            // 延遲移除 Loading，確保 Logo 動畫播完
+            setTimeout(removeLoader, 2200);
         })
         .catch(err => {
             console.log("Using fallback works data", err);
             renderWorks(fallbackData);
             // 就算失敗也要移除 Loading
-            setTimeout(removeLoader, 500);
+            setTimeout(removeLoader, 2200);
         });
 
       initCursor();
       initPageTransition();
       createParticles();
+      initMenu(); // 🔴 啟動漢堡選單邏輯
     });
+
+    function initMenu() {
+        const hamburger = document.getElementById('hamburger-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        if (hamburger && mobileMenu) {
+            hamburger.addEventListener('click', () => {
+                hamburger.classList.toggle('active');
+                mobileMenu.classList.toggle('active');
+            });
+            
+            // 點擊選單項目後關閉選單
+            document.querySelectorAll('.mobile-nav-link').forEach(link => {
+                link.addEventListener('click', () => {
+                    hamburger.classList.remove('active');
+                    mobileMenu.classList.remove('active');
+                });
+            });
+        }
+    }
 
     function removeLoader() {
         document.querySelector('.loader').classList.add('hidden');

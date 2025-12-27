@@ -5,3 +5,16 @@ timezone: Asia/Taipei
 markdown:
   engine: commonmark
   options: {}
+collections_config:
+  pages:
+    path: ''
+    icon: wysiwyg
+  content:
+    path: content
+    icon: wysiwyg
+  data:
+    path: data
+    icon: data_usage
+  data_1:
+    path: _data
+    icon: dataset

@@ -87,7 +87,7 @@
   .hamburger.active span:nth-child(2) { opacity: 0; }
   .hamburger.active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
 
-  /* 手機版選單 (直式排列) */
+  /* 手機版選單 */
   .mobile-menu {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
     background: rgba(5, 5, 5, 0.98); backdrop-filter: blur(10px); z-index: 150;
@@ -232,13 +232,12 @@
     document.addEventListener('copy', e => e.preventDefault());
     document.onkeydown = function(e) { if(e.keyCode == 123) return false; }
 
+    // 預設資料 (Fallback)
     const fallbackData = {
       title: "專業團隊",
       subtitle: "一群對影像充滿熱情的職人",
       members: [
-        { name: "林家佑", role: "DIRECTOR", avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?fit=crop&w=400&h=400&q=80", bio: "專注於電影級影像製作，擅長透過鏡頭語言捕捉情感流動。", portfolio_url: "#", ig_url: "#" },
-        { name: "張志明", role: "CINEMATOGRAPHER", avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?fit=crop&w=400&h=400&q=80", bio: "以光影為筆，為每一個畫面注入靈魂。", portfolio_url: "#" },
-        { name: "陳小美", role: "PRODUCER", avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?fit=crop&w=400&h=400&q=80", bio: "精準掌控專案進度，確保拍攝完美執行。", ig_url: "#" }
+        { name: "林家佑", role: "DIRECTOR", image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?fit=crop&w=400&h=400&q=80", bio: "專注於電影級影像製作，擅長透過鏡頭語言捕捉情感流動。", portfolio_url: "#", ig_url: "#" }
       ]
     };
 
@@ -251,7 +250,7 @@
         AOS.init({ duration: 1000, easing: 'ease-out-cubic', once: false, mirror: true, offset: 50 });
       }, 2200);
 
-      // 🔴 讀取團隊資料 (加入 ?t= 防快取)
+      // 🔴 讀取團隊資料 (注意這裡欄位名稱是 image 不是 avatar)
       fetch('content/team.md?t=' + new Date().getTime())
         .then(r => r.ok ? r.text() : Promise.reject())
         .then(text => {
@@ -267,7 +266,7 @@
       initCursor(); initPageTransition(); createParticles(); initMagneticButtons(); initSoundToggle(); initMenu();
     });
 
-    // 🔴 漢堡選單邏輯
+    // 漢堡選單
     function initMenu() {
         const hamburger = document.getElementById('hamburger-btn');
         const mobileMenu = document.getElementById('mobile-menu');
@@ -277,15 +276,12 @@
                 hamburger.classList.toggle('active');
                 mobileMenu.classList.toggle('active');
             });
-            
             document.querySelectorAll('.mobile-nav-link').forEach(link => {
                 link.addEventListener('click', () => {
                     hamburger.classList.remove('active');
                     mobileMenu.classList.remove('active');
                 });
             });
-
-            // 點擊背景關閉
             mobileMenu.addEventListener('click', (e) => {
                 if (e.target === mobileMenu || e.target.classList.contains('mobile-nav')) {
                     hamburger.classList.remove('active');
@@ -304,7 +300,8 @@
 
         if (data.members && data.members.length > 0) {
             data.members.forEach((m, index) => {
-                const avatar = m.avatar || 'https://dummyimage.com/400x400/333/fff&text=No+Img';
+                // 🔴 修改：使用 m.image
+                const avatar = m.image || 'https://dummyimage.com/400x400/333/fff&text=No+Img';
                 let buttonsHtml = '';
                 if (m.portfolio_url) buttonsHtml += `<a href="${m.portfolio_url}" target="_blank" class="portfolio-link hover-trigger">作品集</a>`;
                 if (m.ig_url) buttonsHtml += `<a href="${m.ig_url}" target="_blank" class="portfolio-link ig-btn hover-trigger"><i class="fab fa-instagram" style="font-size: 1.1rem;"></i></a>`;

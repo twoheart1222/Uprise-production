@@ -1,940 +1,1849 @@
 <!doctype html>
+
 <html lang="zh-Hant" oncontextmenu="return false">
+
 <head>
+
 <meta charset="utf-8" />
+
 <meta name="viewport" content="width=device-width,initial-scale=1" />
+
+
 
 <title>推手影像製作有限公司 Uprise-Production | 敘事與美學的極致</title>
 
+
+
 <link rel="icon" type="image/png" href="images/uploads/logo.png">
 
+
+
 <meta name="description" content="Uprise-Production 推手影像｜以極致的影像美學，探索品牌深度的敘事可能。">
+
 <link rel="canonical" href="https://www.uprise-videoproduction.com/index.html">
 
+
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
+
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
 <link href="https://fonts.googleapis.com/css2?family=Italiana&family=Noto+Sans+TC:wght@300;400;500;700;900&family=Noto+Serif+TC:wght@700;900&display=swap" rel="stylesheet">
+
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+
 
 <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
+
 
 <style>
-  /* --- 核心變數 --- */
-  :root { 
-    --bg-color: #050505; 
-    --card-bg: rgba(20, 20, 20, 0.4); 
-    --text-main: #FFFFFF; 
-    --text-sub: #B0B0B0; 
-    --brand-primary: #FF8C00; 
-    --brand-light: #FFD700; 
-    --brand-gradient: linear-gradient(135deg, #FFD700, #FF8C00);
-    --silver-gradient: linear-gradient(to bottom, #ffffff 40%, #a0a0a0 100%);
-    
-    --font-display: 'Italiana', serif;
-    --font-body: 'Noto Sans TC', sans-serif;
-    --font-serif: 'Noto Serif TC', serif;
-    
-    --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
-    --ease-cinematic: cubic-bezier(0.22, 1, 0.36, 1);
-  }
 
-  * { box-sizing: border-box; cursor: none; }
+  /* --- 核心變數 --- */
 
-  html { scroll-behavior: smooth; }
+  :root {
 
-  ::-webkit-scrollbar { width: 5px; }
-  ::-webkit-scrollbar-track { background: #000; }
-  ::-webkit-scrollbar-thumb { background: #444; border-radius: 10px; }
-  ::-webkit-scrollbar-thumb:hover { background: var(--brand-primary); }
+    --bg-color: #050505;
 
-  ::selection { background: var(--brand-light); color: #000; }
+    --card-bg: rgba(20, 20, 20, 0.4);
 
-  body {
-    margin: 0; padding: 0;
-    font-family: var(--font-body);
-    background-color: var(--bg-color);
-    color: var(--text-main);
-    overflow-x: hidden;
-    -webkit-font-smoothing: antialiased;
-  }
+    --text-main: #FFFFFF;
 
-  /* 禁止圖片拖曳 (防盜) */
-  img {
-    -webkit-user-drag: none;
-    pointer-events: none;
-  }
+    --text-sub: #B0B0B0;
 
-  /* --- 載入動畫 (Loader) --- */
-  .page-transition-curtain {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: #000; z-index: 100000; transform: translateY(0);
-    transition: transform 1s cubic-bezier(0.87, 0, 0.13, 1); pointer-events: none;
-  }
-  .page-transition-curtain.reveal { transform: translateY(-100%); } 
-  .page-transition-curtain.cover { transform: translateY(0); }
+    --brand-primary: #FF8C00;
 
-  .loader {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: #000; z-index: 200000; 
-    display: flex; justify-content: center; align-items: center;
-    transition: opacity 0.8s ease, visibility 0.8s;
-  }
-  .loader.hidden { opacity: 0; visibility: hidden; }
-  
-  /* Logo 電影感聚焦動畫 */
-  .loader-logo-img {
-    width: auto;
-    height: 90px; 
-    max-width: 80vw;
-    object-fit: contain;
-    opacity: 0;
-    transform: scale(0.8);
-    filter: blur(10px);
-    animation: cinematicLogoReveal 2.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-  }
-  
-  @keyframes cinematicLogoReveal { 
-    0% { 
-      opacity: 0; transform: scale(0.8) translateY(10px); filter: blur(10px) brightness(0.5);
-    } 
-    30% { 
-      opacity: 1; transform: scale(1) translateY(0); filter: blur(0px) brightness(1);
-    }
-    70% {
-      opacity: 1; transform: scale(1.05); 
-      filter: blur(0px) brightness(1.1) drop-shadow(0 0 15px rgba(255, 215, 0, 0.6)); 
-    }
-    100% { 
-      opacity: 0; transform: scale(1.15) translateY(-5px); filter: blur(5px) brightness(1.5);
-    } 
-  }
+    --brand-light: #FFD700;
 
-  /* 游標 */
-  .cursor {
-    position: fixed; top: 0; left: 0; width: 12px; height: 12px;
-    background: var(--brand-light); border-radius: 50%; pointer-events: none; 
-    z-index: 2147483647; transform: translate(-50%, -50%);
-    box-shadow: 0 0 15px rgba(255, 215, 0, 0.9);
-    transition: width 0.3s, height 0.3s; will-change: transform;
-  }
-  body.hovered .cursor {
-    width: 60px; height: 60px; background: rgba(255, 215, 0, 0.05);
-    border: 1px solid rgba(255, 215, 0, 0.8); box-shadow: 0 0 30px rgba(255, 215, 0, 0.4);
-  }
-  body.clicking .cursor { transform: translate(-50%, -50%) scale(0.9); background: var(--brand-primary); }
+    --brand-gradient: linear-gradient(135deg, #FFD700, #FF8C00);
 
-  /* 環境特效 */
-  .ambient-light {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    pointer-events: none; z-index: 0; overflow: hidden;
-  }
-  .ambient-blob {
-    position: absolute; width: 900px; height: 900px;
-    background: radial-gradient(circle, rgba(255, 140, 0, 0.04) 0%, transparent 60%);
-    border-radius: 50%; filter: blur(80px); opacity: 0.5;
-    animation: moveBlob 25s infinite alternate ease-in-out;
-  }
-  .ambient-blob:nth-child(1) { top: -20%; left: -10%; animation-delay: 0s; }
-  .ambient-blob:nth-child(2) { bottom: -20%; right: -10%; animation-duration: 35s; animation-direction: reverse; }
-  @keyframes moveBlob { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(50px, 50px) scale(1.1); } }
+    --silver-gradient: linear-gradient(to bottom, #ffffff 40%, #a0a0a0 100%);
 
-  .particles-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 2; pointer-events: none; overflow: hidden; }
-  .particle {
-    position: absolute; background: radial-gradient(circle, var(--brand-light) 0%, transparent 70%);
-    border-radius: 50%; opacity: 0; animation: floatParticle 10s infinite ease-in-out;
-  }
-  @keyframes floatParticle {
-    0% { transform: translateY(0) translateX(0); opacity: 0; }
-    20% { opacity: 0.6; } 80% { opacity: 0.6; }
-    100% { transform: translateY(-120px) translateX(30px); opacity: 0; }
-  }
+   
 
-  /* 極簡聲音按鈕 */
-  #sound-btn {
-    position: fixed; bottom: 40px; right: 40px; z-index: 9000;
-    display: none; gap: 4px; align-items: flex-end; height: 24px;
-    cursor: pointer; background: transparent; border: none; padding: 5px; width: auto;
-  }
-  #sound-btn:hover { transform: scale(1.1); }
-  .sound-label { font-family: var(--font-body); font-size: 0.75rem; letter-spacing: 2px; color: rgba(255,255,255,0.7); font-weight: 500; margin-right: 5px; margin-bottom: 2px; }
-  .sound-bar { width: 3px; background-color: #fff; opacity: 0.8; border-radius: 2px; height: 3px; transition: height 0.3s, background-color 0.3s; }
-  #sound-btn.is-playing .sound-bar { background-color: var(--brand-light); animation: soundWaveAnim 1s ease-in-out infinite; }
-  #sound-btn.is-playing .sound-label { color: var(--brand-light); }
-  #sound-btn.is-playing .sound-bar:nth-child(1) { animation-delay: 0.0s; }
-  #sound-btn.is-playing .sound-bar:nth-child(2) { animation-delay: 0.2s; }
-  #sound-btn.is-playing .sound-bar:nth-child(3) { animation-delay: 0.4s; }
-  #sound-btn.is-playing .sound-bar:nth-child(4) { animation-delay: 0.1s; }
-  @keyframes soundWaveAnim { 0% { height: 3px; } 50% { height: 20px; } 100% { height: 3px; } }
+    --font-display: 'Italiana', serif;
 
-  /* --- 導覽列 --- */
-  .header {
-    position: fixed; top: 0; left: 0; width: 100%; padding: 30px 50px;
-    display: flex; justify-content: space-between; align-items: center;
-    z-index: 100; background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent); 
-    transition: all 0.5s;
-  }
-  .header.scrolled { 
-    background: rgba(5, 5, 5, 0.9); backdrop-filter: blur(20px); 
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding: 20px 50px;
-  }
-  .logo { display: flex; align-items: center; gap: 12px; text-decoration: none; color: #fff; }
-  .logo img { height: 38px; width: auto; transition: transform 0.5s; object-fit: contain; }
-  .logo:hover img { transform: rotate(5deg) scale(1.05); }
-  .logo-text { font-family: var(--font-display); font-size: 1.2rem; letter-spacing: 2px; text-transform: uppercase; color: #fff; }
-  .logo-text span { color: var(--brand-light); }
-  
-  /* 桌機版選單 */
-  .nav { display: flex; gap: 30px; } 
-  .nav-item { position: relative; overflow: hidden; height: 24px; cursor: pointer; display: block; color: rgba(255,255,255,0.8); font-family: var(--font-body); font-size: 0.95rem; letter-spacing: 2px; font-weight: 500; text-decoration: none; }
-  .nav-item span { display: block; transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1); }
-  .nav-item .hover-text { position: absolute; top: 100%; left: 0; width: 100%; color: var(--brand-light); }
-  .nav-item:hover .original-text { transform: translateY(-100%); } .nav-item:hover .hover-text { transform: translateY(-100%); }
-  .nav-item.active .original-text { color: var(--brand-light); }
+    --font-body: 'Noto Sans TC', sans-serif;
 
-  /* 漢堡選單按鈕 */
-  .hamburger {
-    display: none; /* 預設隱藏，手機版顯示 */
-    flex-direction: column; gap: 6px; cursor: pointer; z-index: 200; width: 30px;
-  }
-  .hamburger span {
-    width: 100%; height: 2px; background: #fff; transition: 0.3s;
-  }
-  /* 漢堡變形動畫 */
-  .hamburger.active span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
-  .hamburger.active span:nth-child(2) { opacity: 0; }
-  .hamburger.active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+    --font-serif: 'Noto Serif TC', serif;
 
-  /* 手機版全螢幕選單 */
-  .mobile-menu {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(5, 5, 5, 0.98); 
-    backdrop-filter: blur(10px);
-    z-index: 150;
-    display: flex; flex-direction: column; justify-content: center; align-items: center;
-    opacity: 0; pointer-events: none; /* 預設隱藏 */
-    transition: opacity 0.5s ease;
-  }
-  .mobile-menu.active { opacity: 1; pointer-events: all; }
-  
-  .mobile-nav {
-    display: flex; flex-direction: column; justify-content: center; align-items: center; 
-    gap: 30px; width: 100%;
-  }
+   
 
-  .mobile-nav-link {
-    font-family: var(--font-serif); font-size: 2rem; color: #fff; text-decoration: none;
-    margin: 0; font-weight: 700; letter-spacing: 2px;
-    opacity: 0; transform: translateY(20px); transition: 0.5s; white-space: nowrap;
-  }
-  .mobile-menu.active .mobile-nav-link { opacity: 1; transform: translateY(0); }
-  .mobile-nav-link:hover { color: var(--brand-light); }
-  .mobile-menu.active .mobile-nav-link:nth-child(1) { transition-delay: 0.1s; }
-  .mobile-menu.active .mobile-nav-link:nth-child(2) { transition-delay: 0.2s; }
-  .mobile-menu.active .mobile-nav-link:nth-child(3) { transition-delay: 0.3s; }
-  .mobile-menu.active .mobile-nav-link:nth-child(4) { transition-delay: 0.4s; }
-  .mobile-menu.active .mobile-nav-link:nth-child(5) { transition-delay: 0.5s; }
+    --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
+
+    --ease-cinematic: cubic-bezier(0.22, 1, 0.36, 1);
+
+  }
 
 
-  /* --- Hero Section --- */
-  .hero {
-    position: relative; height: 100vh; width: 100%;
-    display: flex; align-items: center; justify-content: center;
-    padding: 0 20px; overflow: hidden; perspective: 1000px;
-  }
-  .hero::before, .hero::after {
-    content: ''; position: absolute; left: 0; width: 100%; height: 0;
-    background: #000; z-index: 5; transition: height 1.5s var(--ease-out-expo) 1s;
-  }
-  .hero::before { top: 0; }
-  .hero::after { bottom: 0; }
-  .loaded .hero::before, .loaded .hero::after { height: 6vh; } 
 
-  .bg-video-wrap { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; background: #000; }
-  .video-overlay {
-    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0, 0, 0, 0.4); z-index: 1;
-  }
-  #bg-video {
-    width: 100%; height: 100%; 
-    object-fit: contain; object-position: center center;
-    filter: brightness(0.95) contrast(1.05) saturate(0.8); 
-    transform: scale(1); transition: transform 0.1s linear; will-change: transform;
-  }
-  .loaded #bg-video { transform: scale(1); }
+  * { box-sizing: border-box; cursor: none; }
 
-  .hero-content {
-    position: relative; z-index: 10; text-align: center; max-width: 1000px;
-  }
-  
-  .hero-title {
-    font-family: var(--font-serif); font-size: clamp(3.5rem, 11vw, 8rem); 
-    line-height: 1.1; margin: 0; color: #fff; letter-spacing: 5px;
-    background: var(--silver-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-    filter: drop-shadow(0 10px 30px rgba(0,0,0,0.8));
-    font-weight: 900; 
-  }
-  .hero-title span {
-    font-family: var(--font-serif); font-weight: 900; 
-    background: linear-gradient(135deg, #FFD700 0%, #FF8C00 100%);
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-    filter: drop-shadow(0 0 25px rgba(255, 140, 0, 0.6));
-    padding-left: 10px; letter-spacing: 5px; 
-  }
-  
-  .hero-subtitle {
-    font-family: var(--font-body); font-size: clamp(1rem, 2vw, 1.3rem);
-    color: rgba(255,255,255,0.85); margin-top: 30px; letter-spacing: 5px;
-    min-height: 1.5em; font-weight: 300;
-  }
-  
-  .shutter-flash { animation: shutterAnim 2.5s cubic-bezier(0.1, 0.9, 0.2, 1) forwards; }
-  @keyframes shutterAnim {
-    0% { opacity: 0; filter: blur(20px) brightness(5); letter-spacing: 20px; }
-    20% { opacity: 1; filter: blur(5px) brightness(2); }
-    30% { opacity: 0.1; filter: brightness(1); }
-    40% { opacity: 1; filter: blur(0) brightness(1.5); letter-spacing: 5px; } 
-    60% { filter: brightness(1); }
-    100% { opacity: 1; filter: blur(0); letter-spacing: 5px; }
-  }
 
-  .hero-ctas {
-    margin-top: 60px; display: flex; gap: 25px; justify-content: center;
-  }
-  
-  .scroll-indicator {
-    position: absolute; 
-    bottom: 40px; 
-    left: 50%; transform: translateX(-50%);
-    z-index: 10; opacity: 0; transition: opacity 1s 2s;
-    display: flex; flex-direction: column; align-items: center; gap: 12px;
-    cursor: pointer;
-  }
-  .loaded .scroll-indicator { opacity: 0.8; }
-  .scroll-text {
-    font-size: 0.8rem; letter-spacing: 3px; color: rgba(255,255,255,0.6);
-    font-weight: 300; animation: textBreath 3s infinite alternate;
-  }
-  @keyframes textBreath { from { opacity: 0.6; } to { opacity: 1; text-shadow: 0 0 10px rgba(255,255,255,0.3); } }
-  .scroll-line {
-    width: 1px; height: 50px; background: linear-gradient(to bottom, var(--brand-light), transparent);
-    animation: scrollDown 2s infinite; box-shadow: 0 0 5px var(--brand-primary);
-  }
-  @keyframes scrollDown { 0% { transform: scaleY(0); transform-origin: top; } 50% { transform: scaleY(1); transform-origin: top; } 51% { transform: scaleY(1); transform-origin: bottom; } 100% { transform: scaleY(0); transform-origin: bottom; } }
-  
-  .scroll-arrow {
-    color: var(--brand-light); font-size: 1.2rem;
-    animation: arrowBounce 2s infinite; margin-top: -5px;
-  }
-  @keyframes arrowBounce {
-    0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-    40% { transform: translateY(-5px); }
-    60% { transform: translateY(-3px); }
-  }
 
-  .btn {
-    padding: 14px 45px; border-radius: 2px;
-    font-family: var(--font-body); font-size: 0.95rem; letter-spacing: 2px;
-    text-decoration: none; transition: 0.3s cubic-bezier(0.19, 1, 0.22, 1);
-    position: relative; overflow: hidden; font-weight: 500; transform: translate(0,0);
-  }
-  .btn-primary {
-    background: var(--brand-gradient); color: #000; border: none;
-    box-shadow: 0 10px 30px rgba(255, 140, 0, 0.25);
-  }
-  .btn-primary::after {
-    content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.8), transparent);
-    transform: skewX(-20deg); animation: btnShine 3s infinite; pointer-events: none;
-  }
-  @keyframes btnShine { 0%, 70% { left: -100%; } 100% { left: 200%; } }
-  .btn-primary:hover { box-shadow: 0 20px 40px rgba(255, 140, 0, 0.4); filter: brightness(1.1); }
-  .btn-ghost {
-    background: rgba(255,255,255,0.05); color: #fff; 
-    border: 1px solid rgba(255,255,255,0.2); backdrop-filter: blur(5px);
-  }
-  .btn-ghost:hover { border-color: var(--brand-primary); color: #fff; background: rgba(255, 140, 0, 0.15); }
+  html { scroll-behavior: smooth; }
 
-  /* 服務區塊 */
-  .services-section { padding: 150px 8%; position: relative; z-index: 2; background: transparent; }
-  .section-header { text-align: center; margin-bottom: 80px; position: relative; z-index: 2; }
-  .section-title { font-family: var(--font-body); font-size: 2.8rem; color: #fff; margin: 0; letter-spacing: 5px; font-weight: 700; }
-  .section-line { width: 60px; height: 3px; background: var(--brand-gradient); margin: 25px auto; border-radius: 2px; }
-  .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; position: relative; z-index: 2; }
 
-  .service-card {
-    background: rgba(20, 20, 20, 0.6); padding: 60px 40px; border-radius: 4px;
-    position: relative; overflow: hidden; display: flex; flex-direction: column; align-items: flex-start;
-    transition: box-shadow 0.4s, transform 0.4s; backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.08); box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-  }
-  
-  .border-shimmer {
-    position: absolute; inset: 0; border-radius: 4px; padding: 1.5px;
-    background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.5), transparent);
-    background-size: 200% 100%;
-    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor; mask-composite: exclude;
-    pointer-events: none; animation: shimmerBorder 3s linear infinite; opacity: 0.8; z-index: 1;
-  }
-  @keyframes shimmerBorder { 0% { background-position: -150% 0; } 100% { background-position: 150% 0; } }
 
-  .border-spotlight {
-    position: absolute; inset: 0; border-radius: 4px; padding: 1.5px;
-    background: radial-gradient(350px circle at var(--x) var(--y), rgba(255, 215, 0, 1), transparent 40%);
-    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor; mask-composite: exclude;
-    pointer-events: none; opacity: 0; transition: opacity 0.3s; z-index: 2;
-  }
-  .card-bg-spotlight {
-    position: absolute; inset: 0;
-    background: radial-gradient(600px circle at var(--x) var(--y), rgba(255, 215, 0, 0.08), transparent 40%);
-    pointer-events: none; opacity: 0; transition: opacity 0.3s; z-index: 0;
-  }
-  .service-card:hover .border-spotlight, .service-card:hover .card-bg-spotlight { opacity: 1; }
-  .service-card:hover { transform: translateY(-5px); box-shadow: 0 30px 60px rgba(0,0,0,0.8), 0 0 30px rgba(255, 140, 0, 0.1); background: rgba(30, 30, 30, 0.8); z-index: 10; }
+  ::-webkit-scrollbar { width: 5px; }
 
-  .card-number {
-    position: absolute; top: -10px; right: 20px; font-family: var(--font-display);
-    font-size: 8rem; line-height: 1; color: rgba(255, 255, 255, 0.03); 
-    pointer-events: none; z-index: 0; transition: 0.5s; transform: translateZ(20px);
-  }
-  .service-card:hover .card-number { color: rgba(255, 183, 0, 0.08); transform: scale(1.1) translateY(-10px); }
-  .service-content-wrap { position: relative; z-index: 3; pointer-events: none; }
-  
-  .service-icon-fa {
-    font-size: 50px; margin-bottom: 30px; display: block;
-    background: linear-gradient(135deg, #cfc7bc, #fff); 
-    -webkit-background-clip: text; background-clip: text;
-    -webkit-text-fill-color: transparent;
-    opacity: 0.8;
-    filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.2));
-    transition: 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-  }
-  .service-card:hover .service-icon-fa {
-    transform: scale(1.1) rotate(5deg);
-    background: var(--brand-gradient);
-    -webkit-background-clip: text; background-clip: text;
-    -webkit-text-fill-color: transparent;
-    filter: drop-shadow(0 0 15px rgba(255, 140, 0, 0.9));
-    opacity: 1;
-  }
-  
-  .service-card h3 {
-    font-family: var(--font-body); font-size: 1.5rem; color: #fff;
-    margin: 0 0 15px 0; letter-spacing: 2px; font-weight: 700; transition: color 0.3s;
-  }
-  .service-card:hover h3 { color: var(--brand-light); }
-  .service-card p {
-    font-family: var(--font-body); font-size: 0.95rem; color: var(--text-sub);
-    line-height: 1.8; margin: 0; font-weight: 300; letter-spacing: 1px;
-  }
+  ::-webkit-scrollbar-track { background: #000; }
 
-  /* --- 工作花絮 (Clean Grid) --- */
-  .bts-section {
-    padding: 100px 8%; position: relative; z-index: 2; background: transparent;
-  }
-  .bts-grid {
-    display: grid;
-    grid-template-columns: repeat(6, 1fr); 
-    gap: 15px;
-    margin-top: 60px;
-  }
-  .bts-item {
-    position: relative;
-    aspect-ratio: 16/9; 
-    overflow: hidden;
-    border-radius: 2px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    transition: 0.5s var(--ease-out-expo);
-    cursor: pointer;
-  }
-  .bts-item img {
-    width: 100%; height: 100%; object-fit: cover;
-    transition: transform 0.8s var(--ease-out-expo);
-    filter: brightness(0.95);
-  }
-  .bts-item:hover {
-    border-color: var(--brand-light);
-    transform: translateY(-5px);
-    box-shadow: 0 15px 40px rgba(0,0,0,0.6);
-    z-index: 5;
-  }
-  .bts-item:hover img {
-    transform: scale(1.1);
-    filter: brightness(1.1);
-  }
-  
-  @media (max-width: 1200px) {
-    .bts-grid { grid-template-columns: repeat(3, 1fr); }
-  }
-  @media (max-width: 768px) {
-    .nav { display: none; }
-    .hamburger { display: flex; }
-    .bts-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
-    .header { padding: 20px; }
-    .hero-title { font-size: 3.5rem; }
-    .hero-ctas { 
-      flex-direction: row; 
-      width: 100%; max-width: 100%; margin: 50px auto 0; padding: 0 20px; gap: 15px; 
-    }
-    .btn { width: auto; flex: 1; text-align: center; padding: 12px 10px; }
-    .card-number { font-size: 6rem; right: 10px; }
-    .footer-watermark { font-size: 25vw; }
-    .footer h2 { font-size: 2.5rem; letter-spacing: 5px; }
-    .scroll-indicator { bottom: 20px; gap: 8px; }
-    .scroll-line { height: 30px; }
-    .scroll-text { font-size: 0.7rem; }
-    .hero-content { margin-bottom: 40px; }
-  }
+  ::-webkit-scrollbar-thumb { background: #444; border-radius: 10px; }
 
-  footer {
-    padding: 120px 8% 60px; border-top: 1px solid rgba(255,255,255,0.05);
-    background: #020202; text-align: center; position: relative; overflow: hidden;
-  }
-  .footer-watermark {
-    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-    font-family: var(--font-display); font-size: 20vw; font-weight: 700;
-    color: rgba(255, 255, 255, 0.02); pointer-events: none; white-space: nowrap;
-    z-index: 0; letter-spacing: 10px; will-change: transform; 
-  }
-  .footer-content { max-width: 800px; margin: 0 auto; position: relative; z-index: 1; }
-  .footer h2 {
-    font-family: var(--font-serif); font-size: 3.5rem; font-weight: 900;
-    margin-bottom: 40px; letter-spacing: 10px;
-    background: linear-gradient(to right, #cfc7bc, #fff, #cfc7bc);
-    -webkit-background-clip: text; background-clip: text;
-    -webkit-text-fill-color: transparent; filter: drop-shadow(0 5px 15px rgba(0,0,0,0.8));
-  }
-  .footer h2 span {
-    background: var(--brand-gradient); -webkit-background-clip: text; background-clip: text;
-    -webkit-text-fill-color: transparent; font-weight: 900; filter: drop-shadow(0 0 15px rgba(255, 140, 0, 0.5));
-  }
-  .manifesto { font-size: 1.1rem; color: var(--text-sub); line-height: 2; margin-bottom: 50px; font-weight: 300; letter-spacing: 1px; }
-  .copyright { font-size: 0.8rem; color: #444; margin-top: 50px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 30px; letter-spacing: 1px; }
-</style>
-</head>
-<body class="loading-state">
+  ::-webkit-scrollbar-thumb:hover { background: var(--brand-primary); }
 
-  <div class="page-transition-curtain"></div>
-  <div class="cursor"></div>
-  <div class="loader">
-    <img src="images/uploads/logo.png" class="loader-logo-img" alt="Uprise">
-  </div>
-  <div class="ambient-light">
-    <div class="ambient-blob"></div>
-    <div class="ambient-blob"></div>
-  </div>
-  <div class="particles-container" id="particles"></div>
 
-  <div id="sound-btn" class="sound-equalizer hover-trigger">
-    <span class="sound-label">SOUND</span>
-    <div class="sound-bars">
-      <div class="sound-bar"></div>
-      <div class="sound-bar"></div>
-      <div class="sound-bar"></div>
-      <div class="sound-bar"></div>
-    </div>
-  </div>
 
-  <div class="mobile-menu" id="mobile-menu">
-    <nav class="mobile-nav">
-       <a href="index.html" class="mobile-nav-link page-link">首頁</a>
-       <a href="works.html" class="mobile-nav-link page-link">作品</a>
-       <a href="team.html" class="mobile-nav-link page-link">團隊</a>
-       <a href="about.html" class="mobile-nav-link page-link">關於</a>
-       <a href="contact.html" class="mobile-nav-link page-link">聯絡</a>
-    </nav>
-  </div>
+  ::selection { background: var(--brand-light); color: #000; }
 
-  <div id="main-wrapper">
-    <header class="header" id="header" data-aos="fade-down" data-aos-duration="1200" data-aos-delay="2200">
-      <a href="index.html" class="logo hover-trigger">
-        <img src="images/uploads/logo.png" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'" alt="Logo">
-        <span class="logo-text" style="display:none;">Uprise<span>.</span></span>
-      </a>
-      
-      <nav class="nav">
-        <a href="index.html" class="nav-item hover-trigger page-link active">
-            <span class="original-text">首頁</span><span class="hover-text">首頁</span>
-        </a>
-        <a href="works.html" class="nav-item hover-trigger page-link">
-            <span class="original-text">作品</span><span class="hover-text">作品</span>
-        </a>
-        <a href="team.html" class="nav-item hover-trigger page-link">
-            <span class="original-text">團隊</span><span class="hover-text">團隊</span>
-        </a>
-        <a href="about.html" class="nav-item hover-trigger page-link">
-            <span class="original-text">關於</span><span class="hover-text">關於</span>
-        </a>
-        <a href="contact.html" class="nav-item hover-trigger page-link">
-            <span class="original-text">聯絡</span><span class="hover-text">聯絡</span>
-        </a>
-      </nav>
 
-      <div class="hamburger hover-trigger" id="hamburger-btn">
-        <span></span>
-        <span></span>
-        <span></span>
-      </div>
-    </header>
 
-    <main>
-      <section class="hero" id="hero-section">
-        <div class="bg-video-wrap">
-          <div class="video-overlay"></div>
-          <video id="bg-video" playsinline muted loop autoplay src="https://res.cloudinary.com/dfnfcyglu/video/upload/v1763893930/hero_bg_ickrbe.mp4"></video>
-        </div>
-        <div class="particles-container" id="particles"></div>
-        <div class="hero-content" id="hero-content">
-          <h1 class="hero-title editable" id="hero-title" data-aos="zoom-out" data-aos-duration="2000" data-aos-delay="1200">推手<span>影像</span></h1>
-          <p class="hero-subtitle editable" id="hero-subtitle" data-aos="fade-up" data-aos-delay="2000">電影級影像製作團隊</p>
-          <div class="hero-ctas" data-aos="fade-up" data-aos-delay="2200">
-            <a href="works.html" class="btn btn-primary hover-trigger magnetic-btn page-link editable">查看作品</a>
-            <a href="contact.html" class="btn btn-ghost hover-trigger magnetic-btn page-link editable">聯絡我們</a>
-          </div>
-        </div>
-        <div class="scroll-indicator hover-trigger" id="scroll-btn">
-          <span class="scroll-text">下滑探索</span>
-          <i class="fas fa-chevron-down scroll-arrow"></i>
-          <div class="scroll-line"></div>
-        </div>
-      </section>
+  body {
 
-      <section class="services-section" id="services-section">
-        <div class="section-header" data-aos="fade-up" data-aos-duration="1000">
-          <h2 class="section-title editable">專業服務</h2>
-          <div class="section-line"></div>
-        </div>
-        <div class="services-grid" id="services-grid">
-            
-            <div class="service-card hover-trigger floating editable" data-aos="fade-up" data-aos-delay="0">
-                <div class="border-shimmer"></div> 
-                <div class="border-spotlight"></div> 
-                <div class="card-bg-spotlight"></div>
-                <span class="card-number">01</span>
-                <div class="service-content-wrap">
-                    <i class="fa-solid fa-video service-icon-fa"></i>
-                    <h3>商業/品牌形象廣告</h3>
-                    <p>為品牌量身打造的高質感商業廣告，精準傳遞核心價值。</p>
-                </div>
-            </div>
+    margin: 0; padding: 0;
 
-            <div class="service-card hover-trigger floating editable" data-aos="fade-up" data-aos-delay="150">
-                <div class="border-shimmer"></div> 
-                <div class="border-spotlight"></div> 
-                <div class="card-bg-spotlight"></div>
-                <span class="card-number">02</span>
-                <div class="service-content-wrap">
-                    <i class="fa-solid fa-photo-film service-icon-fa"></i>
-                    <h3>後期製作</h3>
-                    <p>透過影像敘事，建立深刻的品牌形象與視覺識別。</p>
-                </div>
-            </div>
+    font-family: var(--font-body);
 
-            <div class="service-card hover-trigger floating editable" data-aos="fade-up" data-aos-delay="300">
-                <div class="border-shimmer"></div> 
-                <div class="border-spotlight"></div> 
-                <div class="card-bg-spotlight"></div>
-                <span class="card-number">03</span>
-                <div class="service-content-wrap">
-                    <i class="fa-solid fa-pen-fancy service-icon-fa"></i>
-                    <h3>腳本撰寫</h3>
-                    <p>專業剪輯、特效與調光，賦予影像電影級的質感。</p>
-                </div>
-            </div>
+    background-color: var(--bg-color);
 
-        </div>
-      </section>
+    color: var(--text-main);
 
-      <section class="bts-section">
-        <div class="section-header" data-aos="fade-up" data-aos-duration="1000">
-          <h2 class="section-title editable">工作花絮</h2>
-          <div class="section-line"></div>
-        </div>
-        
-        <div class="bts-grid">
-            <div class="bts-item hover-trigger editable" data-aos="zoom-in" data-aos-delay="0">
-                <img src="https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="BTS">
-            </div>
-            <div class="bts-item hover-trigger editable" data-aos="zoom-in" data-aos-delay="100">
-                <img src="https://images.unsplash.com/photo-1598550476439-6847785fcea6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="BTS">
-            </div>
-            <div class="bts-item hover-trigger editable" data-aos="zoom-in" data-aos-delay="200">
-                <img src="https://images.unsplash.com/photo-1533561098733-722129d2b276?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="BTS">
-            </div>
-            <div class="bts-item hover-trigger editable" data-aos="zoom-in" data-aos-delay="300">
-                <img src="https://images.unsplash.com/photo-1585644198306-399564c7b275?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="BTS">
-            </div>
-            <div class="bts-item hover-trigger editable" data-aos="zoom-in" data-aos-delay="400">
-                <img src="https://images.unsplash.com/photo-1521791136064-7986c2920216?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="BTS">
-            </div>
-            <div class="bts-item hover-trigger editable" data-aos="zoom-in" data-aos-delay="500">
-                <img src="https://images.unsplash.com/photo-1626814026160-2237a95fc5a0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="BTS">
-            </div>
-        </div>
-      </section>
+    overflow-x: hidden;
 
-    </main>
+    -webkit-font-smoothing: antialiased;
 
-    <footer>
-      <div class="footer-watermark" id="footer-mark">UPRISE</div>
-      <div class="footer-content" data-aos="fade-up" data-aos-offset="50">
-        <h2>推手<span>影像</span></h2>
-        <p class="manifesto">
-          我們不僅是影像的製造者，更是品牌價值的推動者。<br>
-          致力於將抽象的意念，轉化為具象的視覺衝擊。<br>
-          從腳本企劃、電影級拍攝到後期特效，<br>
-          推手影像以極致的職人精神，訴說每一個值得被看見的故事。
-        </p>
-        <div class="copyright">
-          Copyright © 2025 推手影像製作有限公司 Uprise-Production. All rights reserved.<br>
-          臺中市西區民龍里臺灣大道二段285號31樓 | +886 937672279
-        </div>
-      </div>
-    </footer>
-  </div>
+  }
 
-  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 
-  <script>
-    // --- 防盜機制 (Anti-Theft) ---
-    document.addEventListener('contextmenu', event => event.preventDefault());
-    document.addEventListener('copy', event => {
-        event.preventDefault();
-    });
-    document.onkeydown = function(e) {
-        if(e.keyCode == 123) return false;
-        if(e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) return false;
-        if(e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) return false;
-        if(e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) return false;
-        if(e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) return false;
-        if(e.ctrlKey && e.keyCode == 'S'.charCodeAt(0)) return false;
-        if(e.ctrlKey && e.keyCode == 'C'.charCodeAt(0)) return false;
-    }
 
-    // 🔴 關鍵修改：移除了所有原本會去抓 content/index.md 資料的程式碼
-    // 因為現在資料直接寫在 HTML 裡讓 CloudCannon 編輯，不需要再用 JS 覆蓋了。
+  /* 禁止圖片拖曳 (防盜) */
 
-    document.addEventListener('DOMContentLoaded', () => {
-      // 延遲移除 Loading 遮罩與初始化 AOS
-      setTimeout(() => {
-        document.querySelector('.loader').classList.add('hidden');
-        document.querySelector('.page-transition-curtain').classList.add('reveal');
-        document.body.classList.remove('loading-state');
-        document.body.classList.add('loaded-state');
-        document.body.classList.add('loaded');
-        
-        AOS.init({
-            duration: 1000,
-            easing: 'ease-out-cubic',
-            once: false, 
-            mirror: true, 
-            offset: 50
-        });
-        
-        // 觸發文字閃爍特效
-        setTimeout(() => {
-            const subtitle = document.getElementById('hero-subtitle');
-            if(subtitle) subtitle.classList.add('shutter-flash');
-        }, 1500); 
-      }, 2200); 
+  img {
 
-      createParticles();
-      initCursor();
-      initHeroParallax();
-      initMagneticButtons();
-      initPageTransition();
-      initSoundToggle();
-      initMenu(); // 🔴 呼叫選單初始化函數
-      
-      const scrollBtn = document.getElementById('scroll-btn');
-      if (scrollBtn) {
-        scrollBtn.addEventListener('click', () => {
-          document.getElementById('services-section').scrollIntoView({ behavior: 'smooth' });
-        });
-      }
-      
-      // 初始化卡片懸浮效果
-      document.querySelectorAll('.service-card').forEach(card => {
-        card.addEventListener('mousemove', (e) => {
-            const rect = card.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            card.style.setProperty('--x', `${x}px`);
-            card.style.setProperty('--y', `${y}px`);
-            card.classList.remove('floating');
-        });
-        card.addEventListener('mouseleave', () => {
-            card.classList.add('floating');
-        });
-      });
-    });
+    -webkit-user-drag: none;
 
-    // 🔴 漢堡選單邏輯 (已新增：點擊空白處關閉)
-    function initMenu() {
-        const hamburger = document.getElementById('hamburger-btn');
-        const mobileMenu = document.getElementById('mobile-menu');
-        
-        if (hamburger && mobileMenu) {
-            // 1. 點擊漢堡按鈕開關
-            hamburger.addEventListener('click', () => {
-                hamburger.classList.toggle('active');
-                mobileMenu.classList.toggle('active');
-            });
-            
-            // 2. 點擊連結後關閉
-            document.querySelectorAll('.mobile-nav-link').forEach(link => {
-                link.addEventListener('click', () => {
-                    hamburger.classList.remove('active');
-                    mobileMenu.classList.remove('active');
-                });
-            });
+    pointer-events: none;
 
-            // 3. [新增] 點擊空白處 (黑色背景) 也可以關閉選單
-            mobileMenu.addEventListener('click', (e) => {
-                // 如果點擊的目標是 mobile-menu 本身或 mobile-nav (文字間隙)，而不是文字連結
-                if (e.target === mobileMenu || e.target.classList.contains('mobile-nav')) {
-                    hamburger.classList.remove('active');
-                    mobileMenu.classList.remove('active');
-                }
-            });
-        }
+  }
+
+
+
+  /* --- 載入動畫 (Loader) --- */
+
+  .page-transition-curtain {
+
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+
+    background: #000; z-index: 100000; transform: translateY(0);
+
+    transition: transform 1s cubic-bezier(0.87, 0, 0.13, 1); pointer-events: none;
+
+  }
+
+  .page-transition-curtain.reveal { transform: translateY(-100%); }
+
+  .page-transition-curtain.cover { transform: translateY(0); }
+
+
+
+  .loader {
+
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+
+    background: #000; z-index: 200000;
+
+    display: flex; justify-content: center; align-items: center;
+
+    transition: opacity 0.8s ease, visibility 0.8s;
+
+  }
+
+  .loader.hidden { opacity: 0; visibility: hidden; }
+
+ 
+
+  /* Logo 電影感聚焦動畫 */
+
+  .loader-logo-img {
+
+    width: auto;
+
+    height: 90px;
+
+    max-width: 80vw;
+
+    object-fit: contain;
+
+    opacity: 0;
+
+    transform: scale(0.8);
+
+    filter: blur(10px);
+
+    animation: cinematicLogoReveal 2.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+
+  }
+
+ 
+
+  @keyframes cinematicLogoReveal {
+
+    0% {
+
+      opacity: 0; transform: scale(0.8) translateY(10px); filter: blur(10px) brightness(0.5);
+
     }
 
-    function initSoundToggle() {
-      const video = document.getElementById('bg-video');
-      const btn = document.getElementById('sound-btn');
-      
-      video.muted = true;
-      btn.style.display = 'flex';
-      
-      btn.addEventListener('click', () => {
-        video.muted = !video.muted;
-        if (video.muted) {
-          btn.classList.remove('is-playing');
-        } else {
-          btn.classList.add('is-playing');
-        }
-      });
-    }
+    30% {
 
-    function updateVideoSource() {
-        // 因為是純靜態編輯，這裡我們保持預設，或者您可以手動修改 HTML 裡的 video src
-    }
+      opacity: 1; transform: scale(1) translateY(0); filter: blur(0px) brightness(1);
 
-    window.addEventListener('resize', () => {
-        updateVideoSource();
-    });
+    }
 
-    function initPageTransition() {
-      const links = document.querySelectorAll('.page-link');
-      const curtain = document.querySelector('.page-transition-curtain');
-      links.forEach(link => {
-        link.addEventListener('click', (e) => {
-          e.preventDefault();
-          const href = link.getAttribute('href');
-          curtain.classList.remove('reveal');
-          curtain.classList.add('cover');
-          setTimeout(() => { window.location.href = href; }, 800); 
-        });
-      });
-    }
+    70% {
 
-    window.addEventListener('scroll', () => {
-      const scrollY = window.scrollY;
-      const header = document.getElementById('header');
+      opacity: 1; transform: scale(1.05);
 
-      if (scrollY > 50) header.classList.add('scrolled');
-      else header.classList.remove('scrolled');
-      
-      const heroVideo = document.getElementById('bg-video');
-      if(heroVideo) {
-        heroVideo.style.transform = `translateY(${scrollY * 0.3}px)`;
-      }
+      filter: blur(0px) brightness(1.1) drop-shadow(0 0 15px rgba(255, 215, 0, 0.6));
 
-      const footerMark = document.getElementById('footer-mark');
-      if(footerMark) {
-        const footerOffset = document.querySelector('footer').offsetTop;
-        if(scrollY > footerOffset - window.innerHeight) {
-          const delta = scrollY - (footerOffset - window.innerHeight);
-          footerMark.style.transform = `translate(-50%, -50%) translateY(${delta * -0.1}px)`;
-        }
-      }
-    });
+    }
 
-    function initHeroParallax() {
-      const hero = document.getElementById('hero-section');
-      const content = document.getElementById('hero-content');
-      hero.addEventListener('mousemove', (e) => {
-        const x = (window.innerWidth / 2 - e.clientX) / 30; 
-        const y = (window.innerHeight / 2 - e.clientY) / 30;
-        content.style.transform = `translate(${x}px, ${y}px)`;
-      });
-      hero.addEventListener('mouseleave', () => {
-        content.style.transform = `translate(0, 0)`;
-      });
-    }
+    100% {
 
-    function initMagneticButtons() {
-      const buttons = document.querySelectorAll('.magnetic-btn');
-      buttons.forEach(btn => {
-        btn.addEventListener('mousemove', (e) => {
-          const rect = btn.getBoundingClientRect();
-          const x = e.clientX - rect.left - rect.width / 2;
-          const y = e.clientY - rect.top - rect.height / 2;
-          btn.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`;
-        });
-        btn.addEventListener('mouseleave', () => {
-          btn.style.transform = `translate(0px, 0px)`;
-        });
-      });
-    }
+      opacity: 0; transform: scale(1.15) translateY(-5px); filter: blur(5px) brightness(1.5);
 
-    function createParticles() {
-      const container = document.getElementById('particles');
-      const particleCount = 25; 
-      for (let i = 0; i < particleCount; i++) {
-        const p = document.createElement('div');
-        p.classList.add('particle');
-        const size = Math.random() * 3 + 1 + 'px';
-        p.style.width = size;
-        p.style.height = size;
-        p.style.left = Math.random() * 100 + '%';
-        p.style.top = Math.random() * 100 + '%';
-        p.style.animationDelay = Math.random() * 5 + 's';
-        p.style.animationDuration = Math.random() * 10 + 10 + 's';
-        container.appendChild(p);
-      }
-    }
+    }
 
-    function initCursor() {
-      if (window.matchMedia("(pointer: fine)").matches) {
-        const cursor = document.querySelector('.cursor');
-        let mouseX = window.innerWidth / 2, mouseY = window.innerHeight / 2;
-        let cursorX = mouseX, cursorY = mouseY;
-        document.addEventListener('mousemove', e => {
-          mouseX = e.clientX;
-          mouseY = e.clientY;
-        });
-        document.addEventListener('mousedown', () => document.body.classList.add('clicking'));
-        document.addEventListener('mouseup', () => document.body.classList.remove('clicking'));
-        function animate() {
-          cursorX += (mouseX - cursorX) * 0.5;
-          cursorY += (mouseY - cursorY) * 0.5;
-          cursor.style.transform = `translate(${cursorX}px, ${cursorY}px) translate(-50%, -50%)`;
-          requestAnimationFrame(animate);
-        }
-        animate();
-        document.body.addEventListener('mouseenter', e => {
-          if (e.target.closest('.hover-trigger')) document.body.classList.add('hovered');
-        }, true);
-        document.body.addEventListener('mouseleave', e => {
-          if (e.target.closest('.hover-trigger')) document.body.classList.remove('hovered');
-        }, true);
-      }
-    }
-  </script>
+  }
+
+
+
+  /* 游標 */
+
+  .cursor {
+
+    position: fixed; top: 0; left: 0; width: 12px; height: 12px;
+
+    background: var(--brand-light); border-radius: 50%; pointer-events: none;
+
+    z-index: 2147483647; transform: translate(-50%, -50%);
+
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.9);
+
+    transition: width 0.3s, height 0.3s; will-change: transform;
+
+  }
+
+  body.hovered .cursor {
+
+    width: 60px; height: 60px; background: rgba(255, 215, 0, 0.05);
+
+    border: 1px solid rgba(255, 215, 0, 0.8); box-shadow: 0 0 30px rgba(255, 215, 0, 0.4);
+
+  }
+
+  body.clicking .cursor { transform: translate(-50%, -50%) scale(0.9); background: var(--brand-primary); }
+
+
+
+  /* 環境特效 */
+
+  .ambient-light {
+
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+
+    pointer-events: none; z-index: 0; overflow: hidden;
+
+  }
+
+  .ambient-blob {
+
+    position: absolute; width: 900px; height: 900px;
+
+    background: radial-gradient(circle, rgba(255, 140, 0, 0.04) 0%, transparent 60%);
+
+    border-radius: 50%; filter: blur(80px); opacity: 0.5;
+
+    animation: moveBlob 25s infinite alternate ease-in-out;
+
+  }
+
+  .ambient-blob:nth-child(1) { top: -20%; left: -10%; animation-delay: 0s; }
+
+  .ambient-blob:nth-child(2) { bottom: -20%; right: -10%; animation-duration: 35s; animation-direction: reverse; }
+
+  @keyframes moveBlob { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(50px, 50px) scale(1.1); } }
+
+
+
+  .particles-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 2; pointer-events: none; overflow: hidden; }
+
+  .particle {
+
+    position: absolute; background: radial-gradient(circle, var(--brand-light) 0%, transparent 70%);
+
+    border-radius: 50%; opacity: 0; animation: floatParticle 10s infinite ease-in-out;
+
+  }
+
+  @keyframes floatParticle {
+
+    0% { transform: translateY(0) translateX(0); opacity: 0; }
+
+    20% { opacity: 0.6; } 80% { opacity: 0.6; }
+
+    100% { transform: translateY(-120px) translateX(30px); opacity: 0; }
+
+  }
+
+
+
+  /* 極簡聲音按鈕 */
+
+  #sound-btn {
+
+    position: fixed; bottom: 40px; right: 40px; z-index: 9000;
+
+    display: none; gap: 4px; align-items: flex-end; height: 24px;
+
+    cursor: pointer; background: transparent; border: none; padding: 5px; width: auto;
+
+  }
+
+  #sound-btn:hover { transform: scale(1.1); }
+
+  .sound-label { font-family: var(--font-body); font-size: 0.75rem; letter-spacing: 2px; color: rgba(255,255,255,0.7); font-weight: 500; margin-right: 5px; margin-bottom: 2px; }
+
+  .sound-bar { width: 3px; background-color: #fff; opacity: 0.8; border-radius: 2px; height: 3px; transition: height 0.3s, background-color 0.3s; }
+
+  #sound-btn.is-playing .sound-bar { background-color: var(--brand-light); animation: soundWaveAnim 1s ease-in-out infinite; }
+
+  #sound-btn.is-playing .sound-label { color: var(--brand-light); }
+
+  #sound-btn.is-playing .sound-bar:nth-child(1) { animation-delay: 0.0s; }
+
+  #sound-btn.is-playing .sound-bar:nth-child(2) { animation-delay: 0.2s; }
+
+  #sound-btn.is-playing .sound-bar:nth-child(3) { animation-delay: 0.4s; }
+
+  #sound-btn.is-playing .sound-bar:nth-child(4) { animation-delay: 0.1s; }
+
+  @keyframes soundWaveAnim { 0% { height: 3px; } 50% { height: 20px; } 100% { height: 3px; } }
+
+
+
+  /* --- 導覽列 --- */
+
+  .header {
+
+    position: fixed; top: 0; left: 0; width: 100%; padding: 30px 50px;
+
+    display: flex; justify-content: space-between; align-items: center;
+
+    z-index: 100; background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent);
+
+    transition: all 0.5s;
+
+  }
+
+  .header.scrolled {
+
+    background: rgba(5, 5, 5, 0.9); backdrop-filter: blur(20px);
+
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding: 20px 50px;
+
+  }
+
+  .logo { display: flex; align-items: center; gap: 12px; text-decoration: none; color: #fff; }
+
+  .logo img { height: 38px; width: auto; transition: transform 0.5s; object-fit: contain; }
+
+  .logo:hover img { transform: rotate(5deg) scale(1.05); }
+
+  .logo-text { font-family: var(--font-display); font-size: 1.2rem; letter-spacing: 2px; text-transform: uppercase; color: #fff; }
+
+  .logo-text span { color: var(--brand-light); }
+
+ 
+
+  /* 桌機版選單 */
+
+  .nav { display: flex; gap: 30px; }
+
+  .nav-item { position: relative; overflow: hidden; height: 24px; cursor: pointer; display: block; color: rgba(255,255,255,0.8); font-family: var(--font-body); font-size: 0.95rem; letter-spacing: 2px; font-weight: 500; text-decoration: none; }
+
+  .nav-item span { display: block; transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1); }
+
+  .nav-item .hover-text { position: absolute; top: 100%; left: 0; width: 100%; color: var(--brand-light); }
+
+  .nav-item:hover .original-text { transform: translateY(-100%); } .nav-item:hover .hover-text { transform: translateY(-100%); }
+
+  .nav-item.active .original-text { color: var(--brand-light); }
+
+
+
+  /* 漢堡選單按鈕 */
+
+  .hamburger {
+
+    display: none; /* 預設隱藏，手機版顯示 */
+
+    flex-direction: column; gap: 6px; cursor: pointer; z-index: 200; width: 30px;
+
+  }
+
+  .hamburger span {
+
+    width: 100%; height: 2px; background: #fff; transition: 0.3s;
+
+  }
+
+  /* 漢堡變形動畫 */
+
+  .hamburger.active span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+
+  .hamburger.active span:nth-child(2) { opacity: 0; }
+
+  .hamburger.active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+
+
+  /* 手機版全螢幕選單 */
+
+  .mobile-menu {
+
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+
+    background: rgba(5, 5, 5, 0.98);
+
+    backdrop-filter: blur(10px);
+
+    z-index: 150;
+
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
+
+    opacity: 0; pointer-events: none; /* 預設隱藏 */
+
+    transition: opacity 0.5s ease;
+
+  }
+
+  .mobile-menu.active { opacity: 1; pointer-events: all; }
+
+ 
+
+  .mobile-nav {
+
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
+
+    gap: 30px; width: 100%;
+
+  }
+
+
+
+  .mobile-nav-link {
+
+    font-family: var(--font-serif); font-size: 2rem; color: #fff; text-decoration: none;
+
+    margin: 0; font-weight: 700; letter-spacing: 2px;
+
+    opacity: 0; transform: translateY(20px); transition: 0.5s; white-space: nowrap;
+
+  }
+
+  .mobile-menu.active .mobile-nav-link { opacity: 1; transform: translateY(0); }
+
+  .mobile-nav-link:hover { color: var(--brand-light); }
+
+  .mobile-menu.active .mobile-nav-link:nth-child(1) { transition-delay: 0.1s; }
+
+  .mobile-menu.active .mobile-nav-link:nth-child(2) { transition-delay: 0.2s; }
+
+  .mobile-menu.active .mobile-nav-link:nth-child(3) { transition-delay: 0.3s; }
+
+  .mobile-menu.active .mobile-nav-link:nth-child(4) { transition-delay: 0.4s; }
+
+  .mobile-menu.active .mobile-nav-link:nth-child(5) { transition-delay: 0.5s; }
+
+
+
+
+
+  /* --- Hero Section --- */
+
+  .hero {
+
+    position: relative; height: 100vh; width: 100%;
+
+    display: flex; align-items: center; justify-content: center;
+
+    padding: 0 20px; overflow: hidden; perspective: 1000px;
+
+  }
+
+  .hero::before, .hero::after {
+
+    content: ''; position: absolute; left: 0; width: 100%; height: 0;
+
+    background: #000; z-index: 5; transition: height 1.5s var(--ease-out-expo) 1s;
+
+  }
+
+  .hero::before { top: 0; }
+
+  .hero::after { bottom: 0; }
+
+  .loaded .hero::before, .loaded .hero::after { height: 6vh; }
+
+
+
+  .bg-video-wrap { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; background: #000; }
+
+  .video-overlay {
+
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+
+    background: rgba(0, 0, 0, 0.4); z-index: 1;
+
+  }
+
+  #bg-video {
+
+    width: 100%; height: 100%;
+
+    object-fit: contain; object-position: center center;
+
+    filter: brightness(0.95) contrast(1.05) saturate(0.8);
+
+    transform: scale(1); transition: transform 0.1s linear; will-change: transform;
+
+  }
+
+  .loaded #bg-video { transform: scale(1); }
+
+
+
+  .hero-content {
+
+    position: relative; z-index: 10; text-align: center; max-width: 1000px;
+
+  }
+
+ 
+
+  .hero-title {
+
+    font-family: var(--font-serif); font-size: clamp(3.5rem, 11vw, 8rem);
+
+    line-height: 1.1; margin: 0; color: #fff; letter-spacing: 5px;
+
+    background: var(--silver-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+
+    filter: drop-shadow(0 10px 30px rgba(0,0,0,0.8));
+
+    font-weight: 900;
+
+  }
+
+  .hero-title span {
+
+    font-family: var(--font-serif); font-weight: 900;
+
+    background: linear-gradient(135deg, #FFD700 0%, #FF8C00 100%);
+
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+
+    filter: drop-shadow(0 0 25px rgba(255, 140, 0, 0.6));
+
+    padding-left: 10px; letter-spacing: 5px;
+
+  }
+
+ 
+
+  .hero-subtitle {
+
+    font-family: var(--font-body); font-size: clamp(1rem, 2vw, 1.3rem);
+
+    color: rgba(255,255,255,0.85); margin-top: 30px; letter-spacing: 5px;
+
+    min-height: 1.5em; font-weight: 300;
+
+  }
+
+ 
+
+  .shutter-flash { animation: shutterAnim 2.5s cubic-bezier(0.1, 0.9, 0.2, 1) forwards; }
+
+  @keyframes shutterAnim {
+
+    0% { opacity: 0; filter: blur(20px) brightness(5); letter-spacing: 20px; }
+
+    20% { opacity: 1; filter: blur(5px) brightness(2); }
+
+    30% { opacity: 0.1; filter: brightness(1); }
+
+    40% { opacity: 1; filter: blur(0) brightness(1.5); letter-spacing: 5px; }
+
+    60% { filter: brightness(1); }
+
+    100% { opacity: 1; filter: blur(0); letter-spacing: 5px; }
+
+  }
+
+
+
+  .hero-ctas {
+
+    margin-top: 60px; display: flex; gap: 25px; justify-content: center;
+
+  }
+
+ 
+
+  .scroll-indicator {
+
+    position: absolute;
+
+    bottom: 40px;
+
+    left: 50%; transform: translateX(-50%);
+
+    z-index: 10; opacity: 0; transition: opacity 1s 2s;
+
+    display: flex; flex-direction: column; align-items: center; gap: 12px;
+
+    cursor: pointer;
+
+  }
+
+  .loaded .scroll-indicator { opacity: 0.8; }
+
+  .scroll-text {
+
+    font-size: 0.8rem; letter-spacing: 3px; color: rgba(255,255,255,0.6);
+
+    font-weight: 300; animation: textBreath 3s infinite alternate;
+
+  }
+
+  @keyframes textBreath { from { opacity: 0.6; } to { opacity: 1; text-shadow: 0 0 10px rgba(255,255,255,0.3); } }
+
+  .scroll-line {
+
+    width: 1px; height: 50px; background: linear-gradient(to bottom, var(--brand-light), transparent);
+
+    animation: scrollDown 2s infinite; box-shadow: 0 0 5px var(--brand-primary);
+
+  }
+
+  @keyframes scrollDown { 0% { transform: scaleY(0); transform-origin: top; } 50% { transform: scaleY(1); transform-origin: top; } 51% { transform: scaleY(1); transform-origin: bottom; } 100% { transform: scaleY(0); transform-origin: bottom; } }
+
+ 
+
+  .scroll-arrow {
+
+    color: var(--brand-light); font-size: 1.2rem;
+
+    animation: arrowBounce 2s infinite; margin-top: -5px;
+
+  }
+
+  @keyframes arrowBounce {
+
+    0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+
+    40% { transform: translateY(-5px); }
+
+    60% { transform: translateY(-3px); }
+
+  }
+
+
+
+  .btn {
+
+    padding: 14px 45px; border-radius: 2px;
+
+    font-family: var(--font-body); font-size: 0.95rem; letter-spacing: 2px;
+
+    text-decoration: none; transition: 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+
+    position: relative; overflow: hidden; font-weight: 500; transform: translate(0,0);
+
+  }
+
+  .btn-primary {
+
+    background: var(--brand-gradient); color: #000; border: none;
+
+    box-shadow: 0 10px 30px rgba(255, 140, 0, 0.25);
+
+  }
+
+  .btn-primary::after {
+
+    content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
+
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.8), transparent);
+
+    transform: skewX(-20deg); animation: btnShine 3s infinite; pointer-events: none;
+
+  }
+
+  @keyframes btnShine { 0%, 70% { left: -100%; } 100% { left: 200%; } }
+
+  .btn-primary:hover { box-shadow: 0 20px 40px rgba(255, 140, 0, 0.4); filter: brightness(1.1); }
+
+  .btn-ghost {
+
+    background: rgba(255,255,255,0.05); color: #fff;
+
+    border: 1px solid rgba(255,255,255,0.2); backdrop-filter: blur(5px);
+
+  }
+
+  .btn-ghost:hover { border-color: var(--brand-primary); color: #fff; background: rgba(255, 140, 0, 0.15); }
+
+
+
+  /* 服務區塊 */
+
+  .services-section { padding: 150px 8%; position: relative; z-index: 2; background: transparent; }
+
+  .section-header { text-align: center; margin-bottom: 80px; position: relative; z-index: 2; }
+
+  .section-title { font-family: var(--font-body); font-size: 2.8rem; color: #fff; margin: 0; letter-spacing: 5px; font-weight: 700; }
+
+  .section-line { width: 60px; height: 3px; background: var(--brand-gradient); margin: 25px auto; border-radius: 2px; }
+
+  .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; position: relative; z-index: 2; }
+
+
+
+  .service-card {
+
+    background: rgba(20, 20, 20, 0.6); padding: 60px 40px; border-radius: 4px;
+
+    position: relative; overflow: hidden; display: flex; flex-direction: column; align-items: flex-start;
+
+    transition: box-shadow 0.4s, transform 0.4s; backdrop-filter: blur(10px);
+
+    border: 1px solid rgba(255, 255, 255, 0.08); box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+
+  }
+
+ 
+
+  .border-shimmer {
+
+    position: absolute; inset: 0; border-radius: 4px; padding: 1.5px;
+
+    background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.5), transparent);
+
+    background-size: 200% 100%;
+
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+
+    -webkit-mask-composite: xor; mask-composite: exclude;
+
+    pointer-events: none; animation: shimmerBorder 3s linear infinite; opacity: 0.8; z-index: 1;
+
+  }
+
+  @keyframes shimmerBorder { 0% { background-position: -150% 0; } 100% { background-position: 150% 0; } }
+
+
+
+  .border-spotlight {
+
+    position: absolute; inset: 0; border-radius: 4px; padding: 1.5px;
+
+    background: radial-gradient(350px circle at var(--x) var(--y), rgba(255, 215, 0, 1), transparent 40%);
+
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+
+    -webkit-mask-composite: xor; mask-composite: exclude;
+
+    pointer-events: none; opacity: 0; transition: opacity 0.3s; z-index: 2;
+
+  }
+
+  .card-bg-spotlight {
+
+    position: absolute; inset: 0;
+
+    background: radial-gradient(600px circle at var(--x) var(--y), rgba(255, 215, 0, 0.08), transparent 40%);
+
+    pointer-events: none; opacity: 0; transition: opacity 0.3s; z-index: 0;
+
+  }
+
+  .service-card:hover .border-spotlight, .service-card:hover .card-bg-spotlight { opacity: 1; }
+
+  .service-card:hover { transform: translateY(-5px); box-shadow: 0 30px 60px rgba(0,0,0,0.8), 0 0 30px rgba(255, 140, 0, 0.1); background: rgba(30, 30, 30, 0.8); z-index: 10; }
+
+
+
+  .card-number {
+
+    position: absolute; top: -10px; right: 20px; font-family: var(--font-display);
+
+    font-size: 8rem; line-height: 1; color: rgba(255, 255, 255, 0.03);
+
+    pointer-events: none; z-index: 0; transition: 0.5s; transform: translateZ(20px);
+
+  }
+
+  .service-card:hover .card-number { color: rgba(255, 183, 0, 0.08); transform: scale(1.1) translateY(-10px); }
+
+  .service-content-wrap { position: relative; z-index: 3; pointer-events: none; }
+
+ 
+
+  .service-icon-fa {
+
+    font-size: 50px; margin-bottom: 30px; display: block;
+
+    background: linear-gradient(135deg, #cfc7bc, #fff);
+
+    -webkit-background-clip: text; background-clip: text;
+
+    -webkit-text-fill-color: transparent;
+
+    opacity: 0.8;
+
+    filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.2));
+
+    transition: 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  }
+
+  .service-card:hover .service-icon-fa {
+
+    transform: scale(1.1) rotate(5deg);
+
+    background: var(--brand-gradient);
+
+    -webkit-background-clip: text; background-clip: text;
+
+    -webkit-text-fill-color: transparent;
+
+    filter: drop-shadow(0 0 15px rgba(255, 140, 0, 0.9));
+
+    opacity: 1;
+
+  }
+
+ 
+
+  .service-card h3 {
+
+    font-family: var(--font-body); font-size: 1.5rem; color: #fff;
+
+    margin: 0 0 15px 0; letter-spacing: 2px; font-weight: 700; transition: color 0.3s;
+
+  }
+
+  .service-card:hover h3 { color: var(--brand-light); }
+
+  .service-card p {
+
+    font-family: var(--font-body); font-size: 0.95rem; color: var(--text-sub);
+
+    line-height: 1.8; margin: 0; font-weight: 300; letter-spacing: 1px;
+
+  }
+
+
+
+  /* --- 工作花絮 (Clean Grid) --- */
+
+  .bts-section {
+
+    padding: 100px 8%; position: relative; z-index: 2; background: transparent;
+
+  }
+
+  .bts-grid {
+
+    display: grid;
+
+    grid-template-columns: repeat(6, 1fr);
+
+    gap: 15px;
+
+    margin-top: 60px;
+
+  }
+
+  .bts-item {
+
+    position: relative;
+
+    aspect-ratio: 16/9;
+
+    overflow: hidden;
+
+    border-radius: 2px;
+
+    border: 1px solid rgba(255, 255, 255, 0.1);
+
+    transition: 0.5s var(--ease-out-expo);
+
+    cursor: pointer;
+
+  }
+
+  .bts-item img {
+
+    width: 100%; height: 100%; object-fit: cover;
+
+    transition: transform 0.8s var(--ease-out-expo);
+
+    filter: brightness(0.95);
+
+  }
+
+  .bts-item:hover {
+
+    border-color: var(--brand-light);
+
+    transform: translateY(-5px);
+
+    box-shadow: 0 15px 40px rgba(0,0,0,0.6);
+
+    z-index: 5;
+
+  }
+
+  .bts-item:hover img {
+
+    transform: scale(1.1);
+
+    filter: brightness(1.1);
+
+  }
+
+ 
+
+  @media (max-width: 1200px) {
+
+    .bts-grid { grid-template-columns: repeat(3, 1fr); }
+
+  }
+
+  @media (max-width: 768px) {
+
+    .nav { display: none; }
+
+    .hamburger { display: flex; }
+
+    .bts-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+
+    .header { padding: 20px; }
+
+    .hero-title { font-size: 3.5rem; }
+
+    .hero-ctas {
+
+      flex-direction: row;
+
+      width: 100%; max-width: 100%; margin: 50px auto 0; padding: 0 20px; gap: 15px;
+
+    }
+
+    .btn { width: auto; flex: 1; text-align: center; padding: 12px 10px; }
+
+    .card-number { font-size: 6rem; right: 10px; }
+
+    .footer-watermark { font-size: 25vw; }
+
+    .footer h2 { font-size: 2.5rem; letter-spacing: 5px; }
+
+    .scroll-indicator { bottom: 20px; gap: 8px; }
+
+    .scroll-line { height: 30px; }
+
+    .scroll-text { font-size: 0.7rem; }
+
+    .hero-content { margin-bottom: 40px; }
+
+  }
+
+
+
+  footer {
+
+    padding: 120px 8% 60px; border-top: 1px solid rgba(255,255,255,0.05);
+
+    background: #020202; text-align: center; position: relative; overflow: hidden;
+
+  }
+
+  .footer-watermark {
+
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+
+    font-family: var(--font-display); font-size: 20vw; font-weight: 700;
+
+    color: rgba(255, 255, 255, 0.02); pointer-events: none; white-space: nowrap;
+
+    z-index: 0; letter-spacing: 10px; will-change: transform;
+
+  }
+
+  .footer-content { max-width: 800px; margin: 0 auto; position: relative; z-index: 1; }
+
+  .footer h2 {
+
+    font-family: var(--font-serif); font-size: 3.5rem; font-weight: 900;
+
+    margin-bottom: 40px; letter-spacing: 10px;
+
+    background: linear-gradient(to right, #cfc7bc, #fff, #cfc7bc);
+
+    -webkit-background-clip: text; background-clip: text;
+
+    -webkit-text-fill-color: transparent; filter: drop-shadow(0 5px 15px rgba(0,0,0,0.8));
+
+  }
+
+  .footer h2 span {
+
+    background: var(--brand-gradient); -webkit-background-clip: text; background-clip: text;
+
+    -webkit-text-fill-color: transparent; font-weight: 900; filter: drop-shadow(0 0 15px rgba(255, 140, 0, 0.5));
+
+  }
+
+  .manifesto { font-size: 1.1rem; color: var(--text-sub); line-height: 2; margin-bottom: 50px; font-weight: 300; letter-spacing: 1px; }
+
+  .copyright { font-size: 0.8rem; color: #444; margin-top: 50px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 30px; letter-spacing: 1px; }
+
+</style>
+
+</head>
+
+<body class="loading-state">
+
+
+
+  <div class="page-transition-curtain"></div>
+
+  <div class="cursor"></div>
+
+  <div class="loader">
+
+    <img src="images/uploads/logo.png" class="loader-logo-img" alt="Uprise">
+
+  </div>
+
+  <div class="ambient-light">
+
+    <div class="ambient-blob"></div>
+
+    <div class="ambient-blob"></div>
+
+  </div>
+
+  <div class="particles-container" id="particles"></div>
+
+
+
+  <div id="sound-btn" class="sound-equalizer hover-trigger">
+
+    <span class="sound-label">SOUND</span>
+
+    <div class="sound-bars">
+
+      <div class="sound-bar"></div>
+
+      <div class="sound-bar"></div>
+
+      <div class="sound-bar"></div>
+
+      <div class="sound-bar"></div>
+
+    </div>
+
+  </div>
+
+
+
+  <div class="mobile-menu" id="mobile-menu">
+
+    <nav class="mobile-nav">
+
+       <a href="index.html" class="mobile-nav-link page-link">首頁</a>
+
+       <a href="works.html" class="mobile-nav-link page-link">作品</a>
+
+       <a href="team.html" class="mobile-nav-link page-link">團隊</a>
+
+       <a href="about.html" class="mobile-nav-link page-link">關於</a>
+
+       <a href="contact.html" class="mobile-nav-link page-link">聯絡</a>
+
+    </nav>
+
+  </div>
+
+
+
+  <div id="main-wrapper">
+
+    <header class="header" id="header" data-aos="fade-down" data-aos-duration="1200" data-aos-delay="2200">
+
+      <a href="index.html" class="logo hover-trigger">
+
+        <img src="images/uploads/logo.png" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'" alt="Logo">
+
+        <span class="logo-text" style="display:none;">Uprise<span>.</span></span>
+
+      </a>
+
+     
+
+      <nav class="nav">
+
+        <a href="index.html" class="nav-item hover-trigger page-link active">
+
+            <span class="original-text">首頁</span><span class="hover-text">首頁</span>
+
+        </a>
+
+        <a href="works.html" class="nav-item hover-trigger page-link">
+
+            <span class="original-text">作品</span><span class="hover-text">作品</span>
+
+        </a>
+
+        <a href="team.html" class="nav-item hover-trigger page-link">
+
+            <span class="original-text">團隊</span><span class="hover-text">團隊</span>
+
+        </a>
+
+        <a href="about.html" class="nav-item hover-trigger page-link">
+
+            <span class="original-text">關於</span><span class="hover-text">關於</span>
+
+        </a>
+
+        <a href="contact.html" class="nav-item hover-trigger page-link">
+
+            <span class="original-text">聯絡</span><span class="hover-text">聯絡</span>
+
+        </a>
+
+      </nav>
+
+
+
+      <div class="hamburger hover-trigger" id="hamburger-btn">
+
+        <span></span>
+
+        <span></span>
+
+        <span></span>
+
+      </div>
+
+    </header>
+
+
+
+    <main>
+
+      <section class="hero" id="hero-section">
+
+        <div class="bg-video-wrap">
+
+          <div class="video-overlay"></div>
+
+          <video id="bg-video" playsinline muted loop autoplay src="https://res.cloudinary.com/dfnfcyglu/video/upload/v1763893930/hero_bg_ickrbe.mp4"></video>
+
+        </div>
+
+        <div class="particles-container" id="particles"></div>
+
+        <div class="hero-content" id="hero-content">
+
+          <h1 class="hero-title editable" id="hero-title" data-aos="zoom-out" data-aos-duration="2000" data-aos-delay="1200">推手<span>影像</span></h1>
+
+          <p class="hero-subtitle editable" id="hero-subtitle" data-aos="fade-up" data-aos-delay="2000">電影級影像製作團隊</p>
+
+          <div class="hero-ctas" data-aos="fade-up" data-aos-delay="2200">
+
+            <a href="works.html" class="btn btn-primary hover-trigger magnetic-btn page-link editable">查看作品</a>
+
+            <a href="contact.html" class="btn btn-ghost hover-trigger magnetic-btn page-link editable">聯絡我們</a>
+
+          </div>
+
+        </div>
+
+        <div class="scroll-indicator hover-trigger" id="scroll-btn">
+
+          <span class="scroll-text">下滑探索</span>
+
+          <i class="fas fa-chevron-down scroll-arrow"></i>
+
+          <div class="scroll-line"></div>
+
+        </div>
+
+      </section>
+
+
+
+      <section class="services-section" id="services-section">
+
+        <div class="section-header" data-aos="fade-up" data-aos-duration="1000">
+
+          <h2 class="section-title editable">專業服務</h2>
+
+          <div class="section-line"></div>
+
+        </div>
+
+        <div class="services-grid" id="services-grid">
+
+           
+
+            <div class="service-card hover-trigger floating editable" data-aos="fade-up" data-aos-delay="0">
+
+                <div class="border-shimmer"></div>
+
+                <div class="border-spotlight"></div>
+
+                <div class="card-bg-spotlight"></div>
+
+                <span class="card-number">01</span>
+
+                <div class="service-content-wrap">
+
+                    <i class="fa-solid fa-video service-icon-fa"></i>
+
+                    <h3>商業/品牌形象廣告</h3>
+
+                    <p>為品牌量身打造的高質感商業廣告，精準傳遞核心價值。</p>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="service-card hover-trigger floating editable" data-aos="fade-up" data-aos-delay="150">
+
+                <div class="border-shimmer"></div>
+
+                <div class="border-spotlight"></div>
+
+                <div class="card-bg-spotlight"></div>
+
+                <span class="card-number">02</span>
+
+                <div class="service-content-wrap">
+
+                    <i class="fa-solid fa-photo-film service-icon-fa"></i>
+
+                    <h3>後期製作</h3>
+
+                    <p>透過影像敘事，建立深刻的品牌形象與視覺識別。</p>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="service-card hover-trigger floating editable" data-aos="fade-up" data-aos-delay="300">
+
+                <div class="border-shimmer"></div>
+
+                <div class="border-spotlight"></div>
+
+                <div class="card-bg-spotlight"></div>
+
+                <span class="card-number">03</span>
+
+                <div class="service-content-wrap">
+
+                    <i class="fa-solid fa-pen-fancy service-icon-fa"></i>
+
+                    <h3>腳本撰寫</h3>
+
+                    <p>專業剪輯、特效與調光，賦予影像電影級的質感。</p>
+
+                </div>
+
+            </div>
+
+
+
+        </div>
+
+      </section>
+
+
+
+      <section class="bts-section">
+
+        <div class="section-header" data-aos="fade-up" data-aos-duration="1000">
+
+          <h2 class="section-title editable">工作花絮</h2>
+
+          <div class="section-line"></div>
+
+        </div>
+
+       
+
+        <div class="bts-grid">
+
+            <div class="bts-item hover-trigger editable" data-aos="zoom-in" data-aos-delay="0">
+
+                <img src="https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="BTS">
+
+            </div>
+
+            <div class="bts-item hover-trigger editable" data-aos="zoom-in" data-aos-delay="100">
+
+                <img src="https://images.unsplash.com/photo-1598550476439-6847785fcea6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="BTS">
+
+            </div>
+
+            <div class="bts-item hover-trigger editable" data-aos="zoom-in" data-aos-delay="200">
+
+                <img src="https://images.unsplash.com/photo-1533561098733-722129d2b276?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="BTS">
+
+            </div>
+
+            <div class="bts-item hover-trigger editable" data-aos="zoom-in" data-aos-delay="300">
+
+                <img src="https://images.unsplash.com/photo-1585644198306-399564c7b275?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="BTS">
+
+            </div>
+
+            <div class="bts-item hover-trigger editable" data-aos="zoom-in" data-aos-delay="400">
+
+                <img src="https://images.unsplash.com/photo-1521791136064-7986c2920216?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="BTS">
+
+            </div>
+
+            <div class="bts-item hover-trigger editable" data-aos="zoom-in" data-aos-delay="500">
+
+                <img src="https://images.unsplash.com/photo-1626814026160-2237a95fc5a0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="BTS">
+
+            </div>
+
+        </div>
+
+      </section>
+
+
+
+    </main>
+
+
+
+    <footer>
+
+      <div class="footer-watermark" id="footer-mark">UPRISE</div>
+
+      <div class="footer-content" data-aos="fade-up" data-aos-offset="50">
+
+        <h2>推手<span>影像</span></h2>
+
+        <p class="manifesto">
+
+          我們不僅是影像的製造者，更是品牌價值的推動者。<br>
+
+          致力於將抽象的意念，轉化為具象的視覺衝擊。<br>
+
+          從腳本企劃、電影級拍攝到後期特效，<br>
+
+          推手影像以極致的職人精神，訴說每一個值得被看見的故事。
+
+        </p>
+
+        <div class="copyright">
+
+          Copyright © 2025 推手影像製作有限公司 Uprise-Production. All rights reserved.<br>
+
+          臺中市西區民龍里臺灣大道二段285號31樓 | +886 937672279
+
+        </div>
+
+      </div>
+
+    </footer>
+
+  </div>
+
+
+
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+
+
+  <script>
+
+    // --- 防盜機制 (Anti-Theft) ---
+
+    document.addEventListener('contextmenu', event => event.preventDefault());
+
+    document.addEventListener('copy', event => {
+
+        event.preventDefault();
+
+    });
+
+    document.onkeydown = function(e) {
+
+        if(e.keyCode == 123) return false;
+
+        if(e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) return false;
+
+        if(e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) return false;
+
+        if(e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) return false;
+
+        if(e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) return false;
+
+        if(e.ctrlKey && e.keyCode == 'S'.charCodeAt(0)) return false;
+
+        if(e.ctrlKey && e.keyCode == 'C'.charCodeAt(0)) return false;
+
+    }
+
+
+
+    // 🔴 關鍵修改：移除了所有原本會去抓 content/index.md 資料的程式碼
+
+    // 因為現在資料直接寫在 HTML 裡讓 CloudCannon 編輯，不需要再用 JS 覆蓋了。
+
+
+
+    document.addEventListener('DOMContentLoaded', () => {
+
+      // 延遲移除 Loading 遮罩與初始化 AOS
+
+      setTimeout(() => {
+
+        document.querySelector('.loader').classList.add('hidden');
+
+        document.querySelector('.page-transition-curtain').classList.add('reveal');
+
+        document.body.classList.remove('loading-state');
+
+        document.body.classList.add('loaded-state');
+
+        document.body.classList.add('loaded');
+
+       
+
+        AOS.init({
+
+            duration: 1000,
+
+            easing: 'ease-out-cubic',
+
+            once: false,
+
+            mirror: true,
+
+            offset: 50
+
+        });
+
+       
+
+        // 觸發文字閃爍特效
+
+        setTimeout(() => {
+
+            const subtitle = document.getElementById('hero-subtitle');
+
+            if(subtitle) subtitle.classList.add('shutter-flash');
+
+        }, 1500);
+
+      }, 2200);
+
+
+
+      createParticles();
+
+      initCursor();
+
+      initHeroParallax();
+
+      initMagneticButtons();
+
+      initPageTransition();
+
+      initSoundToggle();
+
+     
+
+      // 漢堡選單邏輯
+
+      const hamburger = document.getElementById('hamburger-btn');
+
+      const mobileMenu = document.getElementById('mobile-menu');
+
+     
+
+      if(hamburger && mobileMenu) {
+
+        hamburger.addEventListener('click', () => {
+
+           hamburger.classList.toggle('active');
+
+           mobileMenu.classList.toggle('active');
+
+        });
+
+       
+
+        const mobileLinks = document.querySelectorAll('.mobile-nav-link');
+
+        mobileLinks.forEach(link => {
+
+            link.addEventListener('click', () => {
+
+                hamburger.classList.remove('active');
+
+                mobileMenu.classList.remove('active');
+
+            });
+
+        });
+
+      }
+
+     
+
+      const scrollBtn = document.getElementById('scroll-btn');
+
+      if (scrollBtn) {
+
+        scrollBtn.addEventListener('click', () => {
+
+          document.getElementById('services-section').scrollIntoView({ behavior: 'smooth' });
+
+        });
+
+      }
+
+     
+
+      // 初始化卡片懸浮效果
+
+      document.querySelectorAll('.service-card').forEach(card => {
+
+        card.addEventListener('mousemove', (e) => {
+
+            const rect = card.getBoundingClientRect();
+
+            const x = e.clientX - rect.left;
+
+            const y = e.clientY - rect.top;
+
+            card.style.setProperty('--x', `${x}px`);
+
+            card.style.setProperty('--y', `${y}px`);
+
+            card.classList.remove('floating');
+
+        });
+
+        card.addEventListener('mouseleave', () => {
+
+            card.classList.add('floating');
+
+        });
+
+      });
+
+    });
+
+
+
+    function initSoundToggle() {
+
+      const video = document.getElementById('bg-video');
+
+      const btn = document.getElementById('sound-btn');
+
+     
+
+      video.muted = true;
+
+      btn.style.display = 'flex';
+
+     
+
+      btn.addEventListener('click', () => {
+
+        video.muted = !video.muted;
+
+        if (video.muted) {
+
+          btn.classList.remove('is-playing');
+
+        } else {
+
+          btn.classList.add('is-playing');
+
+        }
+
+      });
+
+    }
+
+
+
+    function updateVideoSource() {
+
+        // 因為是純靜態編輯，這裡我們保持預設，或者您可以手動修改 HTML 裡的 video src
+
+    }
+
+
+
+    window.addEventListener('resize', () => {
+
+        updateVideoSource();
+
+    });
+
+
+
+    function initPageTransition() {
+
+      const links = document.querySelectorAll('.page-link');
+
+      const curtain = document.querySelector('.page-transition-curtain');
+
+      links.forEach(link => {
+
+        link.addEventListener('click', (e) => {
+
+          e.preventDefault();
+
+          const href = link.getAttribute('href');
+
+          curtain.classList.remove('reveal');
+
+          curtain.classList.add('cover');
+
+          setTimeout(() => { window.location.href = href; }, 800);
+
+        });
+
+      });
+
+    }
+
+
+
+    window.addEventListener('scroll', () => {
+
+      const scrollY = window.scrollY;
+
+      const header = document.getElementById('header');
+
+
+
+      if (scrollY > 50) header.classList.add('scrolled');
+
+      else header.classList.remove('scrolled');
+
+     
+
+      const heroVideo = document.getElementById('bg-video');
+
+      if(heroVideo) {
+
+        heroVideo.style.transform = `translateY(${scrollY * 0.3}px)`;
+
+      }
+
+
+
+      const footerMark = document.getElementById('footer-mark');
+
+      if(footerMark) {
+
+        const footerOffset = document.querySelector('footer').offsetTop;
+
+        if(scrollY > footerOffset - window.innerHeight) {
+
+          const delta = scrollY - (footerOffset - window.innerHeight);
+
+          footerMark.style.transform = `translate(-50%, -50%) translateY(${delta * -0.1}px)`;
+
+        }
+
+      }
+
+    });
+
+
+
+    function initHeroParallax() {
+
+      const hero = document.getElementById('hero-section');
+
+      const content = document.getElementById('hero-content');
+
+      hero.addEventListener('mousemove', (e) => {
+
+        const x = (window.innerWidth / 2 - e.clientX) / 30;
+
+        const y = (window.innerHeight / 2 - e.clientY) / 30;
+
+        content.style.transform = `translate(${x}px, ${y}px)`;
+
+      });
+
+      hero.addEventListener('mouseleave', () => {
+
+        content.style.transform = `translate(0, 0)`;
+
+      });
+
+    }
+
+
+
+    function initMagneticButtons() {
+
+      const buttons = document.querySelectorAll('.magnetic-btn');
+
+      buttons.forEach(btn => {
+
+        btn.addEventListener('mousemove', (e) => {
+
+          const rect = btn.getBoundingClientRect();
+
+          const x = e.clientX - rect.left - rect.width / 2;
+
+          const y = e.clientY - rect.top - rect.height / 2;
+
+          btn.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`;
+
+        });
+
+        btn.addEventListener('mouseleave', () => {
+
+          btn.style.transform = `translate(0px, 0px)`;
+
+        });
+
+      });
+
+    }
+
+
+
+    function createParticles() {
+
+      const container = document.getElementById('particles');
+
+      const particleCount = 25;
+
+      for (let i = 0; i < particleCount; i++) {
+
+        const p = document.createElement('div');
+
+        p.classList.add('particle');
+
+        const size = Math.random() * 3 + 1 + 'px';
+
+        p.style.width = size;
+
+        p.style.height = size;
+
+        p.style.left = Math.random() * 100 + '%';
+
+        p.style.top = Math.random() * 100 + '%';
+
+        p.style.animationDelay = Math.random() * 5 + 's';
+
+        p.style.animationDuration = Math.random() * 10 + 10 + 's';
+
+        container.appendChild(p);
+
+      }
+
+    }
+
+
+
+    function initCursor() {
+
+      if (window.matchMedia("(pointer: fine)").matches) {
+
+        const cursor = document.querySelector('.cursor');
+
+        let mouseX = window.innerWidth / 2, mouseY = window.innerHeight / 2;
+
+        let cursorX = mouseX, cursorY = mouseY;
+
+        document.addEventListener('mousemove', e => {
+
+          mouseX = e.clientX;
+
+          mouseY = e.clientY;
+
+        });
+
+        document.addEventListener('mousedown', () => document.body.classList.add('clicking'));
+
+        document.addEventListener('mouseup', () => document.body.classList.remove('clicking'));
+
+        function animate() {
+
+          cursorX += (mouseX - cursorX) * 0.5;
+
+          cursorY += (mouseY - cursorY) * 0.5;
+
+          cursor.style.transform = `translate(${cursorX}px, ${cursorY}px) translate(-50%, -50%)`;
+
+          requestAnimationFrame(animate);
+
+        }
+
+        animate();
+
+        document.body.addEventListener('mouseenter', e => {
+
+          if (e.target.closest('.hover-trigger')) document.body.classList.add('hovered');
+
+        }, true);
+
+        document.body.addEventListener('mouseleave', e => {
+
+          if (e.target.closest('.hover-trigger')) document.body.classList.remove('hovered');
+
+        }, true);
+
+      }
+
+    }
+
+  </script>
+
 </body>
+
 </html>

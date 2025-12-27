@@ -1493,42 +1493,36 @@
       initSoundToggle();
 
      
-
-      // 漢堡選單邏輯
-
-      const hamburger = document.getElementById('hamburger-btn');
-
-      const mobileMenu = document.getElementById('mobile-menu');
-
-     
-
-      if(hamburger && mobileMenu) {
-
-        hamburger.addEventListener('click', () => {
-
-           hamburger.classList.toggle('active');
-
-           mobileMenu.classList.toggle('active');
-
-        });
-
-       
-
-        const mobileLinks = document.querySelectorAll('.mobile-nav-link');
-
-        mobileLinks.forEach(link => {
-
-            link.addEventListener('click', () => {
-
-                hamburger.classList.remove('active');
-
-                mobileMenu.classList.remove('active');
-
+// 🔴 漢堡選單邏輯 (已新增：點擊空白處關閉)
+    function initMenu() {
+        const hamburger = document.getElementById('hamburger-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        if (hamburger && mobileMenu) {
+            // 1. 點擊漢堡按鈕開關
+            hamburger.addEventListener('click', () => {
+                hamburger.classList.toggle('active');
+                mobileMenu.classList.toggle('active');
+            });
+            
+            // 2. 點擊連結後關閉
+            document.querySelectorAll('.mobile-nav-link').forEach(link => {
+                link.addEventListener('click', () => {
+                    hamburger.classList.remove('active');
+                    mobileMenu.classList.remove('active');
+                });
             });
 
-        });
-
-      }
+            // 3. [新增] 點擊空白處 (黑色背景) 也可以關閉選單
+            mobileMenu.addEventListener('click', (e) => {
+                // 如果點擊的目標是 mobile-menu 本身或 mobile-nav (文字間隙)，而不是文字連結
+                if (e.target === mobileMenu || e.target.classList.contains('mobile-nav')) {
+                    hamburger.classList.remove('active');
+                    mobileMenu.classList.remove('active');
+                }
+            });
+        }
+    }
 
      
 

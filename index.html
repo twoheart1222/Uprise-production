@@ -6,23 +6,17 @@
 
 <title>推手影像製作有限公司 Uprise-Production | 敘事與美學的極致</title>
 
-<!-- Favicon (預設，JS 會自動讀取後台設定覆蓋) -->
 <link rel="icon" type="image/png" href="images/uploads/logo.png">
 
 <meta name="description" content="Uprise-Production 推手影像｜以極致的影像美學，探索品牌深度的敘事可能。">
 <link rel="canonical" href="https://www.uprise-videoproduction.com/index.html">
 
-<!-- Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Italiana&family=Noto+Sans+TC:wght@300;400;500;700;900&family=Noto+Serif+TC:wght@700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-<!-- AOS Animation Library CSS -->
 <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-
-<!-- Libraries -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
 
 <style>
   /* --- 核心變數 --- */
@@ -197,7 +191,7 @@
   .nav-item:hover .original-text { transform: translateY(-100%); } .nav-item:hover .hover-text { transform: translateY(-100%); }
   .nav-item.active .original-text { color: var(--brand-light); }
 
-  /* 新增：漢堡選單按鈕 */
+  /* 漢堡選單按鈕 */
   .hamburger {
     display: none; /* 預設隱藏，手機版顯示 */
     flex-direction: column; gap: 6px; cursor: pointer; z-index: 200; width: 30px;
@@ -210,7 +204,7 @@
   .hamburger.active span:nth-child(2) { opacity: 0; }
   .hamburger.active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
 
-  /* 🔴 修改：手機版全螢幕選單 (直式排列 - 一行一個) */
+  /* 手機版全螢幕選單 */
   .mobile-menu {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
     background: rgba(5, 5, 5, 0.98); 
@@ -222,28 +216,18 @@
   }
   .mobile-menu.active { opacity: 1; pointer-events: all; }
   
-  /* 選單容器：直式排列 */
   .mobile-nav {
-    display: flex; 
-    flex-direction: column; /* 🔴 直式 */
-    justify-content: center; 
-    align-items: center; 
-    gap: 30px; /* 🔴 增加垂直間距 */
-    width: 100%;
+    display: flex; flex-direction: column; justify-content: center; align-items: center; 
+    gap: 30px; width: 100%;
   }
 
   .mobile-nav-link {
-    font-family: var(--font-serif); 
-    font-size: 2rem; /* 🔴 加大字體 */
-    color: #fff; text-decoration: none;
-    margin: 0; 
-    font-weight: 700; letter-spacing: 2px;
-    opacity: 0; transform: translateY(20px); transition: 0.5s;
-    white-space: nowrap;
+    font-family: var(--font-serif); font-size: 2rem; color: #fff; text-decoration: none;
+    margin: 0; font-weight: 700; letter-spacing: 2px;
+    opacity: 0; transform: translateY(20px); transition: 0.5s; white-space: nowrap;
   }
   .mobile-menu.active .mobile-nav-link { opacity: 1; transform: translateY(0); }
   .mobile-nav-link:hover { color: var(--brand-light); }
-  /* 依序延遲進場 */
   .mobile-menu.active .mobile-nav-link:nth-child(1) { transition-delay: 0.1s; }
   .mobile-menu.active .mobile-nav-link:nth-child(2) { transition-delay: 0.2s; }
   .mobile-menu.active .mobile-nav-link:nth-child(3) { transition-delay: 0.3s; }
@@ -484,10 +468,8 @@
     .bts-grid { grid-template-columns: repeat(3, 1fr); }
   }
   @media (max-width: 768px) {
-    /* 🔴 RWD 設定：隱藏桌機導覽，顯示漢堡選單 */
     .nav { display: none; }
     .hamburger { display: flex; }
-    
     .bts-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
     .header { padding: 20px; }
     .hero-title { font-size: 3.5rem; }
@@ -499,8 +481,6 @@
     .card-number { font-size: 6rem; right: 10px; }
     .footer-watermark { font-size: 25vw; }
     .footer h2 { font-size: 2.5rem; letter-spacing: 5px; }
-    
-    /* 修改：手機版設定 */
     .scroll-indicator { bottom: 20px; gap: 8px; }
     .scroll-line { height: 30px; }
     .scroll-text { font-size: 0.7rem; }
@@ -546,7 +526,6 @@
   </div>
   <div class="particles-container" id="particles"></div>
 
-  <!-- 極簡聲音按鈕 -->
   <div id="sound-btn" class="sound-equalizer hover-trigger">
     <span class="sound-label">SOUND</span>
     <div class="sound-bars">
@@ -557,7 +536,6 @@
     </div>
   </div>
 
-  <!-- 🔴 新增：手機版選單 -->
   <div class="mobile-menu" id="mobile-menu">
     <nav class="mobile-nav">
        <a href="index.html" class="mobile-nav-link page-link">首頁</a>
@@ -575,7 +553,6 @@
         <span class="logo-text" style="display:none;">Uprise<span>.</span></span>
       </a>
       
-      <!-- 桌機版導覽列 -->
       <nav class="nav">
         <a href="index.html" class="nav-item hover-trigger page-link active">
             <span class="original-text">首頁</span><span class="hover-text">首頁</span>
@@ -594,7 +571,6 @@
         </a>
       </nav>
 
-      <!-- 🔴 新增：漢堡選單按鈕 -->
       <div class="hamburger hover-trigger" id="hamburger-btn">
         <span></span>
         <span></span>
@@ -606,16 +582,15 @@
       <section class="hero" id="hero-section">
         <div class="bg-video-wrap">
           <div class="video-overlay"></div>
-          <video id="bg-video" playsinline muted loop autoplay></video>
+          <video id="bg-video" playsinline muted loop autoplay src="https://res.cloudinary.com/dfnfcyglu/video/upload/v1763893930/hero_bg_ickrbe.mp4"></video>
         </div>
         <div class="particles-container" id="particles"></div>
         <div class="hero-content" id="hero-content">
-          <!-- AOS trigger for Hero Content -->
-          <h1 class="hero-title" id="hero-title" data-aos="zoom-out" data-aos-duration="2000" data-aos-delay="1200">推手<span>影像</span></h1>
-          <p class="hero-subtitle" id="hero-subtitle" data-aos="fade-up" data-aos-delay="2000">電影級影像製作團隊</p>
+          <h1 class="hero-title editable" id="hero-title" data-aos="zoom-out" data-aos-duration="2000" data-aos-delay="1200">推手<span>影像</span></h1>
+          <p class="hero-subtitle editable" id="hero-subtitle" data-aos="fade-up" data-aos-delay="2000">電影級影像製作團隊</p>
           <div class="hero-ctas" data-aos="fade-up" data-aos-delay="2200">
-            <a href="works.html" class="btn btn-primary hover-trigger magnetic-btn page-link">查看作品</a>
-            <a href="contact.html" class="btn btn-ghost hover-trigger magnetic-btn page-link">聯絡我們</a>
+            <a href="works.html" class="btn btn-primary hover-trigger magnetic-btn page-link editable">查看作品</a>
+            <a href="contact.html" class="btn btn-ghost hover-trigger magnetic-btn page-link editable">聯絡我們</a>
           </div>
         </div>
         <div class="scroll-indicator hover-trigger" id="scroll-btn">
@@ -627,19 +602,76 @@
 
       <section class="services-section" id="services-section">
         <div class="section-header" data-aos="fade-up" data-aos-duration="1000">
-          <h2 class="section-title">專業服務</h2>
+          <h2 class="section-title editable">專業服務</h2>
           <div class="section-line"></div>
         </div>
-        <div class="services-grid" id="services-grid"></div>
+        <div class="services-grid" id="services-grid">
+            
+            <div class="service-card hover-trigger floating editable" data-aos="fade-up" data-aos-delay="0">
+                <div class="border-shimmer"></div> 
+                <div class="border-spotlight"></div> 
+                <div class="card-bg-spotlight"></div>
+                <span class="card-number">01</span>
+                <div class="service-content-wrap">
+                    <i class="fa-solid fa-video service-icon-fa"></i>
+                    <h3>商業/品牌形象廣告</h3>
+                    <p>為品牌量身打造的高質感商業廣告，精準傳遞核心價值。</p>
+                </div>
+            </div>
+
+            <div class="service-card hover-trigger floating editable" data-aos="fade-up" data-aos-delay="150">
+                <div class="border-shimmer"></div> 
+                <div class="border-spotlight"></div> 
+                <div class="card-bg-spotlight"></div>
+                <span class="card-number">02</span>
+                <div class="service-content-wrap">
+                    <i class="fa-solid fa-photo-film service-icon-fa"></i>
+                    <h3>後期製作</h3>
+                    <p>透過影像敘事，建立深刻的品牌形象與視覺識別。</p>
+                </div>
+            </div>
+
+            <div class="service-card hover-trigger floating editable" data-aos="fade-up" data-aos-delay="300">
+                <div class="border-shimmer"></div> 
+                <div class="border-spotlight"></div> 
+                <div class="card-bg-spotlight"></div>
+                <span class="card-number">03</span>
+                <div class="service-content-wrap">
+                    <i class="fa-solid fa-pen-fancy service-icon-fa"></i>
+                    <h3>腳本撰寫</h3>
+                    <p>專業剪輯、特效與調光，賦予影像電影級的質感。</p>
+                </div>
+            </div>
+
+        </div>
       </section>
 
-      <!-- 工作花絮區塊 -->
       <section class="bts-section">
         <div class="section-header" data-aos="fade-up" data-aos-duration="1000">
-          <h2 class="section-title">工作花絮</h2>
+          <h2 class="section-title editable">工作花絮</h2>
           <div class="section-line"></div>
         </div>
-        <div class="bts-grid" id="bts-grid"></div>
+        
+        <div class="bts-grid">
+            <div class="bts-item hover-trigger editable" data-aos="zoom-in" data-aos-delay="0">
+                <img src="https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="BTS">
+            </div>
+            <div class="bts-item hover-trigger editable" data-aos="zoom-in" data-aos-delay="100">
+                <img src="https://images.unsplash.com/photo-1598550476439-6847785fcea6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="BTS">
+            </div>
+            <div class="bts-item hover-trigger editable" data-aos="zoom-in" data-aos-delay="200">
+                <img src="https://images.unsplash.com/photo-1533561098733-722129d2b276?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="BTS">
+            </div>
+            <div class="bts-item hover-trigger editable" data-aos="zoom-in" data-aos-delay="300">
+                <img src="https://images.unsplash.com/photo-1585644198306-399564c7b275?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="BTS">
+            </div>
+            <div class="bts-item hover-trigger editable" data-aos="zoom-in" data-aos-delay="400">
+                <img src="https://images.unsplash.com/photo-1521791136064-7986c2920216?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="BTS">
+            </div>
+            <div class="bts-item hover-trigger editable" data-aos="zoom-in" data-aos-delay="500">
+                <img src="https://images.unsplash.com/photo-1626814026160-2237a95fc5a0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="BTS">
+            </div>
+        </div>
       </section>
 
     </main>
@@ -662,79 +694,26 @@
     </footer>
   </div>
 
-  <!-- AOS Script -->
   <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 
   <script>
     // --- 防盜機制 (Anti-Theft) ---
-    // 禁止右鍵
     document.addEventListener('contextmenu', event => event.preventDefault());
-
-    // 禁止複製 (但允許選取文字)
     document.addEventListener('copy', event => {
         event.preventDefault();
-        // 選擇性：可以跳出提示或什麼都不做
     });
-
-    // 禁止快速鍵 (F12, Ctrl+U, Ctrl+S, Ctrl+C, Ctrl+Shift+I)
     document.onkeydown = function(e) {
-        if(e.keyCode == 123) { // F12
-            return false;
-        }
-        if(e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) { // Ctrl+Shift+I
-            return false;
-        }
-        if(e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) { // Ctrl+Shift+C
-            return false;
-        }
-        if(e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) { // Ctrl+Shift+J
-            return false;
-        }
-        if(e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) { // Ctrl+U
-            return false;
-        }
-        if(e.ctrlKey && e.keyCode == 'S'.charCodeAt(0)) { // Ctrl+S
-            return false;
-        }
-        if(e.ctrlKey && e.keyCode == 'C'.charCodeAt(0)) { // Ctrl+C
-             return false;
-        }
+        if(e.keyCode == 123) return false;
+        if(e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) return false;
+        if(e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) return false;
+        if(e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) return false;
+        if(e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) return false;
+        if(e.ctrlKey && e.keyCode == 'S'.charCodeAt(0)) return false;
+        if(e.ctrlKey && e.keyCode == 'C'.charCodeAt(0)) return false;
     }
 
-    // 預設資料 (Fallback)
-    const fallbackData = {
-      // 增加 Logo 欄位預設值
-      logo: "images/uploads/logo.png",
-      video: "https://res.cloudinary.com/dfnfcyglu/video/upload/v1763893930/hero_bg_ickrbe.mp4",
-      hero_video_mobile: "https://res.cloudinary.com/dfnfcyglu/video/upload/v1763893930/hero_bg_ickrbe.mp4", 
-      services: [
-        {
-          title: "商業/品牌形象廣告",
-          description: "為品牌量身打造的高質感商業廣告，精準傳遞核心價值。",
-          iconClass: "fa-solid fa-video" 
-        },
-        {
-          title: "後期製作",
-          description: "透過影像敘事，建立深刻的品牌形象與視覺識別。",
-          iconClass: "fa-solid fa-photo-film" 
-        },
-        {
-          title: "腳本撰寫",
-          description: "專業剪輯、特效與調光，賦予影像電影級的質感。",
-          iconClass: "fa-solid fa-pen-fancy"
-        }
-      ],
-      behind_the_scenes: [
-        { image: "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" },
-        { image: "https://images.unsplash.com/photo-1598550476439-6847785fcea6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" },
-        { image: "https://images.unsplash.com/photo-1533561098733-722129d2b276?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" },
-        { image: "https://images.unsplash.com/photo-1585644198306-399564c7b275?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" },
-        { image: "https://images.unsplash.com/photo-1521791136064-7986c2920216?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" },
-        { image: "https://images.unsplash.com/photo-1626814026160-2237a95fc5a0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" }
-      ]
-    };
-
-    let currentData = null;
+    // 🔴 關鍵修改：移除了所有原本會去抓 content/index.md 資料的程式碼
+    // 因為現在資料直接寫在 HTML 裡讓 CloudCannon 編輯，不需要再用 JS 覆蓋了。
 
     document.addEventListener('DOMContentLoaded', () => {
       // 延遲移除 Loading 遮罩與初始化 AOS
@@ -743,15 +722,13 @@
         document.querySelector('.page-transition-curtain').classList.add('reveal');
         document.body.classList.remove('loading-state');
         document.body.classList.add('loaded-state');
-        // 關鍵修復：手動加入 .loaded 類別，讓 CSS 中的 .scroll-indicator 顯示
         document.body.classList.add('loaded');
         
-        // 確保遮罩移除後才初始化 AOS
         AOS.init({
             duration: 1000,
             easing: 'ease-out-cubic',
-            once: false, // 允許重複播放
-            mirror: true, // 允許反向播放
+            once: false, 
+            mirror: true, 
             offset: 50
         });
         
@@ -760,29 +737,7 @@
             const subtitle = document.getElementById('hero-subtitle');
             if(subtitle) subtitle.classList.add('shutter-flash');
         }, 1500); 
-      }, 2200); // 配合 CSS Logo 動畫時間 (約 2.5s)
-
-      fetch('content/index.md')
-        .then(response => {
-          if (!response.ok) throw new Error("CMS Data Not Found");
-          return response.text();
-        })
-        .then(text => {
-          try {
-            const parsedData = jsyaml.load(text.split('---')[1]);
-            currentData = parsedData || fallbackData;
-            initPage(currentData);
-          } catch (e) {
-            console.warn("YAML Parse Error, using fallback", e);
-            currentData = fallbackData;
-            initPage(fallbackData);
-          }
-        })
-        .catch(err => {
-          console.log("Using fallback data (Preview Mode)");
-          currentData = fallbackData;
-          initPage(fallbackData);
-        });
+      }, 2200); 
 
       createParticles();
       initCursor();
@@ -791,7 +746,7 @@
       initPageTransition();
       initSoundToggle();
       
-      // 🔴 漢堡選單邏輯
+      // 漢堡選單邏輯
       const hamburger = document.getElementById('hamburger-btn');
       const mobileMenu = document.getElementById('mobile-menu');
       
@@ -801,7 +756,6 @@
            mobileMenu.classList.toggle('active');
         });
         
-        // 點擊選單連結後自動關閉選單
         const mobileLinks = document.querySelectorAll('.mobile-nav-link');
         mobileLinks.forEach(link => {
             link.addEventListener('click', () => {
@@ -817,95 +771,22 @@
           document.getElementById('services-section').scrollIntoView({ behavior: 'smooth' });
         });
       }
-    });
-
-    function initPage(data) {
-      // 1. 更新 Logo 與 Favicon (動態讀取)
-      let logoUrl = data.logo;
-      let faviconUrl = data.favicon || data.logo; // 如果沒有 Favicon，就用 Logo
-
-      if(logoUrl) {
-          const navLogo = document.querySelector('.logo img');
-          const loaderLogo = document.querySelector('.loader-logo-img');
-          if(navLogo) navLogo.src = logoUrl;
-          if(loaderLogo) loaderLogo.src = logoUrl;
-      }
-
-      if(faviconUrl) {
-          const favicon = document.querySelector('link[rel="icon"]');
-          if(favicon) favicon.href = faviconUrl;
-      }
-
-      updateVideoSource();
-
-      const grid = document.getElementById('services-grid');
-      grid.innerHTML = '';
-      const services = data.services || fallbackData.services;
       
-      services.forEach((item, index) => {
-        const num = (index + 1).toString().padStart(2, '0');
-        const card = document.createElement('div');
-        card.className = 'service-card hover-trigger floating'; 
-        // AOS 動畫參數
-        card.setAttribute('data-aos', 'fade-up');
-        card.setAttribute('data-aos-delay', index * 150);
-        
-        let iconHtml = '';
-        if (item.iconClass) {
-             iconHtml = `<i class="${item.iconClass} service-icon-fa"></i>`;
-        } else if (item.icon) {
-             iconHtml = `<img src="${item.icon}" class="service-icon" alt="icon">`;
-        } else if (fallbackData.services[index] && fallbackData.services[index].iconClass) {
-             iconHtml = `<i class="${fallbackData.services[index].iconClass} service-icon-fa"></i>`;
-        }
-
-        card.innerHTML = `
-            <div class="border-shimmer"></div> 
-            <div class="border-spotlight"></div> 
-            <div class="card-bg-spotlight"></div>
-            <span class="card-number">${num}</span>
-            <div class="service-content-wrap">
-              ${iconHtml}
-              <h3>${item.title}</h3>
-              <p>${item.description}</p>
-            </div>
-        `;
+      // 初始化卡片懸浮效果
+      document.querySelectorAll('.service-card').forEach(card => {
         card.addEventListener('mousemove', (e) => {
-          const rect = card.getBoundingClientRect();
-          const x = e.clientX - rect.left;
-          const y = e.clientY - rect.top;
-          card.style.setProperty('--x', `${x}px`);
-          card.style.setProperty('--y', `${y}px`);
-          card.classList.remove('floating');
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            card.style.setProperty('--x', `${x}px`);
+            card.style.setProperty('--y', `${y}px`);
+            card.classList.remove('floating');
         });
         card.addEventListener('mouseleave', () => {
-          card.classList.add('floating');
+            card.classList.add('floating');
         });
-        grid.appendChild(card);
       });
-
-      const btsGrid = document.getElementById('bts-grid');
-      btsGrid.innerHTML = '';
-      const btsData = data.behind_the_scenes || fallbackData.behind_the_scenes;
-      
-      if(btsData) {
-        btsData.forEach((item, index) => {
-          const btsItem = document.createElement('div');
-          btsItem.className = 'bts-item hover-trigger';
-          // AOS 屬性
-          btsItem.setAttribute('data-aos', 'zoom-in');
-          btsItem.setAttribute('data-aos-delay', index * 100);
-          
-          btsItem.innerHTML = `<img src="${item.image}" alt="BTS">`;
-          btsGrid.appendChild(btsItem);
-        });
-      }
-
-      // 重新整理 AOS
-      setTimeout(() => {
-        AOS.refresh(); 
-      }, 100);
-    }
+    });
 
     function initSoundToggle() {
       const video = document.getElementById('bg-video');
@@ -925,21 +806,7 @@
     }
 
     function updateVideoSource() {
-      if (!currentData) return;
-      
-      const videoEl = document.getElementById('bg-video');
-      const isMobile = window.innerWidth <= 768;
-      
-      if (isMobile && currentData.hero_video_mobile) {
-        if (videoEl.src !== currentData.hero_video_mobile) {
-            videoEl.src = currentData.hero_video_mobile;
-        }
-      } else {
-        const desktopVideo = currentData.hero_video || currentData.video || fallbackData.video;
-        if (videoEl.src !== desktopVideo) {
-            videoEl.src = desktopVideo;
-        }
-      }
+        // 因為是純靜態編輯，這裡我們保持預設，或者您可以手動修改 HTML 裡的 video src
     }
 
     window.addEventListener('resize', () => {

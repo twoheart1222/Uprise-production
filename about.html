@@ -8,10 +8,14 @@
 
 <link rel="icon" type="image/png" href="images/uploads/logo.png">
 
+<meta name="description" content="Uprise-Production 推手影像｜以極致的影像美學，探索品牌深度的敘事可能。">
+<link rel="canonical" href="https://www.uprise-videoproduction.com/about.html">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Italiana&family=Noto+Sans+TC:wght@300;400;500;700;900&family=Noto+Serif+TC:wght@700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
 <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
@@ -37,7 +41,7 @@
   ::-webkit-scrollbar-thumb:hover { background: var(--brand-primary); }
   ::selection { background: var(--brand-light); color: #000; }
   body { margin: 0; padding: 0; font-family: var(--font-body); background-color: var(--bg-color); color: var(--text-main); overflow-x: hidden; -webkit-font-smoothing: antialiased; }
-  img { -webkit-user-drag: none; pointer-events: none; }
+  img { -webkit-user-drag: none; -khtml-user-drag: none; -moz-user-drag: none; -o-user-drag: none; pointer-events: none; }
 
   /* 載入動畫 */
   .page-transition-curtain { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 100000; transform: translateY(0); transition: transform 1s cubic-bezier(0.87, 0, 0.13, 1); pointer-events: none; }
@@ -58,27 +62,44 @@
   body.hovered .cursor { width: 60px; height: 60px; background: rgba(255, 215, 0, 0.05); border: 1px solid rgba(255, 215, 0, 0.8); box-shadow: 0 0 30px rgba(255, 215, 0, 0.4); }
   body.clicking .cursor { transform: translate(-50%, -50%) scale(0.9); background: var(--brand-primary); }
   
-  /* 環境 */
+  /* 環境特效 */
   .ambient-light { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; overflow: hidden; }
   .ambient-blob { position: absolute; width: 900px; height: 900px; background: radial-gradient(circle, rgba(255, 140, 0, 0.04) 0%, transparent 60%); border-radius: 50%; filter: blur(80px); opacity: 0.5; animation: moveBlob 25s infinite alternate ease-in-out; }
-  .ambient-blob:nth-child(1) { top: -20%; left: -10%; } .ambient-blob:nth-child(2) { bottom: -20%; right: -10%; }
+  .ambient-blob:nth-child(1) { top: -20%; left: -10%; animation-delay: 0s; }
+  .ambient-blob:nth-child(2) { bottom: -20%; right: -10%; animation-duration: 35s; animation-direction: reverse; }
   @keyframes moveBlob { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(50px, 50px) scale(1.1); } }
   .particles-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 2; pointer-events: none; overflow: hidden; }
   .particle { position: absolute; background: radial-gradient(circle, var(--brand-light) 0%, transparent 70%); border-radius: 50%; opacity: 0; animation: floatParticle 10s infinite ease-in-out; }
   @keyframes floatParticle { 0% { transform: translateY(0) translateX(0); opacity: 0; } 20% { opacity: 0.6; } 80% { opacity: 0.6; } 100% { transform: translateY(-120px) translateX(30px); opacity: 0; } }
 
+  /* 聲音按鈕 */
+  #sound-btn { position: fixed; bottom: 40px; right: 40px; z-index: 9000; display: none; gap: 8px; align-items: flex-end; height: 24px; cursor: pointer; background: transparent; border: none; padding: 5px; width: auto; }
+  #sound-btn:hover { transform: scale(1.1); }
+  .sound-label { font-family: var(--font-body); font-size: 0.75rem; letter-spacing: 2px; color: rgba(255,255,255,0.7); font-weight: 500; margin-right: 5px; margin-bottom: 2px; }
+  .sound-bar { width: 3px; background-color: #fff; opacity: 0.8; border-radius: 2px; height: 3px; transition: height 0.3s, background-color 0.3s; }
+  #sound-btn.is-playing .sound-bar { background-color: var(--brand-light); animation: soundWaveAnim 1s ease-in-out infinite; }
+  #sound-btn.is-playing .sound-label { color: var(--brand-light); }
+  #sound-btn.is-playing .sound-bar:nth-child(1) { animation-delay: 0.0s; }
+  #sound-btn.is-playing .sound-bar:nth-child(2) { animation-delay: 0.2s; }
+  #sound-btn.is-playing .sound-bar:nth-child(3) { animation-delay: 0.4s; }
+  #sound-btn.is-playing .sound-bar:nth-child(4) { animation-delay: 0.1s; }
+  @keyframes soundWaveAnim { 0% { height: 3px; } 50% { height: 20px; } 100% { height: 3px; } }
+
   /* 導覽列 */
   .header { position: fixed; top: 0; left: 0; width: 100%; padding: 30px 50px; display: flex; justify-content: space-between; align-items: center; z-index: 100; background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent); transition: all 0.5s; }
   .header.scrolled { background: rgba(5, 5, 5, 0.9); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding: 20px 50px; }
   .logo { display: flex; align-items: center; gap: 12px; text-decoration: none; color: #fff; }
-  .logo img { height: 38px; width: auto; transition: transform 0.5s; object-fit: contain; }
+  .logo img { height: 38px; width: auto; transition: transform 0.5s; }
   .logo:hover img { transform: rotate(5deg) scale(1.05); }
+  .logo-text { font-family: var(--font-display); font-size: 1.2rem; letter-spacing: 2px; text-transform: uppercase; color: #fff; }
+  .logo-text span { color: var(--brand-light); }
+  
   .nav { display: flex; gap: 30px; } 
   .nav-item { position: relative; overflow: hidden; height: 24px; cursor: pointer; display: block; color: rgba(255,255,255,0.8); font-family: var(--font-body); font-size: 0.95rem; letter-spacing: 2px; font-weight: 500; text-decoration: none; }
   .nav-item span.original-text { display: block; transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1); }
-  .nav-item span.hover-text { position: absolute; top: 100%; left: 0; width: 100%; color: var(--brand-light); }
-  .nav-item:hover .original-text { transform: translateY(-100%); } .nav-item:hover .hover-text { transform: translateY(-100%); }
-  .nav-item.active .original-text { color: var(--brand-light); }
+  .nav-item span.hover-text { position: absolute; top: 100%; left: 0; width: 100%; color: var(--brand-light); transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1); white-space: nowrap; }
+  .nav-item:hover span.original-text { transform: translateY(-100%); } .nav-item:hover span.hover-text { transform: translateY(-100%); }
+  .nav-item.active span.original-text { color: var(--brand-light); }
 
   /* 漢堡選單 */
   .hamburger { display: none; flex-direction: column; gap: 6px; cursor: pointer; z-index: 200; width: 30px; }
@@ -96,11 +117,7 @@
   }
   .mobile-menu.active { opacity: 1; pointer-events: all; }
   .mobile-nav { display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 30px; width: 100%; }
-  .mobile-nav-link {
-    font-family: var(--font-serif); font-size: 2rem; color: #fff; text-decoration: none;
-    margin: 0; font-weight: 700; letter-spacing: 2px;
-    opacity: 0; transform: translateY(20px); transition: 0.5s; white-space: nowrap;
-  }
+  .mobile-nav-link { font-family: var(--font-serif); font-size: 2rem; color: #fff; text-decoration: none; margin: 0; font-weight: 700; letter-spacing: 2px; opacity: 0; transform: translateY(20px); transition: 0.5s; white-space: nowrap; }
   .mobile-menu.active .mobile-nav-link { opacity: 1; transform: translateY(0); }
   .mobile-nav-link:hover { color: var(--brand-light); }
   .mobile-menu.active .mobile-nav-link:nth-child(1) { transition-delay: 0.1s; }
@@ -112,22 +129,9 @@
   /* About Pages Styles */
   .about-hero { padding-top: 180px; padding-bottom: 80px; text-align: center; position: relative; z-index: 10; }
   .page-label { font-family: var(--font-display); font-size: 0.9rem; letter-spacing: 4px; color: var(--brand-light); margin-bottom: 20px; display: block; }
-  
-  .page-title { 
-    font-family: var(--font-serif); font-size: clamp(3rem, 8vw, 5rem); 
-    font-weight: 900; color: #fff; line-height: 1.1; margin: 0 0 20px; 
-    background: var(--brand-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; 
-    filter: drop-shadow(0 0 30px rgba(255, 140, 0, 0.5)); 
-    letter-spacing: 10px; opacity: 0; transform: scale(1.1); filter: blur(5px); 
-    transition: all 1.5s var(--ease-cinematic); 
-  }
+  .page-title { font-family: var(--font-serif); font-size: clamp(3rem, 8vw, 5rem); font-weight: 900; color: #fff; line-height: 1.1; margin: 0 0 20px; background: var(--brand-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 0 30px rgba(255, 140, 0, 0.5)); letter-spacing: 10px; opacity: 0; transform: scale(1.1); filter: blur(5px); transition: all 1.5s var(--ease-cinematic); }
   .page-title.aos-animate { opacity: 1; letter-spacing: 0; transform: scale(1); filter: blur(0); }
-
-  .page-subtitle { 
-    font-family: var(--font-body); font-size: 1.1rem; color: rgba(255,255,255,0.7); 
-    max-width: 600px; margin: 0 auto; line-height: 1.8; letter-spacing: 1px; 
-  }
-
+  .page-subtitle { font-family: var(--font-body); font-size: 1.1rem; color: rgba(255,255,255,0.7); max-width: 600px; margin: 0 auto; line-height: 1.8; letter-spacing: 1px; }
   .shutter-flash { animation: shutterAnim 2.5s cubic-bezier(0.1, 0.9, 0.2, 1) forwards; }
   @keyframes shutterAnim {
     0% { opacity: 0; filter: blur(20px) brightness(5); letter-spacing: 20px; }
@@ -137,7 +141,6 @@
     60% { filter: brightness(1); }
     100% { opacity: 1; filter: blur(0); letter-spacing: 5px; }
   }
-
   .title-divider { width: 0; height: 3px; background: var(--brand-gradient); margin: 40px auto 0; border-radius: 2px; transition: width 1.2s var(--ease-cinematic); }
   .title-divider.aos-animate { width: 80px; }
 
@@ -145,14 +148,6 @@
   .section-block { max-width: 1200px; margin: 0 auto 100px; padding: 0 40px; position: relative; z-index: 10; }
   .block-title { font-family: var(--font-serif); font-size: 2rem; margin-bottom: 50px; color: #fff; text-align: center; position: relative; }
   .block-title::after { content: ''; display: block; width: 40px; height: 2px; background: var(--brand-primary); margin: 20px auto 0; }
-
-  /* Values Grid */
-  .values-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 40px; }
-  .value-card { background: var(--card-bg); border: 1px solid rgba(255,255,255,0.08); padding: 40px 30px; border-radius: 8px; text-align: center; transition: 0.5s; backdrop-filter: blur(10px); }
-  .value-card:hover { transform: translateY(-10px); background: rgba(30,30,30,0.8); border-color: var(--brand-primary); }
-  .value-icon { font-size: 3rem; color: var(--brand-light); margin-bottom: 20px; }
-  .value-title { font-family: var(--font-serif); font-size: 1.5rem; color: #fff; margin-bottom: 15px; }
-  .value-desc { color: #aaa; line-height: 1.6; }
 
   /* Process List */
   .process-list { display: flex; flex-direction: column; gap: 30px; max-width: 800px; margin: 0 auto; }
@@ -169,38 +164,12 @@
   .cms-content h2::before { content: ''; position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 4px; height: 0; background: var(--brand-primary); transition: height 0.8s var(--ease-out-expo); }
   .cms-content h2.aos-animate::before { height: 80%; }
   .cms-content h3 { font-family: var(--font-body); font-size: 1.5rem; font-weight: 700; color: var(--brand-light); margin-top: 2.5em; margin-bottom: 1em; }
-  
-  /* 🔴 引用 (Blockquote) - 電影感掃光特效 */
-  .cms-content blockquote {
-    position: relative;
-    margin: 4em 0; padding: 2em 3em;
-    border-left: none; 
-    background: transparent;
-    font-family: var(--font-serif); font-size: 1.4rem; font-style: italic; line-height: 1.8;
-    color: rgba(255,255,255,0.9);
-    border-radius: 4px;
-    overflow: hidden; 
-    isolation: isolate;
-  }
-  .cms-content blockquote::before {
-    content: ''; position: absolute; inset: 0;
-    background: linear-gradient(90deg, rgba(255, 140, 0, 0.2) 0%, rgba(255, 215, 0, 0.05) 100%);
-    transform: scaleX(0); transform-origin: left;
-    transition: transform 1.2s cubic-bezier(0.22, 1, 0.36, 1);
-    z-index: -1;
-  }
-  .cms-content blockquote::after {
-    content: ''; position: absolute; left: 0; top: 0; bottom: 0;
-    width: 4px; background: var(--brand-primary);
-    transform: scaleY(0); transform-origin: bottom;
-    transition: transform 0.8s var(--ease-out-expo) 0.5s;
-    z-index: 1;
-  }
-  .cms-content blockquote.aos-animate::before { transform: scaleX(1); }
-  .cms-content blockquote.aos-animate::after { transform: scaleY(1); }
+  .cms-content blockquote { position: relative; margin: 4em 0; padding: 2em 3em; border-left: none; background: transparent; font-family: var(--font-serif); font-size: 1.4rem; font-style: italic; line-height: 1.8; color: rgba(255,255,255,0.9); border-radius: 4px; overflow: hidden; isolation: isolate; }
+  .cms-content blockquote::before { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(255, 140, 0, 0.2) 0%, rgba(255, 215, 0, 0.05) 100%); transform: scaleX(0); transform-origin: left; transition: transform 1.2s cubic-bezier(0.22, 1, 0.36, 1); z-index: -1; }
+  .cms-content blockquote::after { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: var(--brand-primary); transform: scaleY(0); transform-origin: bottom; transition: transform 0.8s var(--ease-out-expo) 0.5s; z-index: 1; }
+  .cms-content blockquote.aos-animate::before { transform: scaleX(1); } .cms-content blockquote.aos-animate::after { transform: scaleY(1); }
   .cms-content blockquote p { opacity: 0; transform: translateX(20px); transition: all 1s ease 0.4s; margin: 0; }
   .cms-content blockquote.aos-animate p { opacity: 1; transform: translateX(0); }
-
   .cms-content img { max-width: 100%; border-radius: 2px; margin: 3em 0; box-shadow: 0 10px 40px rgba(0,0,0,0.5); border: 1px solid rgba(255, 255, 255, 0.1); transition: 0.5s var(--ease-out-expo); }
   .cms-content img:hover { transform: scale(1.02); box-shadow: 0 20px 60px rgba(255, 140, 0, 0.15); border-color: rgba(255, 255, 255, 0.3); }
 
@@ -280,8 +249,6 @@
       </div>
 
       <div id="process-section" class="section-block"></div>
-
-      <div id="values-section" class="section-block"></div>
     </main>
 
     <footer>
@@ -314,7 +281,6 @@
         document.body.classList.add('loaded-state');
         AOS.init({ duration: 1000, easing: 'ease-out-cubic', once: false, mirror: true, offset: 50 });
         
-        // 🔴 觸發副標題閃爍特效
         setTimeout(() => {
             const subtitle = document.getElementById('page-subtitle');
             if(subtitle) subtitle.classList.add('shutter-flash');
@@ -331,7 +297,6 @@
           if(data.title) document.getElementById('page-title').innerText = data.title;
           if(data.subtitle) document.getElementById('page-subtitle').innerText = data.subtitle;
           
-          // 渲染 Markdown (故事)
           if(parts.length > 2) {
               const converter = new showdown.Converter({ simpleLineBreaks: true });
               const html = converter.makeHtml(parts.slice(2).join('---'));
@@ -347,7 +312,7 @@
             renderPage(fallbackData, null, true);
         });
 
-      // 讀取 Global Logo
+      // 讀取 Logo from index.md
       fetch('content/index.md?t=' + new Date().getTime())
         .then(r => r.ok ? r.text() : Promise.reject())
         .then(text => {
@@ -361,7 +326,7 @@
       initCursor(); initPageTransition(); createParticles(); initSoundToggle(); initMenu();
     });
 
-    // 漢堡選單
+    // 漢堡選單邏輯
     function initMenu() {
         const hamburger = document.getElementById('hamburger-btn');
         const mobileMenu = document.getElementById('mobile-menu');
@@ -386,20 +351,8 @@
     }
 
     function renderPage(data) {
-        // Values
-        const valuesSection = document.getElementById('values-section');
-        if (data.values_list && data.values_list.length > 0) {
-            let html = '<h2 class="block-title" data-aos="fade-up">核心價值</h2><div class="values-grid">';
-            data.values_list.forEach((v, i) => {
-                const icon = v.icon || 'fa-solid fa-star';
-                html += `<div class="value-card" data-aos="fade-up" data-aos-delay="${i * 100}"><div class="value-icon"><i class="${icon}"></i></div><h3 class="value-title">${v.title}</h3><p class="value-desc">${v.desc}</p></div>`;
-            });
-            html += '</div>';
-            valuesSection.innerHTML = html;
-        } else {
-            valuesSection.innerHTML = ''; 
-        }
-
+        // 刪除了 values (核心價值) 的渲染邏輯
+        
         // Process
         const processSection = document.getElementById('process-section');
         if (data.process_list && data.process_list.length > 0) {
@@ -420,13 +373,7 @@
         container.querySelectorAll('h2').forEach(el => { el.setAttribute('data-aos', 'fade-right'); el.setAttribute('data-aos-delay', '100'); });
         container.querySelectorAll('h3').forEach(el => { el.setAttribute('data-aos', 'fade-up'); el.setAttribute('data-aos-delay', '150'); });
         container.querySelectorAll('p, ul, ol').forEach((el, index) => { if(el.closest('blockquote')) return; el.setAttribute('data-aos', 'fade-up'); el.setAttribute('data-aos-delay', (index % 5) * 50); });
-        
-        // 🔴 觸發引用掃光特效
-        container.querySelectorAll('blockquote').forEach(el => { 
-            el.setAttribute('data-aos', 'fade'); 
-            el.setAttribute('data-aos-offset', '200'); 
-        });
-        
+        container.querySelectorAll('blockquote').forEach(el => { el.setAttribute('data-aos', 'fade'); el.setAttribute('data-aos-offset', '200'); });
         container.querySelectorAll('img').forEach(el => { el.setAttribute('data-aos', 'zoom-in-up'); el.setAttribute('data-aos-duration', '1200'); });
         setTimeout(() => { AOS.refresh(); }, 100);
     }

@@ -41,10 +41,4 @@ members:
     bio: 以強烈個人美學為核心，結合次文化、色彩衝擊、飛行攝影與互動藝術，打造跨界且具反叛精神的影像世界
     ig_url: https://www.instagram.com/conan_0906?igsh=MzBuMnF1ajB5NDd5
     full_bio: '##### 以強烈個人美學為核心，結合次文化、色彩衝擊、飛行攝影與互動藝術，打造跨界且具反叛精神的影像世界'
-  - name: TEST
-    role: TEST
-    avatar: /images/uploads/line_album_2024.3.18_241011_8.jpg
-    bio: TESET
-    ig_url: ''
-    full_bio: TEST
 ---

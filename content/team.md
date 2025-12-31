@@ -33,7 +33,7 @@ members:
       愛學影展線上觀看:[https://stv.naer.edu.tw/i-fun-filmfestival/movie\_view.jsp?unitpost\_id=455](https://stv.naer.edu.tw/i-fun-filmfestival/movie_view.jsp?unitpost_id=455)
   - name: 傅啓榮
     role: 合作導演 Co-director
-    image: /images/uploads/s__22126679.jpg
+    image: /uploads/s-23396358.jpg
     bio: |-
       五年影像敘事經驗，
       擅長捕捉人物細膩情感，

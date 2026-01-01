@@ -4,11 +4,14 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 
-<!-- SEO 基礎標籤 (預設值，JS 會動態更新) -->
+<!-- SEO 基礎標籤 -->
 <title>團隊成員介紹 | Uprise-Production｜推手影像</title>
 <meta name="description" content="Uprise-Production 推手影像專業團隊成員介紹。我們致力於以極致的影像美學，探索品牌深度的敘事可能。">
 <meta name="keywords" content="影像製作, 導演, 攝影師, 製片, Uprise Production, 推手影像, 團隊介紹">
 <meta name="author" content="Uprise-Production">
+
+<!-- 🔴 修正：瀏覽器標籤 Logo (Favicon) - 與 team.html 統一 -->
+<link rel="icon" type="image/png" href="images/uploads/logo.png">
 
 <!-- Open Graph / Facebook 社群分享優化 -->
 <meta property="og:type" content="profile">
@@ -22,9 +25,6 @@
 <meta name="twitter:title" content="團隊成員介紹 | Uprise-Production">
 <meta name="twitter:description" content="Uprise-Production 推手影像專業團隊成員介紹。">
 <meta name="twitter:image" content="images/uploads/logo.png">
-
-<!-- 瀏覽器標籤 Logo (預設值，JS 會自動讀取後台設定覆蓋) -->
-<link rel="icon" type="image/png" href="images/uploads/logo.png">
 
 <link rel="canonical" href="https://www.uprise-videoproduction.com/member.html">
 
@@ -302,7 +302,7 @@
     box-shadow: 0 0 30px rgba(0,0,0,0.8);
   }
 
-  /* 🔴 修改：人臉自動置中 */
+  /* 自動人臉置中 */
   .profile-img { 
     width: 100%; height: 100%; 
     object-fit: cover; 
@@ -369,10 +369,9 @@
   }
   .job-title.aos-animate::after { width: 100%; }
   
-  /* 🔴 修改：調整行距 */
   .bio-text { 
     color: #ccc; font-size: 1rem; 
-    line-height: 1.6; /* 修改行距為 1.6 */
+    line-height: 1.6; /* 行距 */
     margin-bottom: 40px; 
     text-align: justify; font-weight: 300; letter-spacing: 1px;
     max-width: 600px;
@@ -407,6 +406,7 @@
   }
   .btn-ghost:hover { border-color: var(--brand-primary); color: #fff; background: rgba(255, 140, 0, 0.15); }
 
+  /* IG 按鈕 */
   .btn-instagram {
     background: rgba(255,255,255,0.05); color: #fff; 
     border: 1px solid rgba(255,255,255,0.2); backdrop-filter: blur(5px);
@@ -473,7 +473,7 @@
   <div class="page-transition-curtain"></div>
   <div class="cursor"></div>
   <div class="loader">
-    <!-- 🔴 更新：使用 images/uploads/logo.png (與 team.html 一致) -->
+    <!-- 預設 Logo (JS 會覆蓋) -->
     <img src="images/uploads/logo.png" class="loader-logo-img" alt="Uprise">
   </div>
   <div class="ambient-light">
@@ -497,7 +497,6 @@
   <div id="main-wrapper">
     <header class="header" id="header" data-aos="fade-down" data-aos-duration="1000">
       <a href="index.html" class="logo hover-trigger">
-        <!-- 🔴 更新：使用 images/uploads/logo.png (與 team.html 一致) -->
         <img src="images/uploads/logo.png" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'" alt="Logo">
         <span class="logo-text" style="display:none;">Uprise<span>.</span></span>
       </a>
@@ -609,14 +608,13 @@
     };
 
     document.addEventListener('DOMContentLoaded', () => {
-      // 1. 調整後的載入流程：確保 Logo 動畫跑完才顯示內容
+      // 1. 載入動畫 (延遲 2.2s)
       setTimeout(() => {
         document.querySelector('.loader').classList.add('hidden');
         document.querySelector('.page-transition-curtain').classList.add('reveal');
         document.body.classList.remove('loading-state');
         document.body.classList.add('loaded-state');
         
-        // 2. 在內容顯示後，才初始化 AOS，確保動畫不會被遮罩擋住
         AOS.init({
             duration: 1000,
             easing: 'ease-out-cubic',
@@ -630,12 +628,13 @@
       const urlParams = new URLSearchParams(window.location.search);
       const memberId = urlParams.get('id') || 0; 
 
-      // 🔴 3. 全站通用設定 (Logo & Favicon) - 參考 team.html 邏輯
+      // 🔴 2. 跨頁讀取首頁設定 (Favicon & Logo)
       fetch('content/index.md')
         .then(r => r.ok ? r.text() : Promise.reject())
         .then(text => {
           const parts = text.split('---');
           const data = jsyaml.load(parts.length > 1 ? parts[1] : text);
+          
           let logoUrl = data.logo;
           let faviconUrl = data.favicon || data.logo;
 
@@ -652,7 +651,7 @@
         })
         .catch(e => console.log("Global settings not found"));
 
-      // 嘗試讀取 CMS 資料
+      // 🔴 3. 讀取團隊資料 (Team.md)
       fetch('content/team.md')
         .then(r => {
             if(!r.ok) throw new Error("CMS Data Not Found");
@@ -681,7 +680,7 @@
       
       if(data.members && data.members[id]) {
         const m = data.members[id];
-        // 🔴 修正：同時檢查 m.avatar 和 m.image
+        // 兼容 avatar / image 兩種欄位名稱
         const avatar = m.avatar || m.image || 'https://dummyimage.com/400x533/333/fff';
         
         const bioContent = m.full_bio ? m.full_bio : m.bio;
@@ -691,12 +690,11 @@
             ? `<a href="${m.portfolio_url}" target="_blank" class="btn btn-primary hover-trigger magnetic-btn">查看作品集</a>` 
             : '';
             
-        // 🔴 IG 按鈕使用 .btn-instagram class
         const igBtn = m.ig_url
             ? `<a href="${m.ig_url}" target="_blank" class="btn btn-ghost btn-instagram hover-trigger magnetic-btn"><i class="fab fa-instagram"></i> <span>Instagram</span></a>`
             : '';
 
-        // 動態 SEO
+        // 動態 SEO 更新
         document.title = `${m.name} ${m.role} | 成員介紹 | 推手影像 Uprise Production`;
         
         const setMeta = (name, content) => {
@@ -757,11 +755,10 @@
         script.text = JSON.stringify(schema);
         document.head.appendChild(script);
 
-        // 🔴 新的 DOM 結構
+        // 渲染畫面
         container.innerHTML = `
             <div class="photo-section" data-aos="fade" data-aos-duration="1500">
               <div class="photo-frame">
-                <!-- 內層容器：處理裁切與快門 -->
                 <div class="img-inner">
                     <img src="${avatar}" class="profile-img" alt="${m.name} - ${m.role} | 推手影像">
                     <div class="shutter-mask"></div>

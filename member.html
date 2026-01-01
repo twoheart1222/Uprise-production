@@ -23,9 +23,8 @@
 <meta name="twitter:description" content="Uprise-Production 推手影像專業團隊成員介紹。">
 <meta name="twitter:image" content="images/uploads/logo.png">
 
-<!-- 🔴 瀏覽器標籤 Logo (Favicon) -->
-<!-- 注意：ibb.co 連結通常是網頁，需使用右鍵「複製圖片位址」取得的直接連結 -->
-<link rel="icon" type="image/png" href="https://ibb.co/v4q5LzSS">
+<!-- 瀏覽器標籤 Logo (預設值，JS 會自動讀取後台設定覆蓋) -->
+<link rel="icon" type="image/png" href="images/uploads/logo.png">
 
 <link rel="canonical" href="https://www.uprise-videoproduction.com/member.html">
 
@@ -464,7 +463,6 @@
     .footer h2 { font-size: 2.5rem; letter-spacing: 5px; }
     .header { padding: 20px; }
     .nav { display: none; }
-
     /* 🔴 新增：隱藏手機版自訂游標 */
     .cursor { display: none; }
   }
@@ -475,8 +473,8 @@
   <div class="page-transition-curtain"></div>
   <div class="cursor"></div>
   <div class="loader">
-    <!-- 🔴 更新：使用您的 Logo 連結 -->
-    <img src="https://ibb.co/v4q5LzSS" class="loader-logo-img" alt="Uprise">
+    <!-- 🔴 更新：使用 images/uploads/logo.png (與 team.html 一致) -->
+    <img src="images/uploads/logo.png" class="loader-logo-img" alt="Uprise">
   </div>
   <div class="ambient-light">
     <div class="ambient-blob"></div>
@@ -499,7 +497,8 @@
   <div id="main-wrapper">
     <header class="header" id="header" data-aos="fade-down" data-aos-duration="1000">
       <a href="index.html" class="logo hover-trigger">
-        <img src="https://ibb.co/v4q5LzSS" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'" alt="Logo">
+        <!-- 🔴 更新：使用 images/uploads/logo.png (與 team.html 一致) -->
+        <img src="images/uploads/logo.png" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'" alt="Logo">
         <span class="logo-text" style="display:none;">Uprise<span>.</span></span>
       </a>
       
@@ -631,7 +630,7 @@
       const urlParams = new URLSearchParams(window.location.search);
       const memberId = urlParams.get('id') || 0; 
 
-      // 1. 全站通用設定 (Logo & Favicon)
+      // 🔴 3. 全站通用設定 (Logo & Favicon) - 參考 team.html 邏輯
       fetch('content/index.md')
         .then(r => r.ok ? r.text() : Promise.reject())
         .then(text => {
@@ -682,7 +681,7 @@
       
       if(data.members && data.members[id]) {
         const m = data.members[id];
-        // 🔴 修正：同時檢查 m.avatar 和 m.image，解決欄位名稱不一致的問題
+        // 🔴 修正：同時檢查 m.avatar 和 m.image
         const avatar = m.avatar || m.image || 'https://dummyimage.com/400x533/333/fff';
         
         const bioContent = m.full_bio ? m.full_bio : m.bio;

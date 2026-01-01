@@ -23,7 +23,10 @@
 <meta name="twitter:description" content="Uprise-Production 推手影像專業團隊成員介紹。">
 <meta name="twitter:image" content="images/uploads/logo.png">
 
-<link rel="icon" type="image/png" href="images/uploads/logo.png">
+<!-- 🔴 瀏覽器標籤 Logo (Favicon) -->
+<!-- 注意：ibb.co 連結通常是網頁，需使用右鍵「複製圖片位址」取得的直接連結 -->
+<link rel="icon" type="image/png" href="https://ibb.co/v4q5LzSS">
+
 <link rel="canonical" href="https://www.uprise-videoproduction.com/member.html">
 
 <!-- Fonts -->
@@ -472,7 +475,8 @@
   <div class="page-transition-curtain"></div>
   <div class="cursor"></div>
   <div class="loader">
-    <img src="images/uploads/logo.png" class="loader-logo-img" alt="Uprise">
+    <!-- 🔴 更新：使用您的 Logo 連結 -->
+    <img src="https://ibb.co/v4q5LzSS" class="loader-logo-img" alt="Uprise">
   </div>
   <div class="ambient-light">
     <div class="ambient-blob"></div>
@@ -495,7 +499,7 @@
   <div id="main-wrapper">
     <header class="header" id="header" data-aos="fade-down" data-aos-duration="1000">
       <a href="index.html" class="logo hover-trigger">
-        <img src="images/uploads/logo.png" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'" alt="Logo">
+        <img src="https://ibb.co/v4q5LzSS" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'" alt="Logo">
         <span class="logo-text" style="display:none;">Uprise<span>.</span></span>
       </a>
       
@@ -626,25 +630,25 @@
       // 讀取成員 ID
       const urlParams = new URLSearchParams(window.location.search);
       const memberId = urlParams.get('id') || 0; 
-      
-      // 1. 全站通用設定 (Logo)
-      fetch('content/index.md?t=' + new Date().getTime())
+
+      // 1. 全站通用設定 (Logo & Favicon)
+      fetch('content/index.md')
         .then(r => r.ok ? r.text() : Promise.reject())
         .then(text => {
           const parts = text.split('---');
           const data = jsyaml.load(parts.length > 1 ? parts[1] : text);
-          if(data.logo) {
-            // 更新導覽列 Logo
-            const navLogo = document.querySelector('.logo img');
-            if(navLogo) navLogo.src = data.logo;
-            
-            // 更新載入動畫 Logo
-            const loaderLogo = document.querySelector('.loader-logo-img');
-            if(loaderLogo) loaderLogo.src = data.logo;
+          let logoUrl = data.logo;
+          let faviconUrl = data.favicon || data.logo;
 
-            // 更新 Favicon
+          if(logoUrl) {
+            const navLogo = document.querySelector('.logo img');
+            if(navLogo) navLogo.src = logoUrl;
+            const loaderLogo = document.querySelector('.loader-logo-img');
+            if(loaderLogo) loaderLogo.src = logoUrl;
+          }
+          if(faviconUrl) {
             const favicon = document.querySelector('link[rel="icon"]');
-            if(favicon) favicon.href = data.logo;
+            if(favicon) favicon.href = faviconUrl;
           }
         })
         .catch(e => console.log("Global settings not found"));
@@ -678,7 +682,8 @@
       
       if(data.members && data.members[id]) {
         const m = data.members[id];
-        const avatar = m.avatar || 'https://dummyimage.com/400x533/333/fff';
+        // 🔴 修正：同時檢查 m.avatar 和 m.image，解決欄位名稱不一致的問題
+        const avatar = m.avatar || m.image || 'https://dummyimage.com/400x533/333/fff';
         
         const bioContent = m.full_bio ? m.full_bio : m.bio;
         const bioHtml = new showdown.Converter().makeHtml(bioContent || '');

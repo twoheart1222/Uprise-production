@@ -14,19 +14,19 @@ members:
     ig_url: >-
       https://www.instagram.com/harry.lin_jiayou?igsh=MXNyNXlpdDIzZmozMg%3D%3D&utm_source=qr
     full_bio: >-
-      #### **推手影像製作有限公司**
+      # **推手影像製作有限公司**
 
 
-      **（Uprise-Production）的創辦人與導演。**
+      ## **（Uprise-Production）的創辦人與導演。**
 
 
-      **現在就讀臺灣藝術大學電影系碩士。**
+      ### **現在就讀臺灣藝術大學電影系碩士。**
 
 
-      #### 短片《流量底限》
+      ### 短片《流量底限》
 
 
-      #####
+      ###
       愛學影展線上觀看:<br>[https://stv.naer.edu.tw/i-fun-filmfestival/movie\_view.jsp?unitpost\_id=455](https://stv.naer.edu.tw/i-fun-filmfestival/movie_view.jsp?unitpost_id=455)
   - name: 傅啓榮
     role: 合作導演 Co-director

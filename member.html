@@ -4,14 +4,11 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 
-<!-- SEO 基礎標籤 -->
+<!-- SEO 基礎標籤 (預設值，JS 會動態更新) -->
 <title>團隊成員介紹 | Uprise-Production｜推手影像</title>
 <meta name="description" content="Uprise-Production 推手影像專業團隊成員介紹。我們致力於以極致的影像美學，探索品牌深度的敘事可能。">
 <meta name="keywords" content="影像製作, 導演, 攝影師, 製片, Uprise Production, 推手影像, 團隊介紹">
 <meta name="author" content="Uprise-Production">
-
-<!-- 🔴 修正：瀏覽器標籤 Logo (Favicon) - 與 team.html 統一 -->
-<link rel="icon" type="image/png" href="images/uploads/logo.png">
 
 <!-- Open Graph / Facebook 社群分享優化 -->
 <meta property="og:type" content="profile">
@@ -25,6 +22,9 @@
 <meta name="twitter:title" content="團隊成員介紹 | Uprise-Production">
 <meta name="twitter:description" content="Uprise-Production 推手影像專業團隊成員介紹。">
 <meta name="twitter:image" content="images/uploads/logo.png">
+
+<!-- 🔴 修正：瀏覽器標籤 Logo (Favicon) 改回本地路徑 -->
+<link rel="icon" type="image/png" href="images/uploads/logo.png">
 
 <link rel="canonical" href="https://www.uprise-videoproduction.com/member.html">
 
@@ -209,7 +209,10 @@
     border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding: 20px 50px;
   }
   .logo { display: flex; align-items: center; gap: 12px; text-decoration: none; color: #fff; }
+  
+  /* 🔴 修改：Logo 圖片設定 */
   .logo img { height: 38px; width: auto; transition: transform 0.5s; object-fit: contain; }
+  
   .logo:hover img { transform: rotate(5deg) scale(1.05); }
   .logo-text { font-family: var(--font-display); font-size: 1.2rem; letter-spacing: 2px; text-transform: uppercase; color: #fff; }
   .logo-text span { color: var(--brand-light); }
@@ -302,7 +305,7 @@
     box-shadow: 0 0 30px rgba(0,0,0,0.8);
   }
 
-  /* 自動人臉置中 */
+  /* 🔴 修改：人臉自動置中 */
   .profile-img { 
     width: 100%; height: 100%; 
     object-fit: cover; 
@@ -369,9 +372,10 @@
   }
   .job-title.aos-animate::after { width: 100%; }
   
+  /* 🔴 修改：調整行距 */
   .bio-text { 
     color: #ccc; font-size: 1rem; 
-    line-height: 1.6; /* 行距 */
+    line-height: 1.6; /* 修改行距為 1.6 */
     margin-bottom: 40px; 
     text-align: justify; font-weight: 300; letter-spacing: 1px;
     max-width: 600px;
@@ -406,7 +410,6 @@
   }
   .btn-ghost:hover { border-color: var(--brand-primary); color: #fff; background: rgba(255, 140, 0, 0.15); }
 
-  /* IG 按鈕 */
   .btn-instagram {
     background: rgba(255,255,255,0.05); color: #fff; 
     border: 1px solid rgba(255,255,255,0.2); backdrop-filter: blur(5px);
@@ -473,7 +476,7 @@
   <div class="page-transition-curtain"></div>
   <div class="cursor"></div>
   <div class="loader">
-    <!-- 預設 Logo (JS 會覆蓋) -->
+    <!-- 🔴 修正：使用本地預設圖片，JS 稍後會覆蓋 -->
     <img src="images/uploads/logo.png" class="loader-logo-img" alt="Uprise">
   </div>
   <div class="ambient-light">
@@ -559,37 +562,16 @@
 
   <script>
     // --- 防盜機制 (Anti-Theft) ---
-    // 1. 禁止右鍵
     document.addEventListener('contextmenu', event => event.preventDefault());
-
-    // 2. 禁止複製 (但允許選取文字)
-    document.addEventListener('copy', event => {
-        event.preventDefault();
-    });
-
-    // 3. 禁止快速鍵 (F12, Ctrl+U, Ctrl+S, Ctrl+C, Ctrl+Shift+I)
+    document.addEventListener('copy', event => event.preventDefault());
     document.onkeydown = function(e) {
-        if(e.keyCode == 123) { // F12
-            return false;
-        }
-        if(e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) { // Ctrl+Shift+I
-            return false;
-        }
-        if(e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) { // Ctrl+Shift+C
-            return false;
-        }
-        if(e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) { // Ctrl+Shift+J
-            return false;
-        }
-        if(e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) { // Ctrl+U
-            return false;
-        }
-        if(e.ctrlKey && e.keyCode == 'S'.charCodeAt(0)) { // Ctrl+S
-            return false;
-        }
-        if(e.ctrlKey && e.keyCode == 'C'.charCodeAt(0)) { // Ctrl+C
-             return false;
-        }
+        if(e.keyCode == 123) return false; // F12
+        if(e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) return false;
+        if(e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) return false;
+        if(e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) return false;
+        if(e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) return false;
+        if(e.ctrlKey && e.keyCode == 'S'.charCodeAt(0)) return false;
+        if(e.ctrlKey && e.keyCode == 'C'.charCodeAt(0)) return false;
     }
 
     // 預設資料
@@ -608,13 +590,14 @@
     };
 
     document.addEventListener('DOMContentLoaded', () => {
-      // 1. 載入動畫 (延遲 2.2s)
+      // 1. 調整後的載入流程：確保 Logo 動畫跑完才顯示內容
       setTimeout(() => {
         document.querySelector('.loader').classList.add('hidden');
         document.querySelector('.page-transition-curtain').classList.add('reveal');
         document.body.classList.remove('loading-state');
         document.body.classList.add('loaded-state');
         
+        // 2. 在內容顯示後，才初始化 AOS，確保動畫不會被遮罩擋住
         AOS.init({
             duration: 1000,
             easing: 'ease-out-cubic',
@@ -628,13 +611,12 @@
       const urlParams = new URLSearchParams(window.location.search);
       const memberId = urlParams.get('id') || 0; 
 
-      // 🔴 2. 跨頁讀取首頁設定 (Favicon & Logo)
+      // 🔴 1. 全站通用設定 (Logo & Favicon)
       fetch('content/index.md')
         .then(r => r.ok ? r.text() : Promise.reject())
         .then(text => {
           const parts = text.split('---');
           const data = jsyaml.load(parts.length > 1 ? parts[1] : text);
-          
           let logoUrl = data.logo;
           let faviconUrl = data.favicon || data.logo;
 
@@ -651,7 +633,7 @@
         })
         .catch(e => console.log("Global settings not found"));
 
-      // 🔴 3. 讀取團隊資料 (Team.md)
+      // 嘗試讀取 CMS 資料
       fetch('content/team.md')
         .then(r => {
             if(!r.ok) throw new Error("CMS Data Not Found");
@@ -680,7 +662,7 @@
       
       if(data.members && data.members[id]) {
         const m = data.members[id];
-        // 兼容 avatar / image 兩種欄位名稱
+        // 🔴 修正：同時檢查 m.avatar 和 m.image
         const avatar = m.avatar || m.image || 'https://dummyimage.com/400x533/333/fff';
         
         const bioContent = m.full_bio ? m.full_bio : m.bio;
@@ -690,11 +672,12 @@
             ? `<a href="${m.portfolio_url}" target="_blank" class="btn btn-primary hover-trigger magnetic-btn">查看作品集</a>` 
             : '';
             
+        // 🔴 IG 按鈕使用 .btn-instagram class
         const igBtn = m.ig_url
             ? `<a href="${m.ig_url}" target="_blank" class="btn btn-ghost btn-instagram hover-trigger magnetic-btn"><i class="fab fa-instagram"></i> <span>Instagram</span></a>`
             : '';
 
-        // 動態 SEO 更新
+        // 動態 SEO
         document.title = `${m.name} ${m.role} | 成員介紹 | 推手影像 Uprise Production`;
         
         const setMeta = (name, content) => {
@@ -755,10 +738,11 @@
         script.text = JSON.stringify(schema);
         document.head.appendChild(script);
 
-        // 渲染畫面
+        // 🔴 新的 DOM 結構
         container.innerHTML = `
             <div class="photo-section" data-aos="fade" data-aos-duration="1500">
               <div class="photo-frame">
+                <!-- 內層容器：處理裁切與快門 -->
                 <div class="img-inner">
                     <img src="${avatar}" class="profile-img" alt="${m.name} - ${m.role} | 推手影像">
                     <div class="shutter-mask"></div>

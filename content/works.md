@@ -56,6 +56,9 @@ portfolio_event:
   - title: 🍁 年度敬獻 🍁#甲辰年保境鎮庄祈安遶境大典 感動~震撼前鎮庄紀錄片遶境影片
     client: 高雄市前鎮鎮南宮
     link: https://youtu.be/hQEk3IoBtq4
+  - title: 智慧城市展暨淨零城市展_南投智慧城市展_活動紀錄
+    client: 智慧城市展暨淨零城市展
+    link: https://youtu.be/fBIH2CS56YI
 portfolio_other:
   - title: 台中立委參選人江肇國政策宣傳影片
     client: 台中立委參選人江肇國

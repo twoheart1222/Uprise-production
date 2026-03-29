@@ -23,9 +23,7 @@
 <meta name="twitter:description" content="Uprise-Production 推手影像專業團隊成員介紹。">
 <meta name="twitter:image" content="images/uploads/logo.png">
 
-<!-- 🔴 修正：瀏覽器標籤 Logo (Favicon) 改回本地路徑 -->
-<link rel="icon" type="image/png" href="images/uploads/logo.png">
-
+<link rel="icon" type="image/png" href="images/uploads/favicon_32x32.png">
 <link rel="canonical" href="https://www.uprise-videoproduction.com/member.html">
 
 <!-- Fonts -->
@@ -116,35 +114,17 @@
   }
   .loader.hidden { opacity: 0; visibility: hidden; }
   
-  /* Logo 電影感聚焦動畫 */
-  .loader-logo-img {
-    width: auto;
-    height: 90px; 
-    max-width: 80vw;
-    object-fit: contain;
-    opacity: 0;
-    transform: scale(0.8);
-    filter: blur(10px);
-    animation: cinematicLogoReveal 2.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  .loader-text-logo {
+    font-family: var(--font-display); font-size: 3rem; color: #fff;
+    letter-spacing: 5px; text-transform: uppercase;
+    animation: logoFadeInOut 2.5s ease forwards;
   }
-  
-  @keyframes cinematicLogoReveal { 
-    0% { 
-      opacity: 0; transform: scale(0.8) translateY(10px); filter: blur(10px) brightness(0.5);
-    } 
-    30% { 
-      opacity: 1; transform: scale(1) translateY(0); filter: blur(0px) brightness(1);
-    }
-    70% {
-      opacity: 1; transform: scale(1.05); 
-      filter: blur(0px) brightness(1.1) drop-shadow(0 0 15px rgba(255, 215, 0, 0.6)); 
-    }
-    100% { 
-      opacity: 0; transform: scale(1.15) translateY(-5px); filter: blur(5px) brightness(1.5);
-    } 
+  .loader-text-logo span { color: var(--brand-light); }
+  @keyframes logoFadeInOut { 
+    0% { opacity: 0; transform: scale(0.9); } 40% { opacity: 1; transform: scale(1); }
+    90% { opacity: 1; transform: scale(1); } 100% { opacity: 0; transform: scale(1.1); }
   }
 
-  /* 游標 */
   .cursor {
     position: fixed; top: 0; left: 0; width: 12px; height: 12px;
     background: var(--brand-light); border-radius: 50%; pointer-events: none; 
@@ -209,10 +189,7 @@
     border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding: 20px 50px;
   }
   .logo { display: flex; align-items: center; gap: 12px; text-decoration: none; color: #fff; }
-  
-  /* 🔴 修改：Logo 圖片設定 */
-  .logo img { height: 38px; width: auto; transition: transform 0.5s; object-fit: contain; }
-  
+  .logo img { height: 38px; width: auto; transition: transform 0.5s; }
   .logo:hover img { transform: rotate(5deg) scale(1.05); }
   .logo-text { font-family: var(--font-display); font-size: 1.2rem; letter-spacing: 2px; text-transform: uppercase; color: #fff; }
   .logo-text span { color: var(--brand-light); }
@@ -267,27 +244,34 @@
     gap: 60px; align-items: center; position: relative; z-index: 10;
   }
 
-  /* 相片區塊 */
+  /* 🔴 升級版：相片區塊 (Photo Section) */
   .photo-section { 
     flex: 0 0 auto; position: relative; display: flex; justify-content: center;
   }
   
+  /* 外框容器 */
   .photo-frame { 
     width: 280px; height: 280px; 
     position: relative; 
     display: flex; justify-content: center; align-items: center;
+    /* 這裡不設定 overflow: hidden，讓外面的裝飾環能顯示 */
   }
 
+  /* 1. 旋轉刻度環 (最外層) */
   .photo-frame::before {
-    content: ''; position: absolute; inset: -15px; border-radius: 50%;
-    border: 1px dashed rgba(255, 215, 0, 0.3);
+    content: ''; position: absolute; inset: -15px; /* 比圖片大一圈 */
+    border-radius: 50%;
+    border: 1px dashed rgba(255, 215, 0, 0.3); /* 金色虛線 */
     animation: rotateRing 30s linear infinite;
     pointer-events: none; z-index: 0;
   }
 
+  /* 2. 品牌漸層流光框 (中間層) */
   .photo-frame::after {
-    content: ''; position: absolute; inset: -4px; border-radius: 50%;
-    padding: 2px; background: var(--brand-gradient); 
+    content: ''; position: absolute; inset: -4px; /* 緊貼圖片外緣 */
+    border-radius: 50%;
+    padding: 2px; /* 邊框寬度 */
+    background: var(--brand-gradient); 
     -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor; mask-composite: exclude;
@@ -296,31 +280,33 @@
     pointer-events: none; z-index: 1;
   }
 
+  /* 圖片內容器 (負責裁切圖片與遮罩) */
   .img-inner {
     width: 100%; height: 100%;
     border-radius: 50%;
     overflow: hidden;
     position: relative;
-    z-index: 2; 
-    box-shadow: 0 0 30px rgba(0,0,0,0.8);
+    z-index: 2; /* 在裝飾環之上 */
+    box-shadow: 0 0 30px rgba(0,0,0,0.8); /* 圖片本身陰影 */
   }
 
-  /* 🔴 修改：人臉自動置中 */
+  /* 照片本體 */
   .profile-img { 
     width: 100%; height: 100%; 
-    object-fit: cover; 
-    object-position: center 25%; /* 讓臉部更居中 (上方 25%) */
-    filter: blur(10px) brightness(1.5); 
+    object-fit: cover; object-position: center center; 
+    filter: blur(10px) brightness(1.5); /* 初始狀態 */
     transform: scale(1.3);
     transition: all 1.8s var(--ease-cinematic);
     will-change: transform, filter;
   }
   
+  /* AOS 觸發後 */
   .photo-section.aos-animate .profile-img {
     filter: blur(0) brightness(1);
     transform: scale(1);
   }
 
+  /* 快門遮罩 */
   .shutter-mask {
     position: absolute; inset: 0; background: #000;
     border-radius: 50%; z-index: 10;
@@ -338,11 +324,12 @@
     50% { opacity: 1; filter: drop-shadow(0 0 15px rgba(255,215,0,0.6)); }
   }
 
+  /* Hover 互動 */
   .photo-frame:hover .profile-img { transform: scale(1.05); }
-  .photo-frame:hover::before { border-color: var(--brand-light); animation-duration: 10s; }
+  .photo-frame:hover::before { border-color: var(--brand-light); animation-duration: 10s; } /* 加速旋轉 */
   .photo-frame:hover::after { opacity: 1; filter: drop-shadow(0 0 20px rgba(255,215,0,0.8)); }
 
-  /* 資訊區域 */
+  /* 右側：資訊區域 */
   .info-section { 
     flex: 1; display: flex; flex-direction: column; justify-content: center; padding-left: 20px;
   }
@@ -372,11 +359,8 @@
   }
   .job-title.aos-animate::after { width: 100%; }
   
-  /* 🔴 修改：調整行距 */
   .bio-text { 
-    color: #ccc; font-size: 1rem; 
-    line-height: 1.6; /* 修改行距為 1.6 */
-    margin-bottom: 40px; 
+    color: #ccc; font-size: 1rem; line-height: 2; margin-bottom: 40px; 
     text-align: justify; font-weight: 300; letter-spacing: 1px;
     max-width: 600px;
   }
@@ -410,6 +394,7 @@
   }
   .btn-ghost:hover { border-color: var(--brand-primary); color: #fff; background: rgba(255, 140, 0, 0.15); }
 
+  /* IG 按鈕 */
   .btn-instagram {
     background: rgba(255,255,255,0.05); color: #fff; 
     border: 1px solid rgba(255,255,255,0.2); backdrop-filter: blur(5px);
@@ -466,8 +451,6 @@
     .footer h2 { font-size: 2.5rem; letter-spacing: 5px; }
     .header { padding: 20px; }
     .nav { display: none; }
-    /* 🔴 新增：隱藏手機版自訂游標 */
-    .cursor { display: none; }
   }
 </style>
 </head>
@@ -476,8 +459,7 @@
   <div class="page-transition-curtain"></div>
   <div class="cursor"></div>
   <div class="loader">
-    <!-- 🔴 修正：使用本地預設圖片，JS 稍後會覆蓋 -->
-    <img src="images/uploads/logo.png" class="loader-logo-img" alt="Uprise">
+    <div class="loader-text-logo">Uprise<span>.</span></div>
   </div>
   <div class="ambient-light">
     <div class="ambient-blob"></div>
@@ -562,16 +544,37 @@
 
   <script>
     // --- 防盜機制 (Anti-Theft) ---
+    // 1. 禁止右鍵
     document.addEventListener('contextmenu', event => event.preventDefault());
-    document.addEventListener('copy', event => event.preventDefault());
+
+    // 2. 禁止複製 (但允許選取文字)
+    document.addEventListener('copy', event => {
+        event.preventDefault();
+    });
+
+    // 3. 禁止快速鍵 (F12, Ctrl+U, Ctrl+S, Ctrl+C, Ctrl+Shift+I)
     document.onkeydown = function(e) {
-        if(e.keyCode == 123) return false; // F12
-        if(e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) return false;
-        if(e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) return false;
-        if(e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) return false;
-        if(e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) return false;
-        if(e.ctrlKey && e.keyCode == 'S'.charCodeAt(0)) return false;
-        if(e.ctrlKey && e.keyCode == 'C'.charCodeAt(0)) return false;
+        if(e.keyCode == 123) { // F12
+            return false;
+        }
+        if(e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) { // Ctrl+Shift+I
+            return false;
+        }
+        if(e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) { // Ctrl+Shift+C
+            return false;
+        }
+        if(e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) { // Ctrl+Shift+J
+            return false;
+        }
+        if(e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) { // Ctrl+U
+            return false;
+        }
+        if(e.ctrlKey && e.keyCode == 'S'.charCodeAt(0)) { // Ctrl+S
+            return false;
+        }
+        if(e.ctrlKey && e.keyCode == 'C'.charCodeAt(0)) { // Ctrl+C
+             return false;
+        }
     }
 
     // 預設資料
@@ -611,28 +614,6 @@
       const urlParams = new URLSearchParams(window.location.search);
       const memberId = urlParams.get('id') || 0; 
 
-      // 🔴 1. 全站通用設定 (Logo & Favicon)
-      fetch('content/index.md')
-        .then(r => r.ok ? r.text() : Promise.reject())
-        .then(text => {
-          const parts = text.split('---');
-          const data = jsyaml.load(parts.length > 1 ? parts[1] : text);
-          let logoUrl = data.logo;
-          let faviconUrl = data.favicon || data.logo;
-
-          if(logoUrl) {
-            const navLogo = document.querySelector('.logo img');
-            if(navLogo) navLogo.src = logoUrl;
-            const loaderLogo = document.querySelector('.loader-logo-img');
-            if(loaderLogo) loaderLogo.src = logoUrl;
-          }
-          if(faviconUrl) {
-            const favicon = document.querySelector('link[rel="icon"]');
-            if(favicon) favicon.href = faviconUrl;
-          }
-        })
-        .catch(e => console.log("Global settings not found"));
-
       // 嘗試讀取 CMS 資料
       fetch('content/team.md')
         .then(r => {
@@ -662,8 +643,7 @@
       
       if(data.members && data.members[id]) {
         const m = data.members[id];
-        // 🔴 修正：同時檢查 m.avatar 和 m.image
-        const avatar = m.avatar || m.image || 'https://dummyimage.com/400x533/333/fff';
+        const avatar = m.avatar || 'https://dummyimage.com/400x533/333/fff';
         
         const bioContent = m.full_bio ? m.full_bio : m.bio;
         const bioHtml = new showdown.Converter().makeHtml(bioContent || '');
@@ -672,7 +652,6 @@
             ? `<a href="${m.portfolio_url}" target="_blank" class="btn btn-primary hover-trigger magnetic-btn">查看作品集</a>` 
             : '';
             
-        // 🔴 IG 按鈕使用 .btn-instagram class
         const igBtn = m.ig_url
             ? `<a href="${m.ig_url}" target="_blank" class="btn btn-ghost btn-instagram hover-trigger magnetic-btn"><i class="fab fa-instagram"></i> <span>Instagram</span></a>`
             : '';

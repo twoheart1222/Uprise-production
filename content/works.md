@@ -8,6 +8,9 @@ portfolio_brand:
   - title: 台中立委參選人江肇國形象廣告
     client: 電視競選廣告
     link: https://youtu.be/usx3hIK_Ns8
+  - title: 「一起、更好」｜前鎮、小港市議員參選人林浤澤
+    client: 電視競選廣告
+    link: https://www.youtube.com/watch?v=hRu-NKRTgfQ
 portfolio_product:
   - title: 聯名禮盒形象短影音
     client: BabyfaceX福寶寶

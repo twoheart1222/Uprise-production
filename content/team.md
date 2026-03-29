@@ -11,8 +11,7 @@ members:
       的創辦人與導演。
       現在就讀臺灣藝術大學電影系碩士。
     portfolio_url: https://uprise-videoproduction.com/works
-    ig_url: >-
-      https://www.instagram.com/harry.lin_jiayou?igsh=MXNyNXlpdDIzZmozMg%3D%3D&utm_source=qr
+    ig_url: https://www.instagram.com/harry.lin_jiayou?igsh=MXNyNXlpdDIzZmozMg%3D%3D&utm_source=qr
     full_bio: >-
       # **推手影像製作有限公司**
 
@@ -26,8 +25,8 @@ members:
       ### 短片《流量底限》
 
 
-      ###
-      愛學影展線上觀看:<br>[https://stv.naer.edu.tw/i-fun-filmfestival/movie\_view.jsp?unitpost\_id=455](https://stv.naer.edu.tw/i-fun-filmfestival/movie_view.jsp?unitpost_id=455)
+      ### 愛學影展線上觀看:<br>[https://stv.naer.edu.tw/i-fun-filmfestival/movie\_view.jsp?unitpost\_id=455](https://stv.naer.edu.tw/i-fun-filmfestival/movie_view.jsp?unitpost_id=455)
+    avatar: /images/uploads/line_album_2024.3.18_241011_8.jpg
   - name: 傅啓榮
     role: 合作導演 Co-director
     image: /uploads/s-23396358.jpg
@@ -36,6 +35,7 @@ members:
       擅長捕捉人物細膩情感，
       作品曾獲國內外短片獎項肯定。
     ig_url: https://www.instagram.com/qirong_poo?igsh=NHZ4aDNpYnliNTQy
+    avatar: /images/uploads/s__23396358.jpg
   - name: 胡庭瀚
     role: 合作 導演/攝影/穿越機攝影/空拍攝影
     image: /images/uploads/79e26a98-64e1-41ba-8d2e-a2ba95f031ca.jpg
@@ -59,4 +59,5 @@ members:
       ## 短片攝影
 
       ### 《第一人稱六二八》myfone 行動創作人氣票選第一名 。
+    avatar: /images/uploads/79e26a98-64e1-41ba-8d2e-a2ba95f031ca.jpg
 ---

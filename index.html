@@ -6,7 +6,7 @@
 
 <title>推手影像製作有限公司 Uprise-Production | 敘事與美學的極致</title>
 
-<link rel="icon" type="image/png" href="images/uploads/logo.png">
+<link rel="icon" type="image/png" href="images/uploads/favicon_32x32.png">
 
 <link href="config.yml" type="text/yaml" rel="cms-config-url">
 
@@ -20,6 +20,7 @@
 
 <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
 <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 
 <style>
@@ -46,7 +47,6 @@
     cursor: none; 
   }
 
-  /* 允許表單輸入框可以選取文字 */
   input, textarea {
     -webkit-user-select: auto;
     user-select: auto;
@@ -71,16 +71,14 @@
     -webkit-font-smoothing: antialiased;
   }
 
-  /* 禁止圖片拖曳 */
   img {
     -webkit-user-drag: none;
     -khtml-user-drag: none;
     -moz-user-drag: none;
     -o-user-drag: none;
-    pointer-events: none; /* 讓圖片不干擾 cursor */
+    pointer-events: none; 
   }
 
-  /* Wrapper for transition */
   #main-wrapper {
     transition: filter 0.6s ease, transform 0.6s ease;
     width: 100%;
@@ -173,7 +171,6 @@
     100% { transform: translate(50px, 50px) scale(1.1); }
   }
 
-  /* 極簡聲音按鈕 */
   #sound-btn {
     position: fixed; bottom: 40px; right: 40px; z-index: 9000;
     display: none;
@@ -212,7 +209,6 @@
   #sound-btn.is-playing .sound-bar:nth-child(4) { animation-delay: 0.1s; }
   @keyframes soundWaveAnim { 0% { height: 3px; } 50% { height: 20px; } 100% { height: 3px; } }
 
-  /* --- 導覽列 --- */
   .header {
     position: fixed; top: 0; left: 0; width: 100%; padding: 30px 50px;
     display: flex; justify-content: space-between; align-items: center;
@@ -228,7 +224,8 @@
   }
 
   .logo { display: flex; align-items: center; gap: 12px; text-decoration: none; color: #fff; }
-  .logo img { height: 38px; width: auto; transition: transform 0.5s; pointer-events: none; }
+  /* 🔴 修正 2：稍微縮小主 Logo，看起來更精緻 */
+  .logo img { height: 30px; width: auto; transition: transform 0.5s; pointer-events: none; }
   .logo:hover img { transform: rotate(5deg) scale(1.05); }
   .logo-text { font-family: var(--font-display); font-size: 1.2rem; letter-spacing: 2px; text-transform: uppercase; color: #fff; }
   .logo-text span { color: var(--brand-light); }
@@ -258,7 +255,6 @@
   .nav-item:hover .hover-text { transform: translateY(-100%); }
   .nav-item.active .original-text { color: var(--brand-light); }
 
-  /* --- Hero Section --- */
   .hero {
     position: relative; height: 100vh; width: 100%;
     display: flex; align-items: center; justify-content: center;
@@ -660,43 +656,24 @@
   <script>
     // --- 防盜機制 (Anti-Theft) ---
     
-    // 1. 禁止右鍵
     document.addEventListener('contextmenu', event => event.preventDefault());
 
-    // 2. 禁止複製 (但允許選取文字)
     document.addEventListener('copy', event => {
         event.preventDefault();
-        // 選擇性：可以跳出提示或什麼都不做
     });
 
-    // 3. 禁止快速鍵 (F12, Ctrl+U, Ctrl+S, Ctrl+C, Ctrl+Shift+I)
     document.onkeydown = function(e) {
-        if(e.keyCode == 123) { // F12
-            return false;
-        }
-        if(e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) { // Ctrl+Shift+I
-            return false;
-        }
-        if(e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) { // Ctrl+Shift+C
-            return false;
-        }
-        if(e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) { // Ctrl+Shift+J
-            return false;
-        }
-        if(e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) { // Ctrl+U
-            return false;
-        }
-        if(e.ctrlKey && e.keyCode == 'S'.charCodeAt(0)) { // Ctrl+S
-            return false;
-        }
-        if(e.ctrlKey && e.keyCode == 'C'.charCodeAt(0)) { // Ctrl+C
-             return false;
-        }
+        if(e.keyCode == 123) { return false; }
+        if(e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) { return false; }
+        if(e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) { return false; }
+        if(e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) { return false; }
+        if(e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) { return false; }
+        if(e.ctrlKey && e.keyCode == 'S'.charCodeAt(0)) { return false; }
+        if(e.ctrlKey && e.keyCode == 'C'.charCodeAt(0)) { return false; }
     }
 
-    // 預設資料 (Fallback) - 用於無網路或 CMS 故障時
+    // 預設資料 (Fallback)
     const fallbackData = {
-      // 增加 Logo 欄位預設值
       logo: "images/uploads/logo.png",
       video: "https://res.cloudinary.com/dfnfcyglu/video/upload/v1763893930/hero_bg_ickrbe.mp4",
       hero_video_mobile: "https://res.cloudinary.com/dfnfcyglu/video/upload/v1763893930/hero_bg_ickrbe.mp4", 
@@ -730,24 +707,22 @@
     let currentData = null;
 
     document.addEventListener('DOMContentLoaded', () => {
-      // 初始化 AOS 動畫庫
       AOS.init({
         duration: 1000,
         easing: 'ease-out-cubic',
-        once: false, // 修改：改成 false，讓動畫每次捲動進入視窗時都會重新觸發
-        mirror: true, // 修改：改成 true，讓往回捲動時元素會恢復初始狀態，再次下滑時才有動畫效果
-        offset: 50 // 提早一點觸發
+        once: false, 
+        mirror: true,
+        offset: 50 
       });
 
-      // 讀取 CMS 設定檔 (index.md)
-      fetch('content/index.md')
+      // 🔴 修正 3：加上時間戳記，強制瀏覽器抓取最新 CMS 資料，防快取綁架
+      fetch('content/index.md?v=' + new Date().getTime())
         .then(response => {
           if (!response.ok) throw new Error("CMS Data Not Found");
           return response.text();
         })
         .then(text => {
           try {
-            // 解析 YAML 前置資料 (Frontmatter)
             const parsedData = jsyaml.load(text.split('---')[1]);
             currentData = parsedData || fallbackData;
             initPage(currentData);
@@ -763,7 +738,6 @@
           initPage(fallbackData);
         });
 
-      // 啟動頁面特效
       createParticles();
       initCursor();
       initHeroParallax();
@@ -771,7 +745,6 @@
       initPageTransition();
       initSoundToggle();
       
-      // 下滑按鈕事件
       const scrollBtn = document.getElementById('scroll-btn');
       if (scrollBtn) {
         scrollBtn.addEventListener('click', () => {
@@ -780,9 +753,7 @@
       }
     });
 
-    // 頁面初始化邏輯
     function initPage(data) {
-      // 1. 更新 Logo 邏輯
       const logoImg = document.querySelector('.logo img');
       if (data.logo && logoImg) {
           logoImg.src = data.logo;
@@ -790,7 +761,6 @@
       
       updateVideoSource();
 
-      // 2. 渲染服務項目 (Services)
       const grid = document.getElementById('services-grid');
       grid.innerHTML = '';
       const services = data.services || fallbackData.services;
@@ -799,7 +769,6 @@
         const num = (index + 1).toString().padStart(2, '0');
         const card = document.createElement('div');
         card.className = 'service-card hover-trigger floating'; 
-        // AOS 動畫參數
         card.setAttribute('data-aos', 'fade-up');
         card.setAttribute('data-aos-delay', index * 150);
         
@@ -823,7 +792,6 @@
               <p>${item.description}</p>
             </div>
         `;
-        // 卡片 3D 懸浮效果
         card.addEventListener('mousemove', (e) => {
           const rect = card.getBoundingClientRect();
           const x = e.clientX - rect.left;
@@ -838,7 +806,6 @@
         grid.appendChild(card);
       });
 
-      // 3. 渲染工作花絮 (BTS)
       const btsGrid = document.getElementById('bts-grid');
       btsGrid.innerHTML = '';
       const btsData = data.behind_the_scenes || fallbackData.behind_the_scenes;
@@ -855,12 +822,10 @@
         });
       }
 
-      // 4. 刷新 AOS 動畫
       setTimeout(() => {
         AOS.refresh(); 
       }, 100);
 
-      // 5. 移除 Loading 畫面
       setTimeout(() => {
         document.querySelector('.loader').classList.add('hidden');
         document.querySelector('.page-transition-curtain').classList.add('reveal');
@@ -868,7 +833,6 @@
         document.body.classList.add('loaded-state');
         document.body.classList.add('loaded');
         
-        // 觸發文字閃爍特效
         setTimeout(() => {
             const subtitle = document.getElementById('hero-subtitle');
             if(subtitle) subtitle.classList.add('shutter-flash');
@@ -876,7 +840,6 @@
       }, 500); 
     }
 
-    // 聲音開關控制
     function initSoundToggle() {
       const video = document.getElementById('bg-video');
       const btn = document.getElementById('sound-btn');
@@ -894,7 +857,6 @@
       });
     }
 
-    // 影片來源更新 (RWD 判斷)
     function updateVideoSource() {
       if (!currentData) return;
       
@@ -917,7 +879,6 @@
         updateVideoSource();
     });
 
-    // 頁面轉場特效
     function initPageTransition() {
       const links = document.querySelectorAll('.page-link');
       const curtain = document.querySelector('.page-transition-curtain');
@@ -932,7 +893,6 @@
       });
     }
 
-    // 滾動監聽 (Navbar 變化 & Parallax)
     window.addEventListener('scroll', () => {
       const scrollY = window.scrollY;
       const docHeight = document.body.scrollHeight - window.innerHeight;
@@ -956,7 +916,6 @@
       }
     });
 
-    // Hero 區塊滑鼠視差
     function initHeroParallax() {
       const hero = document.getElementById('hero-section');
       const content = document.getElementById('hero-content');
@@ -970,7 +929,6 @@
       });
     }
 
-    // 磁吸按鈕效果
     function initMagneticButtons() {
       const buttons = document.querySelectorAll('.magnetic-btn');
       buttons.forEach(btn => {
@@ -986,7 +944,6 @@
       });
     }
 
-    // 粒子背景特效
     function createParticles() {
       const container = document.getElementById('particles');
       const particleCount = 25; 
@@ -1004,7 +961,6 @@
       }
     }
 
-    // 自訂游標特效
     function initCursor() {
       if (window.matchMedia("(pointer: fine)").matches) {
         const cursor = document.querySelector('.cursor');

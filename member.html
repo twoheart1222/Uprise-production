@@ -23,7 +23,9 @@
 <meta name="twitter:description" content="Uprise-Production 推手影像專業團隊成員介紹。">
 <meta name="twitter:image" content="images/uploads/logo.png">
 
-<link rel="icon" type="image/png" href="images/uploads/favicon_32x32.png">
+<link rel="icon" type="image/png" sizes="32x32" href="images/uploads/favicon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="siteicon.png">
+<link rel="apple-touch-icon" href="siteicon.png">
 <link rel="canonical" href="https://www.uprise-videoproduction.com/member.html">
 
 <!-- Fonts -->
@@ -114,15 +116,17 @@
   }
   .loader.hidden { opacity: 0; visibility: hidden; }
   
-  .loader-text-logo {
-    font-family: var(--font-display); font-size: 3rem; color: #fff;
-    letter-spacing: 5px; text-transform: uppercase;
-    animation: logoFadeInOut 2.5s ease forwards;
+  .loader-text-logo { display: none; }
+  .loader-logo-img { 
+    width: auto; height: 90px; max-width: 80vw; object-fit: contain;
+    opacity: 0; transform: scale(0.8); filter: blur(10px);
+    animation: cinematicLogoReveal 2.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
   }
-  .loader-text-logo span { color: var(--brand-light); }
-  @keyframes logoFadeInOut { 
-    0% { opacity: 0; transform: scale(0.9); } 40% { opacity: 1; transform: scale(1); }
-    90% { opacity: 1; transform: scale(1); } 100% { opacity: 0; transform: scale(1.1); }
+  @keyframes cinematicLogoReveal { 
+    0%   { opacity: 0; transform: scale(0.8) translateY(10px);  filter: blur(10px) brightness(0.5); } 
+    30%  { opacity: 1; transform: scale(1) translateY(0);        filter: blur(0px) brightness(1); }
+    70%  { opacity: 1; transform: scale(1.05);                   filter: blur(0px) brightness(1.1) drop-shadow(0 0 15px rgba(255,215,0,0.6)); }
+    100% { opacity: 0; transform: scale(1.15) translateY(-5px);  filter: blur(5px) brightness(1.5); } 
   }
 
   .cursor {
@@ -440,6 +444,33 @@
   .copyright { font-size: 0.8rem; color: #444; margin-top: 50px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 30px; letter-spacing: 1px; }
 
   /* RWD */
+  .hamburger { display: none; flex-direction: column; gap: 6px; cursor: pointer; z-index: 200; width: 30px; background: none; border: none; padding: 0; }
+  .hamburger span { width: 100%; height: 2px; background: #fff; transition: 0.3s; display: block; }
+  .hamburger.active span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+  .hamburger.active span:nth-child(2) { opacity: 0; }
+  .hamburger.active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+  .mobile-menu {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.97); backdrop-filter: blur(20px);
+    z-index: 150; display: flex; flex-direction: column;
+    justify-content: center; align-items: center; gap: 40px;
+    opacity: 0; pointer-events: none; transition: opacity 0.4s;
+  }
+  .mobile-menu.active { opacity: 1; pointer-events: all; }
+  .mobile-nav-link {
+    font-family: var(--font-serif); font-size: 2rem; font-weight: 700;
+    color: #fff; text-decoration: none; letter-spacing: 5px;
+    opacity: 0; transform: translateY(20px); transition: 0.5s; white-space: nowrap;
+  }
+  .mobile-menu.active .mobile-nav-link { opacity: 1; transform: translateY(0); }
+  .mobile-menu.active .mobile-nav-link:nth-child(1) { transition-delay: 0.1s; }
+  .mobile-menu.active .mobile-nav-link:nth-child(2) { transition-delay: 0.2s; }
+  .mobile-menu.active .mobile-nav-link:nth-child(3) { transition-delay: 0.3s; }
+  .mobile-menu.active .mobile-nav-link:nth-child(4) { transition-delay: 0.4s; }
+  .mobile-menu.active .mobile-nav-link:nth-child(5) { transition-delay: 0.5s; }
+  .mobile-nav-link:hover, .mobile-nav-link.active { color: var(--brand-light); }
+
   @media (max-width: 900px) {
     .member-detail-section { padding-top: 140px; }
     .profile-container { flex-direction: column; gap: 40px; text-align: center; }
@@ -451,6 +482,7 @@
     .footer h2 { font-size: 2.5rem; letter-spacing: 5px; }
     .header { padding: 20px; }
     .nav { display: none; }
+    .hamburger { display: flex; }
   }
 </style>
 </head>
@@ -459,7 +491,7 @@
   <div class="page-transition-curtain"></div>
   <div class="cursor"></div>
   <div class="loader">
-    <div class="loader-text-logo">Uprise<span>.</span></div>
+    <img src="siteicon.png" class="loader-logo-img" alt="Uprise">
   </div>
   <div class="ambient-light">
     <div class="ambient-blob"></div>
@@ -503,7 +535,19 @@
             <span class="original-text">聯絡</span><span class="hover-text">聯絡</span>
         </a>
       </nav>
+
+      <button class="hamburger hover-trigger" id="hamburger-btn" aria-label="開啟選單">
+        <span></span><span></span><span></span>
+      </button>
     </header>
+
+    <div class="mobile-menu" id="mobile-menu">
+       <a href="index.html" class="mobile-nav-link page-link">首頁</a>
+       <a href="works.html" class="mobile-nav-link page-link">作品</a>
+       <a href="team.html" class="mobile-nav-link page-link active">團隊</a>
+       <a href="about.html" class="mobile-nav-link page-link">關於</a>
+       <a href="contact.html" class="mobile-nav-link page-link">聯絡</a>
+    </div>
 
     <main>
       <section class="member-detail-section">
@@ -633,6 +677,7 @@
 
       initCursor();
       initPageTransition();
+      initMenu();
       createParticles();
       initMagneticButtons();
       initSoundToggle(); 
@@ -755,6 +800,16 @@
       }
     }
 
+    function initMenu() {
+      const hamburger = document.getElementById('hamburger-btn');
+      const mobileMenu = document.getElementById('mobile-menu');
+      if (!hamburger || !mobileMenu) return;
+      hamburger.addEventListener('click', () => {
+        hamburger.classList.toggle('active');
+        mobileMenu.classList.toggle('active');
+        document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
+      });
+    }
     function initCursor() { if (window.matchMedia("(pointer: fine)").matches) { const cursor = document.querySelector('.cursor'); let mouseX=0, mouseY=0, cursorX=0, cursorY=0; document.addEventListener('mousemove', e => { mouseX=e.clientX; mouseY=e.clientY; }); document.addEventListener('mousedown', () => document.body.classList.add('clicking')); document.addEventListener('mouseup', () => document.body.classList.remove('clicking')); function animate() { cursorX+=(mouseX-cursorX)*0.5; cursorY+=(mouseY-cursorY)*0.5; cursor.style.transform=`translate(${cursorX}px, ${cursorY}px) translate(-50%, -50%)`; requestAnimationFrame(animate); } animate(); document.body.addEventListener('mouseenter', e=>{ if(e.target.closest('.hover-trigger')) document.body.classList.add('hovered'); }, true); document.body.addEventListener('mouseleave', e=>{ if(e.target.closest('.hover-trigger')) document.body.classList.remove('hovered'); }, true); } }
     function createParticles() { const container = document.getElementById('particles'); if(!container) return; for (let i = 0; i < 20; i++) { const p = document.createElement('div'); p.classList.add('particle'); const size = Math.random() * 3 + 1 + 'px'; p.style.width = size; p.style.height = size; p.style.left = Math.random() * 100 + '%'; p.style.top = Math.random() * 100 + '%'; p.style.animationDelay = Math.random() * 5 + 's'; p.style.animationDuration = Math.random() * 10 + 10 + 's'; container.appendChild(p); } }
     function initPageTransition() { const links = document.querySelectorAll('.page-link'); const curtain = document.querySelector('.page-transition-curtain'); links.forEach(link => { link.addEventListener('click', (e) => { e.preventDefault(); const href = link.getAttribute('href'); curtain.classList.remove('reveal'); curtain.classList.add('cover'); setTimeout(() => { window.location.href = href; }, 800); }); }); }

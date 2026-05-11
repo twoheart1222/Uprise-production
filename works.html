@@ -11,11 +11,9 @@
 <meta name="keywords" content="林家佑, 林家佑導演, 推手影像, Uprise Production, 廣告導演, 電影導演, 台中影像製作">
 
 
-<link rel="icon" type="image/png" sizes="32x32" href="images/uploads/favicon.png">
-
-<link rel="icon" type="image/png" sizes="192x192" href="images/uploads/favicon-192.png">
-
-<link rel="apple-touch-icon" href="images/uploads/favicon-192.png">
+<link rel="icon" type="image/png" href="images/uploads/favicon_32x32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="siteicon.png">
+<link rel="apple-touch-icon" href="siteicon.png">
 
 <meta name="description" content="瀏覽 Uprise-Production 的精選作品，包含品牌形象廣告、產品宣傳影片、公部門政策推廣與大型活動紀錄。">
 <link rel="canonical" href="https://www.uprise-videoproduction.com/works.html">
@@ -76,33 +74,34 @@
   }
 
   /* --- 載入動畫 (Loader) - 與 Index 同步 --- */
-  .page-transition-curtain {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: #000; z-index: 100000; transform: translateY(0);
-    transition: transform 1s cubic-bezier(0.87, 0, 0.13, 1); pointer-events: none;
+  .page-transition-curtain { display: none; }
+  #main-wrapper {
+    transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                filter 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   }
-  .page-transition-curtain.reveal { transform: translateY(-100%); } 
-  .page-transition-curtain.cover { transform: translateY(0); }
+  body.loading-state #main-wrapper { opacity: 0; filter: blur(8px); }
+  body.loaded-state  #main-wrapper { opacity: 1; filter: blur(0); }
+  body.exiting       #main-wrapper { opacity: 0; filter: blur(8px); pointer-events: none; }
 
   .loader {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
     background: #000; z-index: 200000; 
     display: flex; justify-content: center; align-items: center;
-    transition: opacity 0.8s ease, visibility 0.8s;
+    transition: opacity 0.4s ease, visibility 0.4s;
   }
   .loader.hidden { opacity: 0; visibility: hidden; }
   
   /* Logo 電影感聚焦動畫 */
   .loader-logo-img {
-    width: auto; height: 90px; max-width: 80vw; object-fit: contain;
-    opacity: 0; transform: scale(0.8); filter: blur(10px);
-    animation: cinematicLogoReveal 2.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    width: auto; height: 70px; max-width: 200px; object-fit: contain;
+    opacity: 0; transform: scale(0.9); filter: blur(8px);
+    animation: loaderReveal 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
   }
-  @keyframes cinematicLogoReveal { 
-    0% { opacity: 0; transform: scale(0.8) translateY(10px); filter: blur(10px) brightness(0.5); } 
-    30% { opacity: 1; transform: scale(1) translateY(0); filter: blur(0px) brightness(1); }
-    70% { opacity: 1; transform: scale(1.05); filter: blur(0px) brightness(1.1) drop-shadow(0 0 15px rgba(255, 215, 0, 0.6)); }
-    100% { opacity: 0; transform: scale(1.15) translateY(-5px); filter: blur(5px) brightness(1.5); } 
+  @keyframes loaderReveal { 
+    0%   { opacity: 0; transform: scale(0.9); filter: blur(8px); } 
+    40%  { opacity: 1; transform: scale(1);   filter: blur(0); }
+    80%  { opacity: 1; transform: scale(1);   filter: blur(0); }
+    100% { opacity: 0; transform: scale(1.05); filter: blur(4px); } 
   }
 
   /* 游標 */
@@ -157,7 +156,7 @@
     border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding: 20px 50px;
   }
   .logo { display: flex; align-items: center; gap: 12px; text-decoration: none; color: #fff; }
-  .logo img { height: 38px; width: auto; transition: transform 0.5s; object-fit: contain; }
+  .logo img { height: 38px; width: auto; max-width: 140px; transition: transform 0.5s; object-fit: contain; }
   .logo:hover img { transform: rotate(5deg) scale(1.05); }
   .logo-text { font-family: var(--font-display); font-size: 1.2rem; letter-spacing: 2px; text-transform: uppercase; color: #fff; }
   .logo-text span { color: var(--brand-light); }
@@ -262,7 +261,7 @@
   <div class="cursor"></div>
   
   <div class="loader">
-    <img src="images/uploads/logo.png" class="loader-logo-img" alt="Uprise">
+    <img src="siteicon.png" class="loader-logo-img" alt="Uprise">
   </div>
   
   <div class="ambient-light"><div class="ambient-blob"></div><div class="ambient-blob"></div></div>
@@ -281,7 +280,7 @@
   <div id="main-wrapper">
     <header class="header" id="header" data-aos="fade-down" data-aos-duration="1000">
       <a href="index.html" class="logo hover-trigger">
-        <img src="images/uploads/logo.png" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'" alt="Logo">
+        <img src="siteicon.png" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'" alt="Logo">
         <span class="logo-text" style="display:none;">Uprise<span>.</span></span>
       </a>
       
@@ -353,12 +352,12 @@
             const parts = text.split('---');
             const data = jsyaml.load(parts.length > 1 ? parts[1] : text);
             renderWorks(data);
-            setTimeout(removeLoader, 2200); // 延遲移除 Loading 讓動畫跑完
+            setTimeout(removeLoader, 1400); // 延遲移除 Loading 讓動畫跑完
         })
         .catch(err => {
             console.log("Using fallback works data");
             renderWorks(fallbackData);
-            setTimeout(removeLoader, 2200);
+            setTimeout(removeLoader, 1400);
         });
 
       initCursor(); initPageTransition(); createParticles(); initMenu();
@@ -397,7 +396,6 @@
 
     function removeLoader() {
         document.querySelector('.loader').classList.add('hidden');
-        document.querySelector('.page-transition-curtain').classList.add('reveal');
         document.body.classList.remove('loading-state');
         document.body.classList.add('loaded-state');
     }
@@ -443,7 +441,7 @@
     
     function initCursor() { if (window.matchMedia("(pointer: fine)").matches) { const cursor = document.querySelector('.cursor'); let mouseX=0, mouseY=0, cursorX=0, cursorY=0; document.addEventListener('mousemove', e => { mouseX=e.clientX; mouseY=e.clientY; }); document.addEventListener('mousedown', () => document.body.classList.add('clicking')); document.addEventListener('mouseup', () => document.body.classList.remove('clicking')); function animate() { cursorX+=(mouseX-cursorX)*0.5; cursorY+=(mouseY-cursorY)*0.5; cursor.style.transform=`translate(${cursorX}px, ${cursorY}px) translate(-50%, -50%)`; requestAnimationFrame(animate); } animate(); document.body.addEventListener('mouseenter', e=>{ if(e.target.closest('.hover-trigger')) document.body.classList.add('hovered'); }, true); document.body.addEventListener('mouseleave', e=>{ if(e.target.closest('.hover-trigger')) document.body.classList.remove('hovered'); }, true); } }
     function createParticles() { const container = document.getElementById('particles'); if(!container) return; for (let i = 0; i < 20; i++) { const p = document.createElement('div'); p.classList.add('particle'); const size = Math.random() * 3 + 1 + 'px'; p.style.width = size; p.style.height = size; p.style.left = Math.random() * 100 + '%'; p.style.top = Math.random() * 100 + '%'; p.style.animationDelay = Math.random() * 5 + 's'; p.style.animationDuration = Math.random() * 10 + 10 + 's'; container.appendChild(p); } }
-    function initPageTransition() { const links = document.querySelectorAll('.page-link'); const curtain = document.querySelector('.page-transition-curtain'); links.forEach(link => { link.addEventListener('click', (e) => { e.preventDefault(); const href = link.getAttribute('href'); curtain.classList.remove('reveal'); curtain.classList.add('cover'); setTimeout(() => { window.location.href = href; }, 800); }); }); }
+    function initPageTransition() { document.querySelectorAll('.page-link').forEach(link => { link.addEventListener('click', (e) => { e.preventDefault(); document.body.classList.add('exiting'); setTimeout(() => { window.location.href = link.getAttribute('href'); }, 350); }); }); }
     window.addEventListener('scroll', () => {
         const header = document.querySelector('.header');
         if(window.scrollY > 50) header.classList.add('scrolled'); else header.classList.remove('scrolled');

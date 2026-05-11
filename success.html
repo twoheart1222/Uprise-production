@@ -7,7 +7,7 @@
 <title>訊息已送出 | 推手影像製作有限公司 Uprise-Production</title>
 
 <!-- Favicon -->
-<link rel="icon" type="image/png" sizes="32x32" href="images/uploads/favicon.png">
+<link rel="icon" type="image/png" href="images/uploads/favicon_32x32.png">
 <link rel="icon" type="image/png" sizes="192x192" href="siteicon.png">
 <link rel="apple-touch-icon" href="siteicon.png">
 
@@ -76,16 +76,16 @@
   
   /* 🔴 Logo 電影感聚焦動畫 (與全站統一) */
   .loader-logo-img {
-    width: auto; height: 90px; max-width: 80vw;
+    width: auto; height: 70px; max-width: 200px;
     object-fit: contain;
-    opacity: 0; transform: scale(0.8); filter: blur(10px);
-    animation: cinematicLogoReveal 2.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    opacity: 0; transform: scale(0.9); filter: blur(8px);
+    animation: loaderReveal 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
   }
-  @keyframes cinematicLogoReveal { 
-    0% { opacity: 0; transform: scale(0.8) translateY(10px); filter: blur(10px) brightness(0.5); } 
-    30% { opacity: 1; transform: scale(1) translateY(0); filter: blur(0px) brightness(1); }
-    70% { opacity: 1; transform: scale(1.05); filter: blur(0px) brightness(1.1) drop-shadow(0 0 15px rgba(255, 215, 0, 0.6)); }
-    100% { opacity: 0; transform: scale(1.15) translateY(-5px); filter: blur(5px) brightness(1.5); } 
+  @keyframes loaderReveal { 
+    0%   { opacity: 0; transform: scale(0.9); filter: blur(8px); } 
+    40%  { opacity: 1; transform: scale(1);   filter: blur(0); }
+    80%  { opacity: 1; transform: scale(1);   filter: blur(0); }
+    100% { opacity: 0; transform: scale(1.05); filter: blur(4px); } 
   }
 
   /* 游標 */
@@ -230,7 +230,7 @@
   <div class="cursor"></div>
   <div class="loader">
     <!-- 預設 Logo (JS 會嘗試讀取後台設定覆蓋) -->
-    <img src="images/uploads/logo.png" class="loader-logo-img" alt="Uprise">
+    <img src="siteicon.png" class="loader-logo-img" alt="Uprise">
   </div>
   
   <div class="ambient-light">
@@ -264,12 +264,12 @@
     }
 
     document.addEventListener('DOMContentLoaded', () => {
-      // 載入動畫 (延遲 2.2s 以配合 Logo 動畫)
+      // 載入動畫 (延遲配合 Logo 動畫)
       setTimeout(() => {
         document.querySelector('.loader').classList.add('hidden');
         document.body.classList.remove('loading-state');
         document.body.classList.add('loaded-state');
-      }, 2200); 
+      }, 1400); 
       
       // 1. 全站通用設定讀取 (Logo & Favicon)
       fetch('content/index.md')

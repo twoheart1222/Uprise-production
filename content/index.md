@@ -1,6 +1,6 @@
 ---
 title: 首頁設定
-logo: /images/uploads/favicon-192.png
+logo: /siteicon.png
 hero_video: https://res.cloudinary.com/dfnfcyglu/video/upload/v1763893930/hero_bg_ickrbe.mp4
 hero_text: 推手影像
 behind_the_scenes:

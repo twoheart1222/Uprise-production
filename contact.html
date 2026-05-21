@@ -1,17 +1,15 @@
 <!doctype html>
-<html lang="zh-Hant" oncontextmenu="return false">
+<html lang="zh-Hant">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 
 <title>聯絡我們 | 推手影像製作有限公司 Uprise-Production</title>
 
-<meta name="description" content="推手影像 (Uprise-Production) 由導演林家佑創立，專注於商業廣告、品牌形象影片與電影製作。">
-
 <meta name="keywords" content="林家佑, 林家佑導演, 推手影像, Uprise Production, 廣告導演, 電影導演, 台中影像製作">
 
 
-<link rel="icon" type="image/png" href="images/uploads/favicon_32x32.png">
+<link rel="icon" type="image/png" href="images/uploads/favicon-192.png">
 <link rel="icon" type="image/png" sizes="192x192" href="siteicon.png">
 <link rel="apple-touch-icon" href="siteicon.png">
 
@@ -179,6 +177,7 @@
     .hamburger { display: flex; }
   }
 </style>
+<link rel="stylesheet" href="css/site-fixes.css">
 </head>
 <body class="loading-state">
 
@@ -438,5 +437,6 @@
         if(footerMark) { const footerOffset = document.querySelector('footer').offsetTop; if(window.scrollY > footerOffset - window.innerHeight) { const delta = window.scrollY - (footerOffset - window.innerHeight); footerMark.style.transform = `translate(-50%, -50%) translateY(${delta * -0.1}px)`; } }
     });
   </script>
+<script src="js/site-fixes.js" defer></script>
 </body>
 </html>

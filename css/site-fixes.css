@@ -1,0 +1,126 @@
+/* Site-wide stability fixes loaded after each page's inline styles. */
+
+html {
+  scrollbar-gutter: stable;
+}
+
+body.menu-open {
+  overflow: hidden;
+}
+
+body.exiting {
+  cursor: progress;
+}
+
+body.exiting .loader {
+  pointer-events: none;
+}
+
+/* Keep the cinematic cursor as decoration, but preserve native usability. */
+* {
+  cursor: auto !important;
+}
+
+a,
+button,
+[role="button"],
+.hover-trigger,
+.hamburger,
+.mobile-nav-link,
+.work-card,
+.scroll-indicator {
+  cursor: pointer !important;
+}
+
+input,
+textarea,
+select,
+[contenteditable="true"] {
+  cursor: text !important;
+  pointer-events: auto;
+}
+
+button,
+.hamburger {
+  appearance: none;
+  border: 0;
+}
+
+.hamburger {
+  min-width: 44px;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+}
+
+.hamburger span {
+  flex: 0 0 auto;
+}
+
+.mobile-menu {
+  overscroll-behavior: contain;
+}
+
+.mobile-menu[aria-hidden="true"] {
+  visibility: hidden;
+}
+
+.mobile-menu.active {
+  visibility: visible;
+}
+
+.page-transition-curtain {
+  display: block;
+  position: fixed;
+  inset: 0;
+  z-index: 199999;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 50% 42%, rgba(255, 215, 0, 0.16), transparent 28%),
+    #000;
+  opacity: 0;
+  transform: scaleY(0);
+  transform-origin: bottom;
+  transition:
+    opacity 0.36s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.48s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+body.exiting .page-transition-curtain {
+  opacity: 1;
+  transform: scaleY(1);
+  pointer-events: auto;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+@media (pointer: coarse), (max-width: 768px) {
+  .cursor {
+    display: none !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.001ms !important;
+  }
+
+  #main-wrapper,
+  body.loading-state #main-wrapper,
+  body.loaded-state #main-wrapper,
+  body.exiting #main-wrapper {
+    filter: none !important;
+  }
+
+  .page-transition-curtain {
+    display: none;
+  }
+}

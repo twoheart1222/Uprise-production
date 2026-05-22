@@ -6,17 +6,17 @@
   <title>Uprise 推手影像 | 網站內容管理系統</title>
   
   <link href="config.yml" type="text/yaml" rel="cms-config-url">
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght=300;400;500;700&display=swap" rel="stylesheet">
 
   <script>
-    // 1. 設定管理後台依附的獨立沙盒節點，防止外掛或瀏覽器干擾 DOM
+    // 1. 強制啟用手動初始化與生產環境
     window.CMS_MANUAL_INIT = true;
     window.CMS_ENV = "production";
 
-    // 2. 定義 Cloudflare Worker 登入驗證閘道器網址
-    const AUTH_API_URL = "https://uprise-cms-login.uprisevideoproduction.workers.dev";
+    // 2. 對接 Decap 官方免費的登入轉接閘道器
+    const AUTH_API_URL = "https://oauth.decapcms.org";
 
-    // 3. 自訂初始化設定檔
+    // 3. CMS 核心骨架設定
     window.cmsConfig = {
       backend: {
         name: "github",
@@ -27,7 +27,7 @@
       }
     };
 
-    // 4. 初始化函數
+    // 4. 安全初始化函數
     function initCustomCMS() {
       if (window.CMS) {
         // 註冊預覽樣式 (簡約白底黑字)
@@ -66,18 +66,15 @@
       font-family: 'Noto Sans TC', sans-serif !important;
       background-color: var(--bg-main) !important;
       color: var(--text-dark) !important;
-      margin: 0;
-      padding: 0;
+      margin: 0; padding: 0;
     }
 
     * { box-sizing: border-box; }
 
-    /* --- 1. 登入頁面美化 --- */
+    /* --- 登入頁面與主介面美化 --- */
     div[class*="nc-github-layout"] { background-color: var(--bg-main) !important; background-image: none !important; }
     button[class*="LoginButton"] { background: var(--accent-color) !important; color: #ffffff !important; font-weight: 500 !important; border-radius: 4px !important; box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important; border: none !important; }
     button[class*="LoginButton"]:hover { background: var(--accent-hover) !important; transform: translateY(-1px) !important; }
-
-    /* --- 2. CMS 主介面美化 --- */
     header[class*="AppHeader"] { background-color: var(--bg-white) !important; border-bottom: 1px solid var(--border-color) !important; color: var(--text-dark) !important; box-shadow: 0 1px 3px rgba(0,0,0,0.05) !important; }
     header[class*="AppHeader"] * { color: var(--text-dark) !important; }
     aside[class*="Sidebar"] { background-color: var(--bg-white) !important; border-right: 1px solid var(--border-color) !important; }
@@ -87,16 +84,12 @@
     a[class*="Card"] { background-color: var(--bg-white) !important; border: 1px solid var(--border-color) !important; color: var(--text-dark) !important; border-radius: 4px !important; box-shadow: 0 1px 3px rgba(0,0,0,0.05) !important; }
     a[class*="Card"]:hover { border-color: var(--accent-color) !important; transform: translateY(-1px) !important; box-shadow: 0 4px 6px rgba(0,0,0,0.1) !important; }
     a[class*="Card"] * { color: var(--text-dark) !important; }
-
-    /* --- 3. 編輯器頁面美化 --- */
     label[class*="Label"] { color: var(--text-dark) !important; font-weight: 500 !important; font-family: 'Noto Sans TC', sans-serif !important; font-size: 1rem !important; margin-bottom: 6px !important; }
     input[type="text"], textarea, div[class*="Widget"] { background-color: var(--bg-white) !important; border: 1px solid #ced4da !important; border-radius: 4px !important; color: var(--text-dark) !important; font-size: 16px !important; }
     input:focus, textarea:focus { border-color: #80bdff !important; box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25) !important; }
     button[class*="Button"] { background-image: none !important; background-color: var(--accent-color) !important; color: #ffffff !important; font-weight: 500 !important; border: none !important; text-transform: none !important; letter-spacing: 0px !important; border-radius: 4px !important; }
     button[class*="Button"]:hover { background-color: var(--accent-hover) !important; }
     div[class*="ImageWrapper"] { border: 2px dashed #dee2e6 !important; background-color: #f8f9fa !important; border-radius: 4px !important; }
-
-    /* --- 4. 右側預覽區塊 --- */
     iframe[class*="PreviewPane"] { background-color: var(--bg-white) !important; border-left: 1px solid var(--border-color) !important; }
   </style>
 </head>

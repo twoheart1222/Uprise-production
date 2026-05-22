@@ -6,15 +6,15 @@
   <title>Uprise 推手影像 | 網站內容管理系統</title>
   
   <link href="config.yml" type="text/yaml" rel="cms-config-url">
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght=300;400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
 
   <script>
     // 1. 強制啟用手動初始化與生產環境
     window.CMS_MANUAL_INIT = true;
     window.CMS_ENV = "production";
 
-    // 2. 對接 Decap 官方免費的登入轉接閘道器
-    const AUTH_API_URL = "https://oauth.decapcms.org";
+    // 2. 對接全新、穩定的免費登入轉接閘道器
+    const AUTH_API_URL = "https://netlify-cms-oauth-provider.herokuapp.com";
 
     // 3. CMS 核心骨架設定
     window.cmsConfig = {

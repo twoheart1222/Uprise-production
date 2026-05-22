@@ -1,7 +1,8 @@
 backend:
-  name: git-gateway
+  name: github
+  repo: twoheart1222/uprise-production  # 🔴 請確認這是不是你 GitHub 的「儲存庫名稱」，如果不是請改成正確的
   branch: main
-
+  
 media_folder: "images/uploads"
 public_folder: "/images/uploads"
 

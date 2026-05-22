@@ -151,64 +151,48 @@
   </style>
 </head>
 <body>
-  <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
-  
-  <script>
-    // --- 註冊預覽樣式 (改為簡約白底黑字) ---
-    const previewStyles = `
-      body {
-        background-color: #ffffff;
-        color: #333333;
-        font-family: 'Noto Sans TC', sans-serif;
-        padding: 20px;
-        line-height: 1.6;
-      }
-      h1, h2, h3 {
-        color: #111111;
-        margin-top: 1.5em;
-        margin-bottom: 0.5em;
-      }
-      h1 { 
-        font-size: 2.2rem; 
-        font-weight: 700;
-        border-bottom: 2px solid #eee;
-        padding-bottom: 10px;
-      }
-      a { color: var(--accent-color); text-decoration: underline; }
-      img { max-width: 100%; height: auto; border-radius: 2px; border: 1px solid #eee; }
-      blockquote {
-        border-left: 4px solid #ddd;
-        padding-left: 15px;
-        color: #666;
-        font-style: italic;
-        margin: 20px 0;
-      }
-      hr { border: 0; border-top: 1px solid #eee; margin: 30px 0; }
-    `;
-
-    CMS.registerPreviewStyle(previewStyles, { raw: true });
-  </script>
 
   <script>
-    // 💡 提示：請將下方引號內的網址，換成你在步驟 3-3 結尾複製的 Worker 網址（網址結尾請不要加斜線 / ）
+    // 1. 定義 Cloudflare Worker 登入驗證閘道器網址
     const AUTH_API_URL = "https://uprise-cms-login.uprisevideoproduction.workers.dev";
 
-    // 強制蓋掉舊版設定，啟用 GitHub 驗證核心
+    // 2. 設定 CMS 預設全域變數，接手初始化程序
     window.CMS_ENV = "production";
-    
-    document.addEventListener("DOMContentLoaded", () => {
-      window.initCMS({
-        config: {
-          backend: {
-            name: "github",
-            repo: "twoheart1222/uprise-production", 
-            branch: "main",
-            base_url: AUTH_API_URL,
-            auth_endpoint: "auth"
-          }
-        }
-      });
-    });
+    window.CMS_MANUAL_INIT = true; 
+
+    // 3. 設定自訂初始化設定檔
+    window.cmsConfig = {
+      backend: {
+        name: "github",
+        repo: "twoheart1222/uprise-production", 
+        branch: "main",
+        base_url: AUTH_API_URL,
+        auth_endpoint: "auth"
+      }
+    };
+
+    // 4. 等到 Decap CMS 腳本完全載入後，再行安全初始化
+    function initCustomCMS() {
+      if (window.CMS) {
+        // 註冊預覽樣式 (簡約白底黑字)
+        const previewStyles = `
+          body { background-color: #ffffff; color: #333333; font-family: 'Noto Sans TC', sans-serif; padding: 20px; line-height: 1.6; }
+          h1, h2, h3 { color: #111111; margin-top: 1.5em; margin-bottom: 0.5em; }
+          h1 { font-size: 2.2rem; font-weight: 700; border-bottom: 2px solid #eee; padding-bottom: 10px; }
+          a { color: #007bff; text-decoration: underline; }
+          img { max-width: 100%; height: auto; border-radius: 2px; border: 1px solid #eee; }
+          blockquote { border-left: 4px solid #ddd; padding-left: 15px; color: #666; font-style: italic; margin: 20px 0; }
+          hr { border: 0; border-top: 1px solid #eee; margin: 30px 0; }
+        `;
+        window.CMS.registerPreviewStyle(previewStyles, { raw: true });
+        
+        // 執行手動初始化
+        window.CMS.init({ config: window.cmsConfig });
+      }
+    }
   </script>
+
+  <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js" onload="initCustomCMS()"></script>
+
 </body>
 </html>

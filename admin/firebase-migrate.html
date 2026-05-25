@@ -1,0 +1,496 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Firebase 資料遷移工具 | Uprise Production</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;700&family=Italiana&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #050505;
+    --surface: rgba(18,18,18,0.95);
+    --border: rgba(255,255,255,0.08);
+    --brand: #FF8C00;
+    --gold: #FFD700;
+    --grad: linear-gradient(135deg,#FFD700,#FF8C00);
+    --green: #22c55e;
+    --red: #ef4444;
+    --text: #fff;
+    --sub: #888;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Noto Sans TC', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 40px 20px;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 860px; margin: 0 auto; }
+
+  header { text-align: center; margin-bottom: 50px; }
+  .logo-mark {
+    display: inline-block;
+    width: 56px; height: 56px;
+    border-radius: 12px;
+    background: var(--grad);
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 20px;
+    font-family: 'Italiana', serif;
+    font-size: 1.8rem; color: #000;
+  }
+  h1 { font-size: 1.8rem; font-weight: 700; letter-spacing: 3px; margin-bottom: 8px; }
+  h1 span { background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  .desc { color: var(--sub); font-size: 0.9rem; letter-spacing: 1px; line-height: 1.8; }
+
+  /* 步驟說明 */
+  .steps {
+    display: grid; grid-template-columns: repeat(3,1fr); gap: 16px;
+    margin-bottom: 40px;
+  }
+  .step {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+  }
+  .step::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    background: var(--grad);
+  }
+  .step-num {
+    font-family: 'Italiana', serif;
+    font-size: 2.5rem; color: rgba(255,215,0,0.15);
+    font-weight: 700; line-height: 1; margin-bottom: 8px;
+  }
+  .step h3 { font-size: 0.85rem; letter-spacing: 2px; color: var(--gold); margin-bottom: 6px; }
+  .step p { font-size: 0.8rem; color: var(--sub); line-height: 1.7; }
+
+  /* 資料預覽區 */
+  .pages-grid { display: grid; gap: 16px; margin-bottom: 32px; }
+  .page-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    transition: border-color 0.3s;
+  }
+  .page-card.success { border-color: var(--green); }
+  .page-card.error   { border-color: var(--red); }
+  .page-card.running { border-color: var(--gold); }
+
+  .card-head {
+    padding: 16px 20px;
+    display: flex; align-items: center; justify-content: space-between;
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+    user-select: none;
+  }
+  .card-head:hover { background: rgba(255,255,255,0.02); }
+  .card-title { display: flex; align-items: center; gap: 12px; }
+  .page-icon {
+    width: 32px; height: 32px; border-radius: 6px;
+    background: rgba(255,140,0,0.1);
+    border: 1px solid rgba(255,140,0,0.2);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.85rem;
+  }
+  .page-name { font-weight: 700; letter-spacing: 1px; font-size: 0.95rem; }
+  .page-id { font-size: 0.75rem; color: var(--sub); margin-top: 2px; }
+  .status-badge {
+    font-size: 0.75rem; padding: 4px 12px; border-radius: 20px;
+    font-weight: 700; letter-spacing: 1px;
+    background: rgba(255,255,255,0.05); color: var(--sub);
+    border: 1px solid rgba(255,255,255,0.1);
+    transition: all 0.3s;
+    white-space: nowrap;
+  }
+  .success .status-badge { background: rgba(34,197,94,0.1); color: var(--green); border-color: rgba(34,197,94,0.3); }
+  .error   .status-badge { background: rgba(239,68,68,0.1);  color: var(--red);   border-color: rgba(239,68,68,0.3); }
+  .running .status-badge { background: rgba(255,215,0,0.1);  color: var(--gold);  border-color: rgba(255,215,0,0.3); animation: blink 1s infinite; }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.4} }
+
+  .card-body { padding: 16px 20px; display: none; }
+  .card-body.open { display: block; }
+  .data-preview {
+    background: rgba(0,0,0,0.4);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 12px;
+    font-size: 0.72rem;
+    color: #aaa;
+    font-family: 'Courier New', monospace;
+    max-height: 200px;
+    overflow-y: auto;
+    line-height: 1.6;
+    white-space: pre-wrap;
+    word-break: break-all;
+  }
+  .data-preview::-webkit-scrollbar { width: 4px; }
+  .data-preview::-webkit-scrollbar-track { background: transparent; }
+  .data-preview::-webkit-scrollbar-thumb { background: #333; border-radius: 2px; }
+
+  .error-msg {
+    margin-top: 10px;
+    background: rgba(239,68,68,0.08);
+    border: 1px solid rgba(239,68,68,0.2);
+    border-radius: 6px; padding: 10px 14px;
+    font-size: 0.8rem; color: #fca5a5; line-height: 1.6;
+    display: none;
+  }
+  .error-msg.show { display: block; }
+
+  /* 進度條 */
+  .progress-wrap { margin-bottom: 32px; }
+  .progress-label {
+    display: flex; justify-content: space-between;
+    font-size: 0.8rem; color: var(--sub); margin-bottom: 8px; letter-spacing: 1px;
+  }
+  .progress-bar {
+    height: 4px; background: rgba(255,255,255,0.08);
+    border-radius: 2px; overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%; width: 0%;
+    background: var(--grad);
+    border-radius: 2px;
+    transition: width 0.5s ease;
+    box-shadow: 0 0 10px rgba(255,140,0,0.5);
+  }
+
+  /* 主按鈕 */
+  .action-area { text-align: center; margin-bottom: 32px; }
+  .btn-migrate {
+    padding: 16px 50px;
+    background: var(--grad);
+    color: #000;
+    border: none;
+    border-radius: 3px;
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 3px;
+    cursor: pointer;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+  .btn-migrate::after {
+    content: '';
+    position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
+    background: linear-gradient(90deg,transparent,rgba(255,255,255,0.6),transparent);
+    transform: skewX(-20deg);
+    animation: shine 3s infinite;
+  }
+  @keyframes shine { 0%,70%{left:-100%} 100%{left:200%} }
+  .btn-migrate:hover:not(:disabled) { filter: brightness(1.15); transform: translateY(-2px); box-shadow: 0 10px 30px rgba(255,140,0,0.4); }
+  .btn-migrate:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+  /* 完成區塊 */
+  .done-box {
+    background: rgba(34,197,94,0.05);
+    border: 1px solid rgba(34,197,94,0.2);
+    border-radius: 10px; padding: 28px;
+    text-align: center; display: none;
+    margin-bottom: 32px;
+  }
+  .done-box.show { display: block; }
+  .done-icon { font-size: 2.5rem; margin-bottom: 12px; }
+  .done-box h2 { font-size: 1.2rem; color: var(--green); letter-spacing: 2px; margin-bottom: 8px; }
+  .done-box p { font-size: 0.85rem; color: var(--sub); line-height: 1.8; }
+
+  /* 說明 */
+  .info-box {
+    background: rgba(255,215,0,0.03);
+    border: 1px solid rgba(255,215,0,0.12);
+    border-radius: 10px; padding: 20px 24px;
+    font-size: 0.82rem; color: #bbb; line-height: 2;
+  }
+  .info-box strong { color: var(--gold); }
+  .info-box code {
+    background: rgba(255,255,255,0.07);
+    padding: 1px 6px; border-radius: 3px;
+    font-family: 'Courier New', monospace;
+    color: #FFD700; font-size: 0.78rem;
+  }
+
+  .chevron { transition: transform 0.3s; font-size: 0.7rem; color: var(--sub); }
+  .chevron.open { transform: rotate(180deg); }
+
+  @media(max-width:600px) {
+    .steps { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="logo-mark">U</div>
+    <h1>UPRISE <span>資料遷移</span></h1>
+    <p class="desc">將網頁現有內容一鍵同步至 Firebase Firestore 後台</p>
+  </header>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">01</div>
+      <h3>確認資料</h3>
+      <p>展開各頁面卡片，確認下方預覽的資料內容是否正確。</p>
+    </div>
+    <div class="step">
+      <div class="step-num">02</div>
+      <h3>執行遷移</h3>
+      <p>點擊「開始遷移」，系統將依序寫入 Firebase Firestore。</p>
+    </div>
+    <div class="step">
+      <div class="step-num">03</div>
+      <h3>後台即可見</h3>
+      <p>完成後前往後台管理頁面，即可看到所有資料已同步。</p>
+    </div>
+  </div>
+
+  <!-- 進度 -->
+  <div class="progress-wrap">
+    <div class="progress-label">
+      <span id="prog-text">尚未開始</span>
+      <span id="prog-pct">0 / 5</span>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="prog-fill"></div></div>
+  </div>
+
+  <!-- 頁面卡片 -->
+  <div class="pages-grid" id="cards"></div>
+
+  <!-- 按鈕 -->
+  <div class="action-area">
+    <button class="btn-migrate" id="migrate-btn" onclick="startMigration()">
+      🚀 &nbsp; 開始遷移至 Firebase
+    </button>
+  </div>
+
+  <!-- 完成提示 -->
+  <div class="done-box" id="done-box">
+    <div class="done-icon">✅</div>
+    <h2>遷移完成！</h2>
+    <p>所有資料已成功寫入 Firebase Firestore。<br>
+    請前往後台管理介面，資料應已正確顯示。<br>
+    <strong style="color:var(--gold)">此頁面可以關閉。</strong></p>
+  </div>
+
+  <!-- 使用說明 -->
+  <div class="info-box">
+    <strong>⚠️ 遷移後需要做什麼？</strong><br>
+    遷移完成後，你的各頁面仍在讀 <code>content/xxx.md</code>，需要將讀取方式改為 Firebase。
+    你可以使用已提供的 <code>firebase-frontend-loader.js</code>，在每個頁面把<br>
+    <code>fetch('content/xxx.md')</code> 換成 <code>loadFirebasePage('xxx')</code>。<br><br>
+    <strong>📋 Firestore 文件結構（遷移後）：</strong><br>
+    集合：<code>pages</code> → 文件：<code>home</code> / <code>works</code> / <code>team</code> / <code>contact</code> / <code>about</code>
+  </div>
+
+</div>
+
+<script type="module">
+  import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+  import { getFirestore, doc, setDoc } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyCyC9CaF36J27mjCl908TFCukNtwAilM4o",
+    authDomain: "uprise-videoproduction-admin.firebaseapp.com",
+    projectId: "uprise-videoproduction-admin",
+    storageBucket: "uprise-videoproduction-admin.firebasestorage.app",
+    messagingSenderId: "180297157082",
+    appId: "1:180297157082:web:c352e76d63cac6bc7458e3"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  // ── 所有頁面資料（從網頁 fallbackData 整理） ──────────────────
+  const PAGES = [
+    {
+      id: 'home',
+      name: '首頁',
+      icon: '🏠',
+      docId: 'home',
+      data: {
+        logo: "images/uploads/logo.png",
+        favicon: "images/uploads/favicon-192.png",
+        video: "https://res.cloudinary.com/dfnfcyglu/video/upload/v1763893930/hero_bg_ickrbe.mp4",
+        hero_video_mobile: "https://res.cloudinary.com/dfnfcyglu/video/upload/v1763893930/hero_bg_ickrbe.mp4",
+        hero_title: "推手影像",
+        hero_subtitle: "電影級影像製作團隊",
+        services: [
+          { title: "商業/品牌形象廣告", description: "為品牌量身打造的高質感商業廣告，精準傳遞核心價值。", iconClass: "fa-solid fa-video" },
+          { title: "後期製作", description: "透過影像敘事，建立深刻的品牌形象與視覺識別。", iconClass: "fa-solid fa-photo-film" },
+          { title: "腳本撰寫", description: "專業剪輯、特效與調光，賦予影像電影級的質感。", iconClass: "fa-solid fa-pen-fancy" }
+        ],
+        behind_the_scenes: [
+          { image: "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" },
+          { image: "https://images.unsplash.com/photo-1598550476439-6847785fcea6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" },
+          { image: "https://images.unsplash.com/photo-1533561098733-722129d2b276?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" },
+          { image: "https://images.unsplash.com/photo-1585644198306-399564c7b275?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" },
+          { image: "https://images.unsplash.com/photo-1521791136064-7986c2920216?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" },
+          { image: "https://images.unsplash.com/photo-1626814026160-2237a95fc5a0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" }
+        ],
+        footer_manifesto: "我們不僅是影像的製造者，更是品牌價值的推動者。\n致力於將抽象的意念，轉化為具象的視覺衝擊。\n從腳本企劃、電影級拍攝到後期特效，\n推手影像以極致的職人精神，訴說每一個值得被看見的故事。",
+        address: "臺中市西區民龍里臺灣大道二段285號31樓",
+        phone: "+886 937672279",
+        email: "service@uprise.com"
+      }
+    },
+    {
+      id: 'works',
+      name: '作品集',
+      icon: '🎬',
+      docId: 'works',
+      data: {
+        title: "精選作品集",
+        subtitle: "收錄歷年來的影像精華，每一部作品都是我們對美學的堅持。",
+        portfolio_brand: [
+          {
+            title: "品牌形象廣告範例 A",
+            client: "Client A",
+            link: "#",
+            image: "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+          }
+        ]
+      }
+    },
+    {
+      id: 'team',
+      name: '團隊',
+      icon: '👥',
+      docId: 'team',
+      data: {
+        title: "專業團隊",
+        subtitle: "一群對影像充滿熱情的職人",
+        members: [
+          {
+            name: "林家佑",
+            role: "DIRECTOR",
+            image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?fit=crop&w=400&h=400&q=80",
+            bio: "專注於電影級影像製作，擅長透過鏡頭語言捕捉情感流動。",
+            portfolio_url: "#",
+            ig_url: "#"
+          }
+        ]
+      }
+    },
+    {
+      id: 'contact',
+      name: '聯絡我們',
+      icon: '📩',
+      docId: 'contact',
+      data: {
+        title: "聯絡我們",
+        subtitle: "準備好開始您的影像計畫了嗎？",
+        address: "台中市西區民龍里臺灣大道二段285號31樓",
+        email: "service@uprise.com",
+        phone: "+886 937 672 279",
+        formspree_id: "movbylbl"
+      }
+    },
+    {
+      id: 'about',
+      name: '關於推手',
+      icon: '🎯',
+      docId: 'about',
+      data: {
+        title: "關於推手",
+        subtitle: "探索我們對影像的熱情與堅持",
+        body: "## 關於推手影像\n\n推手影像製作有限公司，是一家專注於電影級影像製作的團隊。\n\n我們相信每一個品牌都有值得被看見的故事，而我們的使命就是用最極致的影像語言，將這些故事呈現給世界。"
+      }
+    }
+  ];
+
+  // 渲染卡片
+  const cardsEl = document.getElementById('cards');
+  PAGES.forEach(page => {
+    const card = document.createElement('div');
+    card.className = 'page-card';
+    card.id = 'card-' + page.id;
+    card.innerHTML = `
+      <div class="card-head" onclick="toggleCard('${page.id}')">
+        <div class="card-title">
+          <div class="page-icon">${page.icon}</div>
+          <div>
+            <div class="page-name">${page.name}</div>
+            <div class="page-id">pages / ${page.docId}</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px">
+          <span class="status-badge" id="badge-${page.id}">待遷移</span>
+          <span class="chevron" id="chev-${page.id}">▼</span>
+        </div>
+      </div>
+      <div class="card-body" id="body-${page.id}">
+        <div class="data-preview">${JSON.stringify(page.data, null, 2)}</div>
+        <div class="error-msg" id="err-${page.id}"></div>
+      </div>
+    `;
+    cardsEl.appendChild(card);
+  });
+
+  window.toggleCard = (id) => {
+    const body = document.getElementById('body-' + id);
+    const chev = document.getElementById('chev-' + id);
+    body.classList.toggle('open');
+    chev.classList.toggle('open');
+  };
+
+  let migrating = false;
+
+  window.startMigration = async () => {
+    if (migrating) return;
+    migrating = true;
+    const btn = document.getElementById('migrate-btn');
+    btn.disabled = true;
+    btn.textContent = '遷移中...';
+
+    const total = PAGES.length;
+    let done = 0;
+
+    for (const page of PAGES) {
+      const card = document.getElementById('card-' + page.id);
+      const badge = document.getElementById('badge-' + page.id);
+      const errEl = document.getElementById('err-' + page.id);
+
+      card.className = 'page-card running';
+      badge.textContent = '寫入中…';
+      document.getElementById('prog-text').textContent = `正在寫入：${page.name}`;
+
+      // 展開顯示
+      const body = document.getElementById('body-' + page.id);
+      body.classList.add('open');
+      document.getElementById('chev-' + page.id).classList.add('open');
+
+      try {
+        await setDoc(doc(db, 'pages', page.docId), page.data);
+        card.className = 'page-card success';
+        badge.textContent = '✓ 成功';
+        errEl.classList.remove('show');
+      } catch (e) {
+        card.className = 'page-card error';
+        badge.textContent = '✗ 失敗';
+        errEl.textContent = '錯誤：' + (e.message || e);
+        errEl.classList.add('show');
+      }
+
+      done++;
+      document.getElementById('prog-fill').style.width = (done / total * 100) + '%';
+      document.getElementById('prog-pct').textContent = `${done} / ${total}`;
+      await new Promise(r => setTimeout(r, 400));
+    }
+
+    document.getElementById('prog-text').textContent = '遷移完成';
+    document.getElementById('done-box').classList.add('show');
+    btn.textContent = '✓ 已完成';
+    migrating = false;
+  };
+</script>
+</body>
+</html>

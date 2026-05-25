@@ -20,6 +20,7 @@
   --muted: #888;
   --danger: #e05555;
   --success: #4caf7d;
+  --info: #4a9eff;
   --font: 'Noto Sans TC', sans-serif;
   --radius: 10px;
   --sidebar: 240px;
@@ -28,6 +29,7 @@
 html, body { height: 100%; }
 body { font-family: var(--font); background: var(--bg); color: var(--text); display: flex; height: 100vh; overflow: hidden; }
 
+/* ── LOGIN ── */
 #login-screen {
   position: fixed; inset: 0; background: var(--bg);
   display: flex; flex-direction: column; align-items: center; justify-content: center;
@@ -56,6 +58,7 @@ body { font-family: var(--font); background: var(--bg); color: var(--text); disp
 .btn-google img { width: 20px; }
 #login-error { color: var(--danger); font-size: 0.85rem; display: none; }
 
+/* ── SIDEBAR ── */
 #sidebar {
   width: var(--sidebar); background: var(--surface); border-right: 1px solid var(--border);
   display: flex; flex-direction: column; flex-shrink: 0; z-index: 10;
@@ -89,6 +92,7 @@ body { font-family: var(--font); background: var(--bg); color: var(--text); disp
 }
 .btn-logout:hover { border-color: var(--danger); color: var(--danger); }
 
+/* ── MAIN ── */
 #main { flex: 1; overflow-y: auto; display: flex; flex-direction: column; background: var(--bg); }
 ::-webkit-scrollbar { width: 5px; }
 ::-webkit-scrollbar-track { background: transparent; }
@@ -99,8 +103,29 @@ body { font-family: var(--font); background: var(--bg); color: var(--text); disp
   display: flex; align-items: center; justify-content: space-between;
   background: rgba(10,10,15,0.8); position: sticky; top: 0; z-index: 5; backdrop-filter: blur(10px);
 }
+.topbar-right { display: flex; align-items: center; gap: 10px; }
 .page-title { font-size: 1.2rem; font-weight: 500; }
 .page-title span { color: var(--muted); font-size: 0.85rem; font-weight: 300; margin-left: 8px; }
+
+/* Firebase status indicator */
+#firebase-status {
+  display: flex; align-items: center; gap: 6px;
+  padding: 6px 12px; border-radius: 20px; font-size: 0.75rem;
+  border: 1px solid var(--border); background: var(--surface2);
+  transition: all 0.3s;
+}
+#firebase-status.connected { border-color: rgba(76,175,125,0.4); color: var(--success); }
+#firebase-status.disconnected { border-color: rgba(224,85,85,0.4); color: var(--danger); }
+#firebase-status.loading { border-color: rgba(255,140,0,0.3); color: var(--accent); }
+.status-dot { width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+
+.btn-preview {
+  display: flex; align-items: center; gap: 8px;
+  padding: 10px 18px; background: var(--surface2); border: 1px solid var(--border);
+  border-radius: 8px; color: var(--text); font-size: 0.88rem; font-weight: 500;
+  cursor: pointer; font-family: var(--font); transition: all 0.2s;
+}
+.btn-preview:hover { border-color: var(--info); color: var(--info); }
 
 .btn-save {
   display: flex; align-items: center; gap: 8px;
@@ -111,6 +136,7 @@ body { font-family: var(--font); background: var(--bg); color: var(--text); disp
 .btn-save:hover { opacity: 0.85; transform: translateY(-1px); box-shadow: 0 8px 24px rgba(255,140,0,0.3); }
 .btn-save:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
 
+/* ── PANELS ── */
 .panel { padding: 32px; display: none; flex-direction: column; gap: 24px; }
 .panel.active { display: flex; }
 
@@ -129,10 +155,11 @@ body { font-family: var(--font); background: var(--bg); color: var(--text); disp
   border-radius: 8px; padding: 10px 14px; color: var(--text);
   font-family: var(--font); font-size: 0.9rem; transition: border-color 0.2s; outline: none; resize: vertical;
 }
-.field input:focus, .field textarea:focus { border-color: rgba(255,140,0,0.5); }
+.field input:focus, .field textarea:focus, .field select:focus { border-color: rgba(255,140,0,0.5); }
 .field textarea { min-height: 80px; }
 .field-hint { font-size: 0.75rem; color: #555; margin-top: 2px; }
 .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.field-row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
 
 .list-header { display: flex; align-items: center; justify-content: space-between; }
 .btn-add {
@@ -160,6 +187,7 @@ body { font-family: var(--font); background: var(--bg); color: var(--text); disp
 .btn-icon.danger:hover { border-color: var(--danger); color: var(--danger); }
 .btn-icon:not(.danger):hover { border-color: var(--accent); color: var(--accent); }
 
+/* ── TOAST ── */
 #toast {
   position: fixed; bottom: 32px; right: 32px;
   padding: 14px 20px; border-radius: 10px; font-size: 0.88rem;
@@ -176,17 +204,101 @@ body { font-family: var(--font); background: var(--bg); color: var(--text); disp
 .spinner { width: 18px; height: 18px; border: 2px solid rgba(255,140,0,0.3); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
 
+/* ── STATS ── */
 .stats-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 16px; }
 .stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; display: flex; flex-direction: column; gap: 8px; }
 .stat-num { font-size: 2rem; font-weight: 700; background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 .stat-label { font-size: 0.78rem; color: var(--muted); }
 hr.divider { border: none; border-top: 1px solid var(--border); }
+
+/* ── IMAGE PREVIEW ── */
 .img-preview { width: 80px; height: 50px; object-fit: cover; border-radius: 6px; border: 1px solid var(--border); }
+
+/* ── YOUTUBE PREVIEW ── */
+.yt-preview-wrap { position: relative; margin-top: 8px; }
+.yt-thumb {
+  width: 100%; max-width: 320px; height: 180px; object-fit: cover;
+  border-radius: 8px; border: 1px solid var(--border); display: none;
+}
+.yt-thumb.show { display: block; }
+.yt-play-btn {
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+  width: 48px; height: 48px; background: rgba(255,0,0,0.85); border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  color: #fff; font-size: 1.1rem; pointer-events: none;
+}
+.yt-label { font-size: 0.75rem; color: var(--muted); margin-top: 4px; }
+
+/* ── WORKS SECTION TITLE ── */
+.works-section-title {
+  background: var(--surface2); border: 1px solid var(--border);
+  border-radius: 8px; padding: 12px 16px;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px;
+}
 .works-card { margin-top: 0; }
+
+/* ── MODAL (Preview) ── */
+.modal-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(8px);
+  z-index: 8888; display: flex; align-items: center; justify-content: center;
+  opacity: 0; pointer-events: none; transition: opacity 0.3s;
+}
+.modal-overlay.open { opacity: 1; pointer-events: all; }
+.modal {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 16px;
+  width: 90vw; max-width: 900px; max-height: 85vh; overflow-y: auto;
+  padding: 32px; position: relative;
+  transform: translateY(20px); transition: transform 0.3s;
+}
+.modal-overlay.open .modal { transform: translateY(0); }
+.modal-close {
+  position: absolute; top: 16px; right: 16px;
+  width: 32px; height: 32px; border-radius: 8px; border: 1px solid var(--border);
+  background: transparent; color: var(--muted); cursor: pointer; font-size: 1rem;
+  display: flex; align-items: center; justify-content: center;
+}
+.modal-close:hover { border-color: var(--danger); color: var(--danger); }
+.modal-title { font-size: 1rem; font-weight: 500; margin-bottom: 24px; color: var(--accent2); }
+
+/* Preview sections */
+.preview-section { margin-bottom: 28px; }
+.preview-section h3 { font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 14px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+.preview-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px; }
+.preview-card { background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+.preview-card img { width: 100%; height: 100px; object-fit: cover; }
+.preview-card-body { padding: 10px 12px; }
+.preview-card-body .t { font-size: 0.82rem; font-weight: 500; margin-bottom: 2px; }
+.preview-card-body .s { font-size: 0.75rem; color: var(--muted); }
+.preview-hero { background: var(--surface2); border: 1px solid var(--border); border-radius: 10px; padding: 24px; text-align: center; }
+.preview-hero .h1 { font-family: 'Italiana', serif; font-size: 2rem; background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.preview-hero .sub { color: var(--muted); font-size: 0.85rem; margin-top: 6px; }
+.preview-services { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px,1fr)); gap: 10px; }
+.preview-svc { background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 16px; text-align: center; }
+.preview-svc i { font-size: 1.4rem; color: var(--accent); margin-bottom: 8px; }
+.preview-svc .n { font-size: 0.82rem; font-weight: 500; }
+.preview-svc .d { font-size: 0.75rem; color: var(--muted); margin-top: 4px; }
+.preview-members { display: flex; gap: 12px; flex-wrap: wrap; }
+.preview-member { background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 14px; display: flex; align-items: center; gap: 10px; min-width: 180px; }
+.preview-member img { width: 36px; height: 36px; border-radius: 50%; object-fit: cover; }
+.preview-member .n { font-size: 0.82rem; font-weight: 500; }
+.preview-member .r { font-size: 0.74rem; color: var(--muted); }
+
+/* ── ADMINS ── */
+.admin-item {
+  background: var(--surface2); border: 1px solid var(--border); border-radius: 8px;
+  padding: 14px 16px; display: flex; align-items: center; justify-content: space-between;
+}
+.admin-email { font-size: 0.88rem; }
+.admin-badge {
+  font-size: 0.7rem; padding: 3px 8px; border-radius: 20px;
+  background: rgba(255,215,0,0.1); border: 1px solid rgba(255,215,0,0.3); color: var(--accent2);
+}
+.admin-badge.owner { background: rgba(255,140,0,0.15); border-color: rgba(255,140,0,0.4); color: var(--accent); }
 </style>
 </head>
 <body>
 
+<!-- LOGIN -->
 <div id="login-screen">
   <div>
     <div class="logo-text">UPRISE</div>
@@ -203,6 +315,7 @@ hr.divider { border: none; border-top: 1px solid var(--border); }
   </div>
 </div>
 
+<!-- APP -->
 <div id="app">
   <div id="sidebar">
     <div class="sidebar-brand">
@@ -217,6 +330,10 @@ hr.divider { border: none; border-top: 1px solid var(--border); }
       <div class="nav-item" data-panel="team"><i class="fas fa-users"></i> 團隊成員</div>
       <div class="nav-item" data-panel="contact"><i class="fas fa-envelope"></i> 聯絡資訊</div>
     </div>
+    <div class="nav-section">
+      <div class="nav-label">系統設定</div>
+      <div class="nav-item" data-panel="admins"><i class="fas fa-shield-alt"></i> 帳號管理</div>
+    </div>
     <div class="sidebar-footer">
       <div class="user-info">
         <img class="user-avatar" id="user-avatar" src="" alt="">
@@ -229,9 +346,18 @@ hr.divider { border: none; border-top: 1px solid var(--border); }
   <div id="main">
     <div class="topbar">
       <div class="page-title" id="page-title">總覽</div>
-      <button class="btn-save" id="btn-save" style="display:none" onclick="saveCurrentPanel()">
-        <i class="fas fa-save"></i> 儲存變更
-      </button>
+      <div class="topbar-right">
+        <div id="firebase-status" class="loading">
+          <div class="status-dot"></div>
+          <span id="firebase-status-text">連線中...</span>
+        </div>
+        <button class="btn-preview" id="btn-preview" style="display:none" onclick="openPreview()">
+          <i class="fas fa-eye"></i> 預覽
+        </button>
+        <button class="btn-save" id="btn-save" style="display:none" onclick="saveCurrentPanel()">
+          <i class="fas fa-save"></i> 儲存變更
+        </button>
+      </div>
     </div>
 
     <!-- 總覽 -->
@@ -247,7 +373,8 @@ hr.divider { border: none; border-top: 1px solid var(--border); }
         <p style="color:var(--muted);font-size:0.88rem;line-height:1.8">
           歡迎使用 Uprise 後台管理系統。<br>
           點選左側選單編輯各頁面內容。修改後點擊右上角<strong style="color:var(--text)">「儲存變更」</strong>，<br>
-          網站前台將<strong style="color:var(--accent2)">即時更新</strong>，無需重新部署或等待。
+          網站前台將<strong style="color:var(--accent2)">即時更新</strong>，無需重新部署或等待。<br><br>
+          <span style="color:var(--info)"><i class="fas fa-eye" style="margin-right:6px"></i>每個頁面右上角有「預覽」按鈕，可以在儲存前先確認內容呈現效果。</span>
         </p>
       </div>
     </div>
@@ -319,8 +446,44 @@ hr.divider { border: none; border-top: 1px solid var(--border); }
           <div class="field"><label>電話</label><input type="text" id="contact-phone" placeholder="+886..."></div>
         </div>
         <div class="field"><label>Formspree ID</label><input type="text" id="contact-formspree_id" placeholder="movbylbl"><div class="field-hint">Formspree 表單 ID，例如 movbylbl</div></div>
+        <hr class="divider">
+        <div class="card-title" style="border:none;padding-bottom:0">社群媒體連結</div>
+        <div class="field-row">
+          <div class="field"><label><i class="fab fa-instagram" style="color:#e1306c;margin-right:4px"></i>Instagram</label><input type="text" id="contact-instagram" placeholder="https://instagram.com/uprise..."></div>
+          <div class="field"><label><i class="fab fa-youtube" style="color:#ff0000;margin-right:4px"></i>YouTube</label><input type="text" id="contact-youtube" placeholder="https://youtube.com/@uprise..."></div>
+        </div>
+        <div class="field-row">
+          <div class="field"><label><i class="fab fa-facebook" style="color:#1877f2;margin-right:4px"></i>Facebook</label><input type="text" id="contact-facebook" placeholder="https://facebook.com/uprise..."></div>
+          <div class="field"><label><i class="fab fa-line" style="color:#00c300;margin-right:4px"></i>LINE ID</label><input type="text" id="contact-line_id" placeholder="@uprise"></div>
+        </div>
       </div>
     </div>
+
+    <!-- 帳號管理 -->
+    <div class="panel" id="panel-admins">
+      <div class="card">
+        <div class="card-title">授權帳號管理</div>
+        <p style="color:var(--muted);font-size:0.85rem;line-height:1.7">
+          以下帳號可以登入後台管理系統。<br>
+          <span style="color:var(--accent)">擁有者</span>帳號無法被刪除。新增帳號後請告知對方使用 Google 登入。
+        </p>
+        <div class="list-items" id="admins-list"></div>
+        <hr class="divider">
+        <div style="display:flex;gap:10px;align-items:flex-end">
+          <div class="field" style="flex:1"><label>新增授權 Email</label><input type="text" id="new-admin-email" placeholder="example@gmail.com"></div>
+          <button class="btn-add" style="height:40px;padding:0 18px" onclick="addAdmin()"><i class="fas fa-user-plus"></i> 新增</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PREVIEW MODAL -->
+<div class="modal-overlay" id="preview-modal">
+  <div class="modal">
+    <button class="modal-close" onclick="closePreview()"><i class="fas fa-times"></i></button>
+    <div class="modal-title" id="preview-modal-title">📋 預覽</div>
+    <div id="preview-content"></div>
   </div>
 </div>
 
@@ -330,9 +493,12 @@ hr.divider { border: none; border-top: 1px solid var(--border); }
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
 import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged }
   from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
-import { getFirestore, doc, getDoc, setDoc }
+import { getFirestore, doc, getDoc, setDoc, collection, getDocs, deleteDoc }
   from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
 
+// ════════════════════════════════════════════════
+// 🔥 FIREBASE CONFIG — 這裡已填好你的設定
+// ════════════════════════════════════════════════
 const firebaseConfig = {
   apiKey: "AIzaSyCyC9CaF36J27mjCl908TFCukNtwAilM4o",
   authDomain: "uprise-videoproduction-admin.firebaseapp.com",
@@ -341,13 +507,26 @@ const firebaseConfig = {
   messagingSenderId: "180297157082",
   appId: "1:180297157082:web:c352e76d63cac6bc7458e3"
 };
-const ALLOWED_EMAIL = "harrylinjiayoufilm@gmail.com";
+
+// ════════════════════════════════════════════════
+// 👑 OWNER — 無法被刪除的主帳號
+// ════════════════════════════════════════════════
+const OWNER_EMAIL = "harrylinjiayoufilm@gmail.com";
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 const provider = new GoogleAuthProvider();
 
+// ── Firebase 連線狀態 ──
+function setFirebaseStatus(state, text) {
+  const el = document.getElementById('firebase-status');
+  const t = document.getElementById('firebase-status-text');
+  el.className = state;
+  t.textContent = text;
+}
+
+// ── Toast ──
 window.showToast = (msg, type='success') => {
   const t = document.getElementById('toast');
   t.className = `show ${type}`;
@@ -356,10 +535,12 @@ window.showToast = (msg, type='success') => {
   window._toastTimer = setTimeout(() => t.className='', 2800);
 };
 
+// ── Auth ──
 document.getElementById('btn-google-login').onclick = async () => {
   try {
     const r = await signInWithPopup(auth, provider);
-    if (r.user.email !== ALLOWED_EMAIL) {
+    const allowed = await isAllowedUser(r.user.email);
+    if (!allowed) {
       await signOut(auth);
       document.getElementById('login-error').style.display = 'block';
     }
@@ -367,42 +548,69 @@ document.getElementById('btn-google-login').onclick = async () => {
 };
 document.getElementById('btn-logout').onclick = () => signOut(auth);
 
+// 動態帳號驗證：先查 Firestore admins，如果抓不到則 fallback 到 OWNER
+async function isAllowedUser(email) {
+  if (email === OWNER_EMAIL) return true;
+  try {
+    const snap = await getDocs(collection(db, 'admins'));
+    return snap.docs.some(d => d.id === email);
+  } catch { return false; }
+}
+
 onAuthStateChanged(auth, async user => {
-  if (user && user.email === ALLOWED_EMAIL) {
-    document.getElementById('login-screen').style.display = 'none';
-    document.getElementById('app').style.display = 'flex';
-    document.getElementById('user-avatar').src = user.photoURL || '';
-    document.getElementById('user-name').textContent = user.displayName || user.email;
-    await loadAllData();
+  if (user) {
+    const allowed = await isAllowedUser(user.email);
+    if (allowed) {
+      setFirebaseStatus('connected', 'Firebase 已連線');
+      document.getElementById('login-screen').style.display = 'none';
+      document.getElementById('app').style.display = 'flex';
+      document.getElementById('user-avatar').src = user.photoURL || '';
+      document.getElementById('user-name').textContent = user.displayName || user.email;
+      window.currentUserEmail = user.email;
+      await loadAllData();
+    } else {
+      setFirebaseStatus('disconnected', '無權限');
+      document.getElementById('login-screen').style.display = 'flex';
+      document.getElementById('app').style.display = 'none';
+    }
   } else {
+    setFirebaseStatus('disconnected', '未登入');
     document.getElementById('login-screen').style.display = 'flex';
     document.getElementById('app').style.display = 'none';
   }
 });
 
+// ── DATA ──
 window.data = {
   home: { hero_text:'', logo:'', hero_video:'', hero_video_mobile:'', services:[], behind_the_scenes:[] },
   works: { title:'', subtitle:'', portfolio_brand:[], portfolio_product:[], portfolio_public:[], portfolio_event:[], portfolio_other:[] },
   team: { title:'', subtitle:'', members:[] },
-  contact: { title:'', subtitle:'', address:'', email:'', phone:'', formspree_id:'' }
+  contact: { title:'', subtitle:'', address:'', email:'', phone:'', formspree_id:'', instagram:'', youtube:'', facebook:'', line_id:'' }
 };
 
 async function loadAllData() {
+  setFirebaseStatus('loading', '載入資料中...');
   showToast('載入資料中...', 'loading');
   try {
     for (const page of ['home','works','team','contact']) {
       const snap = await getDoc(doc(db,'pages',page));
-      if (snap.exists()) window.data[page] = snap.data();
+      if (snap.exists()) window.data[page] = { ...window.data[page], ...snap.data() };
     }
     renderAll();
     updateStats();
+    setFirebaseStatus('connected', '已連線 ✓');
     showToast('資料載入完成 ✓');
-  } catch(e) { showToast('載入失敗：'+e.message,'error'); }
+  } catch(e) {
+    setFirebaseStatus('disconnected', '連線失敗');
+    showToast('載入失敗：'+e.message,'error');
+  }
 }
 
-function renderAll() { renderHome(); renderWorks(); renderTeam(); renderContact(); }
+function renderAll() { renderHome(); renderWorks(); renderTeam(); renderContact(); renderAdmins(); }
 
-// ── 首頁 ──
+// ════════════════════════════════════════════════
+// 首頁
+// ════════════════════════════════════════════════
 function renderHome() {
   const d = window.data.home;
   ['hero_text','logo','hero_video','hero_video_mobile'].forEach(k => {
@@ -418,16 +626,16 @@ window.renderServices = () => {
     : items.map((s,i) => `
     <div class="list-item">
       <div class="list-item-header">
-        <span class="list-item-title">${s.title||'（未命名）'}</span>
+        <span class="list-item-title">${s.iconClass?`<i class="${s.iconClass}" style="margin-right:6px;color:var(--accent)"></i>`:''}${s.title||'（未命名）'}</span>
         <div class="list-item-actions">
-          <button class="btn-icon" onclick="moveArr('home','services',${i},-1);renderServices()" title="上移"><i class="fas fa-chevron-up"></i></button>
-          <button class="btn-icon" onclick="moveArr('home','services',${i},1);renderServices()" title="下移"><i class="fas fa-chevron-down"></i></button>
+          <button class="btn-icon" onclick="moveArr('home','services',${i},-1);renderServices()"><i class="fas fa-chevron-up"></i></button>
+          <button class="btn-icon" onclick="moveArr('home','services',${i},1);renderServices()"><i class="fas fa-chevron-down"></i></button>
           <button class="btn-icon danger" onclick="window.data.home.services.splice(${i},1);renderServices()"><i class="fas fa-trash"></i></button>
         </div>
       </div>
       <div class="field-row">
         <div class="field"><label>服務名稱</label><input value="${s.title||''}" oninput="window.data.home.services[${i}].title=this.value"></div>
-        <div class="field"><label>FontAwesome Icon</label><input value="${s.iconClass||''}" placeholder="fa-solid fa-video" oninput="window.data.home.services[${i}].iconClass=this.value"></div>
+        <div class="field"><label>FontAwesome Icon</label><input value="${s.iconClass||''}" placeholder="fa-solid fa-video" oninput="window.data.home.services[${i}].iconClass=this.value;renderServices()"></div>
       </div>
       <div class="field"><label>服務描述</label><textarea oninput="window.data.home.services[${i}].description=this.value">${s.description||''}</textarea></div>
     </div>`).join('');
@@ -455,7 +663,9 @@ window.renderBts = () => {
 };
 window.addBts = () => { window.data.home.behind_the_scenes.push({image:'',caption:''}); renderBts(); };
 
-// ── 作品集 ──
+// ════════════════════════════════════════════════
+// 作品集（含大標題 + YouTube 預覽）
+// ════════════════════════════════════════════════
 const WORKS_CATS = [
   {key:'portfolio_brand',label:'品牌形象廣告'},
   {key:'portfolio_product',label:'產品形象廣告'},
@@ -473,16 +683,30 @@ function renderWorks() {
       <div class="card-title">
         <div class="list-header"><span>${c.label}</span><button class="btn-add" onclick="addWork('${c.key}')"><i class="fas fa-plus"></i> 新增</button></div>
       </div>
+      <div class="works-section-title">
+        <div class="field" style="gap:4px"><label style="font-size:0.75rem">分類大標題（選填）</label><input value="${(d[c.key+'_title'])||''}" placeholder="例：品牌故事" oninput="window.data.works['${c.key}_title']=this.value" style="padding:7px 10px;font-size:0.82rem"></div>
+        <div class="field" style="gap:4px"><label style="font-size:0.75rem">分類副標題（選填）</label><input value="${(d[c.key+'_subtitle'])||''}" placeholder="例：為品牌注入靈魂" oninput="window.data.works['${c.key}_subtitle']=this.value" style="padding:7px 10px;font-size:0.82rem"></div>
+      </div>
       <div class="list-items" id="list-${c.key}"></div>
     </div>`).join('');
   WORKS_CATS.forEach(c => renderWorkList(c.key));
+}
+
+// 從 YouTube 連結取得影片 ID
+function getYtId(url) {
+  if (!url) return null;
+  const m = url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/))([^&?\/\s]{11})/);
+  return m ? m[1] : null;
 }
 
 window.renderWorkList = key => {
   const items = window.data.works[key]||[];
   document.getElementById('list-'+key).innerHTML = items.length===0
     ? '<div style="color:var(--muted);font-size:0.82rem">尚無作品</div>'
-    : items.map((w,i)=>`
+    : items.map((w,i)=>{
+        const ytId = getYtId(w.link);
+        const thumbUrl = w.image || (ytId ? `https://img.youtube.com/vi/${ytId}/mqdefault.jpg` : '');
+        return `
     <div class="list-item">
       <div class="list-item-header">
         <span class="list-item-title">${w.title||'（未命名作品）'}</span>
@@ -493,16 +717,44 @@ window.renderWorkList = key => {
         </div>
       </div>
       <div class="field-row">
-        <div class="field"><label>作品名稱</label><input value="${w.title||''}" oninput="window.data.works['${key}'][${i}].title=this.value"></div>
+        <div class="field"><label>作品名稱</label><input value="${w.title||''}" oninput="window.data.works['${key}'][${i}].title=this.value;renderWorkList('${key}')"></div>
         <div class="field"><label>客戶名稱</label><input value="${w.client||''}" oninput="window.data.works['${key}'][${i}].client=this.value"></div>
       </div>
-      <div class="field"><label>YouTube 影片連結</label><input value="${w.link||''}" placeholder="https://www.youtube.com/watch?v=..." oninput="window.data.works['${key}'][${i}].link=this.value"></div>
-      <div class="field"><label>封面圖片網址（選填，留空自動抓 YouTube 縮圖）</label><input value="${w.image||''}" oninput="window.data.works['${key}'][${i}].image=this.value"></div>
-    </div>`).join('');
+      <div class="field">
+        <label>YouTube 影片連結</label>
+        <input value="${w.link||''}" placeholder="https://www.youtube.com/watch?v=..." oninput="window.data.works['${key}'][${i}].link=this.value;updateYtThumb('${key}',${i},this.value)">
+        <div class="yt-preview-wrap" id="yt-wrap-${key}-${i}">
+          ${thumbUrl ? `<img class="yt-thumb show" id="yt-thumb-${key}-${i}" src="${thumbUrl}">
+          <div class="yt-play-btn"><i class="fas fa-play"></i></div>
+          <div class="yt-label">縮圖預覽 ${ytId?'（自動抓取）':''}</div>` : `<img class="yt-thumb" id="yt-thumb-${key}-${i}" src="">`}
+        </div>
+      </div>
+      <div class="field"><label>封面圖片網址（選填，留空自動抓 YouTube 縮圖）</label><input value="${w.image||''}" oninput="window.data.works['${key}'][${i}].image=this.value;updateYtThumb('${key}',${i},null,this.value)"></div>
+    </div>`;
+      }).join('');
 };
+
+window.updateYtThumb = (key, i, link, image) => {
+  const wrap = document.getElementById(`yt-wrap-${key}-${i}`);
+  const thumb = document.getElementById(`yt-thumb-${key}-${i}`);
+  if (!wrap || !thumb) return;
+  const item = window.data.works[key][i];
+  const ytId = getYtId(link !== null ? link : item.link);
+  const imgUrl = image !== undefined ? image : item.image;
+  const src = imgUrl || (ytId ? `https://img.youtube.com/vi/${ytId}/mqdefault.jpg` : '');
+  if (src) {
+    thumb.src = src; thumb.classList.add('show');
+    if (!wrap.querySelector('.yt-play-btn') && !imgUrl) {
+      wrap.innerHTML = `<img class="yt-thumb show" id="yt-thumb-${key}-${i}" src="${src}"><div class="yt-play-btn"><i class="fas fa-play"></i></div><div class="yt-label">縮圖預覽（自動抓取）</div>`;
+    }
+  } else { thumb.classList.remove('show'); }
+};
+
 window.addWork = key => { window.data.works[key].push({title:'',client:'',link:'',image:''}); renderWorkList(key); };
 
-// ── 團隊 ──
+// ════════════════════════════════════════════════
+// 團隊
+// ════════════════════════════════════════════════
 function renderTeam() {
   document.getElementById('team-title').value = window.data.team.title||'';
   document.getElementById('team-subtitle').value = window.data.team.subtitle||'';
@@ -539,28 +791,76 @@ window.renderMembers = () => {
 };
 window.addMember = () => { window.data.team.members.push({name:'',role:'',avatar:'',bio:'',ig_url:'',portfolio_url:''}); renderMembers(); };
 
-// ── 聯絡 ──
+// ════════════════════════════════════════════════
+// 聯絡（含社群）
+// ════════════════════════════════════════════════
 function renderContact() {
   const d = window.data.contact;
-  ['title','subtitle','address','email','phone','formspree_id'].forEach(k=>{
+  ['title','subtitle','address','email','phone','formspree_id','instagram','youtube','facebook','line_id'].forEach(k=>{
     const el=document.getElementById('contact-'+k); if(el) el.value=d[k]||'';
   });
 }
 
-// ── 共用：陣列移位 ──
-window.moveArr = (page, key, i, dir) => {
-  const arr = window.data[page][key]; const j=i+dir;
-  if(j<0||j>=arr.length) return;
-  [arr[i],arr[j]]=[arr[j],arr[i]];
+// ════════════════════════════════════════════════
+// 帳號管理
+// ════════════════════════════════════════════════
+window.renderAdmins = async () => {
+  const list = document.getElementById('admins-list');
+  list.innerHTML = '<div style="color:var(--muted);font-size:0.82rem">載入中...</div>';
+  try {
+    const snap = await getDocs(collection(db, 'admins'));
+    const admins = snap.docs.map(d => d.id);
+    const all = [OWNER_EMAIL, ...admins.filter(e => e !== OWNER_EMAIL)];
+    list.innerHTML = all.map(email => `
+      <div class="admin-item">
+        <div>
+          <div class="admin-email">${email}</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px">
+          ${email === OWNER_EMAIL
+            ? '<span class="admin-badge owner">擁有者</span>'
+            : `<span class="admin-badge">管理員</span>
+               <button class="btn-icon danger" title="移除" onclick="removeAdmin('${email}')"><i class="fas fa-trash"></i></button>`
+          }
+        </div>
+      </div>`).join('');
+  } catch(e) {
+    list.innerHTML = `<div style="color:var(--danger);font-size:0.82rem">載入失敗：${e.message}</div>`;
+  }
 };
 
-// ── 儲存 ──
+window.addAdmin = async () => {
+  const input = document.getElementById('new-admin-email');
+  const email = input.value.trim().toLowerCase();
+  if (!email || !email.includes('@')) { showToast('請輸入正確的 Email','error'); return; }
+  if (email === OWNER_EMAIL) { showToast('此帳號已是擁有者','error'); return; }
+  try {
+    await setDoc(doc(db,'admins',email), { addedAt: new Date().toISOString(), addedBy: window.currentUserEmail||'' });
+    input.value = '';
+    showToast(`✅ 已新增 ${email}`);
+    renderAdmins();
+  } catch(e) { showToast('新增失敗：'+e.message,'error'); }
+};
+
+window.removeAdmin = async (email) => {
+  if (!confirm(`確定要移除 ${email} 的管理員權限？`)) return;
+  try {
+    await deleteDoc(doc(db,'admins',email));
+    showToast(`已移除 ${email}`);
+    renderAdmins();
+  } catch(e) { showToast('移除失敗：'+e.message,'error'); }
+};
+
+// ════════════════════════════════════════════════
+// 儲存
+// ════════════════════════════════════════════════
 window.currentPanel = 'dashboard';
 window.saveCurrentPanel = async () => {
   const panel = window.currentPanel;
-  if(panel==='dashboard') return;
+  if(panel==='dashboard'||panel==='admins') return;
   const btn = document.getElementById('btn-save');
   btn.disabled=true; btn.innerHTML='<div class="spinner"></div> 儲存中...';
+  setFirebaseStatus('loading', '儲存中...');
 
   if(panel==='home') {
     ['hero_text','logo','hero_video','hero_video_mobile'].forEach(k=>{
@@ -570,26 +870,147 @@ window.saveCurrentPanel = async () => {
   if(panel==='works') {
     window.data.works.title=document.getElementById('works-title').value;
     window.data.works.subtitle=document.getElementById('works-subtitle').value;
+    // Save category titles too
+    WORKS_CATS.forEach(c => {
+      // already bound via oninput, just sync from DOM as backup
+    });
   }
   if(panel==='team') {
     window.data.team.title=document.getElementById('team-title').value;
     window.data.team.subtitle=document.getElementById('team-subtitle').value;
   }
   if(panel==='contact') {
-    ['title','subtitle','address','email','phone','formspree_id'].forEach(k=>{
+    ['title','subtitle','address','email','phone','formspree_id','instagram','youtube','facebook','line_id'].forEach(k=>{
       const el=document.getElementById('contact-'+k); if(el) window.data.contact[k]=el.value;
     });
   }
 
   try {
     await setDoc(doc(db,'pages',panel), window.data[panel]);
+    setFirebaseStatus('connected', '儲存成功 ✓');
     showToast('✅ 儲存成功，網站已即時更新');
     updateStats();
-  } catch(e) { showToast('❌ 儲存失敗：'+e.message,'error'); }
+  } catch(e) {
+    setFirebaseStatus('disconnected', '儲存失敗');
+    showToast('❌ 儲存失敗：'+e.message,'error');
+  }
   btn.disabled=false; btn.innerHTML='<i class="fas fa-save"></i> 儲存變更';
 };
 
-// ── 統計 ──
+// ════════════════════════════════════════════════
+// 預覽
+// ════════════════════════════════════════════════
+window.openPreview = () => {
+  const panel = window.currentPanel;
+  const modal = document.getElementById('preview-modal');
+  const content = document.getElementById('preview-content');
+  const title = document.getElementById('preview-modal-title');
+  title.textContent = { home:'📋 首頁預覽', works:'🎬 作品集預覽', team:'👥 團隊預覽', contact:'📬 聯絡資訊預覽' }[panel] || '預覽';
+
+  if (panel === 'home') {
+    const d = window.data.home;
+    const svcs = (d.services||[]).map(s=>`
+      <div class="preview-svc">
+        <i class="${s.iconClass||'fas fa-star'}"></i>
+        <div class="n">${s.title||'服務'}</div>
+        <div class="d">${s.description||''}</div>
+      </div>`).join('');
+    const bts = (d.behind_the_scenes||[]).map(b=>`
+      <div style="flex-shrink:0"><img src="${b.image}" style="width:100px;height:70px;object-fit:cover;border-radius:6px;border:1px solid var(--border)" onerror="this.style.display='none'"></div>`).join('');
+    content.innerHTML = `
+      <div class="preview-section">
+        <h3>主視覺</h3>
+        <div class="preview-hero">
+          ${d.logo?`<img src="${d.logo}" style="height:40px;margin-bottom:12px" onerror="this.style.display='none'">`:''}
+          <div class="h1">${d.hero_text||'（未設定標語）'}</div>
+          ${d.hero_video?`<div style="font-size:0.78rem;color:var(--muted);margin-top:8px"><i class="fas fa-video" style="margin-right:4px"></i>已設定背景影片</div>`:''}
+        </div>
+      </div>
+      ${svcs?`<div class="preview-section"><h3>服務項目（${(d.services||[]).length} 項）</h3><div class="preview-services">${svcs}</div></div>`:''}
+      ${bts?`<div class="preview-section"><h3>幕後花絮（${(d.behind_the_scenes||[]).length} 張）</h3><div style="display:flex;gap:8px;flex-wrap:wrap">${bts}</div></div>`:''}
+    `;
+  } else if (panel === 'works') {
+    const d = window.data.works;
+    const cats = WORKS_CATS.map(c => {
+      const items = (d[c.key]||[]);
+      if (!items.length) return '';
+      const cards = items.map(w => {
+        const ytId = getYtId(w.link);
+        const thumb = w.image || (ytId ? `https://img.youtube.com/vi/${ytId}/mqdefault.jpg` : '');
+        return `<div class="preview-card">
+          ${thumb?`<img src="${thumb}" onerror="this.style.display='none'">`:'<div style="height:100px;background:var(--surface);display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:0.75rem">無縮圖</div>'}
+          <div class="preview-card-body"><div class="t">${w.title||'—'}</div><div class="s">${w.client||''}</div></div>
+        </div>`;
+      }).join('');
+      return `<div class="preview-section">
+        <h3>${c.label}${d[c.key+'_title']?` — ${d[c.key+'_title']}`:''} (${items.length})</h3>
+        ${d[c.key+'_subtitle']?`<div style="color:var(--muted);font-size:0.8rem;margin-bottom:10px">${d[c.key+'_subtitle']}</div>`:''}
+        <div class="preview-grid">${cards}</div>
+      </div>`;
+    }).join('');
+    content.innerHTML = `
+      <div style="margin-bottom:20px">
+        <div style="font-size:1.4rem;font-weight:700;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent">${d.title||'精選作品集'}</div>
+        <div style="color:var(--muted);font-size:0.85rem;margin-top:4px">${d.subtitle||''}</div>
+      </div>
+      ${cats||'<div style="color:var(--muted)">尚無作品</div>'}
+    `;
+  } else if (panel === 'team') {
+    const d = window.data.team;
+    const members = (d.members||[]).map(m=>`
+      <div class="preview-member">
+        ${m.avatar?`<img src="${m.avatar}" onerror="this.style.display='none'">`:'<div style="width:36px;height:36px;border-radius:50%;background:var(--surface2);border:1px solid var(--border)"></div>'}
+        <div><div class="n">${m.name||'—'}</div><div class="r">${m.role||''}</div></div>
+      </div>`).join('');
+    content.innerHTML = `
+      <div style="margin-bottom:20px">
+        <div style="font-size:1.2rem;font-weight:600">${d.title||'我們的團隊'}</div>
+        <div style="color:var(--muted);font-size:0.85rem;margin-top:4px">${d.subtitle||''}</div>
+      </div>
+      <div class="preview-members">${members||'<div style="color:var(--muted)">尚無成員</div>'}</div>
+    `;
+  } else if (panel === 'contact') {
+    const d = window.data.contact;
+    const socials = [
+      d.instagram && `<div><i class="fab fa-instagram" style="color:#e1306c;margin-right:6px"></i>${d.instagram}</div>`,
+      d.youtube && `<div><i class="fab fa-youtube" style="color:#ff0000;margin-right:6px"></i>${d.youtube}</div>`,
+      d.facebook && `<div><i class="fab fa-facebook" style="color:#1877f2;margin-right:6px"></i>${d.facebook}</div>`,
+      d.line_id && `<div><i class="fab fa-line" style="color:#00c300;margin-right:6px"></i>${d.line_id}</div>`,
+    ].filter(Boolean).join('');
+    content.innerHTML = `
+      <div style="margin-bottom:20px">
+        <div style="font-size:1.2rem;font-weight:600">${d.title||'聯絡我們'}</div>
+        <div style="color:var(--muted);font-size:0.85rem;margin-top:4px">${d.subtitle||''}</div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:12px;font-size:0.88rem">
+        ${d.address?`<div><i class="fas fa-map-marker-alt" style="color:var(--accent);margin-right:8px;width:16px"></i>${d.address}</div>`:''}
+        ${d.email?`<div><i class="fas fa-envelope" style="color:var(--accent);margin-right:8px;width:16px"></i>${d.email}</div>`:''}
+        ${d.phone?`<div><i class="fas fa-phone" style="color:var(--accent);margin-right:8px;width:16px"></i>${d.phone}</div>`:''}
+        ${socials?`<hr class="divider" style="margin:4px 0">${socials}`:''}
+        ${d.formspree_id?`<div style="color:var(--muted);font-size:0.78rem"><i class="fas fa-paper-plane" style="margin-right:6px"></i>表單 ID: ${d.formspree_id}</div>`:''}
+      </div>
+    `;
+  }
+
+  modal.classList.add('open');
+};
+
+window.closePreview = () => {
+  document.getElementById('preview-modal').classList.remove('open');
+};
+document.getElementById('preview-modal').addEventListener('click', e => {
+  if (e.target === e.currentTarget) closePreview();
+});
+
+// ════════════════════════════════════════════════
+// 通用
+// ════════════════════════════════════════════════
+window.moveArr = (page, key, i, dir) => {
+  const arr = window.data[page][key]; const j=i+dir;
+  if(j<0||j>=arr.length) return;
+  [arr[i],arr[j]]=[arr[j],arr[i]];
+};
+
 function updateStats() {
   const wc = ['portfolio_brand','portfolio_product','portfolio_public','portfolio_event','portfolio_other']
     .reduce((a,k)=>a+(window.data.works[k]||[]).length,0);
@@ -600,7 +1021,8 @@ function updateStats() {
 }
 
 // ── 導航 ──
-const panelTitles = {dashboard:'總覽',home:'首頁',works:'作品集',team:'團隊成員',contact:'聯絡資訊'};
+const panelTitles = {dashboard:'總覽',home:'首頁',works:'作品集',team:'團隊成員',contact:'聯絡資訊',admins:'帳號管理'};
+const noSavePanels = new Set(['dashboard','admins']);
 document.querySelectorAll('.nav-item').forEach(item=>{
   item.addEventListener('click',()=>{
     const panel=item.dataset.panel;
@@ -610,7 +1032,10 @@ document.querySelectorAll('.nav-item').forEach(item=>{
     document.getElementById('panel-'+panel).classList.add('active');
     window.currentPanel=panel;
     document.getElementById('page-title').textContent=panelTitles[panel];
-    document.getElementById('btn-save').style.display=panel==='dashboard'?'none':'flex';
+    const showActions = !noSavePanels.has(panel);
+    document.getElementById('btn-save').style.display=showActions?'flex':'none';
+    document.getElementById('btn-preview').style.display=showActions?'flex':'none';
+    if(panel==='admins') renderAdmins();
   });
 });
 </script>

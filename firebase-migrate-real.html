@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Firebase 資料遷移工具 | Uprise Production</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;700&family=Italiana&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #050505; --surface: rgba(18,18,18,0.95); --border: rgba(255,255,255,0.08);
+    --brand: #FF8C00; --gold: #FFD700; --grad: linear-gradient(135deg,#FFD700,#FF8C00);
+    --green: #22c55e; --red: #ef4444; --text: #fff; --sub: #888;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Noto Sans TC', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; padding: 40px 20px; -webkit-font-smoothing: antialiased; }
+  .wrap { max-width: 860px; margin: 0 auto; }
+  header { text-align: center; margin-bottom: 40px; }
+  .logo-mark { width: 56px; height: 56px; border-radius: 12px; background: var(--grad); display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; font-family: 'Italiana', serif; font-size: 1.8rem; color: #000; }
+  h1 { font-size: 1.8rem; font-weight: 700; letter-spacing: 3px; margin-bottom: 8px; }
+  h1 span { background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  .desc { color: var(--sub); font-size: 0.9rem; line-height: 1.8; }
+  .progress-wrap { margin-bottom: 32px; }
+  .progress-label { display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--sub); margin-bottom: 8px; }
+  .progress-bar { height: 4px; background: rgba(255,255,255,0.08); border-radius: 2px; overflow: hidden; }
+  .progress-fill { height: 100%; width: 0%; background: var(--grad); border-radius: 2px; transition: width 0.5s ease; box-shadow: 0 0 10px rgba(255,140,0,0.5); }
+  .pages-grid { display: grid; gap: 14px; margin-bottom: 28px; }
+  .page-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; transition: border-color 0.3s; }
+  .page-card.success { border-color: var(--green); }
+  .page-card.error { border-color: var(--red); }
+  .page-card.running { border-color: var(--gold); }
+  .card-head { padding: 14px 20px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); cursor: pointer; }
+  .card-head:hover { background: rgba(255,255,255,0.02); }
+  .card-title { display: flex; align-items: center; gap: 12px; }
+  .page-icon { width: 32px; height: 32px; border-radius: 6px; background: rgba(255,140,0,0.1); border: 1px solid rgba(255,140,0,0.2); display: flex; align-items: center; justify-content: center; font-size: 0.85rem; }
+  .page-name { font-weight: 700; letter-spacing: 1px; font-size: 0.95rem; }
+  .page-id { font-size: 0.72rem; color: var(--sub); margin-top: 2px; }
+  .status-badge { font-size: 0.72rem; padding: 3px 10px; border-radius: 20px; font-weight: 700; letter-spacing: 1px; background: rgba(255,255,255,0.05); color: var(--sub); border: 1px solid rgba(255,255,255,0.1); transition: all 0.3s; white-space: nowrap; }
+  .success .status-badge { background: rgba(34,197,94,0.1); color: var(--green); border-color: rgba(34,197,94,0.3); }
+  .error .status-badge { background: rgba(239,68,68,0.1); color: var(--red); border-color: rgba(239,68,68,0.3); }
+  .running .status-badge { background: rgba(255,215,0,0.1); color: var(--gold); border-color: rgba(255,215,0,0.3); animation: blink 1s infinite; }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.4} }
+  .card-body { padding: 16px 20px; display: none; }
+  .card-body.open { display: block; }
+  .data-preview { background: rgba(0,0,0,0.4); border: 1px solid var(--border); border-radius: 6px; padding: 12px; font-size: 0.7rem; color: #aaa; font-family: 'Courier New', monospace; max-height: 180px; overflow-y: auto; line-height: 1.6; white-space: pre-wrap; word-break: break-all; }
+  .error-msg { margin-top: 10px; background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.2); border-radius: 6px; padding: 10px 14px; font-size: 0.8rem; color: #fca5a5; line-height: 1.6; display: none; }
+  .error-msg.show { display: block; }
+  .action-area { text-align: center; margin-bottom: 28px; }
+  .btn-migrate { padding: 16px 50px; background: var(--grad); color: #000; border: none; border-radius: 3px; font-family: 'Noto Sans TC', sans-serif; font-size: 1rem; font-weight: 700; letter-spacing: 3px; cursor: pointer; transition: all 0.3s; position: relative; overflow: hidden; }
+  .btn-migrate::after { content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%; background: linear-gradient(90deg,transparent,rgba(255,255,255,0.6),transparent); transform: skewX(-20deg); animation: shine 3s infinite; }
+  @keyframes shine { 0%,70%{left:-100%} 100%{left:200%} }
+  .btn-migrate:hover:not(:disabled) { filter: brightness(1.15); transform: translateY(-2px); box-shadow: 0 10px 30px rgba(255,140,0,0.4); }
+  .btn-migrate:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+  .done-box { background: rgba(34,197,94,0.05); border: 1px solid rgba(34,197,94,0.2); border-radius: 10px; padding: 28px; text-align: center; display: none; margin-bottom: 28px; }
+  .done-box.show { display: block; }
+  .done-box h2 { font-size: 1.2rem; color: var(--green); letter-spacing: 2px; margin-bottom: 8px; }
+  .done-box p { font-size: 0.85rem; color: var(--sub); line-height: 1.9; }
+  .chevron { transition: transform 0.3s; font-size: 0.7rem; color: var(--sub); }
+  .chevron.open { transform: rotate(180deg); }
+  .warning-box { background: rgba(255,140,0,0.05); border: 1px solid rgba(255,140,0,0.2); border-radius: 10px; padding: 18px 22px; font-size: 0.82rem; color: #ccc; line-height: 2; margin-bottom: 28px; }
+  .warning-box strong { color: var(--gold); }
+  code { background: rgba(255,255,255,0.07); padding: 1px 6px; border-radius: 3px; font-family: 'Courier New', monospace; color: #FFD700; font-size: 0.78rem; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="logo-mark">U</div>
+    <h1>UPRISE <span>資料遷移</span></h1>
+    <p class="desc">將 .md 檔案的真實內容遷移至 Firebase Firestore</p>
+  </header>
+
+  <div class="warning-box">
+    <strong>⚠️ 執行前請確認：</strong>Firestore 安全規則已暫時設為 <code>allow read, write: if true</code>，遷移完成後請立刻改回正式規則。
+  </div>
+
+  <div class="progress-wrap">
+    <div class="progress-label">
+      <span id="prog-text">尚未開始</span>
+      <span id="prog-pct">0 / 5</span>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="prog-fill"></div></div>
+  </div>
+
+  <div class="pages-grid" id="cards"></div>
+
+  <div class="action-area">
+    <button class="btn-migrate" id="migrate-btn" onclick="startMigration()">🚀 &nbsp; 開始遷移至 Firebase</button>
+  </div>
+
+  <div class="done-box" id="done-box">
+    <div style="font-size:2.5rem;margin-bottom:12px">✅</div>
+    <h2>遷移完成！</h2>
+    <p>所有真實資料已成功寫入 Firebase Firestore。<br>
+    請立刻前往 Firebase Console 將安全規則改回正式版本。<br>
+    <strong style="color:var(--gold)">此頁面可以關閉。</strong></p>
+  </div>
+</div>
+
+<script type="module">
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+import { getFirestore, doc, setDoc } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+
+const app = initializeApp({
+  apiKey: "AIzaSyCyC9CaF36J27mjCl908TFCukNtwAilM4o",
+  authDomain: "uprise-videoproduction-admin.firebaseapp.com",
+  projectId: "uprise-videoproduction-admin",
+  storageBucket: "uprise-videoproduction-admin.firebasestorage.app",
+  messagingSenderId: "180297157082",
+  appId: "1:180297157082:web:c352e76d63cac6bc7458e3"
+});
+const db = getFirestore(app);
+
+const PAGES = [
+  {
+    id: 'home', name: '首頁', icon: '🏠', docId: 'home',
+    data: {
+      title: "首頁設定",
+      logo: "/siteicon.png",
+      hero_video: "https://res.cloudinary.com/dfnfcyglu/video/upload/v1763893930/hero_bg_ickrbe.mp4",
+      hero_text: "推手影像",
+      behind_the_scenes: [
+        { image: "/uploads/line-album-2024-3-18-241010-21.jpg" },
+        { image: "/uploads/85c3f506-6a9d-4d62-b523-bd13f0d65315.jpg" },
+        { image: "/uploads/line-album-2024-3-18-241011-5.jpg" },
+        { image: "/uploads/line-album-2024-3-18-241011-6.jpg" },
+        { image: "/uploads/c0105-mp4-20250619-152423-475.jpg" },
+        { image: "https://images.unsplash.com/photo-1626814026160-2237a95fc5a0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" }
+      ]
+    }
+  },
+  {
+    id: 'works', name: '作品集', icon: '🎬', docId: 'works',
+    data: {
+      title: "精選作品集",
+      subtitle: "收錄歷年來的影像精華，每一部作品都是我們對美學的堅持。",
+      portfolio_brand: [
+        { title: "「一起、更好」｜前鎮、小港市議員參選人林浤澤", client: "電視競選廣告", link: "https://www.youtube.com/watch?v=hRu-NKRTgfQ" },
+        { title: "產品氣泡酒＿上市宣傳片", client: "蜜蜂故事館", link: "https://youtu.be/-PwiVNiFrdo" },
+        { title: "台中立委參選人江肇國形象廣告", client: "電視競選廣告", link: "https://youtu.be/usx3hIK_Ns8" }
+      ],
+      portfolio_product: [
+        { title: "聯名禮盒形象短影音", client: "BabyfaceX福寶寶", link: "https://youtube.com/shorts/isCUV-_33No?feature=share" },
+        { title: "林源美香舖＿職人採訪紀錄", client: "林源美香舖", link: "https://youtu.be/kfgdTEdD6To" },
+        { title: "三立柱電動翻身醫療床產品影片", client: "護樂康", link: "https://youtu.be/VotqHxX2GA4" },
+        { title: "✈️ Pilots Crew 飛行日記｜SUZUKI x Pilots Crew 啟航！一起來主場看球吧！", client: "SUZUKI x Pilots Crew", link: "https://youtu.be/-wELkE0IQwc?si=FpfEZWKAMugg5QtF" }
+      ],
+      portfolio_public: [
+        { title: "注入青流＿青年共創影響力", client: "雲林縣古坑鄉華南社區", link: "https://youtu.be/ydvPTXpeDoA" },
+        { title: "雲林古坑：教育點亮山村，華南里山永續進行式", client: "雲林縣古坑鄉華南社區", link: "https://youtu.be/GVxGalIH3PA?si=xPInh7tARoVRBUxf" },
+        { title: "蜜蜂與我們的餐桌", client: "蜜蜂故事館", link: "https://youtu.be/MKMvgTELkSs" },
+        { title: "看見＿華南產業與生態", client: "雲林縣古坑鄉華南社區", link: "https://youtu.be/vNprFeiDVWE" }
+      ],
+      portfolio_event: [
+        { title: "兒童節童樂派對", client: "兒童節活動紀錄", link: "https://youtu.be/ayYvxpVfLqA" },
+        { title: "中秋夜晚會影片", client: "高雄市前鎮區明孝里", link: "https://youtu.be/pSD-UESA31Y" },
+        { title: "台中立委參選人江肇國競選總部成立", client: "台中立委參選人江肇國", link: "https://youtu.be/0SVsgNWDjrA" },
+        { title: "芭比路跑活動紀錄", client: "芭比路跑活動紀錄", link: "https://youtu.be/Fy4RQTuXixA" },
+        { title: "紙風車_番薯森林奇遇記活動紀錄", client: "紙風車_番薯森林奇遇記", link: "https://youtu.be/OUgtuC8esrM" },
+        { title: "🍁 年度敬獻 🍁#甲辰年保境鎮庄祈安遶境大典 感動~震撼前鎮庄紀錄片遶境影片", client: "高雄市前鎮鎮南宮", link: "https://youtu.be/hQEk3IoBtq4" },
+        { title: "智慧城市展暨淨零城市展_南投智慧城市展_活動紀錄", client: "智慧城市展暨淨零城市展", link: "https://youtu.be/fBIH2CS56YI" }
+      ],
+      portfolio_other: [
+        { title: "台中立委參選人江肇國政策宣傳影片", client: "台中立委參選人江肇國", link: "https://youtu.be/vXgXWo_2u-s" }
+      ]
+    }
+  },
+  {
+    id: 'team', name: '團隊', icon: '👥', docId: 'team',
+    data: {
+      title: "我的團隊",
+      subtitle: "認識我的團隊",
+      members: [
+        {
+          name: "林家佑", role: "導演",
+          image: "/images/uploads/line_album_2024.3.18_241011_8.jpg",
+          avatar: "/images/uploads/line_album_2024.3.18_241011_8.jpg",
+          bio: "推手影像製作有限公司\n（Uprise-Production）\n的創辦人與導演。\n現在就讀臺灣藝術大學電影系碩士。",
+          portfolio_url: "https://uprise-videoproduction.com/works",
+          ig_url: "https://www.instagram.com/harry.lin_jiayou?igsh=MXNyNXlpdDIzZmozMg%3D%3D&utm_source=qr",
+          full_bio: "# **推手影像製作有限公司**\n\n## **（Uprise-Production）的創辦人與導演。**\n\n### **現在就讀臺灣藝術大學電影系碩士。**\n\n### 短片《流量底限》\n\n### 愛學影展線上觀看:\nhttps://stv.naer.edu.tw/i-fun-filmfestival/movie_view.jsp?unitpost_id=455"
+        },
+        {
+          name: "傅啓榮", role: "合作導演 Co-director",
+          image: "/uploads/s-23396358.jpg",
+          avatar: "/images/uploads/s__23396358.jpg",
+          bio: "五年影像敘事經驗，\n擅長捕捉人物細膩情感，\n作品曾獲國內外短片獎項肯定。",
+          ig_url: "https://www.instagram.com/qirong_poo?igsh=NHZ4aDNpYnliNTQy"
+        },
+        {
+          name: "胡庭瀚", role: "合作 導演/攝影/穿越機攝影/空拍攝影",
+          image: "/images/uploads/79e26a98-64e1-41ba-8d2e-a2ba95f031ca.jpg",
+          avatar: "/images/uploads/79e26a98-64e1-41ba-8d2e-a2ba95f031ca.jpg",
+          bio: "以強烈個人美學為核心，\n結合次文化、色彩衝擊、\n飛行攝影與互動藝術，\n打造跨界且具反叛精神的影像世界",
+          ig_url: "https://www.instagram.com/conan_0906?igsh=MzBuMnF1ajB5NDd5",
+          full_bio: "## 短片導演\n\n### 《那一天你沒回來》入圍藝美獎 《Noise 》入圍藝美獎\n\n### 《Heath 》入圍螺絲起子國際學生短片創作\n\n## 短片剪輯\n\n### 《乘客》入圍南華大學113 年教育部生命教育關懷與推廣微電影競賽。\n\n## 短片攝影\n\n### 《第一人稱六二八》myfone 行動創作人氣票選第一名 。"
+        }
+      ]
+    }
+  },
+  {
+    id: 'contact', name: '聯絡我們', icon: '📩', docId: 'contact',
+    data: {
+      title: "聯絡我們",
+      subtitle: "準備好開始您的影像計畫了嗎？",
+      address: "台中市西區民龍里臺灣大道二段285號31樓",
+      email: "uprisevideoproduction@gmail.com",
+      phone: "0937-672-279",
+      formspree_id: "movbylbl"
+    }
+  },
+  {
+    id: 'about', name: '關於推手', icon: '🎯', docId: 'about',
+    data: {
+      title: "關於推手",
+      subtitle: "探索我們對影像的熱情與堅持",
+      process_list: [
+        { step: "需求溝通", content: "深入了解您的品牌理念、目標受眾與預期成效，量身打造影像策略。" },
+        { step: "創意發想", content: "提供獨特的視覺觀點與腳本提案，將抽象概念轉化為具體畫面。" },
+        { step: "專業拍攝", content: "運用電影級攝影機與燈光設備，由資深團隊執行高規格拍攝。" },
+        { step: "後期製作", content: "精細剪輯、調色、特效與音效設計，賦予影像最終的生命力。" }
+      ],
+      body: "# 我們的故事\n\n**推手影像 (Uprise-Production)** 成立於 2025 年，由一群對影像充滿熱情的職人所組成。我們相信，每一幀畫面都有其獨特的靈魂，每一個品牌都有值得被看見的故事。\n\n> 「影像不只是紀錄，更是一種情感的傳遞與價值的延伸。」\n\n我們致力於成為品牌與觀眾之間的橋樑，透過 **電影級的影像語言**，將品牌的價值傳遞給世界。無論是商業廣告、企業形象影片，還是紀錄片，我們都以打造藝術品的心情來對待每一個作品。"
+    }
+  }
+];
+
+// 渲染卡片
+const cardsEl = document.getElementById('cards');
+PAGES.forEach(page => {
+  const card = document.createElement('div');
+  card.className = 'page-card';
+  card.id = 'card-' + page.id;
+  card.innerHTML = `
+    <div class="card-head" onclick="toggleCard('${page.id}')">
+      <div class="card-title">
+        <div class="page-icon">${page.icon}</div>
+        <div>
+          <div class="page-name">${page.name}</div>
+          <div class="page-id">pages / ${page.docId}</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px">
+        <span class="status-badge" id="badge-${page.id}">待遷移</span>
+        <span class="chevron" id="chev-${page.id}">▼</span>
+      </div>
+    </div>
+    <div class="card-body" id="body-${page.id}">
+      <div class="data-preview">${JSON.stringify(page.data, null, 2)}</div>
+      <div class="error-msg" id="err-${page.id}"></div>
+    </div>
+  `;
+  cardsEl.appendChild(card);
+});
+
+window.toggleCard = (id) => {
+  document.getElementById('body-' + id).classList.toggle('open');
+  document.getElementById('chev-' + id).classList.toggle('open');
+};
+
+let migrating = false;
+window.startMigration = async () => {
+  if (migrating) return;
+  migrating = true;
+  const btn = document.getElementById('migrate-btn');
+  btn.disabled = true;
+  btn.textContent = '遷移中...';
+  const total = PAGES.length;
+  let done = 0;
+  for (const page of PAGES) {
+    const card = document.getElementById('card-' + page.id);
+    const badge = document.getElementById('badge-' + page.id);
+    const errEl = document.getElementById('err-' + page.id);
+    card.className = 'page-card running';
+    badge.textContent = '寫入中…';
+    document.getElementById('prog-text').textContent = `正在寫入：${page.name}`;
+    document.getElementById('body-' + page.id).classList.add('open');
+    document.getElementById('chev-' + page.id).classList.add('open');
+    try {
+      await setDoc(doc(db, 'pages', page.docId), page.data);
+      card.className = 'page-card success';
+      badge.textContent = '✓ 成功';
+      errEl.classList.remove('show');
+    } catch (e) {
+      card.className = 'page-card error';
+      badge.textContent = '✗ 失敗';
+      errEl.textContent = '錯誤：' + (e.message || e);
+      errEl.classList.add('show');
+    }
+    done++;
+    document.getElementById('prog-fill').style.width = (done / total * 100) + '%';
+    document.getElementById('prog-pct').textContent = `${done} / ${total}`;
+    await new Promise(r => setTimeout(r, 400));
+  }
+  document.getElementById('prog-text').textContent = '遷移完成';
+  document.getElementById('done-box').classList.add('show');
+  btn.textContent = '✓ 已完成';
+  migrating = false;
+};
+</script>
+</body>
+</html>

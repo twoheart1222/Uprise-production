@@ -1,99 +1,618 @@
 <!doctype html>
 <html lang="zh-Hant">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Uprise 推手影像 | 網站內容管理系統</title>
-  
-  <link href="config.yml" type="text/yaml" rel="cms-config-url">
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Uprise 後台管理系統</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Italiana&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+:root {
+  --bg: #0a0a0f;
+  --surface: #13131a;
+  --surface2: #1c1c26;
+  --border: rgba(255,255,255,0.07);
+  --accent: #FF8C00;
+  --accent2: #FFD700;
+  --grad: linear-gradient(135deg, #FFD700, #FF8C00);
+  --text: #f0f0f0;
+  --muted: #888;
+  --danger: #e05555;
+  --success: #4caf7d;
+  --font: 'Noto Sans TC', sans-serif;
+  --radius: 10px;
+  --sidebar: 240px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; }
+body { font-family: var(--font); background: var(--bg); color: var(--text); display: flex; height: 100vh; overflow: hidden; }
 
-  <script>
-    // 1. 強制啟用手動初始化與生產環境
-    window.CMS_MANUAL_INIT = true;
-    window.CMS_ENV = "production";
+#login-screen {
+  position: fixed; inset: 0; background: var(--bg);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  z-index: 9999; gap: 32px;
+}
+#login-screen .logo-text {
+  font-family: 'Italiana', serif; font-size: 2.8rem; letter-spacing: 4px;
+  background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+#login-screen .subtitle { color: var(--muted); font-size: 0.9rem; letter-spacing: 2px; }
+.login-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 16px; padding: 40px 48px; text-align: center;
+  box-shadow: 0 40px 80px rgba(0,0,0,0.6);
+  display: flex; flex-direction: column; gap: 20px; min-width: 320px;
+}
+.login-card h2 { font-size: 1.1rem; font-weight: 500; }
+.login-card p { font-size: 0.85rem; color: var(--muted); line-height: 1.6; }
+.btn-google {
+  display: flex; align-items: center; justify-content: center; gap: 12px;
+  padding: 14px 24px; background: #fff; color: #333;
+  border: none; border-radius: 8px; font-size: 0.95rem; font-weight: 500;
+  cursor: pointer; transition: all 0.2s; font-family: var(--font);
+}
+.btn-google:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(255,255,255,0.15); }
+.btn-google img { width: 20px; }
+#login-error { color: var(--danger); font-size: 0.85rem; display: none; }
 
-    // 2. 對接你專屬、完全自主控管的 Cloudflare Worker 網址
-    const AUTH_API_URL = "https://uprise-cms-login.uprisevideoproduction.workers.dev";
+#sidebar {
+  width: var(--sidebar); background: var(--surface); border-right: 1px solid var(--border);
+  display: flex; flex-direction: column; flex-shrink: 0; z-index: 10;
+}
+.sidebar-brand { padding: 28px 20px 20px; border-bottom: 1px solid var(--border); }
+.sidebar-brand .brand-name {
+  font-family: 'Italiana', serif; font-size: 1.4rem; letter-spacing: 2px;
+  background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.sidebar-brand .brand-sub { font-size: 0.7rem; color: var(--muted); letter-spacing: 1px; margin-top: 2px; }
+.nav-section { padding: 16px 12px 8px; }
+.nav-label { font-size: 0.65rem; color: var(--muted); letter-spacing: 2px; text-transform: uppercase; padding: 0 8px; margin-bottom: 8px; }
+.nav-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 12px; border-radius: 8px; cursor: pointer;
+  font-size: 0.88rem; color: var(--muted); transition: all 0.2s;
+  border: 1px solid transparent; margin-bottom: 2px;
+}
+.nav-item:hover { background: var(--surface2); color: var(--text); }
+.nav-item.active { background: rgba(255,140,0,0.1); color: var(--accent2); border-color: rgba(255,140,0,0.2); }
+.nav-item i { width: 16px; text-align: center; font-size: 0.85rem; }
+.sidebar-footer { margin-top: auto; padding: 16px 12px; border-top: 1px solid var(--border); }
+.user-info { display: flex; align-items: center; gap: 10px; padding: 8px; }
+.user-avatar { width: 32px; height: 32px; border-radius: 50%; object-fit: cover; border: 1px solid var(--border); }
+.user-name { font-size: 0.8rem; color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.btn-logout {
+  width: 100%; padding: 9px; background: transparent; border: 1px solid var(--border);
+  border-radius: 8px; color: var(--muted); font-size: 0.8rem; cursor: pointer;
+  font-family: var(--font); transition: all 0.2s; margin-top: 8px;
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+}
+.btn-logout:hover { border-color: var(--danger); color: var(--danger); }
 
-    // 3. CMS 核心骨架設定
-    window.cmsConfig = {
-      backend: {
-        name: "github",
-        repo: "twoheart1222/uprise-production", 
-        branch: "main",
-        base_url: AUTH_API_URL,
-        auth_endpoint: "auth"
-      }
-    };
+#main { flex: 1; overflow-y: auto; display: flex; flex-direction: column; background: var(--bg); }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
 
-    // 4. 安全初始化函數
-    function initCustomCMS() {
-      if (window.CMS) {
-        // 註冊預覽樣式 (簡約白底黑字)
-        const previewStyles = `
-          body { background-color: #ffffff; color: #333333; font-family: 'Noto Sans TC', sans-serif; padding: 20px; line-height: 1.6; }
-          h1, h2, h3 { color: #111111; margin-top: 1.5em; margin-bottom: 0.5em; }
-          h1 { font-size: 2.2rem; font-weight: 700; border-bottom: 2px solid #eee; padding-bottom: 10px; }
-          a { color: #007bff; text-decoration: underline; }
-          img { max-width: 100%; height: auto; border-radius: 2px; border: 1px solid #eee; }
-          blockquote { border-left: 4px solid #ddd; padding-left: 15px; color: #666; font-style: italic; margin: 20px 0; }
-          hr { border: 0; border-top: 1px solid #eee; margin: 30px 0; }
-        `;
-        window.CMS.registerPreviewStyle(previewStyles, { raw: true });
-        
-        // 執行初始化
-        window.CMS.init({ config: window.cmsConfig });
-      }
-    }
-  </script>
+.topbar {
+  padding: 20px 32px; border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+  background: rgba(10,10,15,0.8); position: sticky; top: 0; z-index: 5; backdrop-filter: blur(10px);
+}
+.page-title { font-size: 1.2rem; font-weight: 500; }
+.page-title span { color: var(--muted); font-size: 0.85rem; font-weight: 300; margin-left: 8px; }
 
-  <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js" defer onload="initCustomCMS()"></script>
+.btn-save {
+  display: flex; align-items: center; gap: 8px;
+  padding: 10px 24px; background: var(--grad); color: #000;
+  border: none; border-radius: 8px; font-size: 0.9rem; font-weight: 700;
+  cursor: pointer; font-family: var(--font); transition: all 0.2s; letter-spacing: 1px;
+}
+.btn-save:hover { opacity: 0.85; transform: translateY(-1px); box-shadow: 0 8px 24px rgba(255,140,0,0.3); }
+.btn-save:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
 
-  <style>
-    /* --- 全域變數：簡約藍白色調 --- */
-    :root {
-      --bg-main: #f4f7f6;
-      --bg-white: #ffffff;
-      --text-dark: #333333;
-      --text-muted: #666666;
-      --accent-color: #007bff;
-      --accent-hover: #0056b3;
-      --border-color: #e1e4e8;
-    }
+.panel { padding: 32px; display: none; flex-direction: column; gap: 24px; }
+.panel.active { display: flex; }
 
-    body {
-      font-family: 'Noto Sans TC', sans-serif !important;
-      background-color: var(--bg-main) !important;
-      color: var(--text-dark) !important;
-      margin: 0; padding: 0;
-    }
+.card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 24px; display: flex; flex-direction: column; gap: 20px;
+}
+.card-title {
+  font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase;
+  color: var(--accent2); font-weight: 500; padding-bottom: 12px; border-bottom: 1px solid var(--border);
+}
+.field { display: flex; flex-direction: column; gap: 6px; }
+.field label { font-size: 0.82rem; color: var(--muted); }
+.field input, .field textarea, .field select {
+  background: var(--surface2); border: 1px solid var(--border);
+  border-radius: 8px; padding: 10px 14px; color: var(--text);
+  font-family: var(--font); font-size: 0.9rem; transition: border-color 0.2s; outline: none; resize: vertical;
+}
+.field input:focus, .field textarea:focus { border-color: rgba(255,140,0,0.5); }
+.field textarea { min-height: 80px; }
+.field-hint { font-size: 0.75rem; color: #555; margin-top: 2px; }
+.field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 
-    * { box-sizing: border-box; }
+.list-header { display: flex; align-items: center; justify-content: space-between; }
+.btn-add {
+  display: flex; align-items: center; gap: 6px;
+  padding: 7px 14px; background: var(--surface2); border: 1px solid var(--border);
+  border-radius: 8px; color: var(--text); font-size: 0.82rem; cursor: pointer;
+  font-family: var(--font); transition: all 0.2s;
+}
+.btn-add:hover { border-color: var(--accent); color: var(--accent); }
+.list-items { display: flex; flex-direction: column; gap: 10px; }
+.list-item {
+  background: var(--surface2); border: 1px solid var(--border);
+  border-radius: 8px; padding: 16px; transition: border-color 0.2s;
+}
+.list-item:hover { border-color: rgba(255,140,0,0.2); }
+.list-item-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+.list-item-title { font-size: 0.88rem; font-weight: 500; }
+.list-item-actions { display: flex; gap: 6px; }
+.btn-icon {
+  width: 28px; height: 28px; border-radius: 6px; border: 1px solid var(--border);
+  background: transparent; color: var(--muted); cursor: pointer; font-size: 0.75rem;
+  display: flex; align-items: center; justify-content: center; transition: all 0.2s;
+}
+.btn-icon:hover { background: var(--surface); }
+.btn-icon.danger:hover { border-color: var(--danger); color: var(--danger); }
+.btn-icon:not(.danger):hover { border-color: var(--accent); color: var(--accent); }
 
-    /* --- 登入頁面與主介面美化 --- */
-    div[class*="nc-github-layout"] { background-color: var(--bg-main) !important; background-image: none !important; }
-    button[class*="LoginButton"] { background: var(--accent-color) !important; color: #ffffff !important; font-weight: 500 !important; border-radius: 4px !important; box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important; border: none !important; }
-    button[class*="LoginButton"]:hover { background: var(--accent-hover) !important; transform: translateY(-1px) !important; }
-    header[class*="AppHeader"] { background-color: var(--bg-white) !important; border-bottom: 1px solid var(--border-color) !important; color: var(--text-dark) !important; box-shadow: 0 1px 3px rgba(0,0,0,0.05) !important; }
-    header[class*="AppHeader"] * { color: var(--text-dark) !important; }
-    aside[class*="Sidebar"] { background-color: var(--bg-white) !important; border-right: 1px solid var(--border-color) !important; }
-    a[class*="SidebarLink"] { color: var(--text-muted) !important; border-left: 3px solid transparent !important; }
-    a[class*="SidebarLink"]:hover, a[class*="SidebarLink"][class*="active"] { background-color: rgba(0, 123, 255, 0.05) !important; color: var(--accent-color) !important; border-left: 3px solid var(--accent-color) !important; }
-    div[class*="CollectionPage"] { background-color: var(--bg-main) !important; }
-    a[class*="Card"] { background-color: var(--bg-white) !important; border: 1px solid var(--border-color) !important; color: var(--text-dark) !important; border-radius: 4px !important; box-shadow: 0 1px 3px rgba(0,0,0,0.05) !important; }
-    a[class*="Card"]:hover { border-color: var(--accent-color) !important; transform: translateY(-1px) !important; box-shadow: 0 4px 6px rgba(0,0,0,0.1) !important; }
-    a[class*="Card"] * { color: var(--text-dark) !important; }
-    label[class*="Label"] { color: var(--text-dark) !important; font-weight: 500 !important; font-family: 'Noto Sans TC', sans-serif !important; font-size: 1rem !important; margin-bottom: 6px !important; }
-    input[type="text"], textarea, div[class*="Widget"] { background-color: var(--bg-white) !important; border: 1px solid #ced4da !important; border-radius: 4px !important; color: var(--text-dark) !important; font-size: 16px !important; }
-    input:focus, textarea:focus { border-color: #80bdff !important; box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25) !important; }
-    button[class*="Button"] { background-image: none !important; background-color: var(--accent-color) !important; color: #ffffff !important; font-weight: 500 !important; border: none !important; text-transform: none !important; letter-spacing: 0px !important; border-radius: 4px !important; }
-    button[class*="Button"]:hover { background-color: var(--accent-hover) !important; }
-    div[class*="ImageWrapper"] { border: 2px dashed #dee2e6 !important; background-color: #f8f9fa !important; border-radius: 4px !important; }
-    iframe[class*="PreviewPane"] { background-color: var(--bg-white) !important; border-left: 1px solid var(--border-color) !important; }
-  </style>
+#toast {
+  position: fixed; bottom: 32px; right: 32px;
+  padding: 14px 20px; border-radius: 10px; font-size: 0.88rem;
+  display: flex; align-items: center; gap: 10px;
+  transform: translateY(20px); opacity: 0; transition: all 0.3s;
+  z-index: 99999; pointer-events: none;
+}
+#toast.show { transform: translateY(0); opacity: 1; }
+#toast.success { background: #1a2f1a; border: 1px solid var(--success); color: var(--success); }
+#toast.error { background: #2f1a1a; border: 1px solid var(--danger); color: var(--danger); }
+#toast.loading { background: var(--surface2); border: 1px solid var(--border); color: var(--text); }
+
+#app { display: none; width: 100%; }
+.spinner { width: 18px; height: 18px; border: 2px solid rgba(255,140,0,0.3); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.stats-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 16px; }
+.stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; display: flex; flex-direction: column; gap: 8px; }
+.stat-num { font-size: 2rem; font-weight: 700; background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.stat-label { font-size: 0.78rem; color: var(--muted); }
+hr.divider { border: none; border-top: 1px solid var(--border); }
+.img-preview { width: 80px; height: 50px; object-fit: cover; border-radius: 6px; border: 1px solid var(--border); }
+.works-card { margin-top: 0; }
+</style>
 </head>
 <body>
-  <div id="nc-root"></div>
+
+<div id="login-screen">
+  <div>
+    <div class="logo-text">UPRISE</div>
+    <div class="subtitle">PRODUCTION — CMS</div>
+  </div>
+  <div class="login-card">
+    <h2>後台管理系統</h2>
+    <p>僅限授權帳號登入<br>請使用指定的 Google 帳號</p>
+    <button class="btn-google" id="btn-google-login">
+      <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google">
+      使用 Google 帳號登入
+    </button>
+    <div id="login-error">❌ 帳號無存取權限</div>
+  </div>
+</div>
+
+<div id="app">
+  <div id="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-name">UPRISE</div>
+      <div class="brand-sub">PRODUCTION CMS</div>
+    </div>
+    <div class="nav-section">
+      <div class="nav-label">頁面管理</div>
+      <div class="nav-item active" data-panel="dashboard"><i class="fas fa-chart-line"></i> 總覽</div>
+      <div class="nav-item" data-panel="home"><i class="fas fa-home"></i> 首頁</div>
+      <div class="nav-item" data-panel="works"><i class="fas fa-film"></i> 作品集</div>
+      <div class="nav-item" data-panel="team"><i class="fas fa-users"></i> 團隊成員</div>
+      <div class="nav-item" data-panel="contact"><i class="fas fa-envelope"></i> 聯絡資訊</div>
+    </div>
+    <div class="sidebar-footer">
+      <div class="user-info">
+        <img class="user-avatar" id="user-avatar" src="" alt="">
+        <div class="user-name" id="user-name">載入中...</div>
+      </div>
+      <button class="btn-logout" id="btn-logout"><i class="fas fa-sign-out-alt"></i> 登出</button>
+    </div>
+  </div>
+
+  <div id="main">
+    <div class="topbar">
+      <div class="page-title" id="page-title">總覽</div>
+      <button class="btn-save" id="btn-save" style="display:none" onclick="saveCurrentPanel()">
+        <i class="fas fa-save"></i> 儲存變更
+      </button>
+    </div>
+
+    <!-- 總覽 -->
+    <div class="panel active" id="panel-dashboard">
+      <div class="stats-grid">
+        <div class="stat-card"><div class="stat-num" id="stat-works">—</div><div class="stat-label">作品數量</div></div>
+        <div class="stat-card"><div class="stat-num" id="stat-team">—</div><div class="stat-label">團隊成員</div></div>
+        <div class="stat-card"><div class="stat-num" id="stat-services">—</div><div class="stat-label">服務項目</div></div>
+        <div class="stat-card"><div class="stat-num" id="stat-bts">—</div><div class="stat-label">幕後花絮</div></div>
+      </div>
+      <div class="card">
+        <div class="card-title">使用說明</div>
+        <p style="color:var(--muted);font-size:0.88rem;line-height:1.8">
+          歡迎使用 Uprise 後台管理系統。<br>
+          點選左側選單編輯各頁面內容。修改後點擊右上角<strong style="color:var(--text)">「儲存變更」</strong>，<br>
+          網站前台將<strong style="color:var(--accent2)">即時更新</strong>，無需重新部署或等待。
+        </p>
+      </div>
+    </div>
+
+    <!-- 首頁 -->
+    <div class="panel" id="panel-home">
+      <div class="card">
+        <div class="card-title">基本設定</div>
+        <div class="field"><label>主視覺標語</label><input type="text" id="home-hero_text" placeholder="看見故事的力量"></div>
+        <div class="field"><label>Logo 圖片網址</label><input type="text" id="home-logo" placeholder="https://..."><div class="field-hint">建議使用透明背景 PNG</div></div>
+        <div class="field"><label>背景影片網址（電腦版）</label><input type="text" id="home-hero_video" placeholder="https://res.cloudinary.com/..."></div>
+        <div class="field"><label>背景影片網址（手機版）</label><input type="text" id="home-hero_video_mobile" placeholder="留空則使用電腦版影片"><div class="field-hint">建議直式 9:16 影片</div></div>
+      </div>
+      <div class="card">
+        <div class="card-title">
+          <div class="list-header"><span>服務項目</span><button class="btn-add" onclick="addService()"><i class="fas fa-plus"></i> 新增</button></div>
+        </div>
+        <div class="list-items" id="services-list"></div>
+      </div>
+      <div class="card">
+        <div class="card-title">
+          <div class="list-header"><span>幕後花絮圖片</span><button class="btn-add" onclick="addBts()"><i class="fas fa-plus"></i> 新增</button></div>
+        </div>
+        <div class="list-items" id="bts-list"></div>
+      </div>
+    </div>
+
+    <!-- 作品集 -->
+    <div class="panel" id="panel-works">
+      <div class="card">
+        <div class="card-title">頁面標題</div>
+        <div class="field-row">
+          <div class="field"><label>主標題</label><input type="text" id="works-title" placeholder="精選作品集"></div>
+          <div class="field"><label>副標題</label><input type="text" id="works-subtitle" placeholder="收錄歷年來的影像精華"></div>
+        </div>
+      </div>
+      <div id="works-categories"></div>
+    </div>
+
+    <!-- 團隊 -->
+    <div class="panel" id="panel-team">
+      <div class="card">
+        <div class="card-title">頁面標題</div>
+        <div class="field-row">
+          <div class="field"><label>主標題</label><input type="text" id="team-title" placeholder="專業團隊"></div>
+          <div class="field"><label>副標題</label><input type="text" id="team-subtitle" placeholder=""></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">
+          <div class="list-header"><span>成員列表</span><button class="btn-add" onclick="addMember()"><i class="fas fa-plus"></i> 新增成員</button></div>
+        </div>
+        <div class="list-items" id="members-list"></div>
+      </div>
+    </div>
+
+    <!-- 聯絡 -->
+    <div class="panel" id="panel-contact">
+      <div class="card">
+        <div class="card-title">聯絡資訊</div>
+        <div class="field-row">
+          <div class="field"><label>標題</label><input type="text" id="contact-title" placeholder="聯絡我們"></div>
+          <div class="field"><label>副標題</label><input type="text" id="contact-subtitle" placeholder=""></div>
+        </div>
+        <hr class="divider">
+        <div class="field"><label>地址</label><input type="text" id="contact-address" placeholder="台灣..."></div>
+        <div class="field-row">
+          <div class="field"><label>Email</label><input type="text" id="contact-email" placeholder="contact@uprise.com"></div>
+          <div class="field"><label>電話</label><input type="text" id="contact-phone" placeholder="+886..."></div>
+        </div>
+        <div class="field"><label>Formspree ID</label><input type="text" id="contact-formspree_id" placeholder="movbylbl"><div class="field-hint">Formspree 表單 ID，例如 movbylbl</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="toast"><span id="toast-msg"></span></div>
+
+<script type="module">
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged }
+  from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
+import { getFirestore, doc, getDoc, setDoc }
+  from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCyC9CaF36J27mjCl908TFCukNtwAilM4o",
+  authDomain: "uprise-videoproduction-admin.firebaseapp.com",
+  projectId: "uprise-videoproduction-admin",
+  storageBucket: "uprise-videoproduction-admin.firebasestorage.app",
+  messagingSenderId: "180297157082",
+  appId: "1:180297157082:web:c352e76d63cac6bc7458e3"
+};
+const ALLOWED_EMAIL = "harrylinjiayoufilm@gmail.com";
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+const provider = new GoogleAuthProvider();
+
+window.showToast = (msg, type='success') => {
+  const t = document.getElementById('toast');
+  t.className = `show ${type}`;
+  document.getElementById('toast-msg').textContent = msg;
+  clearTimeout(window._toastTimer);
+  window._toastTimer = setTimeout(() => t.className='', 2800);
+};
+
+document.getElementById('btn-google-login').onclick = async () => {
+  try {
+    const r = await signInWithPopup(auth, provider);
+    if (r.user.email !== ALLOWED_EMAIL) {
+      await signOut(auth);
+      document.getElementById('login-error').style.display = 'block';
+    }
+  } catch(e) { console.error(e); }
+};
+document.getElementById('btn-logout').onclick = () => signOut(auth);
+
+onAuthStateChanged(auth, async user => {
+  if (user && user.email === ALLOWED_EMAIL) {
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('app').style.display = 'flex';
+    document.getElementById('user-avatar').src = user.photoURL || '';
+    document.getElementById('user-name').textContent = user.displayName || user.email;
+    await loadAllData();
+  } else {
+    document.getElementById('login-screen').style.display = 'flex';
+    document.getElementById('app').style.display = 'none';
+  }
+});
+
+window.data = {
+  home: { hero_text:'', logo:'', hero_video:'', hero_video_mobile:'', services:[], behind_the_scenes:[] },
+  works: { title:'', subtitle:'', portfolio_brand:[], portfolio_product:[], portfolio_public:[], portfolio_event:[], portfolio_other:[] },
+  team: { title:'', subtitle:'', members:[] },
+  contact: { title:'', subtitle:'', address:'', email:'', phone:'', formspree_id:'' }
+};
+
+async function loadAllData() {
+  showToast('載入資料中...', 'loading');
+  try {
+    for (const page of ['home','works','team','contact']) {
+      const snap = await getDoc(doc(db,'pages',page));
+      if (snap.exists()) window.data[page] = snap.data();
+    }
+    renderAll();
+    updateStats();
+    showToast('資料載入完成 ✓');
+  } catch(e) { showToast('載入失敗：'+e.message,'error'); }
+}
+
+function renderAll() { renderHome(); renderWorks(); renderTeam(); renderContact(); }
+
+// ── 首頁 ──
+function renderHome() {
+  const d = window.data.home;
+  ['hero_text','logo','hero_video','hero_video_mobile'].forEach(k => {
+    const el = document.getElementById('home-'+k); if(el) el.value = d[k]||'';
+  });
+  renderServices(); renderBts();
+}
+
+window.renderServices = () => {
+  const items = window.data.home.services || [];
+  document.getElementById('services-list').innerHTML = items.length === 0
+    ? '<div style="color:var(--muted);font-size:0.82rem">尚無服務項目</div>'
+    : items.map((s,i) => `
+    <div class="list-item">
+      <div class="list-item-header">
+        <span class="list-item-title">${s.title||'（未命名）'}</span>
+        <div class="list-item-actions">
+          <button class="btn-icon" onclick="moveArr('home','services',${i},-1);renderServices()" title="上移"><i class="fas fa-chevron-up"></i></button>
+          <button class="btn-icon" onclick="moveArr('home','services',${i},1);renderServices()" title="下移"><i class="fas fa-chevron-down"></i></button>
+          <button class="btn-icon danger" onclick="window.data.home.services.splice(${i},1);renderServices()"><i class="fas fa-trash"></i></button>
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field"><label>服務名稱</label><input value="${s.title||''}" oninput="window.data.home.services[${i}].title=this.value"></div>
+        <div class="field"><label>FontAwesome Icon</label><input value="${s.iconClass||''}" placeholder="fa-solid fa-video" oninput="window.data.home.services[${i}].iconClass=this.value"></div>
+      </div>
+      <div class="field"><label>服務描述</label><textarea oninput="window.data.home.services[${i}].description=this.value">${s.description||''}</textarea></div>
+    </div>`).join('');
+};
+window.addService = () => { window.data.home.services.push({title:'',description:'',iconClass:''}); renderServices(); };
+
+window.renderBts = () => {
+  const items = window.data.home.behind_the_scenes || [];
+  document.getElementById('bts-list').innerHTML = items.length === 0
+    ? '<div style="color:var(--muted);font-size:0.82rem">尚無圖片</div>'
+    : items.map((b,i) => `
+    <div class="list-item">
+      <div class="list-item-header">
+        <div style="display:flex;align-items:center;gap:10px">
+          ${b.image?`<img class="img-preview" src="${b.image}" onerror="this.style.display='none'">`:''}
+          <span class="list-item-title">${b.caption||'（未命名）'}</span>
+        </div>
+        <button class="btn-icon danger" onclick="window.data.home.behind_the_scenes.splice(${i},1);renderBts()"><i class="fas fa-trash"></i></button>
+      </div>
+      <div class="field-row">
+        <div class="field"><label>圖片網址</label><input value="${b.image||''}" oninput="window.data.home.behind_the_scenes[${i}].image=this.value"></div>
+        <div class="field"><label>說明（供辨識）</label><input value="${b.caption||''}" oninput="window.data.home.behind_the_scenes[${i}].caption=this.value"></div>
+      </div>
+    </div>`).join('');
+};
+window.addBts = () => { window.data.home.behind_the_scenes.push({image:'',caption:''}); renderBts(); };
+
+// ── 作品集 ──
+const WORKS_CATS = [
+  {key:'portfolio_brand',label:'品牌形象廣告'},
+  {key:'portfolio_product',label:'產品形象廣告'},
+  {key:'portfolio_public',label:'公部門宣傳影片'},
+  {key:'portfolio_event',label:'活動紀錄'},
+  {key:'portfolio_other',label:'其他'}
+];
+
+function renderWorks() {
+  const d = window.data.works;
+  document.getElementById('works-title').value = d.title||'';
+  document.getElementById('works-subtitle').value = d.subtitle||'';
+  document.getElementById('works-categories').innerHTML = WORKS_CATS.map(c=>`
+    <div class="card works-card">
+      <div class="card-title">
+        <div class="list-header"><span>${c.label}</span><button class="btn-add" onclick="addWork('${c.key}')"><i class="fas fa-plus"></i> 新增</button></div>
+      </div>
+      <div class="list-items" id="list-${c.key}"></div>
+    </div>`).join('');
+  WORKS_CATS.forEach(c => renderWorkList(c.key));
+}
+
+window.renderWorkList = key => {
+  const items = window.data.works[key]||[];
+  document.getElementById('list-'+key).innerHTML = items.length===0
+    ? '<div style="color:var(--muted);font-size:0.82rem">尚無作品</div>'
+    : items.map((w,i)=>`
+    <div class="list-item">
+      <div class="list-item-header">
+        <span class="list-item-title">${w.title||'（未命名作品）'}</span>
+        <div class="list-item-actions">
+          <button class="btn-icon" onclick="moveArr('works','${key}',${i},-1);renderWorkList('${key}')"><i class="fas fa-chevron-up"></i></button>
+          <button class="btn-icon" onclick="moveArr('works','${key}',${i},1);renderWorkList('${key}')"><i class="fas fa-chevron-down"></i></button>
+          <button class="btn-icon danger" onclick="window.data.works['${key}'].splice(${i},1);renderWorkList('${key}')"><i class="fas fa-trash"></i></button>
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field"><label>作品名稱</label><input value="${w.title||''}" oninput="window.data.works['${key}'][${i}].title=this.value"></div>
+        <div class="field"><label>客戶名稱</label><input value="${w.client||''}" oninput="window.data.works['${key}'][${i}].client=this.value"></div>
+      </div>
+      <div class="field"><label>YouTube 影片連結</label><input value="${w.link||''}" placeholder="https://www.youtube.com/watch?v=..." oninput="window.data.works['${key}'][${i}].link=this.value"></div>
+      <div class="field"><label>封面圖片網址（選填，留空自動抓 YouTube 縮圖）</label><input value="${w.image||''}" oninput="window.data.works['${key}'][${i}].image=this.value"></div>
+    </div>`).join('');
+};
+window.addWork = key => { window.data.works[key].push({title:'',client:'',link:'',image:''}); renderWorkList(key); };
+
+// ── 團隊 ──
+function renderTeam() {
+  document.getElementById('team-title').value = window.data.team.title||'';
+  document.getElementById('team-subtitle').value = window.data.team.subtitle||'';
+  renderMembers();
+}
+window.renderMembers = () => {
+  const items = window.data.team.members||[];
+  document.getElementById('members-list').innerHTML = items.length===0
+    ? '<div style="color:var(--muted);font-size:0.82rem">尚無成員</div>'
+    : items.map((m,i)=>`
+    <div class="list-item">
+      <div class="list-item-header">
+        <div style="display:flex;align-items:center;gap:10px">
+          ${m.avatar?`<img class="img-preview" src="${m.avatar}" onerror="this.style.display='none'" style="border-radius:50%">`: ''}
+          <span class="list-item-title">${m.name||'（未命名）'} ${m.role?`<span style="color:var(--muted);font-weight:300;font-size:0.8rem">— ${m.role}</span>`:''}</span>
+        </div>
+        <div class="list-item-actions">
+          <button class="btn-icon" onclick="moveArr('team','members',${i},-1);renderMembers()"><i class="fas fa-chevron-up"></i></button>
+          <button class="btn-icon" onclick="moveArr('team','members',${i},1);renderMembers()"><i class="fas fa-chevron-down"></i></button>
+          <button class="btn-icon danger" onclick="window.data.team.members.splice(${i},1);renderMembers()"><i class="fas fa-trash"></i></button>
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field"><label>姓名</label><input value="${m.name||''}" oninput="window.data.team.members[${i}].name=this.value"></div>
+        <div class="field"><label>職稱</label><input value="${m.role||''}" oninput="window.data.team.members[${i}].role=this.value"></div>
+      </div>
+      <div class="field"><label>頭像圖片網址</label><input value="${m.avatar||''}" oninput="window.data.team.members[${i}].avatar=this.value"></div>
+      <div class="field"><label>簡介</label><textarea oninput="window.data.team.members[${i}].bio=this.value">${m.bio||''}</textarea></div>
+      <div class="field-row">
+        <div class="field"><label>Instagram 連結</label><input value="${m.ig_url||''}" oninput="window.data.team.members[${i}].ig_url=this.value"></div>
+        <div class="field"><label>作品集連結</label><input value="${m.portfolio_url||''}" oninput="window.data.team.members[${i}].portfolio_url=this.value"></div>
+      </div>
+    </div>`).join('');
+};
+window.addMember = () => { window.data.team.members.push({name:'',role:'',avatar:'',bio:'',ig_url:'',portfolio_url:''}); renderMembers(); };
+
+// ── 聯絡 ──
+function renderContact() {
+  const d = window.data.contact;
+  ['title','subtitle','address','email','phone','formspree_id'].forEach(k=>{
+    const el=document.getElementById('contact-'+k); if(el) el.value=d[k]||'';
+  });
+}
+
+// ── 共用：陣列移位 ──
+window.moveArr = (page, key, i, dir) => {
+  const arr = window.data[page][key]; const j=i+dir;
+  if(j<0||j>=arr.length) return;
+  [arr[i],arr[j]]=[arr[j],arr[i]];
+};
+
+// ── 儲存 ──
+window.currentPanel = 'dashboard';
+window.saveCurrentPanel = async () => {
+  const panel = window.currentPanel;
+  if(panel==='dashboard') return;
+  const btn = document.getElementById('btn-save');
+  btn.disabled=true; btn.innerHTML='<div class="spinner"></div> 儲存中...';
+
+  if(panel==='home') {
+    ['hero_text','logo','hero_video','hero_video_mobile'].forEach(k=>{
+      const el=document.getElementById('home-'+k); if(el) window.data.home[k]=el.value;
+    });
+  }
+  if(panel==='works') {
+    window.data.works.title=document.getElementById('works-title').value;
+    window.data.works.subtitle=document.getElementById('works-subtitle').value;
+  }
+  if(panel==='team') {
+    window.data.team.title=document.getElementById('team-title').value;
+    window.data.team.subtitle=document.getElementById('team-subtitle').value;
+  }
+  if(panel==='contact') {
+    ['title','subtitle','address','email','phone','formspree_id'].forEach(k=>{
+      const el=document.getElementById('contact-'+k); if(el) window.data.contact[k]=el.value;
+    });
+  }
+
+  try {
+    await setDoc(doc(db,'pages',panel), window.data[panel]);
+    showToast('✅ 儲存成功，網站已即時更新');
+    updateStats();
+  } catch(e) { showToast('❌ 儲存失敗：'+e.message,'error'); }
+  btn.disabled=false; btn.innerHTML='<i class="fas fa-save"></i> 儲存變更';
+};
+
+// ── 統計 ──
+function updateStats() {
+  const wc = ['portfolio_brand','portfolio_product','portfolio_public','portfolio_event','portfolio_other']
+    .reduce((a,k)=>a+(window.data.works[k]||[]).length,0);
+  document.getElementById('stat-works').textContent = wc;
+  document.getElementById('stat-team').textContent = (window.data.team.members||[]).length;
+  document.getElementById('stat-services').textContent = (window.data.home.services||[]).length;
+  document.getElementById('stat-bts').textContent = (window.data.home.behind_the_scenes||[]).length;
+}
+
+// ── 導航 ──
+const panelTitles = {dashboard:'總覽',home:'首頁',works:'作品集',team:'團隊成員',contact:'聯絡資訊'};
+document.querySelectorAll('.nav-item').forEach(item=>{
+  item.addEventListener('click',()=>{
+    const panel=item.dataset.panel;
+    document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+    document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+    item.classList.add('active');
+    document.getElementById('panel-'+panel).classList.add('active');
+    window.currentPanel=panel;
+    document.getElementById('page-title').textContent=panelTitles[panel];
+    document.getElementById('btn-save').style.display=panel==='dashboard'?'none':'flex';
+  });
+});
+</script>
 </body>
 </html>

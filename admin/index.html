@@ -588,6 +588,9 @@ window.uploadHomeAsset = async (input, key, folder='images') => {
     window.data.home[key] = url;
     const el = document.getElementById('home-'+key);
     if (el) el.value = url;
+    await setDoc(doc(db,'pages','home'), window.data.home);
+    renderHome();
+    refreshPreview();
     showToast('上傳完成 ✓');
   } catch(e) { showToast('上傳失敗：'+e.message,'error'); }
   input.value = '';
@@ -599,7 +602,9 @@ window.uploadBtsImage = async (input, index) => {
   showToast('上傳中...', 'loading');
   try {
     window.data.home.behind_the_scenes[index].image = await uploadFileToStorage(file, 'home');
+    await setDoc(doc(db,'pages','home'), window.data.home);
     renderBts();
+    refreshPreview();
     showToast('圖片上傳完成 ✓');
   } catch(e) { showToast('上傳失敗：'+e.message,'error'); }
   input.value = '';
@@ -613,8 +618,10 @@ window.uploadMemberAvatar = async (input, index) => {
     const url = await uploadFileToStorage(file, 'team');
     window.data.team.members[index].avatar = url;
     window.data.team.members[index].image = url;
+    await setDoc(doc(db,'pages','team'), window.data.team);
     renderMembers();
     renderMemberPageList();
+    refreshPreview();
     showToast('成員照片上傳完成 ✓');
   } catch(e) { showToast('上傳失敗：'+e.message,'error'); }
   input.value = '';
@@ -660,6 +667,21 @@ window.updatePhotoPreview = (index) => {
   preview.style.setProperty('--px', `${m.photo_x ?? 50}%`);
   preview.style.setProperty('--py', `${m.photo_y ?? 20}%`);
   preview.style.setProperty('--pz', `${m.photo_zoom ?? 1}`);
+};
+
+window.updatePhotoPreviewImage = (index, url) => {
+  const preview = document.querySelector(`[data-photo-preview="${index}"]`);
+  if (!preview) return;
+  let img = preview.querySelector('img');
+  if (!url) {
+    if (img) img.remove();
+    return;
+  }
+  if (!img) {
+    img = document.createElement('img');
+    preview.appendChild(img);
+  }
+  img.src = url;
 };
 
 // ── 首頁 ──
@@ -882,7 +904,7 @@ function renderMemberPageList() {
           ${m.avatar||m.image ? `<img src="${m.avatar||m.image}" alt="">` : ''}
         </div>
         <div>
-          <div class="field"><label>Member 頁照片</label><input value="${m.avatar||m.image||''}" oninput="window.data.team.members[${i}].avatar=this.value;window.data.team.members[${i}].image=this.value;renderMemberPageList()"><input type="file" accept="image/*" onchange="uploadMemberAvatar(this,${i})" style="margin-top:8px"></div>
+          <div class="field"><label>Member 頁照片</label><input value="${m.avatar||m.image||''}" oninput="window.data.team.members[${i}].avatar=this.value;window.data.team.members[${i}].image=this.value;updatePhotoPreviewImage(${i},this.value);renderMemberPageList()"><input type="file" accept="image/*" onchange="uploadMemberAvatar(this,${i})" style="margin-top:8px"></div>
           <div class="field-row">
             <div class="field"><label>照片 X 位置</label><input id="member-photo-x-${i}" type="range" min="0" max="100" value="${m.photo_x ?? 50}" oninput="window.data.team.members[${i}].photo_x=Number(this.value);this.nextElementSibling.textContent=this.value+'%';updatePhotoPreview(${i})"><div class="field-hint">${m.photo_x ?? 50}%</div></div>
             <div class="field"><label>照片 Y 位置</label><input id="member-photo-y-${i}" type="range" min="0" max="100" value="${m.photo_y ?? 20}" oninput="window.data.team.members[${i}].photo_y=Number(this.value);this.nextElementSibling.textContent=this.value+'%';updatePhotoPreview(${i})"><div class="field-hint">${m.photo_y ?? 20}%</div></div>

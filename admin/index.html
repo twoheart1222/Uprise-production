@@ -336,6 +336,41 @@ hr.divider { border: none; border-top: 1px solid var(--border); }
         </div>
       </div>
       <div class="card">
+        <div class="card-title">Team / Member 視覺樣式</div>
+        <div class="field-row">
+          <div class="field">
+            <label>姓名字體</label>
+            <select id="team-style-name_font">
+              <option value="serif">明體標題 Serif</option>
+              <option value="sans">黑體 Sans</option>
+              <option value="display">義式 Display</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>姓名大小（rem）</label>
+            <input type="number" step="0.1" min="1.6" max="8" id="team-style-name_size" placeholder="2.45">
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label>職稱大小（rem）</label>
+            <input type="number" step="0.05" min="0.6" max="2" id="team-style-role_size" placeholder="0.78">
+          </div>
+          <div class="field">
+            <label>內文大小（rem）</label>
+            <input type="number" step="0.05" min="0.75" max="1.5" id="team-style-bio_size" placeholder="0.92">
+          </div>
+        </div>
+        <div class="field">
+          <label>卡片密度</label>
+          <select id="team-style-card_density">
+            <option value="normal">標準</option>
+            <option value="compact">緊湊</option>
+          </select>
+          <div class="field-hint">這組設定會同時套用在 team.html 團隊頁與 member.html 個人頁。</div>
+        </div>
+      </div>
+      <div class="card">
         <div class="card-title">
           <div class="list-header"><span>成員列表</span><button class="btn-add" onclick="addMember()"><i class="fas fa-plus"></i> 新增成員</button></div>
         </div>
@@ -454,7 +489,7 @@ onAuthStateChanged(auth, async user => {
 window.data = {
   home: { hero_text:'', logo:'', hero_video:'', hero_video_mobile:'', services:[], behind_the_scenes:[] },
   works: { title:'', subtitle:'', portfolio_categories:[] },
-  team: { title:'', subtitle:'', members:[] },
+  team: { title:'', subtitle:'', members:[], style:{name_font:'serif',name_size:2.45,role_size:0.78,bio_size:0.92,card_density:'normal'} },
   about: { title:'', subtitle:'', body:'' },
   contact: { title:'', subtitle:'', address:'', email:'', phone:'', formspree_id:'' }
 };
@@ -621,7 +656,14 @@ window.addWork = categoryIndex => {
 function renderTeam() {
   document.getElementById('team-title').value = window.data.team.title||'';
   document.getElementById('team-subtitle').value = window.data.team.subtitle||'';
+  renderTeamStyle();
   renderMembers();
+}
+function renderTeamStyle() {
+  const style = window.data.team.style || {};
+  ['name_font','name_size','role_size','bio_size','card_density'].forEach(k=>{
+    const el=document.getElementById('team-style-'+k); if(el) el.value=style[k]||'';
+  });
 }
 window.renderMembers = () => {
   const items = window.data.team.members||[];
@@ -646,13 +688,14 @@ window.renderMembers = () => {
       </div>
       <div class="field"><label>頭像圖片網址</label><input value="${m.avatar||''}" oninput="window.data.team.members[${i}].avatar=this.value"></div>
       <div class="field"><label>簡介</label><textarea oninput="window.data.team.members[${i}].bio=this.value">${m.bio||''}</textarea></div>
+      <div class="field"><label>Member 詳細介紹（支援 Markdown）</label><textarea style="min-height:160px" oninput="window.data.team.members[${i}].full_bio=this.value">${m.full_bio||''}</textarea></div>
       <div class="field-row">
         <div class="field"><label>Instagram 連結</label><input value="${m.ig_url||''}" oninput="window.data.team.members[${i}].ig_url=this.value"></div>
         <div class="field"><label>作品集連結</label><input value="${m.portfolio_url||''}" oninput="window.data.team.members[${i}].portfolio_url=this.value"></div>
       </div>
     </div>`).join('');
 };
-window.addMember = () => { window.data.team.members.push({name:'',role:'',avatar:'',bio:'',ig_url:'',portfolio_url:''}); renderMembers(); };
+window.addMember = () => { window.data.team.members.push({name:'',role:'',avatar:'',bio:'',full_bio:'',ig_url:'',portfolio_url:''}); renderMembers(); };
 
 // ── 聯絡 ──
 function renderAbout() {
@@ -701,6 +744,12 @@ window.saveCurrentPanel = async () => {
   if(panel==='team') {
     window.data.team.title=document.getElementById('team-title').value;
     window.data.team.subtitle=document.getElementById('team-subtitle').value;
+    window.data.team.style = window.data.team.style || {};
+    ['name_font','name_size','role_size','bio_size','card_density'].forEach(k=>{
+      const el=document.getElementById('team-style-'+k);
+      if(!el) return;
+      window.data.team.style[k] = ['name_size','role_size','bio_size'].includes(k) ? Number(el.value) || null : el.value;
+    });
   }
   if(panel==='about') {
     ['title','subtitle','body'].forEach(k=>{

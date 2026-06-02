@@ -78,6 +78,16 @@ collections:
         fields:
           - {label: "頁面主標題", name: "title", widget: "string", default: "專業團隊"}
           - {label: "頁面副標", name: "subtitle", widget: "text"}
+          - label: "Team / Member 視覺樣式"
+            name: "style"
+            widget: "object"
+            required: false
+            fields:
+              - {label: "姓名字體", name: "name_font", widget: "select", options: [{label: "明體標題 Serif", value: "serif"}, {label: "黑體 Sans", value: "sans"}, {label: "義式 Display", value: "display"}], default: "serif", required: false}
+              - {label: "姓名大小 rem", name: "name_size", widget: "number", value_type: "float", min: 1.6, max: 8, step: 0.1, default: 2.45, required: false}
+              - {label: "職稱大小 rem", name: "role_size", widget: "number", value_type: "float", min: 0.6, max: 2, step: 0.05, default: 0.78, required: false}
+              - {label: "內文大小 rem", name: "bio_size", widget: "number", value_type: "float", min: 0.75, max: 1.5, step: 0.05, default: 0.92, required: false}
+              - {label: "卡片密度", name: "card_density", widget: "select", options: [{label: "標準", value: "normal"}, {label: "緊湊", value: "compact"}], default: "normal", required: false}
           - label: "成員列表"
             name: "members"
             widget: "list"

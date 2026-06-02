@@ -630,6 +630,18 @@
     min-height: min(52vh, 540px);
     margin-bottom: 36px;
   }
+  :root {
+    --member-name-font: var(--font-serif);
+    --member-name-size: clamp(3.4rem, 7vw, 6.3rem);
+    --member-role-size: .82rem;
+    --member-bio-size: .98rem;
+  }
+  .member-name {
+    font-family: var(--member-name-font) !important;
+    font-size: var(--member-name-size) !important;
+  }
+  .job-title { font-size: var(--member-role-size) !important; }
+  .bio-text { font-size: var(--member-bio-size) !important; }
   @media (max-width: 900px) {
     body.uprise-editorial .member-detail-section { padding-top: 96px; }
     body.uprise-editorial .member-page-header {
@@ -819,6 +831,7 @@
         .then(text => {
           const parts = text.split('---');
           const data = jsyaml.load(parts.length > 1 ? parts[1] : text);
+          applyMemberStyle(data.style || {});
           renderMember(data, memberId);
         })
         .catch(err => {
@@ -952,6 +965,19 @@
       } else {
         container.innerHTML = '<p style="width:100%; text-align:center;">查無此成員資料。</p>';
       }
+    }
+
+    function applyMemberStyle(style) {
+      const root = document.documentElement;
+      const fontMap = {
+        serif: 'var(--font-serif)',
+        sans: 'var(--font-body)',
+        display: 'var(--font-display)'
+      };
+      root.style.setProperty('--member-name-font', fontMap[style.name_font] || fontMap.serif);
+      root.style.setProperty('--member-name-size', `clamp(3rem, 7vw, ${Number(style.name_size) || 6.3}rem)`);
+      root.style.setProperty('--member-role-size', `${Number(style.role_size) || 0.82}rem`);
+      root.style.setProperty('--member-bio-size', `${Number(style.bio_size) || 0.98}rem`);
     }
 
     function initMenu() {

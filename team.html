@@ -193,6 +193,136 @@
   }
 </style>
 <link rel="stylesheet" href="css/site-fixes.css">
+<style>
+  /* Editorial team layout */
+  :root {
+    --team-name-size: 2.45rem;
+    --team-role-size: .78rem;
+    --team-bio-size: .92rem;
+    --team-name-font: var(--font-serif);
+    --team-card-pad: 0px;
+    --team-card-min: 640px;
+    --team-image-height: 390px;
+  }
+  body.uprise-editorial .team-hero {
+    min-height: min(56vh, 600px);
+    padding-top: 130px !important;
+    padding-bottom: 44px !important;
+    text-align: left;
+  }
+  body.uprise-editorial .team-hero .title-divider { margin-left: 0; }
+  .team-grid {
+    max-width: 1280px;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(24px, 3vw, 42px);
+    padding: 0 clamp(22px, 6vw, 80px) 110px;
+  }
+  .member-card {
+    min-height: var(--team-card-min);
+    padding: var(--team-card-pad);
+    align-items: stretch;
+    text-align: left;
+    overflow: hidden;
+    border-radius: 0;
+    border-color: rgba(255,255,255,.10);
+    background:
+      linear-gradient(180deg, rgba(255,255,255,.045), rgba(255,255,255,.01)),
+      rgba(10,10,10,.72);
+    backdrop-filter: blur(14px);
+  }
+  .member-card::before {
+    content: '';
+    position: absolute; inset: 18px;
+    border: 1px solid rgba(255,215,0,.18);
+    pointer-events: none;
+    z-index: 3;
+    opacity: .72;
+  }
+  .member-card::after {
+    content: 'PROFILE';
+    position: absolute; right: 19px; top: 28px;
+    z-index: 4;
+    color: rgba(255,255,255,.48);
+    font-family: var(--font-display);
+    font-size: .68rem;
+    letter-spacing: 4px;
+    writing-mode: vertical-rl;
+  }
+  .member-image-wrap {
+    width: 100%;
+    height: var(--team-image-height);
+    margin: 0;
+    border: 0;
+    border-radius: 0 0 120px 0;
+    background: #111;
+    box-shadow: none;
+  }
+  .member-image-wrap::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,.62), transparent 46%);
+    pointer-events: none;
+  }
+  .member-img {
+    object-position: center top;
+    filter: saturate(.95) contrast(1.05);
+  }
+  .member-info {
+    position: relative;
+    padding: 28px 30px 34px;
+    z-index: 5;
+  }
+  .member-name {
+    font-family: var(--team-name-font);
+    font-size: var(--team-name-size);
+    line-height: 1.08;
+    letter-spacing: .08em;
+    margin-bottom: 12px;
+    background: var(--silver-gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .member-role {
+    font-size: var(--team-role-size);
+    letter-spacing: .24em;
+    line-height: 1.7;
+  }
+  .member-bio {
+    min-height: 104px;
+    font-size: var(--team-bio-size);
+    color: rgba(255,255,255,.7);
+    line-height: 1.9;
+  }
+  .action-row {
+    justify-content: flex-start;
+    flex-wrap: wrap;
+  }
+  .portfolio-link {
+    border-radius: 999px;
+    padding: 10px 18px;
+    font-size: .76rem;
+  }
+  .member-card:hover {
+    transform: translateY(-12px);
+    border-color: rgba(255,215,0,.32);
+  }
+  .member-card:hover .member-image-wrap { transform: none; }
+  @media (max-width: 980px) {
+    .team-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  @media (max-width: 640px) {
+    body.uprise-editorial .team-hero {
+      min-height: 52vh;
+      text-align: center;
+      padding-top: 120px !important;
+    }
+    body.uprise-editorial .team-hero .title-divider { margin-left: auto; }
+    .team-grid { grid-template-columns: 1fr; padding-bottom: 76px; }
+    .member-card { min-height: 0; }
+    .member-image-wrap { height: 360px; border-radius: 0 0 92px 0; }
+  }
+</style>
 </head>
 <body class="loading-state">
 
@@ -336,6 +466,7 @@
     }
 
     function renderTeam(data) {
+        applyTeamStyle(data.style || {});
         if (data.title) document.getElementById('page-title').innerText = data.title;
         if (data.subtitle) document.getElementById('page-subtitle').innerText = data.subtitle;
 
@@ -344,7 +475,7 @@
 
         if (data.members && data.members.length > 0) {
             data.members.forEach((m, index) => {
-                const avatar = m.image || 'https://dummyimage.com/400x400/333/fff&text=No+Img';
+                const avatar = m.avatar || m.image || 'https://dummyimage.com/400x500/333/fff&text=No+Img';
                 let buttonsHtml = '';
                 if (m.portfolio_url) buttonsHtml += `<a href="${m.portfolio_url}" target="_blank" class="portfolio-link hover-trigger">作品集</a>`;
                 if (m.ig_url) buttonsHtml += `<a href="${m.ig_url}" target="_blank" class="portfolio-link ig-btn hover-trigger"><i class="fab fa-instagram" style="font-size: 1.1rem;"></i></a>`;
@@ -371,6 +502,23 @@
         } else { container.innerHTML = '<p style="text-align:center; color:#666;">尚無成員資料。</p>'; }
         
         setTimeout(() => { AOS.refresh(); initMagneticButtons(); }, 100);
+    }
+
+    function applyTeamStyle(style) {
+        const root = document.documentElement;
+        const fontMap = {
+            serif: 'var(--font-serif)',
+            sans: 'var(--font-body)',
+            display: 'var(--font-display)'
+        };
+        root.style.setProperty('--team-name-font', fontMap[style.name_font] || fontMap.serif);
+        root.style.setProperty('--team-name-size', `${Number(style.name_size) || 2.45}rem`);
+        root.style.setProperty('--team-role-size', `${Number(style.role_size) || 0.78}rem`);
+        root.style.setProperty('--team-bio-size', `${Number(style.bio_size) || 0.92}rem`);
+        const density = style.card_density || 'normal';
+        root.style.setProperty('--team-card-pad', '0px');
+        root.style.setProperty('--team-card-min', density === 'compact' ? '560px' : '640px');
+        root.style.setProperty('--team-image-height', density === 'compact' ? '330px' : '390px');
     }
 
     function initCursor() { if (window.matchMedia("(pointer: fine)").matches) { const cursor = document.querySelector('.cursor'); let mouseX=0, mouseY=0, cursorX=0, cursorY=0; document.addEventListener('mousemove', e => { mouseX=e.clientX; mouseY=e.clientY; }); document.addEventListener('mousedown', () => document.body.classList.add('clicking')); document.addEventListener('mouseup', () => document.body.classList.remove('clicking')); function animate() { cursorX+=(mouseX-cursorX)*0.5; cursorY+=(mouseY-cursorY)*0.5; cursor.style.transform=`translate(${cursorX}px, ${cursorY}px) translate(-50%, -50%)`; requestAnimationFrame(animate); } animate(); document.body.addEventListener('mouseenter', e=>{ if(e.target.closest('.hover-trigger')) document.body.classList.add('hovered'); }, true); document.body.addEventListener('mouseleave', e=>{ if(e.target.closest('.hover-trigger')) document.body.classList.remove('hovered'); }, true); } }

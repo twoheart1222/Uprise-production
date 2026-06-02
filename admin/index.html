@@ -183,6 +183,27 @@ body { font-family: var(--font); background: var(--bg); color: var(--text); disp
 hr.divider { border: none; border-top: 1px solid var(--border); }
 .img-preview { width: 80px; height: 50px; object-fit: cover; border-radius: 6px; border: 1px solid var(--border); }
 .works-card { margin-top: 0; }
+.photo-adjust-preview {
+  position: relative; height: 280px; overflow: hidden; border-radius: 10px;
+  border: 1px solid var(--border); background: #050505; cursor: grab;
+  user-select: none; touch-action: none;
+}
+.photo-adjust-preview:active { cursor: grabbing; }
+.photo-adjust-preview img {
+  width: 100%; height: 100%; object-fit: cover;
+  object-position: var(--px, 50%) var(--py, 20%);
+  transform: scale(var(--pz, 1));
+  pointer-events: none;
+}
+.photo-adjust-preview::after {
+  content: '拖曳照片調整位置';
+  position: absolute; left: 12px; bottom: 10px;
+  padding: 4px 8px; border-radius: 999px; background: rgba(0,0,0,.58);
+  color: rgba(255,255,255,.72); font-size: .72rem; letter-spacing: 1px;
+}
+.photo-adjust-grid {
+  display: grid; grid-template-columns: minmax(220px, 320px) 1fr; gap: 18px; align-items: start;
+}
 .category-name { display: flex; align-items: center; gap: 10px; }
 .category-name input {
   min-width: 220px; background: transparent; border: none; border-bottom: 1px solid var(--border);
@@ -211,6 +232,7 @@ hr.divider { border: none; border-top: 1px solid var(--border); }
 #preview-pane.mobile #site-preview { width: 390px; }
 @media (max-width: 1180px) {
   #preview-pane { min-width: 330px; width: 38vw; }
+  .photo-adjust-grid { grid-template-columns: 1fr; }
 }
 </style>
 </head>
@@ -244,6 +266,7 @@ hr.divider { border: none; border-top: 1px solid var(--border); }
       <div class="nav-item" data-panel="home"><i class="fas fa-home"></i> 首頁</div>
       <div class="nav-item" data-panel="works"><i class="fas fa-film"></i> 作品集</div>
       <div class="nav-item" data-panel="team"><i class="fas fa-users"></i> 團隊成員</div>
+      <div class="nav-item" data-panel="member"><i class="fas fa-id-card"></i> Member 頁面</div>
       <div class="nav-item" data-panel="about"><i class="fas fa-circle-info"></i> 關於我們</div>
       <div class="nav-item" data-panel="contact"><i class="fas fa-envelope"></i> 聯絡資訊</div>
     </div>
@@ -287,7 +310,7 @@ hr.divider { border: none; border-top: 1px solid var(--border); }
       <div class="card">
         <div class="card-title">基本設定</div>
         <div class="field"><label>主視覺標語</label><input type="text" id="home-hero_text" placeholder="看見故事的力量"></div>
-        <div class="field"><label>Logo 圖片網址</label><input type="text" id="home-logo" placeholder="https://..."><div class="field-hint">建議使用透明背景 PNG</div></div>
+        <div class="field"><label>Logo 圖片網址</label><input type="text" id="home-logo" placeholder="https://..."><input type="file" accept="image/*" onchange="uploadHomeAsset(this,'logo','images')" style="margin-top:8px"><div class="field-hint">可直接上傳圖片，或貼上網址。建議使用透明背景 PNG。</div></div>
         <div class="field"><label>背景影片網址（電腦版）</label><input type="text" id="home-hero_video" placeholder="https://res.cloudinary.com/..."></div>
         <div class="field"><label>背景影片網址（手機版）</label><input type="text" id="home-hero_video_mobile" placeholder="留空則使用電腦版影片"><div class="field-hint">建議直式 9:16 影片</div></div>
       </div>
@@ -378,6 +401,38 @@ hr.divider { border: none; border-top: 1px solid var(--border); }
       </div>
     </div>
 
+    <!-- Member 頁面 -->
+    <div class="panel" id="panel-member">
+      <div class="card">
+        <div class="card-title">Member 個人頁設定</div>
+        <p style="color:var(--muted);font-size:0.88rem;line-height:1.8">
+          個人頁內容來自「團隊成員」列表。每位成員的照片、詳細介紹、照片位置與縮放都可以在這裡或團隊頁調整。
+        </p>
+      </div>
+      <div class="card">
+        <div class="card-title">Member / Team 共用字體樣式</div>
+        <div class="field-row">
+          <div class="field">
+            <label>姓名字體</label>
+            <select id="member-style-name_font">
+              <option value="serif">明體標題 Serif</option>
+              <option value="sans">黑體 Sans</option>
+              <option value="display">義式 Display</option>
+            </select>
+          </div>
+          <div class="field"><label>Member 姓名大小（rem）</label><input type="number" step="0.1" min="3" max="12" id="member-style-member_name_size" placeholder="9.5"></div>
+        </div>
+        <div class="field-row">
+          <div class="field"><label>職稱大小（rem）</label><input type="number" step="0.05" min="0.6" max="2" id="member-style-role_size" placeholder="0.82"></div>
+          <div class="field"><label>內文大小（rem）</label><input type="number" step="0.05" min="0.75" max="1.6" id="member-style-bio_size" placeholder="0.98"></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">Member 內容與照片構圖</div>
+        <div class="list-items" id="member-page-list"></div>
+      </div>
+    </div>
+
     <!-- 關於 -->
     <div class="panel" id="panel-about">
       <div class="card">
@@ -438,6 +493,8 @@ import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChang
   from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
 import { getFirestore, doc, getDoc, setDoc }
   from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+import { getStorage, ref, uploadBytes, getDownloadURL }
+  from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js';
 
 const firebaseConfig = {
   apiKey: "AIzaSyCyC9CaF36J27mjCl908TFCukNtwAilM4o",
@@ -452,6 +509,7 @@ const ALLOWED_EMAIL = "harrylinjiayoufilm@gmail.com";
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
+const storage = getStorage(app);
 const provider = new GoogleAuthProvider();
 
 window.showToast = (msg, type='success') => {
@@ -509,6 +567,101 @@ async function loadAllData() {
 
 function renderAll() { renderHome(); renderWorks(); renderTeam(); renderAbout(); renderContact(); }
 
+function safeFileName(name) {
+  return `${Date.now()}-${name}`.replace(/[^\w.\-\u4e00-\u9fa5]/g, '-');
+}
+
+async function uploadFileToStorage(file, folder='images') {
+  if (!file) return '';
+  const path = `uploads/${folder}/${safeFileName(file.name)}`;
+  const storageRef = ref(storage, path);
+  await uploadBytes(storageRef, file);
+  return getDownloadURL(storageRef);
+}
+
+window.uploadHomeAsset = async (input, key, folder='images') => {
+  const file = input.files && input.files[0];
+  if (!file) return;
+  showToast('上傳中...', 'loading');
+  try {
+    const url = await uploadFileToStorage(file, folder);
+    window.data.home[key] = url;
+    const el = document.getElementById('home-'+key);
+    if (el) el.value = url;
+    showToast('上傳完成 ✓');
+  } catch(e) { showToast('上傳失敗：'+e.message,'error'); }
+  input.value = '';
+};
+
+window.uploadBtsImage = async (input, index) => {
+  const file = input.files && input.files[0];
+  if (!file) return;
+  showToast('上傳中...', 'loading');
+  try {
+    window.data.home.behind_the_scenes[index].image = await uploadFileToStorage(file, 'home');
+    renderBts();
+    showToast('圖片上傳完成 ✓');
+  } catch(e) { showToast('上傳失敗：'+e.message,'error'); }
+  input.value = '';
+};
+
+window.uploadMemberAvatar = async (input, index) => {
+  const file = input.files && input.files[0];
+  if (!file) return;
+  showToast('上傳中...', 'loading');
+  try {
+    const url = await uploadFileToStorage(file, 'team');
+    window.data.team.members[index].avatar = url;
+    window.data.team.members[index].image = url;
+    renderMembers();
+    renderMemberPageList();
+    showToast('成員照片上傳完成 ✓');
+  } catch(e) { showToast('上傳失敗：'+e.message,'error'); }
+  input.value = '';
+};
+
+let activePhotoDrag = null;
+window.startPhotoDrag = (event, index) => {
+  event.preventDefault();
+  const member = window.data.team.members[index];
+  const rect = event.currentTarget.getBoundingClientRect();
+  activePhotoDrag = {
+    index, rect,
+    startX: event.clientX,
+    startY: event.clientY,
+    photoX: Number(member.photo_x ?? 50),
+    photoY: Number(member.photo_y ?? 20)
+  };
+  event.currentTarget.setPointerCapture(event.pointerId);
+};
+window.dragPhoto = (event) => {
+  if (!activePhotoDrag) return;
+  const m = window.data.team.members[activePhotoDrag.index];
+  const nextX = Math.max(0, Math.min(100, activePhotoDrag.photoX + ((event.clientX - activePhotoDrag.startX) / activePhotoDrag.rect.width) * 100));
+  const nextY = Math.max(0, Math.min(100, activePhotoDrag.photoY + ((event.clientY - activePhotoDrag.startY) / activePhotoDrag.rect.height) * 100));
+  m.photo_x = Math.round(nextX);
+  m.photo_y = Math.round(nextY);
+  const preview = document.querySelector(`[data-photo-preview="${activePhotoDrag.index}"]`);
+  if (preview) {
+    preview.style.setProperty('--px', `${m.photo_x}%`);
+    preview.style.setProperty('--py', `${m.photo_y}%`);
+  }
+  const xInput = document.getElementById(`member-photo-x-${activePhotoDrag.index}`);
+  const yInput = document.getElementById(`member-photo-y-${activePhotoDrag.index}`);
+  if (xInput) { xInput.value = m.photo_x; xInput.nextElementSibling.textContent = `${m.photo_x}%`; }
+  if (yInput) { yInput.value = m.photo_y; yInput.nextElementSibling.textContent = `${m.photo_y}%`; }
+};
+window.endPhotoDrag = () => { activePhotoDrag = null; };
+
+window.updatePhotoPreview = (index) => {
+  const m = window.data.team.members[index];
+  const preview = document.querySelector(`[data-photo-preview="${index}"]`);
+  if (!preview) return;
+  preview.style.setProperty('--px', `${m.photo_x ?? 50}%`);
+  preview.style.setProperty('--py', `${m.photo_y ?? 20}%`);
+  preview.style.setProperty('--pz', `${m.photo_zoom ?? 1}`);
+};
+
 // ── 首頁 ──
 function renderHome() {
   const d = window.data.home;
@@ -555,7 +708,7 @@ window.renderBts = () => {
         <button class="btn-icon danger" onclick="window.data.home.behind_the_scenes.splice(${i},1);renderBts()"><i class="fas fa-trash"></i></button>
       </div>
       <div class="field-row">
-        <div class="field"><label>圖片網址</label><input value="${b.image||''}" oninput="window.data.home.behind_the_scenes[${i}].image=this.value"></div>
+        <div class="field"><label>圖片網址</label><input value="${b.image||''}" oninput="window.data.home.behind_the_scenes[${i}].image=this.value"><input type="file" accept="image/*" onchange="uploadBtsImage(this,${i})" style="margin-top:8px"></div>
         <div class="field"><label>說明（供辨識）</label><input value="${b.caption||''}" oninput="window.data.home.behind_the_scenes[${i}].caption=this.value"></div>
       </div>
     </div>`).join('');
@@ -658,11 +811,19 @@ function renderTeam() {
   document.getElementById('team-subtitle').value = window.data.team.subtitle||'';
   renderTeamStyle();
   renderMembers();
+  renderMemberStyle();
+  renderMemberPageList();
 }
 function renderTeamStyle() {
   const style = window.data.team.style || {};
   ['name_font','name_size','role_size','bio_size','card_density'].forEach(k=>{
     const el=document.getElementById('team-style-'+k); if(el) el.value=style[k]||'';
+  });
+}
+function renderMemberStyle() {
+  const style = window.data.team.style || {};
+  ['name_font','member_name_size','role_size','bio_size'].forEach(k=>{
+    const el=document.getElementById('member-style-'+k); if(el) el.value=style[k]||'';
   });
 }
 window.renderMembers = () => {
@@ -686,7 +847,12 @@ window.renderMembers = () => {
         <div class="field"><label>姓名</label><input value="${m.name||''}" oninput="window.data.team.members[${i}].name=this.value"></div>
         <div class="field"><label>職稱</label><input value="${m.role||''}" oninput="window.data.team.members[${i}].role=this.value"></div>
       </div>
-      <div class="field"><label>頭像圖片網址</label><input value="${m.avatar||''}" oninput="window.data.team.members[${i}].avatar=this.value"></div>
+      <div class="field"><label>頭像圖片網址</label><input value="${m.avatar||m.image||''}" oninput="window.data.team.members[${i}].avatar=this.value;window.data.team.members[${i}].image=this.value"><input type="file" accept="image/*" onchange="uploadMemberAvatar(this,${i})" style="margin-top:8px"></div>
+      <div class="field-row">
+        <div class="field"><label>照片水平位置 X（0 左、50 中、100 右）</label><input type="range" min="0" max="100" value="${m.photo_x ?? 50}" oninput="window.data.team.members[${i}].photo_x=Number(this.value);this.nextElementSibling.textContent=this.value+'%'"><div class="field-hint">${m.photo_x ?? 50}%</div></div>
+        <div class="field"><label>照片垂直位置 Y（0 上、50 中、100 下）</label><input type="range" min="0" max="100" value="${m.photo_y ?? 20}" oninput="window.data.team.members[${i}].photo_y=Number(this.value);this.nextElementSibling.textContent=this.value+'%'"><div class="field-hint">${m.photo_y ?? 20}%</div></div>
+      </div>
+      <div class="field"><label>照片縮放</label><input type="range" min="1" max="1.8" step="0.05" value="${m.photo_zoom ?? 1}" oninput="window.data.team.members[${i}].photo_zoom=Number(this.value);this.nextElementSibling.textContent=this.value+'x'"><div class="field-hint">${m.photo_zoom ?? 1}x</div></div>
       <div class="field"><label>簡介</label><textarea oninput="window.data.team.members[${i}].bio=this.value">${m.bio||''}</textarea></div>
       <div class="field"><label>Member 詳細介紹（支援 Markdown）</label><textarea style="min-height:160px" oninput="window.data.team.members[${i}].full_bio=this.value">${m.full_bio||''}</textarea></div>
       <div class="field-row">
@@ -696,6 +862,37 @@ window.renderMembers = () => {
     </div>`).join('');
 };
 window.addMember = () => { window.data.team.members.push({name:'',role:'',avatar:'',bio:'',full_bio:'',ig_url:'',portfolio_url:''}); renderMembers(); };
+
+function renderMemberPageList() {
+  const items = window.data.team.members || [];
+  const el = document.getElementById('member-page-list');
+  if (!el) return;
+  el.innerHTML = items.length === 0
+    ? '<div style="color:var(--muted);font-size:0.82rem">尚無成員</div>'
+    : items.map((m,i)=>`
+    <div class="list-item">
+      <div class="list-item-header">
+        <div style="display:flex;align-items:center;gap:10px">
+          ${m.avatar||m.image ? `<img class="img-preview" src="${m.avatar||m.image}" onerror="this.style.display='none'" style="border-radius:6px">` : ''}
+          <span class="list-item-title">${m.name||'（未命名）'} 的 Member 頁</span>
+        </div>
+      </div>
+      <div class="photo-adjust-grid">
+        <div class="photo-adjust-preview" data-photo-preview="${i}" style="--px:${m.photo_x ?? 50}%;--py:${m.photo_y ?? 20}%;--pz:${m.photo_zoom ?? 1}" onpointerdown="startPhotoDrag(event,${i})" onpointermove="dragPhoto(event)" onpointerup="endPhotoDrag()" onpointerleave="endPhotoDrag()">
+          ${m.avatar||m.image ? `<img src="${m.avatar||m.image}" alt="">` : ''}
+        </div>
+        <div>
+          <div class="field"><label>Member 頁照片</label><input value="${m.avatar||m.image||''}" oninput="window.data.team.members[${i}].avatar=this.value;window.data.team.members[${i}].image=this.value;renderMemberPageList()"><input type="file" accept="image/*" onchange="uploadMemberAvatar(this,${i})" style="margin-top:8px"></div>
+          <div class="field-row">
+            <div class="field"><label>照片 X 位置</label><input id="member-photo-x-${i}" type="range" min="0" max="100" value="${m.photo_x ?? 50}" oninput="window.data.team.members[${i}].photo_x=Number(this.value);this.nextElementSibling.textContent=this.value+'%';updatePhotoPreview(${i})"><div class="field-hint">${m.photo_x ?? 50}%</div></div>
+            <div class="field"><label>照片 Y 位置</label><input id="member-photo-y-${i}" type="range" min="0" max="100" value="${m.photo_y ?? 20}" oninput="window.data.team.members[${i}].photo_y=Number(this.value);this.nextElementSibling.textContent=this.value+'%';updatePhotoPreview(${i})"><div class="field-hint">${m.photo_y ?? 20}%</div></div>
+          </div>
+          <div class="field"><label>照片縮放</label><input type="range" min="1" max="1.8" step="0.05" value="${m.photo_zoom ?? 1}" oninput="window.data.team.members[${i}].photo_zoom=Number(this.value);this.nextElementSibling.textContent=this.value+'x';updatePhotoPreview(${i})"><div class="field-hint">${m.photo_zoom ?? 1}x</div></div>
+        </div>
+      </div>
+      <div class="field"><label>詳細介紹（支援 Markdown）</label><textarea style="min-height:220px" oninput="window.data.team.members[${i}].full_bio=this.value">${m.full_bio||''}</textarea></div>
+    </div>`).join('');
+}
 
 // ── 聯絡 ──
 function renderAbout() {
@@ -751,6 +948,14 @@ window.saveCurrentPanel = async () => {
       window.data.team.style[k] = ['name_size','role_size','bio_size'].includes(k) ? Number(el.value) || null : el.value;
     });
   }
+  if(panel==='member') {
+    window.data.team.style = window.data.team.style || {};
+    ['name_font','member_name_size','role_size','bio_size'].forEach(k=>{
+      const el=document.getElementById('member-style-'+k);
+      if(!el) return;
+      window.data.team.style[k] = ['member_name_size','role_size','bio_size'].includes(k) ? Number(el.value) || null : el.value;
+    });
+  }
   if(panel==='about') {
     ['title','subtitle','body'].forEach(k=>{
       const el=document.getElementById('about-'+k); if(el) window.data.about[k]=el.value;
@@ -763,7 +968,8 @@ window.saveCurrentPanel = async () => {
   }
 
   try {
-    await setDoc(doc(db,'pages',panel), window.data[panel]);
+    if (panel === 'team' || panel === 'member') await setDoc(doc(db,'pages','team'), window.data.team);
+    else await setDoc(doc(db,'pages',panel), window.data[panel]);
     showToast('✅ 儲存成功，網站已即時更新');
     updateStats();
     refreshPreview();
@@ -782,8 +988,8 @@ function updateStats() {
 }
 
 // ── 導航 ──
-const panelTitles = {dashboard:'總覽',home:'首頁',works:'作品集',team:'團隊成員',about:'關於我們',contact:'聯絡資訊'};
-const previewPages = {dashboard:'index.html',home:'index.html',works:'works.html',team:'team.html',about:'about.html',contact:'contact.html'};
+const panelTitles = {dashboard:'總覽',home:'首頁',works:'作品集',team:'團隊成員',member:'Member 頁面',about:'關於我們',contact:'聯絡資訊'};
+const previewPages = {dashboard:'index.html',home:'index.html',works:'works.html',team:'team.html',member:'member.html?id=0',about:'about.html',contact:'contact.html'};
 window.refreshPreview = () => {
   const iframe=document.getElementById('site-preview');
   iframe.src=iframe.src.split('?')[0]+'?preview='+Date.now();

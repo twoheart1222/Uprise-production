@@ -775,6 +775,8 @@
     }
 
     async function loadPageData(pageName, markdownPath) {
+        const previewData = loadLocalPreviewPage(pageName);
+        if (previewData) return previewData;
         const firebaseData = await loadFirestorePage(pageName);
         if (firebaseData) return firebaseData;
         const response = await fetch(markdownPath);
@@ -782,6 +784,18 @@
         const text = await response.text();
         const parts = text.split('---');
         return jsyaml.load(parts.length > 1 ? parts[1] : text);
+    }
+
+    function loadLocalPreviewPage(pageName) {
+        try {
+            const params = new URLSearchParams(window.location.search);
+            if (!params.has('preview')) return null;
+            const pages = JSON.parse(localStorage.getItem('uprisePreviewPages') || '{}');
+            return pages && pages[pageName] ? pages[pageName] : null;
+        } catch (error) {
+            console.warn('Unable to read local preview data.', error);
+            return null;
+        }
     }
 
     async function loadFirestorePage(pageName) {

@@ -915,7 +915,7 @@
   }
   .people-stage .member-card::after {
     content: 'VOL. ' counter(team-card, decimal-leading-zero);
-    top: 86px;
+    top: 76px;
     left: 24px;
     right: auto;
     color: rgba(221,180,103,.82);
@@ -934,19 +934,22 @@
   }
   .people-stage .member-image-wrap::before {
     content: attr(data-cover-title);
-    top: 28px;
+    top: 16px;
     left: 22px;
     right: 16px;
-    color: rgba(221,180,103,.86);
+    color: rgba(221,180,103,.46);
     font-family: var(--font-serif);
-    font-size: clamp(3rem, 4.2vw, 5.3rem);
+    font-size: clamp(2.25rem, 3.35vw, 4.25rem);
     font-weight: 800;
-    letter-spacing: -.055em;
-    line-height: .82;
+    letter-spacing: -.035em;
+    line-height: .88;
     text-transform: uppercase;
+    mix-blend-mode: screen;
+    text-shadow: 0 18px 38px rgba(0,0,0,.9);
   }
   .people-stage .member-card.featured-card .member-image-wrap::before {
-    font-size: clamp(4.4rem, 5.8vw, 6.8rem);
+    top: 14px;
+    font-size: clamp(3.2rem, 4.5vw, 5.35rem);
   }
   .people-stage .member-image-wrap::after {
     background:

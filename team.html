@@ -794,311 +794,49 @@
   }
 </style>
 <style>
-  /* Pixel-oriented Aurora reference layout for team page */
-  body.uprise-editorial {
-    --aurora-gold: #c89b5a;
-    --aurora-gold-soft: rgba(200,155,90,.72);
-    --aurora-line: rgba(200,155,90,.2);
-    background: #030303;
+  /* People-cover slider only: keep the original page, restyle the middle cards. */
+  .people-stage {
+    position: relative;
+    width: 100%;
+    padding: 8px 0 118px;
+    overflow: hidden;
   }
-  body.uprise-editorial::before {
+  .people-stage::before {
     content: '';
-    position: fixed;
-    inset: 0;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 45%;
+    height: 360px;
+    transform: translateY(-50%);
+    background: radial-gradient(circle at center, rgba(198,154,92,.08), transparent 54%);
     pointer-events: none;
-    background:
-      radial-gradient(circle at 50% 42%, rgba(200,155,90,.08), transparent 33%),
-      radial-gradient(circle at 50% 84%, rgba(255,255,255,.035), transparent 24%),
-      linear-gradient(180deg, #050505 0%, #020202 100%);
-    z-index: 0;
   }
-  body.uprise-editorial .ambient-light,
-  body.uprise-editorial .particles-container,
-  body.uprise-editorial footer {
-    display: none !important;
-  }
-  body.uprise-editorial #main-wrapper {
-    min-height: 100vh;
-    position: relative;
-    z-index: 2;
-  }
-  body.uprise-editorial .header {
-    height: 96px;
-    padding: 0 52px;
-    border-bottom: 1px solid rgba(200,155,90,.12);
-    background: rgba(0,0,0,.78) !important;
-    backdrop-filter: blur(18px);
-  }
-  body.uprise-editorial .logo {
-    gap: 18px;
-  }
-  body.uprise-editorial .logo::after {
-    content: 'UPRISE';
-    color: var(--aurora-gold);
-    font-family: var(--font-serif);
-    font-size: 1.58rem;
-    letter-spacing: .32em;
-    line-height: 1;
-  }
-  body.uprise-editorial .logo img {
-    width: 34px;
-    height: 34px;
-    filter: sepia(1) saturate(1.7) hue-rotate(350deg) brightness(.92);
-  }
-  body.uprise-editorial .nav {
+  .people-arrow {
     position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    gap: 42px;
-  }
-  body.uprise-editorial .nav-item {
-    font-size: .78rem;
-    letter-spacing: .16em;
-    color: rgba(255,255,255,.78);
-    text-transform: uppercase;
-  }
-  body.uprise-editorial .nav-item:nth-child(1) .original-text,
-  body.uprise-editorial .nav-item:nth-child(1) .hover-text { font-size: 0; }
-  body.uprise-editorial .nav-item:nth-child(1) .original-text::after,
-  body.uprise-editorial .nav-item:nth-child(1) .hover-text::after { content: 'HOME'; font-size: .78rem; }
-  body.uprise-editorial .nav-item:nth-child(2) .original-text,
-  body.uprise-editorial .nav-item:nth-child(2) .hover-text { font-size: 0; }
-  body.uprise-editorial .nav-item:nth-child(2) .original-text::after,
-  body.uprise-editorial .nav-item:nth-child(2) .hover-text::after { content: 'WORK'; font-size: .78rem; }
-  body.uprise-editorial .nav-item:nth-child(3) .original-text,
-  body.uprise-editorial .nav-item:nth-child(3) .hover-text { font-size: 0; }
-  body.uprise-editorial .nav-item:nth-child(3) .original-text::after,
-  body.uprise-editorial .nav-item:nth-child(3) .hover-text::after { content: 'PEOPLE'; font-size: .78rem; }
-  body.uprise-editorial .nav-item:nth-child(4) .original-text,
-  body.uprise-editorial .nav-item:nth-child(4) .hover-text { font-size: 0; }
-  body.uprise-editorial .nav-item:nth-child(4) .original-text::after,
-  body.uprise-editorial .nav-item:nth-child(4) .hover-text::after { content: 'ABOUT'; font-size: .78rem; }
-  body.uprise-editorial .nav-item:nth-child(5) .original-text,
-  body.uprise-editorial .nav-item:nth-child(5) .hover-text { font-size: 0; }
-  body.uprise-editorial .nav-item:nth-child(5) .original-text::after,
-  body.uprise-editorial .nav-item:nth-child(5) .hover-text::after { content: 'CONTACT'; font-size: .78rem; }
-  body.uprise-editorial .hamburger {
-    display: flex;
-    position: absolute;
-    right: 48px;
-    width: 54px;
-    height: 54px;
-    border: 1px solid rgba(200,155,90,.34);
-    border-radius: 50%;
-    align-items: center;
-    justify-content: center;
-  }
-  body.uprise-editorial .hamburger span {
-    width: 16px;
-    background: rgba(255,255,255,.78);
-  }
-  body.uprise-editorial .header::after {
-    content: "LET'S TALK  ↗";
-    position: absolute;
-    right: 118px;
-    top: 22px;
-    height: 52px;
-    min-width: 180px;
-    display: grid;
-    place-items: center;
-    border: 1px solid rgba(200,155,90,.55);
-    color: var(--aurora-gold);
-    font-family: var(--font-display);
-    font-size: .78rem;
-    letter-spacing: .18em;
-  }
-  body.uprise-editorial main {
-    min-height: calc(100vh - 96px);
-    display: grid;
-    grid-template-rows: auto 1fr auto;
-  }
-  body.uprise-editorial .team-hero {
-    width: min(92vw, 1500px);
-    margin: 0 auto;
-    padding: 42px 0 0 !important;
-    min-height: 250px !important;
-    display: grid !important;
-    grid-template-columns: minmax(480px, 1.06fr) minmax(380px, .94fr);
-    column-gap: 74px;
-    align-items: end;
-    border-bottom: 0;
-  }
-  body.uprise-editorial .team-hero::before {
-    content: '';
-    position: absolute;
-    left: calc(50% - 8px);
-    bottom: 24px;
-    width: 1px;
-    height: 96px;
-    background: rgba(255,255,255,.24);
-  }
-  body.uprise-editorial .team-hero::after {
-    content: "We're a collective of strategic thinkers, creative builders, and problem solvers - united by curiosity and driven by purpose.\A\A WORK WITH US    ↗";
-    white-space: pre-line;
-    max-width: 500px;
-    justify-self: start;
-    align-self: center;
-    color: rgba(255,255,255,.72);
-    font-family: var(--font-body);
-    font-size: 1.08rem;
-    line-height: 1.58;
-    letter-spacing: .02em;
-    text-align: left;
-    text-transform: none;
-  }
-  body.uprise-editorial .page-label {
-    grid-column: 1;
-    color: var(--aurora-gold);
-    font-size: .78rem;
-    letter-spacing: .34em;
-    margin-bottom: 16px;
-  }
-  body.uprise-editorial .page-label::before { content: 'OUR PEOPLE'; font-size: .78rem; }
-  body.uprise-editorial .page-label { font-size: 0; }
-  body.uprise-editorial .page-title {
-    grid-column: 1;
-    max-width: 680px;
-    margin: 0;
-    font-size: clamp(4.2rem, 6vw, 7.2rem) !important;
-    line-height: .95 !important;
-    letter-spacing: -.045em !important;
-    color: #e8dfd2 !important;
-    background: none !important;
-    -webkit-text-fill-color: initial !important;
-    filter: none !important;
-  }
-  body.uprise-editorial .page-title::before {
-    content: 'The Minds\A Behind the Impact.';
-    white-space: pre-line;
-  }
-  body.uprise-editorial .page-title {
-    font-size: 0 !important;
-  }
-  body.uprise-editorial .page-title::before {
-    font-family: var(--font-serif);
-    font-size: clamp(4.2rem, 6vw, 7.2rem);
-    line-height: .95;
-  }
-  body.uprise-editorial .page-subtitle,
-  body.uprise-editorial .title-divider {
-    display: none !important;
-  }
-  body.uprise-editorial .people-stage {
-    position: relative;
-    width: 100vw;
-    min-height: 490px;
-    display: flex;
-    align-items: center;
-  }
-  body.uprise-editorial .people-arrow {
-    position: absolute;
-    top: 50%;
+    top: 44%;
     width: 54px;
     height: 54px;
     border-radius: 50%;
     border: 1px solid rgba(255,255,255,.22);
-    background: rgba(0,0,0,.26);
-    color: rgba(255,255,255,.86);
+    background: rgba(0,0,0,.32);
+    color: rgba(255,255,255,.88);
+    font-size: 2rem;
     z-index: 30;
     cursor: pointer;
+    transition: border-color .3s, color .3s, transform .3s;
   }
-  body.uprise-editorial .people-arrow.prev { left: 28px; }
-  body.uprise-editorial .people-arrow.next { right: 28px; }
-  body.uprise-editorial .team-grid {
-    height: 520px;
-    padding: 18px 7vw 42px;
-    gap: 14px;
-    justify-content: center;
-    overflow: hidden;
-    position: relative;
+  .people-arrow:hover {
+    border-color: rgba(221,180,103,.8);
+    color: rgba(221,180,103,.95);
+    transform: translateY(-2px);
   }
-  body.uprise-editorial .team-grid::before,
-  body.uprise-editorial .team-grid::after {
-    display: none;
-  }
-  body.uprise-editorial .member-card {
-    flex: 0 0 230px;
-    min-height: 366px;
-    height: 366px;
-    align-self: center;
-    opacity: .76;
-    filter: brightness(.54) saturate(.78);
-    transform: translateY(8px) rotate(var(--flat-rot, 0deg)) scale(.93);
-  }
-  body.uprise-editorial .member-card:nth-child(1) { --flat-rot: -1.8deg; }
-  body.uprise-editorial .member-card:nth-child(2) { --flat-rot: .8deg; }
-  body.uprise-editorial .member-card:nth-child(3),
-  body.uprise-editorial .member-card.featured-card {
-    flex-basis: 330px;
-    height: 486px;
-    min-height: 486px;
-    opacity: 1;
-    filter: none;
-    transform: translateY(0) scale(1);
-    border-color: rgba(221,180,103,.9);
-  }
-  body.uprise-editorial .member-card:nth-child(4) { --flat-rot: 1.4deg; }
-  body.uprise-editorial .member-card:nth-child(5) { --flat-rot: .4deg; }
-  body.uprise-editorial .member-card:nth-child(n+6) { --flat-rot: 1.2deg; }
-  body.uprise-editorial .member-image-wrap {
-    height: 100% !important;
-  }
-  body.uprise-editorial .member-image-wrap::before {
-    top: 24px;
-    left: 22px;
-    right: 16px;
-    font-size: clamp(2.8rem, 4vw, 5.3rem);
-  }
-  body.uprise-editorial .member-card:nth-child(3) .member-image-wrap::before,
-  body.uprise-editorial .member-card.featured-card .member-image-wrap::before {
-    font-size: clamp(4.2rem, 5.4vw, 6.4rem);
-  }
-  body.uprise-editorial .member-card::after {
-    top: 84px;
-  }
-  body.uprise-editorial .member-info {
-    position: absolute;
-    left: 24px;
-    right: 20px;
-    bottom: 22px;
-    margin: 0;
-    padding: 0;
-    z-index: 9;
-  }
-  body.uprise-editorial .member-name {
-    font-size: clamp(1.3rem, 1.5vw, 1.65rem);
-    line-height: 1;
-  }
-  body.uprise-editorial .member-card:nth-child(3) .member-name,
-  body.uprise-editorial .member-card.featured-card .member-name {
-    font-size: clamp(1.55rem, 2.1vw, 2rem);
-  }
-  body.uprise-editorial .member-role {
-    font-size: .62rem;
-    margin: 7px 0 0;
-  }
-  body.uprise-editorial .member-bio {
-    position: absolute;
-    left: 24px;
-    top: 170px;
-    max-width: 88px;
-    font-size: .62rem;
-    line-height: 1.35;
-  }
-  body.uprise-editorial .member-card:nth-child(3) .member-bio,
-  body.uprise-editorial .member-card.featured-card .member-bio {
-    top: 164px;
-    max-width: 118px;
-    font-size: .75rem;
-    line-height: 1.42;
-  }
-  body.uprise-editorial .action-row {
-    display: none;
-  }
-  body.uprise-editorial .featured-caption {
+  .people-arrow.prev { left: 28px; }
+  .people-arrow.next { right: 28px; }
+  .featured-caption {
     position: absolute;
     left: 50%;
-    bottom: 8px;
+    bottom: 72px;
     transform: translateX(-50%);
     color: rgba(200,155,90,.72);
     font-family: var(--font-display);
@@ -1107,68 +845,174 @@
     display: flex;
     align-items: center;
     gap: 18px;
+    pointer-events: none;
   }
-  body.uprise-editorial .featured-caption::before,
-  body.uprise-editorial .featured-caption::after {
+  .featured-caption::before,
+  .featured-caption::after {
     content: '';
     width: 70px;
     height: 1px;
     background: rgba(200,155,90,.7);
   }
-  body.uprise-editorial .team-values {
-    height: 106px;
-    border-top: 1px solid rgba(200,155,90,.12);
-    border-bottom: 1px solid rgba(200,155,90,.10);
-    background: linear-gradient(180deg, rgba(255,255,255,.025), rgba(255,255,255,.01));
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    width: min(92vw, 1500px);
-    margin: 0 auto;
-  }
-  body.uprise-editorial .value-item {
-    display: grid;
-    grid-template-columns: 74px 1fr;
+  .people-stage .team-grid {
+    height: 560px;
+    max-width: none;
+    width: 100%;
+    margin: 0;
+    padding: 42px 7vw 72px;
+    display: flex !important;
+    grid-template-columns: none !important;
+    gap: 16px;
     align-items: center;
-    gap: 22px;
-    padding: 0 36px;
-    border-right: 1px solid rgba(200,155,90,.16);
+    justify-content: flex-start;
+    overflow-x: auto;
+    overflow-y: visible;
+    scroll-behavior: smooth;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    counter-reset: team-card;
   }
-  body.uprise-editorial .value-item:last-child { border-right: 0; }
-  body.uprise-editorial .value-icon {
-    color: var(--aurora-gold);
-    font-size: 2.2rem;
+  .people-stage .team-grid::-webkit-scrollbar { display: none; }
+  .people-stage .team-grid::before,
+  .people-stage .team-grid::after {
+    content: '';
+    flex: 0 0 max(42vw, 260px);
+  }
+  .people-stage .member-card {
+    flex: 0 0 clamp(230px, 18vw, 292px);
+    height: clamp(376px, 31vw, 456px);
+    min-height: 0;
+    scroll-snap-align: center;
+    margin: 0 !important;
+    border-radius: 0;
+    border: 1px solid rgba(198,154,92,.26);
+    background:
+      radial-gradient(circle at 50% 34%, rgba(198,154,92,.12), transparent 38%),
+      linear-gradient(180deg, #14120f, #050505 70%);
+    box-shadow: 0 30px 88px rgba(0,0,0,.58);
+    opacity: .55;
+    filter: brightness(.56) saturate(.74);
+    transform: rotate(var(--cover-rot, 0deg)) scale(.86);
+    transition: transform .45s ease, opacity .45s ease, filter .45s ease, border-color .45s ease, flex-basis .45s ease;
+  }
+  .people-stage .member-card:nth-child(1) { --cover-rot: -1.6deg; }
+  .people-stage .member-card:nth-child(2) { --cover-rot: .8deg; }
+  .people-stage .member-card:nth-child(4) { --cover-rot: 1.2deg; }
+  .people-stage .member-card:nth-child(n+5) { --cover-rot: .7deg; }
+  .people-stage .member-card.featured-card {
+    flex-basis: clamp(320px, 23vw, 390px);
+    height: clamp(486px, 38vw, 560px);
+    z-index: 12;
+    opacity: 1;
+    filter: none;
+    transform: rotate(0deg) scale(1);
+    border-color: rgba(221,180,103,.9);
+    box-shadow: 0 44px 120px rgba(0,0,0,.72), 0 0 0 1px rgba(221,180,103,.30), 0 24px 48px rgba(198,154,92,.12);
+  }
+  .people-stage .member-card::before {
+    inset: 12px;
+    border: 1px solid rgba(221,180,103,.18);
+  }
+  .people-stage .member-card::after {
+    content: 'VOL. ' counter(team-card, decimal-leading-zero);
+    top: 86px;
+    left: 24px;
+    right: auto;
+    color: rgba(221,180,103,.82);
+    font-size: .62rem;
+    letter-spacing: .18em;
+  }
+  .people-stage .member-cover-kicker {
+    left: 22px;
+    top: 24px;
+    color: rgba(221,180,103,.92);
+    letter-spacing: .22em;
+  }
+  .people-stage .member-image-wrap {
+    height: 100% !important;
+    border-radius: 0 !important;
+  }
+  .people-stage .member-image-wrap::before {
+    content: attr(data-cover-title);
+    top: 28px;
+    left: 22px;
+    right: 16px;
+    color: rgba(221,180,103,.86);
     font-family: var(--font-serif);
+    font-size: clamp(3rem, 4.2vw, 5.3rem);
+    font-weight: 800;
+    letter-spacing: -.055em;
+    line-height: .82;
+    text-transform: uppercase;
+  }
+  .people-stage .member-card.featured-card .member-image-wrap::before {
+    font-size: clamp(4.4rem, 5.8vw, 6.8rem);
+  }
+  .people-stage .member-image-wrap::after {
+    background:
+      linear-gradient(to top, rgba(0,0,0,.96) 0%, rgba(0,0,0,.72) 27%, rgba(0,0,0,.18) 62%, rgba(0,0,0,.76) 100%),
+      radial-gradient(circle at 50% 38%, transparent 0 30%, rgba(0,0,0,.5) 75%);
+  }
+  .people-stage .member-img {
+    filter: saturate(.88) contrast(1.12) brightness(.82);
+  }
+  .people-stage .member-info {
+    position: absolute;
+    left: 24px;
+    right: 20px;
+    bottom: 22px;
+    margin: 0;
+    padding: 0;
+    z-index: 9;
+  }
+  .people-stage .member-name {
+    font-size: clamp(1.3rem, 1.7vw, 1.8rem);
     line-height: 1;
+    color: #f2e7d6;
+    -webkit-text-fill-color: initial;
+    background: none;
   }
-  body.uprise-editorial .value-title {
-    color: var(--aurora-gold);
-    font-family: var(--font-display);
-    font-size: .78rem;
-    letter-spacing: .25em;
-    margin-bottom: 8px;
+  .people-stage .member-card.featured-card .member-name {
+    font-size: clamp(1.7rem, 2.3vw, 2.25rem);
   }
-  body.uprise-editorial .value-text {
-    color: rgba(255,255,255,.62);
-    font-size: .88rem;
-    line-height: 1.45;
+  .people-stage .member-role {
+    margin: 8px 0 0;
+    padding: 0;
+    border: 0;
+    color: rgba(221,180,103,.9);
+    font-size: .66rem;
+    letter-spacing: .18em;
   }
-  @media (max-width: 1100px) {
-    body.uprise-editorial .header::after { display: none; }
-    body.uprise-editorial .team-hero { grid-template-columns: 1fr; gap: 24px; }
-    body.uprise-editorial .team-hero::before { display: none; }
-    body.uprise-editorial .team-hero::after { justify-self: start; }
-    body.uprise-editorial .team-grid { justify-content: flex-start; overflow-x: auto; }
-    body.uprise-editorial .team-values { grid-template-columns: repeat(2, 1fr); height: auto; }
-    body.uprise-editorial .value-item { min-height: 110px; }
+  .people-stage .member-role::before { content: ''; }
+  .people-stage .member-bio {
+    position: absolute;
+    left: 24px;
+    top: 164px;
+    max-width: 94px;
+    font-size: .64rem;
+    line-height: 1.38;
+    color: rgba(255,255,255,.72);
   }
-  @media (max-width: 700px) {
-    body.uprise-editorial .header { padding: 0 20px; }
-    body.uprise-editorial .logo::after { font-size: 1.1rem; }
-    body.uprise-editorial .hamburger { right: 20px; }
-    body.uprise-editorial .team-hero { width: calc(100vw - 40px); }
-    body.uprise-editorial .page-title::before { font-size: clamp(3rem, 16vw, 4.6rem); }
-    body.uprise-editorial .people-arrow { display: none; }
-    body.uprise-editorial .team-values { grid-template-columns: 1fr; }
+  .people-stage .member-card.featured-card .member-bio {
+    top: 168px;
+    max-width: 128px;
+    font-size: .76rem;
+    line-height: 1.42;
+  }
+  .people-stage .action-row { display: none; }
+  @media (max-width: 980px) {
+    .people-arrow { display: none; }
+    .people-stage .team-grid { padding-left: 22px; padding-right: 22px; }
+    .people-stage .team-grid::before,
+    .people-stage .team-grid::after { flex-basis: 6vw; }
+    .people-stage .member-card,
+    .people-stage .member-card.featured-card {
+      flex-basis: min(78vw, 340px);
+      height: 500px;
+      transform: none;
+      opacity: 1;
+      filter: none;
+    }
   }
 </style>
 </head>
@@ -1233,24 +1077,6 @@
         <button class="people-arrow next" type="button" onclick="scrollPeople(1)" aria-label="下一位">›</button>
         <div class="featured-caption">FEATURED</div>
       </section>
-      <section class="team-values" aria-label="Team values">
-        <div class="value-item">
-          <div class="value-icon">✳</div>
-          <div><div class="value-title">BOLD THINKING</div><div class="value-text">We challenge assumptions and lead with insight.</div></div>
-        </div>
-        <div class="value-item">
-          <div class="value-icon">◎</div>
-          <div><div class="value-title">HUMAN CENTERED</div><div class="value-text">We build with empathy and deep understanding.</div></div>
-        </div>
-        <div class="value-item">
-          <div class="value-icon">⊕</div>
-          <div><div class="value-title">MEASURABLE IMPACT</div><div class="value-text">We focus on outcomes that drive real growth.</div></div>
-        </div>
-        <div class="value-item">
-          <div class="value-icon">△</div>
-          <div><div class="value-title">BUILT TOGETHER</div><div class="value-text">We win as a team and grow together.</div></div>
-        </div>
-      </section>
     </main>
 
     <footer>
@@ -1276,6 +1102,7 @@
         { name: "林家佑", role: "DIRECTOR", image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?fit=crop&w=400&h=400&q=80", bio: "專注於電影級影像製作，擅長透過鏡頭語言捕捉情感流動。", portfolio_url: "#", ig_url: "#" }
       ]
     };
+    let activePeopleIndex = 0;
 
     document.addEventListener('DOMContentLoaded', () => {
       setTimeout(() => {
@@ -1412,12 +1239,16 @@
                 if (m.ig_url) buttonsHtml += `<a href="${m.ig_url}" target="_blank" class="portfolio-link ig-btn hover-trigger"><i class="fab fa-instagram" style="font-size: 1.1rem;"></i></a>`;
 
                 const card = document.createElement('div');
-                card.className = `member-card hover-trigger ${index === 2 ? 'featured-card' : ''}`;
+                card.className = 'member-card hover-trigger';
+                card.dataset.index = index;
                 card.setAttribute('data-aos', 'fade-up');
                 card.setAttribute('data-aos-delay', index * 100);
                 
-                // 🔴 關鍵修復：這裡加入點擊事件
                 card.onclick = function() {
+                    if (index !== activePeopleIndex) {
+                        setFeaturedPerson(index, true);
+                        return;
+                    }
                     window.location.href = `member.html?id=${index}`;
                 };
                 
@@ -1431,6 +1262,8 @@
                     </div>`;
                 container.appendChild(card);
             });
+            activePeopleIndex = 0;
+            setFeaturedPerson(activePeopleIndex, false);
         } else { container.innerHTML = '<p style="text-align:center; color:#666;">尚無成員資料。</p>'; }
         
         setTimeout(() => { AOS.refresh(); initMagneticButtons(); }, 100);
@@ -1439,10 +1272,25 @@
     window.scrollPeople = (direction) => {
         const container = document.getElementById('team-container');
         if (!container) return;
-        const card = container.querySelector('.member-card');
-        const distance = card ? card.getBoundingClientRect().width + 18 : 320;
-        container.scrollBy({ left: direction * distance, behavior: 'smooth' });
+        const cards = [...container.querySelectorAll('.member-card')];
+        if (!cards.length) return;
+        const nextIndex = Math.max(0, Math.min(cards.length - 1, activePeopleIndex + direction));
+        setFeaturedPerson(nextIndex, true);
     };
+
+    function setFeaturedPerson(index, shouldScroll) {
+        const container = document.getElementById('team-container');
+        if (!container) return;
+        const cards = [...container.querySelectorAll('.member-card')];
+        if (!cards.length) return;
+        activePeopleIndex = Math.max(0, Math.min(cards.length - 1, index));
+        cards.forEach((card, i) => card.classList.toggle('featured-card', i === activePeopleIndex));
+        if (shouldScroll) {
+            cards[activePeopleIndex].scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+        } else {
+            requestAnimationFrame(() => cards[activePeopleIndex].scrollIntoView({ inline: 'center', block: 'nearest' }));
+        }
+    }
 
     function applyTeamStyle(style) {
         const root = document.documentElement;

@@ -950,13 +950,13 @@
   }
   .people-stage .member-card.featured-card .member-image-wrap::before {
     content: 'FEATURED';
-    top: 26px;
+    top: 24px;
     left: 28px;
     right: auto;
     color: rgba(221,180,103,.9);
     font-family: var(--font-display);
-    font-size: .68rem;
-    letter-spacing: .36em;
+    font-size: .76rem;
+    letter-spacing: .42em;
     line-height: 1;
   }
   .people-stage .member-image-wrap::after {
@@ -1011,7 +1011,7 @@
   .people-stage .member-card.featured-card .member-info {
     left: 28px;
     right: 28px;
-    bottom: 82px;
+    bottom: 118px;
   }
   .people-stage .member-card.featured-card .member-role {
     margin-top: 10px;
@@ -1025,7 +1025,7 @@
     display: block;
     width: 54px;
     height: 1px;
-    margin-top: 10px;
+    margin-top: 12px;
     background: rgba(221,180,103,.82);
   }
   .people-stage .member-role {
@@ -1050,11 +1050,17 @@
   .people-stage .member-card.featured-card .member-bio {
     top: auto;
     left: 28px;
-    bottom: 24px;
-    max-width: 78%;
-    font-size: .7rem;
-    line-height: 1.45;
+    right: 28px;
+    bottom: 28px;
+    max-width: none;
+    min-height: 68px;
+    font-size: .82rem;
+    line-height: 1.55;
     color: rgba(255,255,255,.78);
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
   .people-stage .action-row { display: none; }
   @media (max-width: 980px) {

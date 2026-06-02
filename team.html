@@ -805,8 +805,40 @@
             return await module.loadFirebasePage(pageName);
         } catch (error) {
             console.warn(`[Firebase] ${pageName} fallback to markdown`, error);
+            return loadFirestorePageViaRest(pageName);
+        }
+    }
+
+    async function loadFirestorePageViaRest(pageName) {
+        try {
+            const projectId = 'uprise-videoproduction-admin';
+            const apiKey = 'AIzaSyCyC9CaF36J27mjCl908TFCukNtwAilM4o';
+            const url = `https://firestore.googleapis.com/v1/projects/${projectId}/databases/(default)/documents/pages/${pageName}?key=${apiKey}`;
+            const response = await fetch(url);
+            if (!response.ok) return null;
+            const doc = await response.json();
+            return firestoreFieldsToObject(doc.fields || {});
+        } catch (error) {
+            console.warn(`[Firebase REST] ${pageName} fallback to markdown`, error);
             return null;
         }
+    }
+
+    function firestoreFieldsToObject(fields) {
+        const out = {};
+        Object.entries(fields || {}).forEach(([key, value]) => out[key] = firestoreValueToJs(value));
+        return out;
+    }
+
+    function firestoreValueToJs(value) {
+        if ('stringValue' in value) return value.stringValue;
+        if ('integerValue' in value) return Number(value.integerValue);
+        if ('doubleValue' in value) return Number(value.doubleValue);
+        if ('booleanValue' in value) return value.booleanValue;
+        if ('arrayValue' in value) return (value.arrayValue.values || []).map(firestoreValueToJs);
+        if ('mapValue' in value) return firestoreFieldsToObject(value.mapValue.fields || {});
+        if ('nullValue' in value) return null;
+        return null;
     }
 
     function renderTeam(data) {

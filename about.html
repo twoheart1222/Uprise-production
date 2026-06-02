@@ -402,6 +402,7 @@
         if(footerMark) { const footerOffset = document.querySelector('footer').offsetTop; if(window.scrollY > footerOffset - window.innerHeight) { const delta = window.scrollY - (footerOffset - window.innerHeight); footerMark.style.transform = `translate(-50%, -50%) translateY(${delta * -0.1}px)`; } }
     });
   </script>
+<script type="module" src="admin/firebase-frontend-loader.js"></script>
 <script src="js/site-fixes.js" defer></script>
 </body>
 </html>

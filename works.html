@@ -406,17 +406,26 @@
         const wrapper = document.getElementById('works-wrapper');
         wrapper.innerHTML = '';
 
-        const categories = [
+        const legacyCategories = [
             { id: 'portfolio_brand', name: '品牌形象廣告' },
             { id: 'portfolio_product', name: '產品形象廣告' },
             { id: 'portfolio_public', name: '公部門宣傳影片' },
             { id: 'portfolio_event', name: '活動紀錄' },
             { id: 'portfolio_other', name: '其他' }
         ];
+        const categories = Array.isArray(data.portfolio_categories)
+            ? data.portfolio_categories.map((category) => ({
+                name: category.name || '未命名分類',
+                items: Array.isArray(category.items) ? category.items : []
+            }))
+            : legacyCategories.map((category) => ({
+                name: category.name,
+                items: Array.isArray(data[category.id]) ? data[category.id] : []
+            }));
 
         let hasContent = false;
         categories.forEach((cat) => {
-            const items = data[cat.id];
+            const items = cat.items;
             if (items && items.length > 0) {
                 hasContent = true;
                 let gridHtml = '';
@@ -448,6 +457,7 @@
         if(footerMark) { const footerOffset = document.querySelector('footer').offsetTop; if(window.scrollY > footerOffset - window.innerHeight) { const delta = window.scrollY - (footerOffset - window.innerHeight); footerMark.style.transform = `translate(-50%, -50%) translateY(${delta * -0.1}px)`; } }
     });
   </script>
+<script type="module" src="admin/firebase-frontend-loader.js"></script>
 <script src="js/site-fixes.js" defer></script>
 </body>
 </html>

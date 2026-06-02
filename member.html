@@ -758,6 +758,7 @@
     z-index: 6;
     max-width: 680px;
     padding: clamp(34px, 6vw, 72px);
+    pointer-events: auto;
   }
   .profile-eyebrow {
     color: rgba(255,255,255,.72);
@@ -781,10 +782,25 @@
     border-top: 1px solid rgba(255,215,0,.58);
   }
   .bio-text {
+    position: relative;
+    z-index: 12;
     max-width: 560px;
     border-left: 0;
     padding-left: 0;
     color: rgba(255,255,255,.78);
+    pointer-events: auto;
+  }
+  .bio-text a {
+    position: relative;
+    z-index: 13;
+    color: var(--brand-light);
+    border-bottom: 1px solid rgba(255,215,0,.55);
+    text-decoration: none;
+    pointer-events: auto;
+  }
+  .bio-text a:hover {
+    color: #fff;
+    border-bottom-color: #fff;
   }
   .bio-text::after {
     content: '';
@@ -1106,7 +1122,11 @@
         const photoZoom = Number(m.photo_zoom ?? 1);
         
         const bioContent = m.full_bio ? m.full_bio : m.bio;
-        const bioHtml = new showdown.Converter().makeHtml(bioContent || '');
+        const converter = new showdown.Converter({
+          simplifiedAutoLink: true,
+          openLinksInNewWindow: true
+        });
+        const bioHtml = converter.makeHtml(bioContent || '');
         
         const portfolioBtn = m.portfolio_url 
             ? `<a href="${m.portfolio_url}" target="_blank" class="btn btn-primary hover-trigger magnetic-btn">查看作品集</a>` 
@@ -1207,6 +1227,12 @@
               </div>
             </div>
         `;
+
+        container.querySelectorAll('.bio-text a').forEach(link => {
+          link.target = '_blank';
+          link.rel = 'noopener noreferrer';
+          link.classList.add('hover-trigger');
+        });
         
         setTimeout(() => {
             AOS.refresh();

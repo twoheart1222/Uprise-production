@@ -571,12 +571,54 @@ function safeFileName(name) {
   return `${Date.now()}-${name}`.replace(/[^\w.\-\u4e00-\u9fa5]/g, '-');
 }
 
+function readFileAsDataUrl(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = () => reject(reader.error);
+    reader.readAsDataURL(file);
+  });
+}
+
+async function imageFileToCompressedDataUrl(file) {
+  if (!file.type.startsWith('image/')) throw new Error('只有圖片可以使用備援上傳');
+  const src = await readFileAsDataUrl(file);
+  const img = await new Promise((resolve, reject) => {
+    const image = new Image();
+    image.onload = () => resolve(image);
+    image.onerror = reject;
+    image.src = src;
+  });
+  const maxSide = 1200;
+  const scale = Math.min(1, maxSide / Math.max(img.width, img.height));
+  const canvas = document.createElement('canvas');
+  canvas.width = Math.max(1, Math.round(img.width * scale));
+  canvas.height = Math.max(1, Math.round(img.height * scale));
+  const ctx = canvas.getContext('2d');
+  ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+  let quality = 0.74;
+  let dataUrl = canvas.toDataURL('image/jpeg', quality);
+  while (dataUrl.length > 720000 && quality > 0.42) {
+    quality -= 0.1;
+    dataUrl = canvas.toDataURL('image/jpeg', quality);
+  }
+  if (dataUrl.length > 900000) {
+    throw new Error('圖片太大，請換較小的圖片或到 Firebase Storage 開啟上傳權限');
+  }
+  return dataUrl;
+}
+
 async function uploadFileToStorage(file, folder='images') {
   if (!file) return '';
   const path = `uploads/${folder}/${safeFileName(file.name)}`;
   const storageRef = ref(storage, path);
-  await uploadBytes(storageRef, file);
-  return getDownloadURL(storageRef);
+  try {
+    await uploadBytes(storageRef, file);
+    return getDownloadURL(storageRef);
+  } catch (error) {
+    console.warn('Firebase Storage upload failed; using Firestore image fallback.', error);
+    return imageFileToCompressedDataUrl(file);
+  }
 }
 
 window.uploadHomeAsset = async (input, key, folder='images') => {
@@ -848,6 +890,35 @@ function renderMemberStyle() {
     const el=document.getElementById('member-style-'+k); if(el) el.value=style[k]||'';
   });
 }
+
+function collectTeamStyleFromFields(prefix) {
+  window.data.team.style = window.data.team.style || {};
+  const keys = prefix === 'member'
+    ? ['name_font','member_name_size','role_size','bio_size']
+    : ['name_font','name_size','role_size','bio_size','card_density'];
+  keys.forEach(k => {
+    const el = document.getElementById(`${prefix}-style-${k}`);
+    if (!el) return;
+    window.data.team.style[k] = ['name_size','member_name_size','role_size','bio_size'].includes(k)
+      ? Number(el.value) || null
+      : el.value;
+  });
+}
+
+let styleSaveTimer = null;
+function scheduleStyleSave(prefix) {
+  collectTeamStyleFromFields(prefix);
+  clearTimeout(styleSaveTimer);
+  styleSaveTimer = setTimeout(async () => {
+    try {
+      await setDoc(doc(db,'pages','team'), window.data.team);
+      refreshPreview();
+      showToast('樣式已同步 ✓');
+    } catch(e) {
+      showToast('樣式同步失敗：'+e.message, 'error');
+    }
+  }, 550);
+}
 window.renderMembers = () => {
   const items = window.data.team.members||[];
   document.getElementById('members-list').innerHTML = items.length===0
@@ -963,20 +1034,10 @@ window.saveCurrentPanel = async () => {
   if(panel==='team') {
     window.data.team.title=document.getElementById('team-title').value;
     window.data.team.subtitle=document.getElementById('team-subtitle').value;
-    window.data.team.style = window.data.team.style || {};
-    ['name_font','name_size','role_size','bio_size','card_density'].forEach(k=>{
-      const el=document.getElementById('team-style-'+k);
-      if(!el) return;
-      window.data.team.style[k] = ['name_size','role_size','bio_size'].includes(k) ? Number(el.value) || null : el.value;
-    });
+    collectTeamStyleFromFields('team');
   }
   if(panel==='member') {
-    window.data.team.style = window.data.team.style || {};
-    ['name_font','member_name_size','role_size','bio_size'].forEach(k=>{
-      const el=document.getElementById('member-style-'+k);
-      if(!el) return;
-      window.data.team.style[k] = ['member_name_size','role_size','bio_size'].includes(k) ? Number(el.value) || null : el.value;
-    });
+    collectTeamStyleFromFields('member');
   }
   if(panel==='about') {
     ['title','subtitle','body'].forEach(k=>{
@@ -1035,6 +1096,19 @@ document.querySelectorAll('.nav-item').forEach(item=>{
     document.getElementById('btn-save').style.display=panel==='dashboard'?'none':'flex';
     updatePreviewPage(panel);
   });
+});
+
+document.addEventListener('input', event => {
+  const id = event.target && event.target.id;
+  if (!id) return;
+  if (id.startsWith('team-style-')) scheduleStyleSave('team');
+  if (id.startsWith('member-style-')) scheduleStyleSave('member');
+});
+document.addEventListener('change', event => {
+  const id = event.target && event.target.id;
+  if (!id) return;
+  if (id.startsWith('team-style-')) scheduleStyleSave('team');
+  if (id.startsWith('member-style-')) scheduleStyleSave('member');
 });
 </script>
 </body>

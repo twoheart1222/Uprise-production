@@ -204,6 +204,16 @@ hr.divider { border: none; border-top: 1px solid var(--border); }
 .photo-adjust-grid {
   display: grid; grid-template-columns: minmax(220px, 320px) 1fr; gap: 18px; align-items: start;
 }
+.style-live-preview {
+  margin-top: 18px; padding: 22px; border-radius: 14px; border: 1px solid var(--border);
+  background: linear-gradient(135deg, rgba(255,255,255,.05), rgba(255,255,255,.015));
+}
+.style-live-name { margin: 0; color: #fff; line-height: .92; letter-spacing: .04em; }
+.style-live-role { margin-top: 14px; color: var(--accent2); letter-spacing: .24em; text-transform: uppercase; }
+.style-live-bio { margin-top: 14px; color: var(--muted); line-height: 1.8; max-width: 560px; }
+.upload-status {
+  margin-top: 8px; color: var(--accent2); font-size: .78rem; min-height: 1.2em;
+}
 .category-name { display: flex; align-items: center; gap: 10px; }
 .category-name input {
   min-width: 220px; background: transparent; border: none; border-bottom: 1px solid var(--border);
@@ -310,7 +320,7 @@ hr.divider { border: none; border-top: 1px solid var(--border); }
       <div class="card">
         <div class="card-title">基本設定</div>
         <div class="field"><label>主視覺標語</label><input type="text" id="home-hero_text" placeholder="看見故事的力量"></div>
-        <div class="field"><label>Logo 圖片網址</label><input type="text" id="home-logo" placeholder="https://..."><input type="file" accept="image/*" onchange="uploadHomeAsset(this,'logo','images')" style="margin-top:8px"><div class="field-hint">可直接上傳圖片，或貼上網址。建議使用透明背景 PNG。</div></div>
+        <div class="field"><label>Logo 圖片網址</label><input type="text" id="home-logo" placeholder="https://..."><input type="file" accept="image/*" onchange="uploadHomeAsset(this,'logo','images')" style="margin-top:8px"><div class="upload-status" data-upload-status="home-logo"></div><div class="field-hint">可直接上傳圖片，或貼上網址。建議使用透明背景 PNG。</div></div>
         <div class="field"><label>背景影片網址（電腦版）</label><input type="text" id="home-hero_video" placeholder="https://res.cloudinary.com/..."></div>
         <div class="field"><label>背景影片網址（手機版）</label><input type="text" id="home-hero_video_mobile" placeholder="留空則使用電腦版影片"><div class="field-hint">建議直式 9:16 影片</div></div>
       </div>
@@ -392,6 +402,11 @@ hr.divider { border: none; border-top: 1px solid var(--border); }
           </select>
           <div class="field-hint">這組設定會同時套用在 team.html 團隊頁與 member.html 個人頁。</div>
         </div>
+        <div class="style-live-preview" id="team-style-preview">
+          <h3 class="style-live-name">COVER STORY</h3>
+          <div class="style-live-role">EDITORIAL PROFILE / DIRECTOR</div>
+          <div class="style-live-bio">這裡會即時顯示 Team 頁人物卡片的姓名、職稱與內文字體大小。</div>
+        </div>
       </div>
       <div class="card">
         <div class="card-title">
@@ -425,6 +440,11 @@ hr.divider { border: none; border-top: 1px solid var(--border); }
         <div class="field-row">
           <div class="field"><label>職稱大小（rem）</label><input type="number" step="0.05" min="0.6" max="2" id="member-style-role_size" placeholder="0.82"></div>
           <div class="field"><label>內文大小（rem）</label><input type="number" step="0.05" min="0.75" max="1.6" id="member-style-bio_size" placeholder="0.98"></div>
+        </div>
+        <div class="style-live-preview" id="member-style-preview">
+          <h3 class="style-live-name">UPRISE PROFILE</h3>
+          <div class="style-live-role">CREATIVE PROFILE / DIRECTOR</div>
+          <div class="style-live-bio">這裡會即時顯示 Member 個人頁標題、職稱與內文字體大小。</div>
         </div>
       </div>
       <div class="card">
@@ -584,6 +604,22 @@ function schedulePreviewRefresh() {
   previewRefreshTimer = setTimeout(() => refreshPreview(), 450);
 }
 
+function setUploadStatus(key, message) {
+  const el = document.querySelector(`[data-upload-status="${key}"]`);
+  if (el) el.textContent = message || '';
+}
+
+function showImmediateImage(url, targets=[]) {
+  targets.forEach(target => {
+    const el = typeof target === 'string' ? document.querySelector(target) : target;
+    if (!el) return;
+    if (el.tagName === 'IMG') {
+      el.src = url;
+      el.style.display = '';
+    }
+  });
+}
+
 function safeFileName(name) {
   return `${Date.now()}-${name}`.replace(/[^\w.\-\u4e00-\u9fa5]/g, '-');
 }
@@ -641,49 +677,81 @@ async function uploadFileToStorage(file, folder='images') {
 window.uploadHomeAsset = async (input, key, folder='images') => {
   const file = input.files && input.files[0];
   if (!file) return;
+  const localUrl = URL.createObjectURL(file);
   showToast('上傳中...', 'loading');
+  setUploadStatus(`home-${key}`, '已選擇圖片，正在處理...');
   try {
+    window.data.home[key] = localUrl;
+    const el = document.getElementById('home-'+key);
+    if (el) el.value = localUrl;
+    renderHome();
+    syncPreviewCache();
+    refreshPreview();
+
     const url = await uploadFileToStorage(file, folder);
     window.data.home[key] = url;
-    const el = document.getElementById('home-'+key);
     if (el) el.value = url;
     renderHome();
     syncPreviewCache();
     refreshPreview();
     try {
       await setDoc(doc(db,'pages','home'), window.data.home);
+      setUploadStatus(`home-${key}`, 'Firebase 已同步');
       showToast('上傳完成 ✓');
     } catch(saveError) {
+      setUploadStatus(`home-${key}`, '已可預覽，但 Firebase 儲存失敗');
       showToast('圖片已更新預覽，但 Firebase 儲存失敗：'+saveError.message, 'error');
     }
-  } catch(e) { showToast('上傳失敗：'+e.message,'error'); }
+  } catch(e) { setUploadStatus(`home-${key}`, '上傳失敗'); showToast('上傳失敗：'+e.message,'error'); }
   input.value = '';
+  URL.revokeObjectURL(localUrl);
 };
 
 window.uploadBtsImage = async (input, index) => {
   const file = input.files && input.files[0];
   if (!file) return;
+  const localUrl = URL.createObjectURL(file);
   showToast('上傳中...', 'loading');
+  setUploadStatus(`bts-${index}`, '已選擇圖片，正在處理...');
   try {
+    window.data.home.behind_the_scenes[index].image = localUrl;
+    renderBts();
+    setUploadStatus(`bts-${index}`, '已顯示本機預覽，正在上傳...');
+    syncPreviewCache();
+    refreshPreview();
+
     window.data.home.behind_the_scenes[index].image = await uploadFileToStorage(file, 'home');
     renderBts();
     syncPreviewCache();
     refreshPreview();
     try {
       await setDoc(doc(db,'pages','home'), window.data.home);
+      setUploadStatus(`bts-${index}`, 'Firebase 已同步');
       showToast('圖片上傳完成 ✓');
     } catch(saveError) {
+      setUploadStatus(`bts-${index}`, '已可預覽，但 Firebase 儲存失敗');
       showToast('圖片已更新預覽，但 Firebase 儲存失敗：'+saveError.message, 'error');
     }
-  } catch(e) { showToast('上傳失敗：'+e.message,'error'); }
+  } catch(e) { setUploadStatus(`bts-${index}`, '上傳失敗'); showToast('上傳失敗：'+e.message,'error'); }
   input.value = '';
+  URL.revokeObjectURL(localUrl);
 };
 
 window.uploadMemberAvatar = async (input, index) => {
   const file = input.files && input.files[0];
   if (!file) return;
+  const localUrl = URL.createObjectURL(file);
   showToast('上傳中...', 'loading');
+  setUploadStatus(`member-${index}`, '已選擇圖片，正在處理...');
   try {
+    window.data.team.members[index].avatar = localUrl;
+    window.data.team.members[index].image = localUrl;
+    renderMembers();
+    renderMemberPageList();
+    setUploadStatus(`member-${index}`, '已顯示本機預覽，正在上傳...');
+    syncPreviewCache();
+    refreshPreview();
+
     const url = await uploadFileToStorage(file, 'team');
     window.data.team.members[index].avatar = url;
     window.data.team.members[index].image = url;
@@ -693,12 +761,15 @@ window.uploadMemberAvatar = async (input, index) => {
     refreshPreview();
     try {
       await setDoc(doc(db,'pages','team'), window.data.team);
+      setUploadStatus(`member-${index}`, 'Firebase 已同步');
       showToast('成員照片上傳完成 ✓');
     } catch(saveError) {
+      setUploadStatus(`member-${index}`, '已可預覽，但 Firebase 儲存失敗');
       showToast('照片已更新預覽，但 Firebase 儲存失敗：'+saveError.message, 'error');
     }
-  } catch(e) { showToast('上傳失敗：'+e.message,'error'); }
+  } catch(e) { setUploadStatus(`member-${index}`, '上傳失敗'); showToast('上傳失敗：'+e.message,'error'); }
   input.value = '';
+  URL.revokeObjectURL(localUrl);
 };
 
 let activePhotoDrag = null;
@@ -805,7 +876,7 @@ window.renderBts = () => {
         <button class="btn-icon danger" onclick="window.data.home.behind_the_scenes.splice(${i},1);renderBts()"><i class="fas fa-trash"></i></button>
       </div>
       <div class="field-row">
-        <div class="field"><label>圖片網址</label><input value="${b.image||''}" oninput="window.data.home.behind_the_scenes[${i}].image=this.value"><input type="file" accept="image/*" onchange="uploadBtsImage(this,${i})" style="margin-top:8px"></div>
+        <div class="field"><label>圖片網址</label><input value="${b.image||''}" oninput="window.data.home.behind_the_scenes[${i}].image=this.value"><input type="file" accept="image/*" onchange="uploadBtsImage(this,${i})" style="margin-top:8px"><div class="upload-status" data-upload-status="bts-${i}"></div></div>
         <div class="field"><label>說明（供辨識）</label><input value="${b.caption||''}" oninput="window.data.home.behind_the_scenes[${i}].caption=this.value"></div>
       </div>
     </div>`).join('');
@@ -916,12 +987,14 @@ function renderTeamStyle() {
   ['name_font','name_size','role_size','bio_size','card_density'].forEach(k=>{
     const el=document.getElementById('team-style-'+k); if(el) el.value=style[k]||'';
   });
+  applyStyleLivePreview('team');
 }
 function renderMemberStyle() {
   const style = window.data.team.style || {};
   ['name_font','member_name_size','role_size','bio_size'].forEach(k=>{
     const el=document.getElementById('member-style-'+k); if(el) el.value=style[k]||'';
   });
+  applyStyleLivePreview('member');
 }
 
 function collectTeamStyleFromFields(prefix) {
@@ -936,6 +1009,27 @@ function collectTeamStyleFromFields(prefix) {
       ? Number(el.value) || null
       : el.value;
   });
+  applyStyleLivePreview(prefix);
+}
+
+function applyStyleLivePreview(prefix) {
+  const style = window.data.team.style || {};
+  const preview = document.getElementById(`${prefix}-style-preview`);
+  if (!preview) return;
+  const fontMap = {
+    serif: '"Noto Serif TC", "Playfair Display", serif',
+    sans: '"Noto Sans TC", sans-serif',
+    display: '"Cormorant Garamond", serif'
+  };
+  const name = preview.querySelector('.style-live-name');
+  const role = preview.querySelector('.style-live-role');
+  const bio = preview.querySelector('.style-live-bio');
+  if (name) {
+    name.style.fontFamily = fontMap[style.name_font] || fontMap.serif;
+    name.style.fontSize = `${Number(prefix === 'member' ? style.member_name_size || style.name_size : style.name_size) || (prefix === 'member' ? 6.3 : 2.45)}rem`;
+  }
+  if (role) role.style.fontSize = `${Number(style.role_size) || 0.82}rem`;
+  if (bio) bio.style.fontSize = `${Number(style.bio_size) || 0.98}rem`;
 }
 
 let styleSaveTimer = null;
@@ -973,7 +1067,7 @@ window.renderMembers = () => {
         <div class="field"><label>姓名</label><input value="${m.name||''}" oninput="window.data.team.members[${i}].name=this.value"></div>
         <div class="field"><label>職稱</label><input value="${m.role||''}" oninput="window.data.team.members[${i}].role=this.value"></div>
       </div>
-      <div class="field"><label>頭像圖片網址</label><input value="${m.avatar||m.image||''}" oninput="window.data.team.members[${i}].avatar=this.value;window.data.team.members[${i}].image=this.value"><input type="file" accept="image/*" onchange="uploadMemberAvatar(this,${i})" style="margin-top:8px"></div>
+      <div class="field"><label>頭像圖片網址</label><input value="${m.avatar||m.image||''}" oninput="window.data.team.members[${i}].avatar=this.value;window.data.team.members[${i}].image=this.value"><input type="file" accept="image/*" onchange="uploadMemberAvatar(this,${i})" style="margin-top:8px"><div class="upload-status" data-upload-status="member-${i}"></div></div>
       <div class="field-row">
         <div class="field"><label>照片水平位置 X（0 左、50 中、100 右）</label><input type="range" min="0" max="100" value="${m.photo_x ?? 50}" oninput="window.data.team.members[${i}].photo_x=Number(this.value);this.nextElementSibling.textContent=this.value+'%'"><div class="field-hint">${m.photo_x ?? 50}%</div></div>
         <div class="field"><label>照片垂直位置 Y（0 上、50 中、100 下）</label><input type="range" min="0" max="100" value="${m.photo_y ?? 20}" oninput="window.data.team.members[${i}].photo_y=Number(this.value);this.nextElementSibling.textContent=this.value+'%'"><div class="field-hint">${m.photo_y ?? 20}%</div></div>
@@ -1008,7 +1102,7 @@ function renderMemberPageList() {
           ${m.avatar||m.image ? `<img src="${m.avatar||m.image}" alt="">` : ''}
         </div>
         <div>
-          <div class="field"><label>Member 頁照片</label><input value="${m.avatar||m.image||''}" oninput="window.data.team.members[${i}].avatar=this.value;window.data.team.members[${i}].image=this.value;updatePhotoPreviewImage(${i},this.value);renderMemberPageList()"><input type="file" accept="image/*" onchange="uploadMemberAvatar(this,${i})" style="margin-top:8px"></div>
+          <div class="field"><label>Member 頁照片</label><input value="${m.avatar||m.image||''}" oninput="window.data.team.members[${i}].avatar=this.value;window.data.team.members[${i}].image=this.value;updatePhotoPreviewImage(${i},this.value);renderMemberPageList()"><input type="file" accept="image/*" onchange="uploadMemberAvatar(this,${i})" style="margin-top:8px"><div class="upload-status" data-upload-status="member-${i}"></div></div>
           <div class="field-row">
             <div class="field"><label>照片 X 位置</label><input id="member-photo-x-${i}" type="range" min="0" max="100" value="${m.photo_x ?? 50}" oninput="window.data.team.members[${i}].photo_x=Number(this.value);this.nextElementSibling.textContent=this.value+'%';updatePhotoPreview(${i})"><div class="field-hint">${m.photo_x ?? 50}%</div></div>
             <div class="field"><label>照片 Y 位置</label><input id="member-photo-y-${i}" type="range" min="0" max="100" value="${m.photo_y ?? 20}" oninput="window.data.team.members[${i}].photo_y=Number(this.value);this.nextElementSibling.textContent=this.value+'%';updatePhotoPreview(${i})"><div class="field-hint">${m.photo_y ?? 20}%</div></div>

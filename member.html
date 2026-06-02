@@ -701,16 +701,19 @@
     pointer-events: none;
   }
   .profile-container::after {
-    content: 'UPRISE PRODUCTION';
+    content: 'UPRISE';
     position: absolute;
-    right: 28px;
-    top: 28px;
+    left: clamp(24px, 5vw, 64px);
+    right: clamp(24px, 5vw, 64px);
+    top: clamp(22px, 4vw, 48px);
     z-index: 5;
-    color: rgba(255,215,0,.78);
-    font-family: var(--font-display);
-    font-size: .72rem;
-    letter-spacing: .34em;
-    writing-mode: vertical-rl;
+    color: rgba(255,255,255,.16);
+    font-family: var(--font-serif);
+    font-size: clamp(4rem, 12vw, 12rem);
+    font-weight: 900;
+    letter-spacing: .08em;
+    line-height: .78;
+    pointer-events: none;
   }
   .photo-section {
     position: absolute;
@@ -758,10 +761,16 @@
   }
   .profile-eyebrow {
     color: rgba(255,255,255,.72);
+    border: 1px solid rgba(255,255,255,.24);
+    display: inline-flex;
+    width: fit-content;
+    padding: 7px 12px;
+    background: rgba(0,0,0,.22);
   }
   .member-name {
     max-width: 760px;
-    font-size: clamp(4.2rem, 9vw, 9.5rem) !important;
+    font-family: var(--member-name-font) !important;
+    font-size: var(--member-name-size) !important;
     line-height: .78;
     letter-spacing: .02em;
     text-shadow: 0 22px 60px rgba(0,0,0,.82);
@@ -820,7 +829,7 @@
       padding: 34px 28px 42px;
     }
     .member-name {
-      font-size: clamp(4.2rem, 20vw, 6.8rem) !important;
+      font-size: clamp(3.6rem, 18vw, 6.8rem) !important;
       text-align: left;
     }
     .bio-text {

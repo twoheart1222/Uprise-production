@@ -731,28 +731,20 @@
         AOS.init({ duration: 1000, easing: 'ease-out-cubic', once: false, mirror: true, offset: 50 });
       }, 1400);
 
-      // 🔴 讀取團隊資料 (防快取)
-      fetch('content/team.md?t=' + new Date().getTime())
-        .then(r => r.ok ? r.text() : Promise.reject())
-        .then(text => {
-          const parts = text.split('---');
-          const data = jsyaml.load(parts.length > 1 ? parts[1] : text);
-          renderTeam(data);
-        })
-        .catch(err => {
-            console.log("Using fallback team data");
-            renderTeam(fallbackData);
+      loadPageData('team', 'content/team.md?t=' + new Date().getTime())
+        .then(data => renderTeam(data || fallbackData))
+        .catch(() => {
+          console.log("Using fallback team data");
+          renderTeam(fallbackData);
         });
 
       // 讀取 Global 設定
-      fetch('content/index.md?t=' + new Date().getTime())
-        .then(r => r.ok ? r.text() : Promise.reject())
-        .then(text => {
-            const data = jsyaml.load(text.split('---')[1]);
-            if(data.logo) {
-                document.querySelector('.logo img').src = data.logo;
-                document.querySelector('.loader-logo-img').src = data.logo;
-            }
+      loadPageData('home', 'content/index.md?t=' + new Date().getTime())
+        .then(data => {
+          if(data && data.logo) {
+            document.querySelector('.logo img').src = data.logo;
+            document.querySelector('.loader-logo-img').src = data.logo;
+          }
         });
 
       initCursor(); initPageTransition(); createParticles(); initMagneticButtons(); initSoundToggle(); initMenu();
@@ -779,6 +771,27 @@
                     mobileMenu.classList.remove('active');
                 }
             });
+        }
+    }
+
+    async function loadPageData(pageName, markdownPath) {
+        const firebaseData = await loadFirestorePage(pageName);
+        if (firebaseData) return firebaseData;
+        const response = await fetch(markdownPath);
+        if (!response.ok) throw new Error('CMS Data Not Found');
+        const text = await response.text();
+        const parts = text.split('---');
+        return jsyaml.load(parts.length > 1 ? parts[1] : text);
+    }
+
+    async function loadFirestorePage(pageName) {
+        try {
+            if (window.loadFirebasePage) return await window.loadFirebasePage(pageName);
+            const module = await import('./admin/firebase-frontend-loader.js');
+            return await module.loadFirebasePage(pageName);
+        } catch (error) {
+            console.warn(`[Firebase] ${pageName} fallback to markdown`, error);
+            return null;
         }
     }
 

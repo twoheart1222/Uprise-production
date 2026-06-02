@@ -1009,15 +1009,8 @@
       const urlParams = new URLSearchParams(window.location.search);
       const memberId = urlParams.get('id') || 0; 
 
-      // 嘗試讀取 CMS 資料
-      fetch('content/team.md')
-        .then(r => {
-            if(!r.ok) throw new Error("CMS Data Not Found");
-            return r.text();
-        })
-        .then(text => {
-          const parts = text.split('---');
-          const data = jsyaml.load(parts.length > 1 ? parts[1] : text);
+      loadPageData('team', 'content/team.md')
+        .then(data => {
           applyMemberStyle(data.style || {});
           renderMember(data, memberId);
         })
@@ -1034,6 +1027,27 @@
       initMagneticButtons();
       initSoundToggle(); 
     });
+
+    async function loadPageData(pageName, markdownPath) {
+      const firebaseData = await loadFirestorePage(pageName);
+      if (firebaseData) return firebaseData;
+      const response = await fetch(markdownPath);
+      if (!response.ok) throw new Error('CMS Data Not Found');
+      const text = await response.text();
+      const parts = text.split('---');
+      return jsyaml.load(parts.length > 1 ? parts[1] : text);
+    }
+
+    async function loadFirestorePage(pageName) {
+      try {
+        if (window.loadFirebasePage) return await window.loadFirebasePage(pageName);
+        const module = await import('./admin/firebase-frontend-loader.js');
+        return await module.loadFirebasePage(pageName);
+      } catch (error) {
+        console.warn(`[Firebase] ${pageName} fallback to markdown`, error);
+        return null;
+      }
+    }
 
     function renderMember(data, id) {
       const container = document.getElementById('profile-content');

@@ -2,7 +2,7 @@ backend:
   name: github
   repo: twoheart1222/uprise-production  # 🔴 請確認這是不是你 GitHub 的「儲存庫名稱」，如果不是請改成正確的
   branch: main
-  
+
 media_folder: "images/uploads"
 public_folder: "/images/uploads"
 
@@ -53,45 +53,23 @@ collections:
           - {label: "頁面主標題", name: "title", widget: "string", default: "精選作品集"}
           - {label: "頁面副標題", name: "subtitle", widget: "text", default: "收錄歷年來的影像精華"}
           
-          # 定義共用的影片欄位結構 (YAML Anchor)
-          - label: "📂 品牌形象廣告 (Brand Image)"
-            name: "portfolio_brand"
+          - label: "作品分類"
+            name: "portfolio_categories"
             widget: "list"
             collapsed: true
-            summary: '{{title}}'
-            fields: &video_fields
-              - {label: "作品名稱", name: "title", widget: "string"}
-              - {label: "客戶名稱", name: "client", widget: "string", required: false}
-              - {label: "影片連結 (YouTube)", name: "link", widget: "string"}
-              - {label: "封面圖片 (選填)", name: "image", widget: "image", required: false, hint: "若未上傳將自動抓取 YouTube 縮圖"}
-
-          - label: "📂 產品形象廣告 (Product Video)"
-            name: "portfolio_product"
-            widget: "list"
-            collapsed: true
-            summary: '{{title}}'
-            fields: *video_fields
-
-          - label: "📂 公部門宣傳影片 (Public Sector)"
-            name: "portfolio_public"
-            widget: "list"
-            collapsed: true
-            summary: '{{title}}'
-            fields: *video_fields
-
-          - label: "📂 活動紀錄 (Event Highlight)"
-            name: "portfolio_event"
-            widget: "list"
-            collapsed: true
-            summary: '{{title}}'
-            fields: *video_fields
-
-          - label: "📂 其他 (Other)"
-            name: "portfolio_other"
-            widget: "list"
-            collapsed: true
-            summary: '{{title}}'
-            fields: *video_fields
+            summary: '{{name}}'
+            fields:
+              - {label: "分類名稱", name: "name", widget: "string"}
+              - label: "作品"
+                name: "items"
+                widget: "list"
+                collapsed: true
+                summary: '{{title}}'
+                fields:
+                  - {label: "作品名稱", name: "title", widget: "string"}
+                  - {label: "客戶名稱", name: "client", widget: "string", required: false}
+                  - {label: "影片連結 (YouTube)", name: "link", widget: "string"}
+                  - {label: "封面圖片 (選填)", name: "image", widget: "image", required: false, hint: "若未上傳將自動抓取 YouTube 縮圖"}
 
       # --- 3. 團隊頁 (Team) ---
       - label: "團隊介紹 (Team)"

@@ -900,14 +900,14 @@
   .people-stage .member-card:nth-child(4) { --cover-rot: 1.2deg; }
   .people-stage .member-card:nth-child(n+5) { --cover-rot: .7deg; }
   .people-stage .member-card.featured-card {
-    flex-basis: clamp(360px, 27vw, 450px);
-    height: clamp(560px, 43vw, 680px);
+    flex-basis: clamp(300px, 21vw, 360px);
+    height: clamp(470px, 33vw, 560px);
     z-index: 12;
     opacity: 1;
     filter: none;
     transform: rotate(0deg) scale(1);
     border-color: rgba(221,180,103,.9);
-    border-radius: 22px;
+    border-radius: 18px;
     box-shadow: 0 44px 120px rgba(0,0,0,.72), 0 0 0 2px rgba(221,180,103,.48), 0 24px 48px rgba(198,154,92,.12);
   }
   .people-stage .member-card::before {
@@ -950,13 +950,13 @@
   }
   .people-stage .member-card.featured-card .member-image-wrap::before {
     content: 'FEATURED';
-    top: 30px;
-    left: 34px;
+    top: 26px;
+    left: 28px;
     right: auto;
     color: rgba(221,180,103,.9);
     font-family: var(--font-display);
-    font-size: .82rem;
-    letter-spacing: .42em;
+    font-size: .68rem;
+    letter-spacing: .36em;
     line-height: 1;
   }
   .people-stage .member-image-wrap::after {
@@ -973,7 +973,7 @@
     filter: saturate(1.04) contrast(1.08) brightness(1.12);
   }
   .people-stage .member-card.featured-card .member-image-wrap {
-    border-radius: 22px !important;
+    border-radius: 18px !important;
   }
   .people-stage .member-card.featured-card .member-image-wrap::after {
     background:
@@ -981,9 +981,9 @@
       radial-gradient(circle at 57% 36%, transparent 0 42%, rgba(0,0,0,.20) 84%);
   }
   .people-stage .member-card.featured-card .member-img {
-    object-position: var(--photo-x, 54%) var(--photo-y, 16%);
-    transform: scale(calc(var(--photo-zoom, 1.02) + .26));
-    filter: saturate(1.08) contrast(1.08) brightness(1.18);
+    object-position: var(--photo-x, 56%) var(--photo-y, 17%);
+    transform: scale(calc(var(--photo-zoom, 1.02) + .12));
+    filter: saturate(1.06) contrast(1.08) brightness(1.15);
   }
   .people-stage .member-info {
     position: absolute;
@@ -1002,21 +1002,21 @@
     background: none;
   }
   .people-stage .member-card.featured-card .member-name {
-    font-size: clamp(2.4rem, 3.8vw, 4.2rem);
-    line-height: .92;
+    font-size: clamp(1.85rem, 2.65vw, 2.9rem);
+    line-height: .94;
     letter-spacing: -.025em;
     color: #f3eee8;
     text-shadow: 0 18px 40px rgba(0,0,0,.9);
   }
   .people-stage .member-card.featured-card .member-info {
-    left: 34px;
-    right: 34px;
-    bottom: 96px;
+    left: 28px;
+    right: 28px;
+    bottom: 82px;
   }
   .people-stage .member-card.featured-card .member-role {
-    margin-top: 16px;
+    margin-top: 10px;
     color: rgba(221,180,103,.96);
-    font-size: clamp(.86rem, 1.1vw, 1.08rem);
+    font-size: clamp(.72rem, .9vw, .9rem);
     letter-spacing: .22em;
     line-height: 1.45;
   }
@@ -1025,7 +1025,7 @@
     display: block;
     width: 54px;
     height: 1px;
-    margin-top: 16px;
+    margin-top: 10px;
     background: rgba(221,180,103,.82);
   }
   .people-stage .member-role {
@@ -1049,11 +1049,11 @@
   }
   .people-stage .member-card.featured-card .member-bio {
     top: auto;
-    left: 34px;
-    bottom: 32px;
+    left: 28px;
+    bottom: 24px;
     max-width: 78%;
-    font-size: .88rem;
-    line-height: 1.62;
+    font-size: .7rem;
+    line-height: 1.45;
     color: rgba(255,255,255,.78);
   }
   .people-stage .action-row { display: none; }

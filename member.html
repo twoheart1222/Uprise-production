@@ -742,7 +742,12 @@
   }
   .profile-img {
     object-position: center top;
+    object-position: var(--member-photo-x, 50%) var(--member-photo-y, 20%);
+    transform: scale(var(--member-photo-zoom, 1));
     filter: saturate(.9) contrast(1.08);
+  }
+  .photo-section.aos-animate .profile-img {
+    transform: scale(var(--member-photo-zoom, 1));
   }
   .shutter-mask { border-radius: 0; }
   .info-section {
@@ -1027,6 +1032,9 @@
       if(data.members && data.members[id]) {
         const m = data.members[id];
         const avatar = m.avatar || 'https://dummyimage.com/400x533/333/fff';
+        const photoX = Number(m.photo_x ?? 50);
+        const photoY = Number(m.photo_y ?? 20);
+        const photoZoom = Number(m.photo_zoom ?? 1);
         
         const bioContent = m.full_bio ? m.full_bio : m.bio;
         const bioHtml = new showdown.Converter().makeHtml(bioContent || '');
@@ -1105,7 +1113,7 @@
             <div class="photo-section" data-aos="fade" data-aos-duration="1500">
               <div class="photo-frame">
                 <div class="img-inner">
-                    <img src="${avatar}" class="profile-img" alt="${m.name} - ${m.role} | 推手影像">
+                    <img src="${avatar}" class="profile-img" style="--member-photo-x:${photoX}%;--member-photo-y:${photoY}%;--member-photo-zoom:${photoZoom}" alt="${m.name} - ${m.role} | 推手影像">
                     <div class="shutter-mask"></div>
                 </div>
                 <span class="portrait-index">UPRISE / PROFILE</span>
@@ -1148,7 +1156,7 @@
         display: 'var(--font-display)'
       };
       root.style.setProperty('--member-name-font', fontMap[style.name_font] || fontMap.serif);
-      root.style.setProperty('--member-name-size', `clamp(3rem, 7vw, ${Number(style.name_size) || 6.3}rem)`);
+      root.style.setProperty('--member-name-size', `clamp(3rem, 7vw, ${Number(style.member_name_size || style.name_size) || 6.3}rem)`);
       root.style.setProperty('--member-role-size', `${Number(style.role_size) || 0.82}rem`);
       root.style.setProperty('--member-bio-size', `${Number(style.bio_size) || 0.98}rem`);
     }

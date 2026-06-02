@@ -1106,6 +1106,7 @@
       ]
     };
     let activePeopleIndex = 0;
+    let peopleWheelLocked = false;
 
     document.addEventListener('DOMContentLoaded', () => {
       setTimeout(() => {
@@ -1270,6 +1271,7 @@
         } else { container.innerHTML = '<p style="text-align:center; color:#666;">尚無成員資料。</p>'; }
         
         setTimeout(() => { AOS.refresh(); initMagneticButtons(); }, 100);
+        initPeopleWheel();
     }
 
     window.scrollPeople = (direction) => {
@@ -1293,6 +1295,26 @@
         } else {
             requestAnimationFrame(() => cards[activePeopleIndex].scrollIntoView({ inline: 'center', block: 'nearest' }));
         }
+    }
+
+    function initPeopleWheel() {
+        const stage = document.querySelector('.people-stage');
+        const container = document.getElementById('team-container');
+        if (!stage || !container || stage.dataset.wheelReady === '1') return;
+        stage.dataset.wheelReady = '1';
+        stage.addEventListener('wheel', (event) => {
+            const cards = [...container.querySelectorAll('.member-card')];
+            if (!cards.length) return;
+            const direction = event.deltaY > 0 ? 1 : -1;
+            const atFirst = activePeopleIndex === 0;
+            const atLast = activePeopleIndex === cards.length - 1;
+            if ((direction < 0 && atFirst) || (direction > 0 && atLast)) return;
+            event.preventDefault();
+            if (peopleWheelLocked) return;
+            peopleWheelLocked = true;
+            setFeaturedPerson(activePeopleIndex + direction, true);
+            setTimeout(() => { peopleWheelLocked = false; }, 520);
+        }, { passive: false });
     }
 
     function applyTeamStyle(style) {

@@ -561,11 +561,28 @@ async function loadAllData() {
     }
     renderAll();
     updateStats();
+    syncPreviewCache();
     showToast('資料載入完成 ✓');
   } catch(e) { showToast('載入失敗：'+e.message,'error'); }
 }
 
 function renderAll() { renderHome(); renderWorks(); renderTeam(); renderAbout(); renderContact(); }
+
+function syncPreviewCache() {
+  try {
+    localStorage.setItem('uprisePreviewPages', JSON.stringify(window.data));
+    localStorage.setItem('uprisePreviewUpdatedAt', String(Date.now()));
+  } catch (error) {
+    console.warn('Unable to write local preview cache.', error);
+  }
+}
+
+let previewRefreshTimer = null;
+function schedulePreviewRefresh() {
+  syncPreviewCache();
+  clearTimeout(previewRefreshTimer);
+  previewRefreshTimer = setTimeout(() => refreshPreview(), 450);
+}
 
 function safeFileName(name) {
   return `${Date.now()}-${name}`.replace(/[^\w.\-\u4e00-\u9fa5]/g, '-');
@@ -630,10 +647,15 @@ window.uploadHomeAsset = async (input, key, folder='images') => {
     window.data.home[key] = url;
     const el = document.getElementById('home-'+key);
     if (el) el.value = url;
-    await setDoc(doc(db,'pages','home'), window.data.home);
     renderHome();
+    syncPreviewCache();
     refreshPreview();
-    showToast('上傳完成 ✓');
+    try {
+      await setDoc(doc(db,'pages','home'), window.data.home);
+      showToast('上傳完成 ✓');
+    } catch(saveError) {
+      showToast('圖片已更新預覽，但 Firebase 儲存失敗：'+saveError.message, 'error');
+    }
   } catch(e) { showToast('上傳失敗：'+e.message,'error'); }
   input.value = '';
 };
@@ -644,10 +666,15 @@ window.uploadBtsImage = async (input, index) => {
   showToast('上傳中...', 'loading');
   try {
     window.data.home.behind_the_scenes[index].image = await uploadFileToStorage(file, 'home');
-    await setDoc(doc(db,'pages','home'), window.data.home);
     renderBts();
+    syncPreviewCache();
     refreshPreview();
-    showToast('圖片上傳完成 ✓');
+    try {
+      await setDoc(doc(db,'pages','home'), window.data.home);
+      showToast('圖片上傳完成 ✓');
+    } catch(saveError) {
+      showToast('圖片已更新預覽，但 Firebase 儲存失敗：'+saveError.message, 'error');
+    }
   } catch(e) { showToast('上傳失敗：'+e.message,'error'); }
   input.value = '';
 };
@@ -660,11 +687,16 @@ window.uploadMemberAvatar = async (input, index) => {
     const url = await uploadFileToStorage(file, 'team');
     window.data.team.members[index].avatar = url;
     window.data.team.members[index].image = url;
-    await setDoc(doc(db,'pages','team'), window.data.team);
     renderMembers();
     renderMemberPageList();
+    syncPreviewCache();
     refreshPreview();
-    showToast('成員照片上傳完成 ✓');
+    try {
+      await setDoc(doc(db,'pages','team'), window.data.team);
+      showToast('成員照片上傳完成 ✓');
+    } catch(saveError) {
+      showToast('照片已更新預覽，但 Firebase 儲存失敗：'+saveError.message, 'error');
+    }
   } catch(e) { showToast('上傳失敗：'+e.message,'error'); }
   input.value = '';
 };
@@ -709,6 +741,7 @@ window.updatePhotoPreview = (index) => {
   preview.style.setProperty('--px', `${m.photo_x ?? 50}%`);
   preview.style.setProperty('--py', `${m.photo_y ?? 20}%`);
   preview.style.setProperty('--pz', `${m.photo_zoom ?? 1}`);
+  schedulePreviewRefresh();
 };
 
 window.updatePhotoPreviewImage = (index, url) => {
@@ -910,9 +943,9 @@ function scheduleStyleSave(prefix) {
   collectTeamStyleFromFields(prefix);
   clearTimeout(styleSaveTimer);
   styleSaveTimer = setTimeout(async () => {
+    schedulePreviewRefresh();
     try {
       await setDoc(doc(db,'pages','team'), window.data.team);
-      refreshPreview();
       showToast('樣式已同步 ✓');
     } catch(e) {
       showToast('樣式同步失敗：'+e.message, 'error');
@@ -1055,6 +1088,7 @@ window.saveCurrentPanel = async () => {
     else await setDoc(doc(db,'pages',panel), window.data[panel]);
     showToast('✅ 儲存成功，網站已即時更新');
     updateStats();
+    syncPreviewCache();
     refreshPreview();
   } catch(e) { showToast('❌ 儲存失敗：'+e.message,'error'); }
   btn.disabled=false; btn.innerHTML='<i class="fas fa-save"></i> 儲存變更';
@@ -1073,15 +1107,21 @@ function updateStats() {
 // ── 導航 ──
 const panelTitles = {dashboard:'總覽',home:'首頁',works:'作品集',team:'團隊成員',member:'Member 頁面',about:'關於我們',contact:'聯絡資訊'};
 const previewPages = {dashboard:'index.html',home:'index.html',works:'works.html',team:'team.html',member:'member.html?id=0',about:'about.html',contact:'contact.html'};
+function withPreviewParam(href) {
+  return href + (href.includes('?') ? '&' : '?') + 'preview=' + Date.now();
+}
 window.refreshPreview = () => {
   const iframe=document.getElementById('site-preview');
-  iframe.src=iframe.src.split('?')[0]+'?preview='+Date.now();
+  const href = iframe.dataset.previewPage || iframe.getAttribute('src') || '../index.html';
+  iframe.src = withPreviewParam(href);
 };
 window.togglePreviewDevice = () => document.getElementById('preview-pane').classList.toggle('mobile');
 function updatePreviewPage(panel) {
   const page=previewPages[panel]||'index.html';
   const href='../'+page;
-  document.getElementById('site-preview').src=href+'?preview='+Date.now();
+  const iframe = document.getElementById('site-preview');
+  iframe.dataset.previewPage = href;
+  iframe.src = withPreviewParam(href);
   document.getElementById('preview-open').href=href;
 }
 document.querySelectorAll('.nav-item').forEach(item=>{
@@ -1099,12 +1139,14 @@ document.querySelectorAll('.nav-item').forEach(item=>{
 });
 
 document.addEventListener('input', event => {
+  if (event.target && event.target.type !== 'file') schedulePreviewRefresh();
   const id = event.target && event.target.id;
   if (!id) return;
   if (id.startsWith('team-style-')) scheduleStyleSave('team');
   if (id.startsWith('member-style-')) scheduleStyleSave('member');
 });
 document.addEventListener('change', event => {
+  if (event.target && event.target.type !== 'file') schedulePreviewRefresh();
   const id = event.target && event.target.id;
   if (!id) return;
   if (id.startsWith('team-style-')) scheduleStyleSave('team');

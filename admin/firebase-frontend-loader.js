@@ -26,11 +26,25 @@ const nativeFetch = window.fetch.bind(window);
 const pageAliases = { index: 'home' };
 
 export async function loadFirebasePage(pageName) {
+  const previewData = loadLocalPreviewPage(pageName);
+  if (previewData) return previewData;
   try {
     const snap = await getDoc(doc(db, 'pages', pageName));
     return snap.exists() ? snap.data() : null;
   } catch (error) {
     console.warn(`[Firebase] Unable to load pages/${pageName}; using Markdown fallback.`, error);
+    return null;
+  }
+}
+
+function loadLocalPreviewPage(pageName) {
+  try {
+    const params = new URLSearchParams(window.location.search);
+    if (!params.has('preview')) return null;
+    const pages = JSON.parse(localStorage.getItem('uprisePreviewPages') || '{}');
+    return pages && pages[pageName] ? pages[pageName] : null;
+  } catch (error) {
+    console.warn('Unable to read local preview data.', error);
     return null;
   }
 }

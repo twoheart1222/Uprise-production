@@ -204,6 +204,21 @@ hr.divider { border: none; border-top: 1px solid var(--border); }
 .photo-adjust-grid {
   display: grid; grid-template-columns: minmax(220px, 320px) 1fr; gap: 18px; align-items: start;
 }
+.team-photo-preview {
+  position: relative; height: 260px; overflow: hidden; border-radius: 14px;
+  border: 1px solid var(--border); background: #050505;
+}
+.team-photo-preview img {
+  width: 100%; height: 100%; object-fit: cover;
+  object-position: var(--px, 50%) var(--py, 20%);
+  transform: scale(var(--pz, 1));
+}
+.team-photo-preview::after {
+  content: '團隊頁照片預覽';
+  position: absolute; left: 12px; bottom: 10px;
+  padding: 4px 8px; border-radius: 999px; background: rgba(0,0,0,.58);
+  color: rgba(255,255,255,.72); font-size: .72rem; letter-spacing: 1px;
+}
 .style-live-preview {
   margin-top: 18px; padding: 22px; border-radius: 14px; border: 1px solid var(--border);
   background: linear-gradient(135deg, rgba(255,255,255,.05), rgba(255,255,255,.015));
@@ -749,6 +764,8 @@ window.uploadMemberAvatar = async (input, index) => {
     renderMembers();
     renderMemberPageList();
     setUploadStatus(`member-${index}`, '已顯示本機預覽，正在上傳...');
+    updateTeamPhotoPreviewImage(index, localUrl);
+    updatePhotoPreviewImage(index, localUrl);
     syncPreviewCache();
     refreshPreview();
 
@@ -757,6 +774,8 @@ window.uploadMemberAvatar = async (input, index) => {
     window.data.team.members[index].image = url;
     renderMembers();
     renderMemberPageList();
+    updateTeamPhotoPreviewImage(index, url);
+    updatePhotoPreviewImage(index, url);
     syncPreviewCache();
     refreshPreview();
     try {
@@ -813,6 +832,33 @@ window.updatePhotoPreview = (index) => {
   preview.style.setProperty('--py', `${m.photo_y ?? 20}%`);
   preview.style.setProperty('--pz', `${m.photo_zoom ?? 1}`);
   schedulePreviewRefresh();
+};
+
+window.updateTeamPhotoPreview = (index) => {
+  const m = window.data.team.members[index];
+  const preview = document.querySelector(`[data-team-photo-preview="${index}"]`);
+  if (!preview) return;
+  preview.style.setProperty('--px', `${m.photo_x ?? 50}%`);
+  preview.style.setProperty('--py', `${m.photo_y ?? 20}%`);
+  preview.style.setProperty('--pz', `${m.photo_zoom ?? 1}`);
+  updatePhotoPreview(index);
+};
+
+window.updateTeamPhotoPreviewImage = (index, url) => {
+  const preview = document.querySelector(`[data-team-photo-preview="${index}"]`);
+  if (!preview) return;
+  let img = preview.querySelector('img');
+  if (!url) {
+    if (img) img.remove();
+    updatePhotoPreviewImage(index, url);
+    return;
+  }
+  if (!img) {
+    img = document.createElement('img');
+    preview.appendChild(img);
+  }
+  img.src = url;
+  updatePhotoPreviewImage(index, url);
 };
 
 window.updatePhotoPreviewImage = (index, url) => {
@@ -1067,12 +1113,20 @@ window.renderMembers = () => {
         <div class="field"><label>姓名</label><input value="${m.name||''}" oninput="window.data.team.members[${i}].name=this.value"></div>
         <div class="field"><label>職稱</label><input value="${m.role||''}" oninput="window.data.team.members[${i}].role=this.value"></div>
       </div>
-      <div class="field"><label>頭像圖片網址</label><input value="${m.avatar||m.image||''}" oninput="window.data.team.members[${i}].avatar=this.value;window.data.team.members[${i}].image=this.value"><input type="file" accept="image/*" onchange="uploadMemberAvatar(this,${i})" style="margin-top:8px"><div class="upload-status" data-upload-status="member-${i}"></div></div>
-      <div class="field-row">
-        <div class="field"><label>照片水平位置 X（0 左、50 中、100 右）</label><input type="range" min="0" max="100" value="${m.photo_x ?? 50}" oninput="window.data.team.members[${i}].photo_x=Number(this.value);this.nextElementSibling.textContent=this.value+'%'"><div class="field-hint">${m.photo_x ?? 50}%</div></div>
-        <div class="field"><label>照片垂直位置 Y（0 上、50 中、100 下）</label><input type="range" min="0" max="100" value="${m.photo_y ?? 20}" oninput="window.data.team.members[${i}].photo_y=Number(this.value);this.nextElementSibling.textContent=this.value+'%'"><div class="field-hint">${m.photo_y ?? 20}%</div></div>
+      <div class="field"><label>封面大字（例如 VISIONARY / STRATEGIST）</label><input value="${m.cover_title||''}" placeholder="留空則使用職稱" oninput="window.data.team.members[${i}].cover_title=this.value"></div>
+      <div class="photo-adjust-grid">
+        <div class="team-photo-preview" data-team-photo-preview="${i}" style="--px:${m.photo_x ?? 50}%;--py:${m.photo_y ?? 20}%;--pz:${m.photo_zoom ?? 1}">
+          ${m.avatar||m.image ? `<img src="${m.avatar||m.image}" alt="">` : ''}
+        </div>
+        <div>
+          <div class="field"><label>頭像圖片網址</label><input value="${m.avatar||m.image||''}" oninput="window.data.team.members[${i}].avatar=this.value;window.data.team.members[${i}].image=this.value;updateTeamPhotoPreviewImage(${i},this.value)"><input type="file" accept="image/*" onchange="uploadMemberAvatar(this,${i})" style="margin-top:8px"><div class="upload-status" data-upload-status="member-${i}"></div></div>
+          <div class="field-row">
+            <div class="field"><label>照片水平位置 X（0 左、50 中、100 右）</label><input type="range" min="0" max="100" value="${m.photo_x ?? 50}" oninput="window.data.team.members[${i}].photo_x=Number(this.value);this.nextElementSibling.textContent=this.value+'%';updateTeamPhotoPreview(${i})"><div class="field-hint">${m.photo_x ?? 50}%</div></div>
+            <div class="field"><label>照片垂直位置 Y（0 上、50 中、100 下）</label><input type="range" min="0" max="100" value="${m.photo_y ?? 20}" oninput="window.data.team.members[${i}].photo_y=Number(this.value);this.nextElementSibling.textContent=this.value+'%';updateTeamPhotoPreview(${i})"><div class="field-hint">${m.photo_y ?? 20}%</div></div>
+          </div>
+          <div class="field"><label>照片縮放</label><input type="range" min="1" max="1.8" step="0.05" value="${m.photo_zoom ?? 1}" oninput="window.data.team.members[${i}].photo_zoom=Number(this.value);this.nextElementSibling.textContent=this.value+'x';updateTeamPhotoPreview(${i})"><div class="field-hint">${m.photo_zoom ?? 1}x</div></div>
+        </div>
       </div>
-      <div class="field"><label>照片縮放</label><input type="range" min="1" max="1.8" step="0.05" value="${m.photo_zoom ?? 1}" oninput="window.data.team.members[${i}].photo_zoom=Number(this.value);this.nextElementSibling.textContent=this.value+'x'"><div class="field-hint">${m.photo_zoom ?? 1}x</div></div>
       <div class="field"><label>簡介</label><textarea oninput="window.data.team.members[${i}].bio=this.value">${m.bio||''}</textarea></div>
       <div class="field"><label>Member 詳細介紹（支援 Markdown）</label><textarea style="min-height:160px" oninput="window.data.team.members[${i}].full_bio=this.value">${m.full_bio||''}</textarea></div>
       <div class="field-row">
@@ -1081,7 +1135,7 @@ window.renderMembers = () => {
       </div>
     </div>`).join('');
 };
-window.addMember = () => { window.data.team.members.push({name:'',role:'',avatar:'',bio:'',full_bio:'',ig_url:'',portfolio_url:''}); renderMembers(); };
+window.addMember = () => { window.data.team.members.push({name:'',role:'',cover_title:'',avatar:'',bio:'',full_bio:'',ig_url:'',portfolio_url:''}); renderMembers(); };
 
 function renderMemberPageList() {
   const items = window.data.team.members || [];

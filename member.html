@@ -479,8 +479,165 @@
     .nav { display: none; }
     .hamburger { display: flex; }
   }
+
+  /* --- Editorial portrait layout --- */
+  .member-detail-section {
+    padding: 150px 5vw 120px;
+    justify-content: flex-start;
+    overflow: hidden;
+  }
+  .member-detail-section::before {
+    content: '';
+    position: absolute; inset: 0;
+    background:
+      linear-gradient(90deg, rgba(255,140,0,.035) 1px, transparent 1px),
+      linear-gradient(rgba(255,255,255,.018) 1px, transparent 1px);
+    background-size: 90px 90px;
+    mask-image: linear-gradient(to bottom, transparent, #000 18%, #000 78%, transparent);
+    pointer-events: none;
+  }
+  .member-page-header {
+    max-width: 1180px;
+    margin: 0 auto 56px;
+    text-align: left;
+  }
+  .member-page-header .page-label { font-size: .72rem; letter-spacing: 6px; }
+  .member-page-header .page-main-title {
+    font-size: clamp(3.2rem, 7vw, 6.4rem);
+    letter-spacing: .08em;
+  }
+  .member-page-header .title-divider {
+    width: 96px; height: 2px;
+    margin: 26px 0 0;
+  }
+  .profile-container {
+    max-width: 1180px;
+    flex-wrap: nowrap;
+    align-items: stretch;
+    gap: clamp(42px, 7vw, 96px);
+  }
+  .photo-section {
+    flex: 0 0 clamp(320px, 38vw, 460px);
+    align-items: flex-start;
+  }
+  .photo-frame {
+    width: 100%;
+    height: min(68vh, 620px);
+    min-height: 500px;
+    display: block;
+    isolation: isolate;
+  }
+  .photo-frame::before {
+    inset: 24px -18px -20px 22px;
+    border-radius: 0;
+    border: 1px solid rgba(255, 215, 0, .26);
+    animation: none;
+    z-index: -1;
+  }
+  .photo-frame::after {
+    inset: auto auto 28px -24px;
+    width: 88px; height: 88px;
+    border-radius: 50%;
+    padding: 0;
+    border: 1px solid rgba(255,215,0,.38);
+    background: transparent;
+    -webkit-mask: none; mask: none;
+    animation: none;
+    z-index: 3;
+  }
+  .img-inner {
+    border-radius: 180px 180px 12px 12px;
+    box-shadow: 0 30px 70px rgba(0,0,0,.55);
+  }
+  .img-inner::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,.34), transparent 42%);
+    pointer-events: none;
+  }
+  .profile-img { object-position: center top; }
+  .shutter-mask { border-radius: 180px 180px 12px 12px; }
+  .portrait-index {
+    position: absolute; right: -8px; top: 32px; z-index: 4;
+    color: rgba(255,255,255,.64);
+    font-family: var(--font-display); font-size: .76rem; letter-spacing: 4px;
+    writing-mode: vertical-rl;
+  }
+  .portrait-caption {
+    position: absolute; left: 22px; bottom: 18px; z-index: 4;
+    color: rgba(255,255,255,.78);
+    font-family: var(--font-display); font-size: .7rem; letter-spacing: 4px;
+  }
+  .info-section { padding: 48px 0 26px; }
+  .profile-eyebrow {
+    margin-bottom: 20px;
+    color: rgba(255,215,0,.72);
+    font-family: var(--font-display);
+    font-size: .72rem; letter-spacing: 5px;
+  }
+  .member-name {
+    max-width: 660px;
+    font-size: clamp(3.4rem, 7vw, 6.3rem);
+    letter-spacing: .06em;
+    line-height: 1.02;
+  }
+  .job-title {
+    margin: 18px 0 34px;
+    font-size: .82rem;
+    letter-spacing: 5px;
+  }
+  .bio-text {
+    max-width: 620px;
+    margin-bottom: 34px;
+    padding-left: 22px;
+    border-left: 1px solid rgba(255,215,0,.34);
+    color: rgba(255,255,255,.75);
+    font-size: .98rem;
+    line-height: 2.05;
+  }
+  .bio-text h1, .bio-text h2, .bio-text h3 {
+    margin: 1.1em 0 .45em;
+    color: rgba(255,255,255,.94);
+    font-family: var(--font-serif);
+    line-height: 1.45;
+  }
+  .bio-text h1 { font-size: 1.45rem; }
+  .bio-text h2 { font-size: 1.22rem; }
+  .bio-text h3 { font-size: 1rem; }
+  .bio-text p { margin: .5em 0; }
+  .bio-text a { color: var(--brand-light); overflow-wrap: anywhere; }
+  .action-buttons { gap: 12px; }
+  .btn { padding: 13px 22px; border-radius: 999px; font-size: .78rem; }
+  @media (max-width: 900px) {
+    .member-detail-section { padding: 124px 22px 86px; }
+    .member-page-header { margin-bottom: 38px; text-align: center; }
+    .member-page-header .title-divider { margin: 22px auto 0; }
+    .profile-container { flex-direction: column; gap: 36px; }
+    .photo-section { flex-basis: auto; width: min(88vw, 410px); margin: 0 auto; }
+    .photo-frame { height: min(116vw, 550px); min-height: 390px; }
+    .info-section { padding: 8px 0 0; align-items: center; }
+    .profile-eyebrow { text-align: center; }
+    .member-name { font-size: clamp(3.2rem, 15vw, 5rem); text-align: center; }
+    .job-title { line-height: 1.8; }
+    .bio-text { padding: 0 0 0 16px; text-align: left; }
+  }
 </style>
 <link rel="stylesheet" href="css/site-fixes.css">
+<style>
+  /* Member page keeps the editorial language, but introduces the portrait sooner. */
+  body.uprise-editorial .member-detail-section { padding-top: 104px; }
+  body.uprise-editorial .member-page-header {
+    min-height: min(52vh, 540px);
+    margin-bottom: 36px;
+  }
+  @media (max-width: 900px) {
+    body.uprise-editorial .member-detail-section { padding-top: 96px; }
+    body.uprise-editorial .member-page-header {
+      min-height: 54vh;
+      margin-bottom: 30px;
+    }
+  }
+</style>
 </head>
 <body class="loading-state">
 
@@ -761,15 +918,17 @@
         container.innerHTML = `
             <div class="photo-section" data-aos="fade" data-aos-duration="1500">
               <div class="photo-frame">
-                <!-- 內層容器：處理裁切與快門 -->
                 <div class="img-inner">
                     <img src="${avatar}" class="profile-img" alt="${m.name} - ${m.role} | 推手影像">
                     <div class="shutter-mask"></div>
                 </div>
+                <span class="portrait-index">UPRISE / PROFILE</span>
+                <span class="portrait-caption">FILMMAKER PORTRAIT</span>
               </div>
             </div>
 
             <div class="info-section">
+              <div class="profile-eyebrow" data-aos="fade-up">UPRISE PRODUCTION / CREATIVE PROFILE</div>
               <h2 class="member-name" data-aos="fade" data-aos-delay="200" data-aos-duration="1000">${m.name}</h2>
               
               <div data-aos="fade-up" data-aos-delay="600" data-aos-duration="1000">

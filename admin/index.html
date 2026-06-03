@@ -3,6 +3,9 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
+<meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate"/>
+<meta http-equiv="Pragma" content="no-cache"/>
+<meta http-equiv="Expires" content="0"/>
 <title>Uprise 後台管理系統</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Italiana&display=swap" rel="stylesheet">
@@ -546,6 +549,7 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 const storage = getStorage(app);
 const provider = new GoogleAuthProvider();
+const ADMIN_UPLOAD_FLOW_VERSION = 'upload-v3-direct-member-persist';
 
 window.showToast = (msg, type='success') => {
   const t = document.getElementById('toast');
@@ -629,8 +633,9 @@ function schedulePreviewRefresh() {
 }
 
 function setUploadStatus(key, message) {
-  const el = document.querySelector(`[data-upload-status="${key}"]`);
-  if (el) el.textContent = message || '';
+  document.querySelectorAll(`[data-upload-status="${key}"]`).forEach(el => {
+    el.textContent = message || '';
+  });
 }
 
 function showImmediateImage(url, targets=[]) {
@@ -723,6 +728,32 @@ async function uploadFileToStorage(file, folder='images') {
   }
 }
 
+async function persistTeamMemberImage(index, url) {
+  if (!url || url.startsWith('blob:')) throw new Error('圖片網址不是可保存的正式網址');
+  const teamRef = doc(db, 'pages', 'team');
+  const snap = await getDoc(teamRef);
+  const latestTeam = stripVolatileImageUrls(snap.exists() ? snap.data() : window.data.team) || {};
+  latestTeam.members = Array.isArray(latestTeam.members) ? latestTeam.members : [];
+  const localMember = (window.data.team.members || [])[index] || {};
+  latestTeam.members[index] = {
+    ...(latestTeam.members[index] || {}),
+    ...localMember,
+    avatar: url,
+    image: url
+  };
+  await setDoc(teamRef, latestTeam);
+
+  const verifySnap = await getDoc(teamRef);
+  const verifiedTeam = stripVolatileImageUrls(verifySnap.exists() ? verifySnap.data() : {});
+  const savedMember = (verifiedTeam.members || [])[index] || {};
+  const savedUrl = savedMember.avatar || savedMember.image || '';
+  if (savedUrl !== url) {
+    throw new Error(`Firebase 寫入驗證失敗：讀回值是 ${savedUrl || '空值'}`);
+  }
+  window.data.team = verifiedTeam;
+  return verifiedTeam;
+}
+
 window.uploadHomeAsset = async (input, key, folder='images') => {
   const file = input.files && input.files[0];
   if (!file) return;
@@ -783,7 +814,7 @@ window.uploadMemberAvatar = async (input, index) => {
   if (!file) return;
   const localUrl = URL.createObjectURL(file);
   showToast('上傳中...', 'loading');
-  setUploadStatus(`member-${index}`, '已選擇圖片，正在處理...');
+  setUploadStatus(`member-${index}`, `已選擇圖片，正在處理... (${ADMIN_UPLOAD_FLOW_VERSION})`);
   try {
     setUploadStatus(`member-${index}`, '已顯示本機預覽，正在上傳...');
     updateTeamPhotoPreviewImage(index, localUrl);
@@ -794,18 +825,14 @@ window.uploadMemberAvatar = async (input, index) => {
     setUploadStatus(`member-${index}`, `已取得 ${urlType}，正在寫入 Firebase...`);
     window.data.team.members[index].avatar = url;
     window.data.team.members[index].image = url;
-    renderMembers();
-    renderMemberPageList();
     updateTeamPhotoPreviewImage(index, url);
     updatePhotoPreviewImage(index, url);
-    syncPreviewCache();
-    refreshPreview();
     try {
-      await setDoc(doc(db,'pages','team'), window.data.team);
-      const verifySnap = await getDoc(doc(db,'pages','team'));
-      const savedMember = verifySnap.exists() ? (verifySnap.data().members || [])[index] : null;
-      const savedUrl = savedMember && (savedMember.avatar || savedMember.image || '');
-      if (savedUrl !== url) throw new Error('Firebase 寫入後讀回的圖片網址不一致，請重新整理後台後再上傳一次');
+      await persistTeamMemberImage(index, url);
+      renderMembers();
+      renderMemberPageList();
+      syncPreviewCache();
+      refreshPreview();
       setUploadStatus(`member-${index}`, 'Firebase 已同步');
       showToast('成員照片上傳完成 ✓');
     } catch(saveError) {

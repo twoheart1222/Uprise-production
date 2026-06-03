@@ -1250,6 +1250,7 @@
           console.log("Using fallback team data");
           renderTeam(fallbackData);
         });
+      subscribeTeamUpdates();
 
       // 讀取 Global 設定
       loadPageData('home', 'content/index.md?t=' + new Date().getTime())
@@ -1323,11 +1324,27 @@
     async function loadFirestorePage(pageName) {
         try {
             if (window.loadFirebasePage) return await window.loadFirebasePage(pageName);
-            const module = await import('./admin/firebase-frontend-loader.js');
+            const module = await import('./admin/firebase-frontend-loader.js?v=sync-20260603');
             return await module.loadFirebasePage(pageName);
         } catch (error) {
             console.warn(`[Firebase] ${pageName} fallback to markdown`, error);
             return loadFirestorePageViaRest(pageName);
+        }
+    }
+
+    async function subscribeTeamUpdates() {
+        try {
+            const params = new URLSearchParams(window.location.search);
+            if (params.has('preview')) return;
+            const module = await import('./admin/firebase-frontend-loader.js?v=sync-20260603');
+            const subscribe = window.subscribeFirebasePage || module.subscribeFirebasePage;
+            if (typeof subscribe === 'function') {
+                subscribe('team', data => {
+                    if (data) renderTeam(data);
+                });
+            }
+        } catch (error) {
+            console.warn('[Firebase] Team realtime updates unavailable.', error);
         }
     }
 
@@ -1395,7 +1412,7 @@
                 
                 card.innerHTML = `
                     <span class="member-cover-kicker">COVER STORY</span>
-                    <div class="member-image-wrap" data-cover-title="${coverTitle}" style="--photo-x:${m.photo_x ?? 50}%;--photo-y:${m.photo_y ?? 20}%;--photo-zoom:${m.photo_zoom ?? 1.02}"><img src="${avatar}" class="member-img" alt="${m.name}"></div>
+                    <div class="member-image-wrap" data-cover-title="${coverTitle}" style="--photo-x:${m.photo_x ?? 50}%;--photo-y:${m.photo_y ?? 20}%;--photo-zoom:${m.photo_zoom ?? 1.02}"><img src="${avatar}" class="member-img" alt="${m.name}" onerror="console.warn('Team image failed:', this.src); this.src='https://dummyimage.com/400x500/333/fff&text=No+Img';"></div>
                     <div class="member-info">
                         <h3 class="member-name">${m.name}</h3><span class="member-role">${m.role}</span>
                         <div class="member-bio">${m.bio || ''}</div>
@@ -1484,7 +1501,7 @@
         if(footerMark) { const footerOffset = document.querySelector('footer').offsetTop; if(window.scrollY > footerOffset - window.innerHeight) { const delta = window.scrollY - (footerOffset - window.innerHeight); footerMark.style.transform = `translate(-50%, -50%) translateY(${delta * -0.1}px)`; } }
     });
   </script>
-<script type="module" src="admin/firebase-frontend-loader.js"></script>
+<script type="module" src="admin/firebase-frontend-loader.js?v=sync-20260603"></script>
 <script src="js/site-fixes.js" defer></script>
 </body>
 </html>

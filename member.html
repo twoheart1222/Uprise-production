@@ -1133,6 +1133,7 @@
             const mockData = { members: fallbackData.members };
             renderMember(mockData, 0); 
         });
+      subscribeMemberUpdates(memberId);
 
       initCursor();
       initPageTransition();
@@ -1152,6 +1153,24 @@
       const text = await response.text();
       const parts = text.split('---');
       return jsyaml.load(parts.length > 1 ? parts[1] : text);
+    }
+
+    async function subscribeMemberUpdates(memberId) {
+      try {
+        const params = new URLSearchParams(window.location.search);
+        if (params.has('preview')) return;
+        const module = await import('./admin/firebase-frontend-loader.js?v=sync-20260603');
+        const subscribe = window.subscribeFirebasePage || module.subscribeFirebasePage;
+        if (typeof subscribe === 'function') {
+          subscribe('team', data => {
+            if (!data) return;
+            applyMemberStyle(data.style || {});
+            renderMember(data, memberId);
+          });
+        }
+      } catch (error) {
+        console.warn('[Firebase] Member realtime updates unavailable.', error);
+      }
     }
 
     function loadLocalPreviewPage(pageName) {
@@ -1178,7 +1197,7 @@
     async function loadFirestorePage(pageName) {
       try {
         if (window.loadFirebasePage) return await window.loadFirebasePage(pageName);
-        const module = await import('./admin/firebase-frontend-loader.js');
+        const module = await import('./admin/firebase-frontend-loader.js?v=sync-20260603');
         return await module.loadFirebasePage(pageName);
       } catch (error) {
         console.warn(`[Firebase] ${pageName} fallback to markdown`, error);
@@ -1310,7 +1329,7 @@
             <div class="photo-section" data-aos="fade" data-aos-duration="1500">
               <div class="photo-frame">
                 <div class="img-inner">
-                    <img src="${avatar}" class="profile-img" style="--member-photo-x:${photoX}%;--member-photo-y:${photoY}%;--member-photo-zoom:${photoZoom}" alt="${m.name} - ${m.role} | 推手影像">
+                    <img src="${avatar}" class="profile-img" style="--member-photo-x:${photoX}%;--member-photo-y:${photoY}%;--member-photo-zoom:${photoZoom}" alt="${m.name} - ${m.role} | 推手影像" onerror="console.warn('Member image failed:', this.src); this.src='https://dummyimage.com/400x533/333/fff';">
                     <div class="shutter-mask"></div>
                 </div>
                 <span class="portrait-index">UPRISE / PROFILE</span>
@@ -1396,7 +1415,7 @@
         }
     });
   </script>
-<script type="module" src="admin/firebase-frontend-loader.js"></script>
+<script type="module" src="admin/firebase-frontend-loader.js?v=sync-20260603"></script>
 <script src="js/site-fixes.js" defer></script>
 </body>
 </html>

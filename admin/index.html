@@ -713,7 +713,9 @@ async function uploadFileToStorage(file, folder='images') {
   try {
     await uploadBytes(storageRef, file);
     const url = await getDownloadURL(storageRef);
-    await waitForImageLoad(url);
+    waitForImageLoad(url).catch(error => {
+      console.warn('Firebase Storage URL returned but image precheck failed; keeping Storage URL.', error);
+    });
     return url;
   } catch (error) {
     console.warn('Firebase Storage upload failed; using Firestore image fallback.', error);
@@ -788,6 +790,8 @@ window.uploadMemberAvatar = async (input, index) => {
     updatePhotoPreviewImage(index, localUrl);
 
     const url = await uploadFileToStorage(file, 'team');
+    const urlType = url.startsWith('https://') ? 'Firebase Storage URL' : (url.startsWith('data:') ? 'Firestore 圖片資料' : '圖片網址');
+    setUploadStatus(`member-${index}`, `已取得 ${urlType}，正在寫入 Firebase...`);
     window.data.team.members[index].avatar = url;
     window.data.team.members[index].image = url;
     renderMembers();

@@ -638,6 +638,15 @@ function setUploadStatus(key, message) {
   });
 }
 
+function assertUploadAuth() {
+  const user = auth.currentUser;
+  if (!user) throw new Error('尚未登入 Firebase，無法保存圖片。請重新登入後再上傳。');
+  if (user.email !== ALLOWED_EMAIL) {
+    throw new Error(`目前登入帳號是 ${user.email}，Firebase 規則只允許 ${ALLOWED_EMAIL} 寫入。`);
+  }
+  return user;
+}
+
 function showImmediateImage(url, targets=[]) {
   targets.forEach(target => {
     const el = typeof target === 'string' ? document.querySelector(target) : target;
@@ -692,20 +701,20 @@ async function imageFileToCompressedDataUrl(file) {
     image.onerror = reject;
     image.src = src;
   });
-  const maxSide = 1200;
+  const maxSide = 900;
   const scale = Math.min(1, maxSide / Math.max(img.width, img.height));
   const canvas = document.createElement('canvas');
   canvas.width = Math.max(1, Math.round(img.width * scale));
   canvas.height = Math.max(1, Math.round(img.height * scale));
   const ctx = canvas.getContext('2d');
   ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-  let quality = 0.74;
+  let quality = 0.68;
   let dataUrl = canvas.toDataURL('image/jpeg', quality);
-  while (dataUrl.length > 720000 && quality > 0.42) {
-    quality -= 0.1;
+  while (dataUrl.length > 420000 && quality > 0.34) {
+    quality -= 0.08;
     dataUrl = canvas.toDataURL('image/jpeg', quality);
   }
-  if (dataUrl.length > 900000) {
+  if (dataUrl.length > 560000) {
     throw new Error('圖片太大，請換較小的圖片或到 Firebase Storage 開啟上傳權限');
   }
   return dataUrl;
@@ -816,7 +825,8 @@ window.uploadMemberAvatar = async (input, index) => {
   showToast('上傳中...', 'loading');
   setUploadStatus(`member-${index}`, `已選擇圖片，正在處理... (${ADMIN_UPLOAD_FLOW_VERSION})`);
   try {
-    setUploadStatus(`member-${index}`, '已顯示本機預覽，正在上傳...');
+    const uploadUser = assertUploadAuth();
+    setUploadStatus(`member-${index}`, `登入確認：${uploadUser.email}；已顯示本機預覽，正在上傳到 Firebase Storage...`);
     updateTeamPhotoPreviewImage(index, localUrl);
     updatePhotoPreviewImage(index, localUrl);
 
@@ -833,13 +843,18 @@ window.uploadMemberAvatar = async (input, index) => {
       renderMemberPageList();
       syncPreviewCache();
       refreshPreview();
-      setUploadStatus(`member-${index}`, 'Firebase 已同步');
+      setUploadStatus(`member-${index}`, `Firebase 已同步：${urlType}`);
       showToast('成員照片上傳完成 ✓');
     } catch(saveError) {
-      setUploadStatus(`member-${index}`, '已可預覽，但 Firebase 儲存失敗');
+      console.error('Team member image Firestore save failed:', saveError);
+      setUploadStatus(`member-${index}`, `已可預覽，但 Firebase 儲存失敗：${saveError.code || ''} ${saveError.message}`);
       showToast('照片已更新預覽，但 Firebase 儲存失敗：'+saveError.message, 'error');
     }
-  } catch(e) { setUploadStatus(`member-${index}`, '上傳失敗'); showToast('上傳失敗：'+e.message,'error'); }
+  } catch(e) {
+    console.error('Team member image upload failed:', e);
+    setUploadStatus(`member-${index}`, `上傳失敗：${e.code || ''} ${e.message}`);
+    showToast('上傳失敗：'+e.message,'error');
+  }
   input.value = '';
   URL.revokeObjectURL(localUrl);
 };

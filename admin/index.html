@@ -592,7 +592,7 @@ async function loadAllData() {
   try {
     for (const page of ['home','works','team','about','contact']) {
       const snap = await getDoc(doc(db,'pages',page));
-      if (snap.exists()) window.data[page] = snap.data();
+      if (snap.exists()) window.data[page] = stripVolatileImageUrls(snap.data());
     }
     renderAll();
     updateStats();
@@ -605,11 +605,20 @@ function renderAll() { renderHome(); renderWorks(); renderTeam(); renderAbout();
 
 function syncPreviewCache() {
   try {
-    localStorage.setItem('uprisePreviewPages', JSON.stringify(window.data));
+    localStorage.setItem('uprisePreviewPages', JSON.stringify(stripVolatileImageUrls(window.data)));
     localStorage.setItem('uprisePreviewUpdatedAt', String(Date.now()));
   } catch (error) {
     console.warn('Unable to write local preview cache.', error);
   }
+}
+
+function stripVolatileImageUrls(value) {
+  if (Array.isArray(value)) return value.map(stripVolatileImageUrls);
+  if (value && typeof value === 'object') {
+    return Object.fromEntries(Object.entries(value).map(([key, item]) => [key, stripVolatileImageUrls(item)]));
+  }
+  if (typeof value === 'string' && value.startsWith('blob:')) return '';
+  return value;
 }
 
 let previewRefreshTimer = null;
@@ -648,6 +657,27 @@ function readFileAsDataUrl(file) {
   });
 }
 
+function waitForImageLoad(url, timeout=10000) {
+  if (!url || url.startsWith('data:')) return Promise.resolve(url);
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    const timer = setTimeout(() => {
+      img.onload = null;
+      img.onerror = null;
+      reject(new Error('圖片網址暫時無法讀取'));
+    }, timeout);
+    img.onload = () => {
+      clearTimeout(timer);
+      resolve(url);
+    };
+    img.onerror = () => {
+      clearTimeout(timer);
+      reject(new Error('圖片網址載入失敗'));
+    };
+    img.src = url;
+  });
+}
+
 async function imageFileToCompressedDataUrl(file) {
   if (!file.type.startsWith('image/')) throw new Error('只有圖片可以使用備援上傳');
   const src = await readFileAsDataUrl(file);
@@ -682,7 +712,9 @@ async function uploadFileToStorage(file, folder='images') {
   const storageRef = ref(storage, path);
   try {
     await uploadBytes(storageRef, file);
-    return getDownloadURL(storageRef);
+    const url = await getDownloadURL(storageRef);
+    await waitForImageLoad(url);
+    return url;
   } catch (error) {
     console.warn('Firebase Storage upload failed; using Firestore image fallback.', error);
     return imageFileToCompressedDataUrl(file);
@@ -696,12 +728,8 @@ window.uploadHomeAsset = async (input, key, folder='images') => {
   showToast('上傳中...', 'loading');
   setUploadStatus(`home-${key}`, '已選擇圖片，正在處理...');
   try {
-    window.data.home[key] = localUrl;
     const el = document.getElementById('home-'+key);
-    if (el) el.value = localUrl;
-    renderHome();
-    syncPreviewCache();
-    refreshPreview();
+    showImmediateImage(localUrl, [`#home-${key}-preview`]);
 
     const url = await uploadFileToStorage(file, folder);
     window.data.home[key] = url;
@@ -729,11 +757,7 @@ window.uploadBtsImage = async (input, index) => {
   showToast('上傳中...', 'loading');
   setUploadStatus(`bts-${index}`, '已選擇圖片，正在處理...');
   try {
-    window.data.home.behind_the_scenes[index].image = localUrl;
-    renderBts();
     setUploadStatus(`bts-${index}`, '已顯示本機預覽，正在上傳...');
-    syncPreviewCache();
-    refreshPreview();
 
     window.data.home.behind_the_scenes[index].image = await uploadFileToStorage(file, 'home');
     renderBts();
@@ -759,15 +783,9 @@ window.uploadMemberAvatar = async (input, index) => {
   showToast('上傳中...', 'loading');
   setUploadStatus(`member-${index}`, '已選擇圖片，正在處理...');
   try {
-    window.data.team.members[index].avatar = localUrl;
-    window.data.team.members[index].image = localUrl;
-    renderMembers();
-    renderMemberPageList();
     setUploadStatus(`member-${index}`, '已顯示本機預覽，正在上傳...');
     updateTeamPhotoPreviewImage(index, localUrl);
     updatePhotoPreviewImage(index, localUrl);
-    syncPreviewCache();
-    refreshPreview();
 
     const url = await uploadFileToStorage(file, 'team');
     window.data.team.members[index].avatar = url;
@@ -1232,8 +1250,14 @@ window.saveCurrentPanel = async () => {
   }
 
   try {
-    if (panel === 'team' || panel === 'member') await setDoc(doc(db,'pages','team'), window.data.team);
-    else await setDoc(doc(db,'pages',panel), window.data[panel]);
+    if (panel === 'team' || panel === 'member') {
+      window.data.team = stripVolatileImageUrls(window.data.team);
+      await setDoc(doc(db,'pages','team'), window.data.team);
+    }
+    else {
+      window.data[panel] = stripVolatileImageUrls(window.data[panel]);
+      await setDoc(doc(db,'pages',panel), window.data[panel]);
+    }
     showToast('✅ 儲存成功，網站已即時更新');
     updateStats();
     syncPreviewCache();

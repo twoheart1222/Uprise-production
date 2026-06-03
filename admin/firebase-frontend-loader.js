@@ -42,11 +42,20 @@ function loadLocalPreviewPage(pageName) {
     const params = new URLSearchParams(window.location.search);
     if (!params.has('preview')) return null;
     const pages = JSON.parse(localStorage.getItem('uprisePreviewPages') || '{}');
-    return pages && pages[pageName] ? pages[pageName] : null;
+    return pages && pages[pageName] ? stripVolatileImageUrls(pages[pageName]) : null;
   } catch (error) {
     console.warn('Unable to read local preview data.', error);
     return null;
   }
+}
+
+function stripVolatileImageUrls(value) {
+  if (Array.isArray(value)) return value.map(stripVolatileImageUrls);
+  if (value && typeof value === 'object') {
+    return Object.fromEntries(Object.entries(value).map(([key, item]) => [key, stripVolatileImageUrls(item)]));
+  }
+  if (typeof value === 'string' && value.startsWith('blob:')) return '';
+  return value;
 }
 
 function toMarkdown(data) {

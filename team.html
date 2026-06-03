@@ -798,7 +798,7 @@
   .people-stage {
     position: relative;
     width: 100%;
-    padding: 8px 0 118px;
+    padding: 0 0 92px;
     overflow: hidden;
   }
   .people-stage::before {
@@ -855,18 +855,18 @@
     background: rgba(200,155,90,.7);
   }
   .people-stage .team-grid {
-    height: 560px;
+    height: 600px;
     max-width: none;
     width: 100%;
     margin: 0;
-    padding: 42px 7vw 72px;
+    padding: 26px 7vw 56px;
     display: flex !important;
     grid-template-columns: none !important;
     gap: 16px;
     align-items: center;
     justify-content: flex-start;
     overflow-x: auto;
-    overflow-y: visible;
+    overflow-y: hidden;
     scroll-behavior: smooth;
     scroll-snap-type: x mandatory;
     scrollbar-width: none;
@@ -894,14 +894,15 @@
     filter: brightness(.56) saturate(.74);
     transform: rotate(var(--cover-rot, 0deg)) scale(.86);
     transition: transform .45s ease, opacity .45s ease, filter .45s ease, border-color .45s ease, flex-basis .45s ease;
+    overflow: hidden;
   }
   .people-stage .member-card:nth-child(1) { --cover-rot: -1.6deg; }
   .people-stage .member-card:nth-child(2) { --cover-rot: .8deg; }
   .people-stage .member-card:nth-child(4) { --cover-rot: 1.2deg; }
   .people-stage .member-card:nth-child(n+5) { --cover-rot: .7deg; }
   .people-stage .member-card.featured-card {
-    flex-basis: clamp(300px, 21vw, 360px);
-    height: clamp(470px, 33vw, 560px);
+    flex-basis: clamp(300px, 22vw, 380px);
+    height: clamp(480px, 34vw, 540px);
     z-index: 12;
     opacity: 1;
     filter: none;
@@ -909,10 +910,14 @@
     border-color: rgba(221,180,103,.9);
     border-radius: 18px;
     box-shadow: 0 44px 120px rgba(0,0,0,.72), 0 0 0 2px rgba(221,180,103,.48), 0 24px 48px rgba(198,154,92,.12);
+    overflow: hidden;
   }
   .people-stage .member-card::before {
     inset: 12px;
     border: 1px solid rgba(221,180,103,.18);
+    border-radius: inherit;
+    z-index: 12;
+    pointer-events: none;
   }
   .people-stage .member-card::after {
     content: 'VOL. ' counter(team-card, decimal-leading-zero);
@@ -930,8 +935,17 @@
     letter-spacing: .22em;
   }
   .people-stage .member-image-wrap {
+    position: absolute;
+    inset: 0;
+    width: 100% !important;
     height: 100% !important;
+    margin: 0 !important;
+    border: 0 !important;
     border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    transform: none !important;
+    z-index: 1;
   }
   .people-stage .member-image-wrap::before {
     content: attr(data-cover-title);
@@ -947,15 +961,16 @@
     text-transform: uppercase;
     mix-blend-mode: screen;
     text-shadow: 0 18px 38px rgba(0,0,0,.9);
+    z-index: 5;
   }
   .people-stage .member-card.featured-card .member-image-wrap::before {
     content: 'FEATURED';
-    top: 24px;
-    left: 28px;
+    top: 28px;
+    left: 32px;
     right: auto;
-    color: rgba(221,180,103,.9);
+    color: #f1d28b;
     font-family: var(--font-display);
-    font-size: .76rem;
+    font-size: .82rem;
     letter-spacing: .42em;
     line-height: 1;
   }
@@ -963,6 +978,7 @@
     background:
       linear-gradient(to top, rgba(0,0,0,.82) 0%, rgba(0,0,0,.48) 24%, rgba(0,0,0,.06) 58%, rgba(0,0,0,.42) 100%),
       radial-gradient(circle at 50% 38%, transparent 0 38%, rgba(0,0,0,.24) 82%);
+    z-index: 4;
   }
   .people-stage .member-img {
     width: 100%;
@@ -977,13 +993,13 @@
   }
   .people-stage .member-card.featured-card .member-image-wrap::after {
     background:
-      linear-gradient(to top, rgba(0,0,0,.90) 0%, rgba(0,0,0,.60) 26%, rgba(0,0,0,.08) 58%, rgba(0,0,0,.24) 100%),
+      linear-gradient(to top, rgba(0,0,0,.92) 0%, rgba(0,0,0,.74) 25%, rgba(0,0,0,.22) 48%, rgba(0,0,0,.10) 70%, rgba(0,0,0,.22) 100%),
       radial-gradient(circle at 57% 36%, transparent 0 42%, rgba(0,0,0,.20) 84%);
   }
   .people-stage .member-card.featured-card .member-img {
-    object-position: var(--photo-x, 56%) var(--photo-y, 17%);
-    transform: scale(calc(var(--photo-zoom, 1.02) + .12));
-    filter: saturate(1.06) contrast(1.08) brightness(1.15);
+    object-position: var(--photo-x, 52%) var(--photo-y, 18%);
+    transform: scale(calc(var(--photo-zoom, 1.02) + .18));
+    filter: saturate(1.08) contrast(1.06) brightness(1.22);
   }
   .people-stage .member-info {
     position: absolute;
@@ -1002,16 +1018,20 @@
     background: none;
   }
   .people-stage .member-card.featured-card .member-name {
-    font-size: clamp(1.85rem, 2.65vw, 2.9rem);
-    line-height: .94;
-    letter-spacing: -.025em;
+    font-size: clamp(1.72rem, 2.35vw, 2.55rem);
+    line-height: 1;
+    letter-spacing: -.015em;
     color: #f3eee8;
     text-shadow: 0 18px 40px rgba(0,0,0,.9);
   }
   .people-stage .member-card.featured-card .member-info {
-    left: 28px;
-    right: 28px;
-    bottom: 118px;
+    left: 32px;
+    right: 32px;
+    bottom: 34px;
+    max-width: calc(100% - 64px);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
   }
   .people-stage .member-card.featured-card .member-role {
     margin-top: 10px;
@@ -1048,19 +1068,40 @@
     color: rgba(255,255,255,.72);
   }
   .people-stage .member-card.featured-card .member-bio {
+    position: static;
     top: auto;
-    left: 28px;
-    right: 28px;
-    bottom: 28px;
+    left: auto;
+    right: auto;
+    bottom: auto;
     max-width: none;
-    min-height: 68px;
-    font-size: .82rem;
-    line-height: 1.55;
-    color: rgba(255,255,255,.78);
+    min-height: 0;
+    margin: 12px 0 0;
+    font-size: clamp(.86rem, 1vw, .98rem);
+    line-height: 1.65;
+    color: rgba(255,255,255,.82);
     display: -webkit-box;
-    -webkit-line-clamp: 4;
+    -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
+  }
+  .people-stage .member-card.featured-card .member-cover-kicker,
+  .people-stage .member-card.featured-card::after {
+    display: none;
+  }
+  body.uprise-editorial .people-stage .member-card.featured-card .member-image-wrap,
+  body.uprise-editorial .people-stage .member-card .member-image-wrap {
+    position: absolute !important;
+    inset: 0 !important;
+    width: 100% !important;
+    max-width: none !important;
+    height: 100% !important;
+    margin: 0 !important;
+    border: 0 !important;
+    border-radius: inherit !important;
+  }
+  body.uprise-editorial .people-stage .member-card.featured-card .member-img {
+    width: 100% !important;
+    height: 100% !important;
   }
   .people-stage .action-row { display: none; }
   @media (max-width: 980px) {

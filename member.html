@@ -853,6 +853,104 @@
     }
   }
 </style>
+<style>
+  /* Aurora-inspired featured profile cover */
+  body.uprise-editorial .member-detail-section {
+    background:
+      radial-gradient(circle at 50% 34%, rgba(198,154,92,.08), transparent 34%),
+      linear-gradient(180deg, #050505 0%, #020202 100%);
+  }
+  body.uprise-editorial .member-page-header {
+    max-width: 1480px;
+    border-bottom: 1px solid rgba(198,154,92,.16);
+    padding-bottom: 30px;
+  }
+  body.uprise-editorial .member-page-header::after {
+    content: 'FEATURED PROFILE / UPRISE';
+    color: rgba(198,154,92,.82);
+  }
+  body.uprise-editorial .member-page-header .page-main-title {
+    color: #eadfcd;
+    -webkit-text-fill-color: initial;
+    background: none;
+    letter-spacing: -.04em !important;
+  }
+  .profile-container {
+    width: min(92vw, 1180px);
+    max-width: 1180px;
+    min-height: min(78vh, 820px);
+    margin: 40px auto 0;
+    grid-template-columns: minmax(0, 1fr);
+    border: 1px solid rgba(198,154,92,.42);
+    background:
+      radial-gradient(circle at 50% 35%, rgba(198,154,92,.12), transparent 35%),
+      linear-gradient(180deg, #14120f, #050505 70%);
+    box-shadow:
+      0 46px 130px rgba(0,0,0,.74),
+      0 0 0 1px rgba(221,180,103,.18),
+      0 24px 54px rgba(198,154,92,.10);
+  }
+  .profile-container::before {
+    inset: 18px;
+    border-color: rgba(221,180,103,.24);
+  }
+  .profile-container::after {
+    content: var(--profile-cover-title, 'VISIONARY');
+    left: clamp(28px, 5vw, 70px);
+    right: clamp(28px, 5vw, 70px);
+    top: clamp(30px, 5vw, 70px);
+    color: rgba(221,180,103,.88);
+    font-size: clamp(4.4rem, 12vw, 13rem);
+    letter-spacing: -.07em;
+    line-height: .76;
+    z-index: 5;
+  }
+  .img-inner::after {
+    background:
+      linear-gradient(to top, rgba(0,0,0,.96) 0%, rgba(0,0,0,.68) 31%, rgba(0,0,0,.14) 62%, rgba(0,0,0,.7) 100%),
+      radial-gradient(circle at 52% 36%, transparent 0 30%, rgba(0,0,0,.55) 75%);
+  }
+  .profile-img {
+    filter: saturate(.9) contrast(1.12) brightness(.82);
+  }
+  .info-section {
+    align-self: end;
+    max-width: 640px;
+    padding: clamp(34px, 5vw, 70px);
+  }
+  .profile-eyebrow {
+    color: rgba(221,180,103,.92);
+    border-color: rgba(221,180,103,.35);
+    letter-spacing: .26em;
+  }
+  .member-name {
+    color: #f2e7d6;
+    -webkit-text-fill-color: initial;
+    background: none;
+    letter-spacing: -.02em;
+    text-shadow: 0 22px 60px rgba(0,0,0,.9);
+  }
+  .job-title {
+    color: rgba(221,180,103,.92);
+    border-top-color: rgba(221,180,103,.48);
+  }
+  .bio-text {
+    color: rgba(255,255,255,.74);
+  }
+  .action-buttons {
+    border-top-color: rgba(221,180,103,.18);
+  }
+  .btn {
+    border-color: rgba(221,180,103,.32);
+  }
+  .btn:hover {
+    border-color: rgba(221,180,103,.85);
+  }
+  @media (max-width: 900px) {
+    .profile-container { width: min(94vw, 560px); min-height: 740px; }
+    .profile-container::after { font-size: clamp(3.2rem, 18vw, 7rem); }
+  }
+</style>
 </head>
 <body class="loading-state">
 
@@ -1061,11 +1159,20 @@
         const params = new URLSearchParams(window.location.search);
         if (!params.has('preview')) return null;
         const pages = JSON.parse(localStorage.getItem('uprisePreviewPages') || '{}');
-        return pages && pages[pageName] ? pages[pageName] : null;
+        return pages && pages[pageName] ? stripVolatileImageUrls(pages[pageName]) : null;
       } catch (error) {
         console.warn('Unable to read local preview data.', error);
         return null;
       }
+    }
+
+    function stripVolatileImageUrls(value) {
+      if (Array.isArray(value)) return value.map(stripVolatileImageUrls);
+      if (value && typeof value === 'object') {
+        return Object.fromEntries(Object.entries(value).map(([key, item]) => [key, stripVolatileImageUrls(item)]));
+      }
+      if (typeof value === 'string' && value.startsWith('blob:')) return '';
+      return value;
     }
 
     async function loadFirestorePage(pageName) {
@@ -1120,6 +1227,7 @@
         const photoX = Number(m.photo_x ?? 50);
         const photoY = Number(m.photo_y ?? 20);
         const photoZoom = Number(m.photo_zoom ?? 1);
+        const coverTitle = (m.cover_title || m.role || 'VISIONARY').toUpperCase().replace(/'/g, '');
         
         const bioContent = m.full_bio ? m.full_bio : m.bio;
         const converter = new showdown.Converter({
@@ -1227,6 +1335,7 @@
               </div>
             </div>
         `;
+        container.style.setProperty('--profile-cover-title', `'${coverTitle}'`);
 
         container.querySelectorAll('.bio-text a').forEach(link => {
           link.target = '_blank';

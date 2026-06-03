@@ -798,6 +798,10 @@ window.uploadMemberAvatar = async (input, index) => {
     refreshPreview();
     try {
       await setDoc(doc(db,'pages','team'), window.data.team);
+      const verifySnap = await getDoc(doc(db,'pages','team'));
+      const savedMember = verifySnap.exists() ? (verifySnap.data().members || [])[index] : null;
+      const savedUrl = savedMember && (savedMember.avatar || savedMember.image || '');
+      if (savedUrl !== url) throw new Error('Firebase 寫入後讀回的圖片網址不一致，請重新整理後台後再上傳一次');
       setUploadStatus(`member-${index}`, 'Firebase 已同步');
       showToast('成員照片上傳完成 ✓');
     } catch(saveError) {

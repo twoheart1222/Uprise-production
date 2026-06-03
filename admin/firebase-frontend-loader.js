@@ -8,7 +8,7 @@
  */
 import { initializeApp, getApps } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
 import { getAuth } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
-import { getFirestore, doc, getDoc } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+import { getFirestore, doc, getDoc, onSnapshot } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
 
 const firebaseConfig = {
   apiKey: "AIzaSyCyC9CaF36J27mjCl908TFCukNtwAilM4o",
@@ -35,6 +35,16 @@ export async function loadFirebasePage(pageName) {
     console.warn(`[Firebase] Unable to load pages/${pageName}; using Markdown fallback.`, error);
     return null;
   }
+}
+
+export function subscribeFirebasePage(pageName, callback) {
+  const params = new URLSearchParams(window.location.search);
+  if (params.has('preview')) return () => {};
+  return onSnapshot(doc(db, 'pages', pageName), (snap) => {
+    if (snap.exists()) callback(stripVolatileImageUrls(snap.data()));
+  }, (error) => {
+    console.warn(`[Firebase] Unable to subscribe to pages/${pageName}.`, error);
+  });
 }
 
 function loadLocalPreviewPage(pageName) {
@@ -66,6 +76,7 @@ function toMarkdown(data) {
 }
 
 window.loadFirebasePage = loadFirebasePage;
+window.subscribeFirebasePage = subscribeFirebasePage;
 window.fetch = async function firestoreFirstFetch(input, init) {
   const url = typeof input === 'string' ? input : input && input.url;
   const match = typeof url === 'string' && url.match(/(?:^|\/)content\/([a-z-]+)\.md(?:[?#].*)?$/i);

@@ -6,7 +6,7 @@
 <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate"/>
 <meta http-equiv="Pragma" content="no-cache"/>
 <meta http-equiv="Expires" content="0"/>
-<title>Uprise 敺蝞∠?蝟餌絞</title>
+<title>Uprise Admin CMS</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Italiana&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -199,7 +199,7 @@ hr.divider { border: none; border-top: 1px solid var(--border); }
   pointer-events: none;
 }
 .photo-adjust-preview::after {
-  content: '??抒?隤踵雿蔭';
+  content: 'Drag to adjust photo';
   position: absolute; left: 12px; bottom: 10px;
   padding: 4px 8px; border-radius: 999px; background: rgba(0,0,0,.58);
   color: rgba(255,255,255,.72); font-size: .72rem; letter-spacing: 1px;
@@ -217,7 +217,7 @@ hr.divider { border: none; border-top: 1px solid var(--border); }
   transform: scale(var(--pz, 1));
 }
 .team-photo-preview::after {
-  content: '?????閬?;
+  content: 'Drag to adjust photo';
   position: absolute; left: 12px; bottom: 10px;
   padding: 4px 8px; border-radius: 999px; background: rgba(0,0,0,.58);
   color: rgba(255,255,255,.72); font-size: .72rem; letter-spacing: 1px;
@@ -284,16 +284,16 @@ hr.divider { border: none; border-top: 1px solid var(--border); }
 <div id="login-screen">
   <div>
     <div class="logo-text">UPRISE</div>
-    <div class="subtitle">PRODUCTION ??CMS</div>
+    <div class="subtitle">PRODUCTION CMS</div>
   </div>
   <div class="login-card">
-    <h2>敺蝞∠?蝟餌絞</h2>
-    <p>????撣唾??餃<br>隢蝙?冽?摰? Google 撣唾?</p>
+    <h2>Admin CMS</h2>
+    <p>Please sign in with the authorized Google account.<br>After signing in, you can edit site content and preview the front-end.</p>
     <button class="btn-google" id="btn-google-login">
       <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google">
-      雿輻 Google 撣唾??餃
+      Sign in with Google
     </button>
-    <div id="login-error">??撣唾??∪?????/div>
+    <div id="login-error">This account is not authorized. Please sign in with the admin account.</div>
   </div>
 </div>
 
@@ -304,216 +304,211 @@ hr.divider { border: none; border-top: 1px solid var(--border); }
       <div class="brand-sub">PRODUCTION CMS</div>
     </div>
     <div class="nav-section">
-      <div class="nav-label">?蝞∠?</div>
-      <div class="nav-item active" data-panel="dashboard"><i class="fas fa-chart-line"></i> 蝮質汗</div>
-      <div class="nav-item" data-panel="home"><i class="fas fa-home"></i> 擐?</div>
-      <div class="nav-item" data-panel="works"><i class="fas fa-film"></i> 雿???/div>
-      <div class="nav-item" data-panel="team"><i class="fas fa-users"></i> ???</div>
-      <div class="nav-item" data-panel="member"><i class="fas fa-id-card"></i> Member ?</div>
-      <div class="nav-item" data-panel="about"><i class="fas fa-circle-info"></i> ???/div>
-      <div class="nav-item" data-panel="contact"><i class="fas fa-envelope"></i> ?舐窗鞈?</div>
+      <div class="nav-label">Page Management</div>
+      <div class="nav-item active" data-panel="dashboard"><i class="fas fa-chart-line"></i> Dashboard</div>
+      <div class="nav-item" data-panel="home"><i class="fas fa-home"></i> Home</div>
+      <div class="nav-item" data-panel="works"><i class="fas fa-film"></i> Works</div>
+      <div class="nav-item" data-panel="team"><i class="fas fa-users"></i> Team</div>
+      <div class="nav-item" data-panel="member"><i class="fas fa-id-card"></i> Member Page</div>
+      <div class="nav-item" data-panel="about"><i class="fas fa-circle-info"></i> About</div>
+      <div class="nav-item" data-panel="contact"><i class="fas fa-envelope"></i> Contact</div>
     </div>
     <div class="sidebar-footer">
       <div class="user-info">
-        <img class="user-avatar" id="user-avatar" src="" alt="">
-        <div class="user-name" id="user-name">頛銝?..</div>
+        <img class="user-avatar" id="user-avatar" src="" alt="User avatar">
+        <div class="user-name" id="user-name">Loading...</div>
       </div>
-      <button class="btn-logout" id="btn-logout"><i class="fas fa-sign-out-alt"></i> ?餃</button>
+      <button class="btn-logout" id="btn-logout"><i class="fas fa-sign-out-alt"></i> Logout</button>
     </div>
   </div>
 
   <div id="main">
     <div class="topbar">
-      <div class="page-title" id="page-title">蝮質汗</div>
+      <div class="page-title" id="page-title">Dashboard</div>
       <button class="btn-save" id="btn-save" style="display:none" onclick="saveCurrentPanel()">
-        <i class="fas fa-save"></i> ?脣?霈
+        <i class="fas fa-save"></i> Save Changes
       </button>
     </div>
 
-    <!-- 蝮質汗 -->
     <div class="panel active" id="panel-dashboard">
       <div class="stats-grid">
-        <div class="stat-card"><div class="stat-num" id="stat-works">??/div><div class="stat-label">雿??賊?</div></div>
-        <div class="stat-card"><div class="stat-num" id="stat-team">??/div><div class="stat-label">???</div></div>
-        <div class="stat-card"><div class="stat-num" id="stat-services">??/div><div class="stat-label">???</div></div>
-        <div class="stat-card"><div class="stat-num" id="stat-bts">??/div><div class="stat-label">撟??梁筑</div></div>
+        <div class="stat-card"><div class="stat-num" id="stat-works">0</div><div class="stat-label">Works</div></div>
+        <div class="stat-card"><div class="stat-num" id="stat-team">0</div><div class="stat-label">Team Members</div></div>
+        <div class="stat-card"><div class="stat-num" id="stat-services">0</div><div class="stat-label">Services</div></div>
+        <div class="stat-card"><div class="stat-num" id="stat-bts">0</div><div class="stat-label">Behind the Scenes</div></div>
       </div>
       <div class="card">
-        <div class="card-title">雿輻隤芣?</div>
+        <div class="card-title">Guide</div>
         <p style="color:var(--muted);font-size:0.88rem;line-height:1.8">
-          甇∟?雿輻 Uprise 敺蝞∠?蝟餌絞??br>
-          暺撌血?詨蝺刻摩???Ｗ摰嫘耨?孵?暺??喃?閫?strong style="color:var(--text)">?摮??氬?/strong>嚗?br>
-          蝬脩??撠?strong style="color:var(--accent2)">?單??湔</strong>嚗???函蔡??敺?        </p>
+          Welcome to the Uprise Admin CMS.<br>
+          Use the left navigation to edit each page. The right preview shows the front-end page with your current draft data.<br>
+          Click <strong style="color:var(--accent2)">Save Changes</strong> to sync updates to Firebase and the front-end.
+        </p>
       </div>
     </div>
 
-    <!-- 擐? -->
     <div class="panel" id="panel-home">
       <div class="card">
-        <div class="card-title">?箸閮剖?</div>
-        <div class="field"><label>銝餉?閬箸?隤?/label><input type="text" id="home-hero_text" placeholder="????????></div>
-        <div class="field"><label>Logo ??蝬脣?</label><input type="text" id="home-logo" placeholder="https://..."><input type="file" accept="image/*" onchange="uploadHomeAsset(this,'logo','images')" style="margin-top:8px"><div class="upload-status" data-upload-status="home-logo"></div><div class="field-hint">?舐?乩??喳????票銝雯??遣霅唬蝙?券?? PNG??/div></div>
-        <div class="field"><label>?敶梁?蝬脣?嚗?衣?嚗?/label><input type="text" id="home-hero_video" placeholder="https://res.cloudinary.com/..."></div>
-        <div class="field"><label>?敶梁?蝬脣?嚗?璈?嚗?/label><input type="text" id="home-hero_video_mobile" placeholder="?征?蝙?券?衣?敶梁?"><div class="field-hint">撱箄降?游? 9:16 敶梁?</div></div>
+        <div class="card-title">Home Settings</div>
+        <div class="field"><label>Hero Text</label><input type="text" id="home-hero_text" placeholder="Enter hero text"></div>
+        <div class="field"><label>Logo URL / Upload</label><input type="text" id="home-logo" placeholder="https://..."><input type="file" accept="image/*" onchange="uploadHomeAsset(this,'logo','images')" style="margin-top:8px"><div class="upload-status" data-upload-status="home-logo"></div><div class="field-hint">Upload a logo directly to Firebase Storage.</div></div>
+        <div class="field"><label>Desktop Hero Video URL</label><input type="text" id="home-hero_video" placeholder="https://res.cloudinary.com/..."></div>
+        <div class="field"><label>Mobile Hero Video URL</label><input type="text" id="home-hero_video_mobile" placeholder="Optional 9:16 mobile video URL"><div class="field-hint">Recommended ratio: vertical 9:16.</div></div>
       </div>
       <div class="card">
         <div class="card-title">
-          <div class="list-header"><span>???</span><button class="btn-add" onclick="addService()"><i class="fas fa-plus"></i> ?啣?</button></div>
+          <div class="list-header"><span>Services</span><button class="btn-add" onclick="addService()"><i class="fas fa-plus"></i> Add</button></div>
         </div>
         <div class="list-items" id="services-list"></div>
       </div>
       <div class="card">
         <div class="card-title">
-          <div class="list-header"><span>撟??梁筑??</span><button class="btn-add" onclick="addBts()"><i class="fas fa-plus"></i> ?啣?</button></div>
+          <div class="list-header"><span>Behind the Scenes Images</span><button class="btn-add" onclick="addBts()"><i class="fas fa-plus"></i> Add</button></div>
         </div>
         <div class="list-items" id="bts-list"></div>
       </div>
     </div>
 
-    <!-- 雿???-->
     <div class="panel" id="panel-works">
       <div class="card">
-        <div class="card-title">?璅?</div>
+        <div class="card-title">Works Settings</div>
         <div class="field-row">
-          <div class="field"><label>銝餅?憿?/label><input type="text" id="works-title" placeholder="蝎暸雿???></div>
-          <div class="field"><label>?舀?憿?/label><input type="text" id="works-subtitle" placeholder="?園?甇瑕僑靘?敶勗?蝎曇"></div>
+          <div class="field"><label>Title</label><input type="text" id="works-title" placeholder="Works"></div>
+          <div class="field"><label>Subtitle</label><input type="text" id="works-subtitle" placeholder="Short works page intro"></div>
         </div>
       </div>
       <div class="card">
         <div class="list-header">
           <div>
-            <div class="card-title" style="border:0;padding:0">雿???</div>
-            <div class="field-hint" style="margin-top:8px">???臭誑?芰?啣????摨??芷??/div>
+            <div class="card-title" style="border:0;padding:0">Work Categories</div>
+            <div class="field-hint" style="margin-top:8px">Create, rename, sort, delete categories, and add works inside each category.</div>
           </div>
-          <button class="btn-add" onclick="addWorkCategory()"><i class="fas fa-folder-plus"></i> ?啣???</button>
+          <button class="btn-add" onclick="addWorkCategory()"><i class="fas fa-folder-plus"></i> Add Category</button>
         </div>
       </div>
       <div id="works-categories"></div>
     </div>
 
-    <!-- ?? -->
     <div class="panel" id="panel-team">
       <div class="card">
-        <div class="card-title">?璅?</div>
+        <div class="card-title">Team Page Settings</div>
         <div class="field-row">
-          <div class="field"><label>銝餅?憿?/label><input type="text" id="team-title" placeholder="撠平??"></div>
-          <div class="field"><label>?舀?憿?/label><input type="text" id="team-subtitle" placeholder=""></div>
+          <div class="field"><label>Title</label><input type="text" id="team-title" placeholder="Our Team"></div>
+          <div class="field"><label>Subtitle</label><input type="text" id="team-subtitle" placeholder="Short team page intro"></div>
         </div>
       </div>
       <div class="card">
-        <div class="card-title">Team / Member 閬死璅??</div>
+        <div class="card-title">Team / Member Typography</div>
         <div class="field-row">
           <div class="field">
-            <label>憪?摮?</label>
+            <label>Name Font</label>
             <select id="team-style-name_font">
-              <option value="serif">??璅? Serif</option>
-              <option value="sans">暺? Sans</option>
-              <option value="display">蝢拙? Display</option>
+              <option value="serif">Elegant Serif</option>
+              <option value="sans">Clean Sans</option>
+              <option value="display">Editorial Display</option>
             </select>
           </div>
           <div class="field">
-            <label>憪?憭批?嚗em嚗?/label>
+            <label>Name Size (em)</label>
             <input type="number" step="0.1" min="1.6" max="8" id="team-style-name_size" placeholder="2.45">
           </div>
         </div>
         <div class="field-row">
           <div class="field">
-            <label>?瑞迂憭批?嚗em嚗?/label>
+            <label>Role Size (em)</label>
             <input type="number" step="0.05" min="0.6" max="2" id="team-style-role_size" placeholder="0.78">
           </div>
           <div class="field">
-            <label>?扳?憭批?嚗em嚗?/label>
+            <label>Bio Size (em)</label>
             <input type="number" step="0.05" min="0.75" max="1.5" id="team-style-bio_size" placeholder="0.92">
           </div>
         </div>
         <div class="field">
-          <label>?∠?撖漲</label>
+          <label>Card Density</label>
           <select id="team-style-card_density">
-            <option value="normal">璅?</option>
-            <option value="compact">蝺?</option>
+            <option value="normal">Normal</option>
+            <option value="compact">Compact</option>
           </select>
-          <div class="field-hint">??閮剖??????典 team.html ???? member.html ?犖??/div>
+          <div class="field-hint">These settings apply to team.html and member.html profile layouts.</div>
         </div>
         <div class="style-live-preview" id="team-style-preview">
           <h3 class="style-live-name">COVER STORY</h3>
           <div class="style-live-role">EDITORIAL PROFILE / DIRECTOR</div>
-          <div class="style-live-bio">?ㄐ??＊蝷?Team ?犖?拙??憪??蝔梯??扳?摮?憭批???/div>
+          <div class="style-live-bio">Preview the Team card typography, size, and bio style here.</div>
         </div>
       </div>
       <div class="card">
         <div class="card-title">
-          <div class="list-header"><span>??”</span><button class="btn-add" onclick="addMember()"><i class="fas fa-plus"></i> ?啣??</button></div>
+          <div class="list-header"><span>Team Members</span><button class="btn-add" onclick="addMember()"><i class="fas fa-plus"></i> Add Member</button></div>
         </div>
         <div class="list-items" id="members-list"></div>
       </div>
     </div>
 
-    <!-- Member ? -->
     <div class="panel" id="panel-member">
       <div class="card">
-        <div class="card-title">Member ?犖?身摰?/div>
+        <div class="card-title">Member Detail Page Settings</div>
         <p style="color:var(--muted);font-size:0.88rem;line-height:1.8">
-          ?犖?摰嫣??芥????～?銵具?雿??∠??抒??底蝝唬?蝝嫘??蝵株?蝮格?賢隞亙?ㄐ????隤踵??        </p>
+          Adjust each member detail page image position, zoom, and full profile text. Use the right preview selector to switch between members.
+        </p>
       </div>
       <div class="card">
-        <div class="card-title">Member / Team ?梁摮?璅??</div>
+        <div class="card-title">Member / Team Typography</div>
         <div class="field-row">
           <div class="field">
-            <label>憪?摮?</label>
+            <label>Name Font</label>
             <select id="member-style-name_font">
-              <option value="serif">??璅? Serif</option>
-              <option value="sans">暺? Sans</option>
-              <option value="display">蝢拙? Display</option>
+              <option value="serif">Elegant Serif</option>
+              <option value="sans">Clean Sans</option>
+              <option value="display">Editorial Display</option>
             </select>
           </div>
-          <div class="field"><label>Member 憪?憭批?嚗em嚗?/label><input type="number" step="0.1" min="3" max="12" id="member-style-member_name_size" placeholder="9.5"></div>
+          <div class="field"><label>Member Name Size (em)</label><input type="number" step="0.1" min="3" max="12" id="member-style-member_name_size" placeholder="9.5"></div>
         </div>
         <div class="field-row">
-          <div class="field"><label>?瑞迂憭批?嚗em嚗?/label><input type="number" step="0.05" min="0.6" max="2" id="member-style-role_size" placeholder="0.82"></div>
-          <div class="field"><label>?扳?憭批?嚗em嚗?/label><input type="number" step="0.05" min="0.75" max="1.6" id="member-style-bio_size" placeholder="0.98"></div>
+          <div class="field"><label>Role Size (em)</label><input type="number" step="0.05" min="0.6" max="2" id="member-style-role_size" placeholder="0.82"></div>
+          <div class="field"><label>Bio Size (em)</label><input type="number" step="0.05" min="0.75" max="1.6" id="member-style-bio_size" placeholder="0.98"></div>
         </div>
         <div class="style-live-preview" id="member-style-preview">
           <h3 class="style-live-name">UPRISE PROFILE</h3>
           <div class="style-live-role">CREATIVE PROFILE / DIRECTOR</div>
-          <div class="style-live-bio">?ㄐ??＊蝷?Member ?犖??憿蝔梯??扳?摮?憭批???/div>
+          <div class="style-live-bio">Preview the Member detail page name, role, and bio style here.</div>
         </div>
       </div>
       <div class="card">
-        <div class="card-title">Member ?批捆?????/div>
+        <div class="card-title">Member Photos and Detail Text</div>
         <div class="list-items" id="member-page-list"></div>
       </div>
     </div>
 
-    <!-- ? -->
     <div class="panel" id="panel-about">
       <div class="card">
-        <div class="card-title">???/div>
+        <div class="card-title">About</div>
         <div class="field-row">
-          <div class="field"><label>璅?</label><input type="text" id="about-title" placeholder="??冽?"></div>
-          <div class="field"><label>?舀?憿?/label><input type="text" id="about-subtitle" placeholder="?Ｙ揣??敶勗??????"></div>
+          <div class="field"><label>Title</label><input type="text" id="about-title" placeholder="About Uprise"></div>
+          <div class="field"><label>Subtitle</label><input type="text" id="about-subtitle" placeholder="Short about page intro"></div>
         </div>
         <div class="field">
-          <label>??扳?嚗??Markdown嚗?/label>
-          <textarea id="about-body" style="min-height:280px" placeholder="# ????"></textarea>
+          <label>Page Content (Markdown supported)</label>
+          <textarea id="about-body" style="min-height:280px" placeholder="# About Us"></textarea>
         </div>
       </div>
     </div>
 
-    <!-- ?舐窗 -->
     <div class="panel" id="panel-contact">
       <div class="card">
-        <div class="card-title">?舐窗鞈?</div>
+        <div class="card-title">Contact</div>
         <div class="field-row">
-          <div class="field"><label>璅?</label><input type="text" id="contact-title" placeholder="?舐窗??></div>
-          <div class="field"><label>?舀?憿?/label><input type="text" id="contact-subtitle" placeholder=""></div>
+          <div class="field"><label>Title</label><input type="text" id="contact-title" placeholder="Contact Us"></div>
+          <div class="field"><label>Subtitle</label><input type="text" id="contact-subtitle" placeholder="Short contact page intro"></div>
         </div>
         <hr class="divider">
-        <div class="field"><label>?啣?</label><input type="text" id="contact-address" placeholder="?啁..."></div>
+        <div class="field"><label>Address</label><input type="text" id="contact-address" placeholder="Enter address..."></div>
         <div class="field-row">
           <div class="field"><label>Email</label><input type="text" id="contact-email" placeholder="contact@uprise.com"></div>
-          <div class="field"><label>?餉店</label><input type="text" id="contact-phone" placeholder="+886..."></div>
+          <div class="field"><label>Phone</label><input type="text" id="contact-phone" placeholder="+886..."></div>
         </div>
-        <div class="field"><label>Formspree ID</label><input type="text" id="contact-formspree_id" placeholder="movbylbl"><div class="field-hint">Formspree 銵典 ID嚗?憒?movbylbl</div></div>
+        <div class="field"><label>Formspree ID</label><input type="text" id="contact-formspree_id" placeholder="movbylbl"><div class="field-hint">Enter the Formspree form ID, for example movbylbl.</div></div>
       </div>
     </div>
   </div>
@@ -531,13 +526,12 @@ hr.divider { border: none; border-top: 1px solid var(--border); }
       </div>
     </div>
     <div class="preview-stage">
-      <iframe id="site-preview" src="../index.html" title="蝬脩?撖阡??汗"></iframe>
+      <iframe id="site-preview" src="../index.html" title="Front-end live preview"></iframe>
     </div>
   </aside>
 </div>
 
 <div id="toast"><span id="toast-msg"></span></div>
-
 <script type="module">
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
 import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged }
@@ -1006,7 +1000,7 @@ window.updatePhotoPreviewImage = (index, url) => {
   img.src = url;
 };
 
-// ?? 擐? ??
+// Home
 function renderHome() {
   const d = window.data.home;
   ['hero_text','logo','hero_video','hero_video_mobile'].forEach(k => {
@@ -1297,7 +1291,8 @@ function renderMemberPageList() {
     </div>`).join('');
 }
 
-// Member preview selectorconst baseRenderMemberPageList = renderMemberPageList;
+// Member preview selector
+const baseRenderMemberPageList = renderMemberPageList;
 renderMemberPageList = function() {
   baseRenderMemberPageList();
   injectMemberPreviewSelector();
@@ -1312,7 +1307,7 @@ function injectMemberPreviewSelector() {
   if (oldSelector) oldSelector.remove();
   const selector = document.createElement('div');
   selector.className = 'preview-member-select';
-  selector.innerHTML = `<span>預覽成員</span>${items.map((m,i)=>`<button type="button" class="preview-member-btn ${i === currentPreviewMemberIndex ? 'active' : ''}" data-member-preview-index="${i}">${m.name || `Member ${i + 1}`}</button>`).join('')}`;
+  selector.innerHTML = `<span>Preview member</span>${items.map((m,i)=>`<button type="button" class="preview-member-btn ${i === currentPreviewMemberIndex ? 'active' : ''}" data-member-preview-index="${i}">${m.name || `Member ${i + 1}`}</button>`).join('')}`;
   el.prepend(selector);
   selector.querySelectorAll('[data-member-preview-index]').forEach(btn => {
     btn.addEventListener('click', () => setPreviewMember(Number(btn.dataset.memberPreviewIndex)));
@@ -1334,7 +1329,7 @@ function renderAbout() {
   });
 }
 
-// ?? ?舐窗 ??
+// Contact
 function renderContact() {
   const d = window.data.contact;
   ['title','subtitle','address','email','phone','formspree_id'].forEach(k=>{
@@ -1342,7 +1337,7 @@ function renderContact() {
   });
 }
 
-// ?? ?梁嚗?宏雿???
+// Helpers
 function moveItems(arr, i, dir) {
   const j=i+dir;
   if(j<0||j>=arr.length) return;
@@ -1352,7 +1347,7 @@ window.moveArr = (page, key, i, dir) => {
   moveItems(window.data[page][key],i,dir);
 };
 
-// ?? ?脣? ??
+// Save
 window.currentPanel = 'dashboard';
 window.saveCurrentPanel = async () => {
   const panel = window.currentPanel;
@@ -1406,7 +1401,7 @@ window.saveCurrentPanel = async () => {
   btn.disabled=false; btn.innerHTML='<i class="fas fa-save"></i> Save changes';
 };
 
-// ?? 蝯梯? ??
+// Stats
 function updateStats() {
   normalizeWorkCategories();
   const wc = window.data.works.portfolio_categories.reduce((count,category)=>count+category.items.length,0);
@@ -1416,7 +1411,7 @@ function updateStats() {
   document.getElementById('stat-bts').textContent = (window.data.home.behind_the_scenes||[]).length;
 }
 
-// ?? 撠 ??
+// Navigation and preview
 const panelTitles = {
   dashboard: 'Dashboard',
   home: 'Home',

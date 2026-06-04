@@ -1,7 +1,8 @@
 ﻿(function () {
   "use strict";
 
-  const page = (location.pathname.split("/").pop() || "index.html").toLowerCase();
+  const currentPath = location.pathname.replace(/\/+$/, "");
+  const page = (currentPath.split("/").pop() || "index").replace(/\.html$/i, "").toLowerCase();
   const FIREBASE_PROJECT = "uprise-videoproduction-admin";
   const FIREBASE_KEY = "AIzaSyCyC9CaF36J27mjCl908TFCukNtwAilM4o";
 
@@ -16,10 +17,10 @@
 
   document.addEventListener("DOMContentLoaded", () => {
     document.body.classList.add("uprise-interactive-page");
-    if (page === "about.html") enhanceAbout();
-    if (page === "contact.html") enhanceContact();
-    if (page === "index.html" || page === "") enhanceHome();
-    if (page === "success.html") enhanceSuccess();
+    if (page === "about") enhanceAbout();
+    if (page === "contact") enhanceContact();
+    if (page === "index" || page === "") enhanceHome();
+    if (page === "success") enhanceSuccess();
     initInteractiveMotion();
   });
 

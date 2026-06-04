@@ -11,6 +11,20 @@
   isolation: isolate;
 }
 
+body.uprise-interactive-pending main {
+  opacity: 0;
+  animation: pendingFallback .01s linear 4s forwards;
+}
+
+body.uprise-interactive-ready main {
+  opacity: 1;
+  transition: opacity .28s ease;
+}
+
+@keyframes pendingFallback {
+  to { opacity: 1; }
+}
+
 .interactive-main::before {
   content: "";
   position: fixed;

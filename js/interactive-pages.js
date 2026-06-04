@@ -116,6 +116,8 @@
         </section>
       `;
 
+      document.body.classList.remove("uprise-interactive-pending");
+      document.body.classList.add("uprise-interactive-ready");
       refreshAos();
       initInteractiveMotion(main);
     };
@@ -190,6 +192,8 @@
 
       const form = document.getElementById("contact-form");
       form?.addEventListener("submit", submitContactForm);
+      document.body.classList.remove("uprise-interactive-pending");
+      document.body.classList.add("uprise-interactive-ready");
       refreshAos();
       initInteractiveMotion(main);
     };

@@ -294,6 +294,7 @@ hr.divider { border: none; border-top: 1px solid var(--border); }
       Sign in with Google
     </button>
     <div id="login-error">This account is not authorized. Please sign in with the admin account.</div>
+    <div id="protocol-warning" style="display:none;margin-top:16px;padding:12px 14px;border:1px solid rgba(255,183,77,.45);border-radius:10px;background:rgba(255,183,77,.1);color:#ffd28a;font-size:.86rem;line-height:1.7"></div>
   </div>
 </div>
 
@@ -532,6 +533,30 @@ hr.divider { border: none; border-top: 1px solid var(--border); }
 </div>
 
 <div id="toast"><span id="toast-msg"></span></div>
+<script>
+(function () {
+  if (location.protocol !== 'file:') return;
+  window.__UPRISE_FILE_MODE__ = true;
+  window.addEventListener('DOMContentLoaded', function () {
+    var warning = document.getElementById('protocol-warning');
+    var loginButton = document.getElementById('btn-google-login');
+    if (warning) {
+      warning.style.display = 'block';
+      warning.innerHTML = 'Firebase cannot connect correctly when this admin page is opened with <strong>file://</strong>.<br>Please open the local server version instead: <a href="http://127.0.0.1:8765/admin/index.html" style="color:#fff;text-decoration:underline">http://127.0.0.1:8765/admin/index.html</a>';
+    }
+    if (loginButton) {
+      loginButton.disabled = true;
+      loginButton.style.opacity = '.55';
+      loginButton.style.cursor = 'not-allowed';
+      loginButton.title = 'Open the HTTP local server version to connect Firebase.';
+    }
+    var localAdminUrl = 'http://127.0.0.1:8765/admin/index.html';
+    var ping = new Image();
+    ping.onload = function () { location.replace(localAdminUrl); };
+    ping.src = 'http://127.0.0.1:8765/siteicon.png?adminPing=' + Date.now();
+  });
+})();
+</script>
 <script type="module">
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
 import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged }

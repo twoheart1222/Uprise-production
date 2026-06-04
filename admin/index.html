@@ -6,7 +6,7 @@
 <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate"/>
 <meta http-equiv="Pragma" content="no-cache"/>
 <meta http-equiv="Expires" content="0"/>
-<title>Uprise 後台管理系統</title>
+<title>Uprise 敺蝞∠?蝟餌絞</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Italiana&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -199,7 +199,7 @@ hr.divider { border: none; border-top: 1px solid var(--border); }
   pointer-events: none;
 }
 .photo-adjust-preview::after {
-  content: '拖曳照片調整位置';
+  content: '??抒?隤踵雿蔭';
   position: absolute; left: 12px; bottom: 10px;
   padding: 4px 8px; border-radius: 999px; background: rgba(0,0,0,.58);
   color: rgba(255,255,255,.72); font-size: .72rem; letter-spacing: 1px;
@@ -217,7 +217,7 @@ hr.divider { border: none; border-top: 1px solid var(--border); }
   transform: scale(var(--pz, 1));
 }
 .team-photo-preview::after {
-  content: '團隊頁照片預覽';
+  content: '?????閬?;
   position: absolute; left: 12px; bottom: 10px;
   padding: 4px 8px; border-radius: 999px; background: rgba(0,0,0,.58);
   color: rgba(255,255,255,.72); font-size: .72rem; letter-spacing: 1px;
@@ -258,6 +258,21 @@ hr.divider { border: none; border-top: 1px solid var(--border); }
 .preview-stage { flex: 1; overflow: hidden; display: flex; justify-content: center; background: #050505; }
 #site-preview { width: 100%; height: 100%; border: 0; background: #050505; transition: width 0.25s ease; }
 #preview-pane.mobile #site-preview { width: 390px; }
+.preview-member-select {
+  display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+  margin: -4px 0 8px; padding: 10px 12px; border: 1px solid var(--border);
+  border-radius: 10px; background: rgba(255,255,255,.025);
+}
+.preview-member-select span { color: var(--muted); font-size: .78rem; }
+.preview-member-btn {
+  border: 1px solid var(--border); background: var(--surface2); color: var(--muted);
+  border-radius: 999px; padding: 6px 11px; font-size: .76rem; cursor: pointer;
+  font-family: var(--font); transition: all .2s;
+}
+.preview-member-btn:hover,
+.preview-member-btn.active {
+  color: #111; border-color: var(--accent2); background: var(--grad);
+}
 @media (max-width: 1180px) {
   #preview-pane { min-width: 330px; width: 38vw; }
   .photo-adjust-grid { grid-template-columns: 1fr; }
@@ -269,16 +284,16 @@ hr.divider { border: none; border-top: 1px solid var(--border); }
 <div id="login-screen">
   <div>
     <div class="logo-text">UPRISE</div>
-    <div class="subtitle">PRODUCTION — CMS</div>
+    <div class="subtitle">PRODUCTION ??CMS</div>
   </div>
   <div class="login-card">
-    <h2>後台管理系統</h2>
-    <p>僅限授權帳號登入<br>請使用指定的 Google 帳號</p>
+    <h2>敺蝞∠?蝟餌絞</h2>
+    <p>????撣唾??餃<br>隢蝙?冽?摰? Google 撣唾?</p>
     <button class="btn-google" id="btn-google-login">
       <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google">
-      使用 Google 帳號登入
+      雿輻 Google 撣唾??餃
     </button>
-    <div id="login-error">❌ 帳號無存取權限</div>
+    <div id="login-error">??撣唾??∪?????/div>
   </div>
 </div>
 
@@ -289,218 +304,216 @@ hr.divider { border: none; border-top: 1px solid var(--border); }
       <div class="brand-sub">PRODUCTION CMS</div>
     </div>
     <div class="nav-section">
-      <div class="nav-label">頁面管理</div>
-      <div class="nav-item active" data-panel="dashboard"><i class="fas fa-chart-line"></i> 總覽</div>
-      <div class="nav-item" data-panel="home"><i class="fas fa-home"></i> 首頁</div>
-      <div class="nav-item" data-panel="works"><i class="fas fa-film"></i> 作品集</div>
-      <div class="nav-item" data-panel="team"><i class="fas fa-users"></i> 團隊成員</div>
-      <div class="nav-item" data-panel="member"><i class="fas fa-id-card"></i> Member 頁面</div>
-      <div class="nav-item" data-panel="about"><i class="fas fa-circle-info"></i> 關於我們</div>
-      <div class="nav-item" data-panel="contact"><i class="fas fa-envelope"></i> 聯絡資訊</div>
+      <div class="nav-label">?蝞∠?</div>
+      <div class="nav-item active" data-panel="dashboard"><i class="fas fa-chart-line"></i> 蝮質汗</div>
+      <div class="nav-item" data-panel="home"><i class="fas fa-home"></i> 擐?</div>
+      <div class="nav-item" data-panel="works"><i class="fas fa-film"></i> 雿???/div>
+      <div class="nav-item" data-panel="team"><i class="fas fa-users"></i> ???</div>
+      <div class="nav-item" data-panel="member"><i class="fas fa-id-card"></i> Member ?</div>
+      <div class="nav-item" data-panel="about"><i class="fas fa-circle-info"></i> ???/div>
+      <div class="nav-item" data-panel="contact"><i class="fas fa-envelope"></i> ?舐窗鞈?</div>
     </div>
     <div class="sidebar-footer">
       <div class="user-info">
         <img class="user-avatar" id="user-avatar" src="" alt="">
-        <div class="user-name" id="user-name">載入中...</div>
+        <div class="user-name" id="user-name">頛銝?..</div>
       </div>
-      <button class="btn-logout" id="btn-logout"><i class="fas fa-sign-out-alt"></i> 登出</button>
+      <button class="btn-logout" id="btn-logout"><i class="fas fa-sign-out-alt"></i> ?餃</button>
     </div>
   </div>
 
   <div id="main">
     <div class="topbar">
-      <div class="page-title" id="page-title">總覽</div>
+      <div class="page-title" id="page-title">蝮質汗</div>
       <button class="btn-save" id="btn-save" style="display:none" onclick="saveCurrentPanel()">
-        <i class="fas fa-save"></i> 儲存變更
+        <i class="fas fa-save"></i> ?脣?霈
       </button>
     </div>
 
-    <!-- 總覽 -->
+    <!-- 蝮質汗 -->
     <div class="panel active" id="panel-dashboard">
       <div class="stats-grid">
-        <div class="stat-card"><div class="stat-num" id="stat-works">—</div><div class="stat-label">作品數量</div></div>
-        <div class="stat-card"><div class="stat-num" id="stat-team">—</div><div class="stat-label">團隊成員</div></div>
-        <div class="stat-card"><div class="stat-num" id="stat-services">—</div><div class="stat-label">服務項目</div></div>
-        <div class="stat-card"><div class="stat-num" id="stat-bts">—</div><div class="stat-label">幕後花絮</div></div>
+        <div class="stat-card"><div class="stat-num" id="stat-works">??/div><div class="stat-label">雿??賊?</div></div>
+        <div class="stat-card"><div class="stat-num" id="stat-team">??/div><div class="stat-label">???</div></div>
+        <div class="stat-card"><div class="stat-num" id="stat-services">??/div><div class="stat-label">???</div></div>
+        <div class="stat-card"><div class="stat-num" id="stat-bts">??/div><div class="stat-label">撟??梁筑</div></div>
       </div>
       <div class="card">
-        <div class="card-title">使用說明</div>
+        <div class="card-title">雿輻隤芣?</div>
         <p style="color:var(--muted);font-size:0.88rem;line-height:1.8">
-          歡迎使用 Uprise 後台管理系統。<br>
-          點選左側選單編輯各頁面內容。修改後點擊右上角<strong style="color:var(--text)">「儲存變更」</strong>，<br>
-          網站前台將<strong style="color:var(--accent2)">即時更新</strong>，無需重新部署或等待。
-        </p>
+          甇∟?雿輻 Uprise 敺蝞∠?蝟餌絞??br>
+          暺撌血?詨蝺刻摩???Ｗ摰嫘耨?孵?暺??喃?閫?strong style="color:var(--text)">?摮??氬?/strong>嚗?br>
+          蝬脩??撠?strong style="color:var(--accent2)">?單??湔</strong>嚗???函蔡??敺?        </p>
       </div>
     </div>
 
-    <!-- 首頁 -->
+    <!-- 擐? -->
     <div class="panel" id="panel-home">
       <div class="card">
-        <div class="card-title">基本設定</div>
-        <div class="field"><label>主視覺標語</label><input type="text" id="home-hero_text" placeholder="看見故事的力量"></div>
-        <div class="field"><label>Logo 圖片網址</label><input type="text" id="home-logo" placeholder="https://..."><input type="file" accept="image/*" onchange="uploadHomeAsset(this,'logo','images')" style="margin-top:8px"><div class="upload-status" data-upload-status="home-logo"></div><div class="field-hint">可直接上傳圖片，或貼上網址。建議使用透明背景 PNG。</div></div>
-        <div class="field"><label>背景影片網址（電腦版）</label><input type="text" id="home-hero_video" placeholder="https://res.cloudinary.com/..."></div>
-        <div class="field"><label>背景影片網址（手機版）</label><input type="text" id="home-hero_video_mobile" placeholder="留空則使用電腦版影片"><div class="field-hint">建議直式 9:16 影片</div></div>
+        <div class="card-title">?箸閮剖?</div>
+        <div class="field"><label>銝餉?閬箸?隤?/label><input type="text" id="home-hero_text" placeholder="????????></div>
+        <div class="field"><label>Logo ??蝬脣?</label><input type="text" id="home-logo" placeholder="https://..."><input type="file" accept="image/*" onchange="uploadHomeAsset(this,'logo','images')" style="margin-top:8px"><div class="upload-status" data-upload-status="home-logo"></div><div class="field-hint">?舐?乩??喳????票銝雯??遣霅唬蝙?券?? PNG??/div></div>
+        <div class="field"><label>?敶梁?蝬脣?嚗?衣?嚗?/label><input type="text" id="home-hero_video" placeholder="https://res.cloudinary.com/..."></div>
+        <div class="field"><label>?敶梁?蝬脣?嚗?璈?嚗?/label><input type="text" id="home-hero_video_mobile" placeholder="?征?蝙?券?衣?敶梁?"><div class="field-hint">撱箄降?游? 9:16 敶梁?</div></div>
       </div>
       <div class="card">
         <div class="card-title">
-          <div class="list-header"><span>服務項目</span><button class="btn-add" onclick="addService()"><i class="fas fa-plus"></i> 新增</button></div>
+          <div class="list-header"><span>???</span><button class="btn-add" onclick="addService()"><i class="fas fa-plus"></i> ?啣?</button></div>
         </div>
         <div class="list-items" id="services-list"></div>
       </div>
       <div class="card">
         <div class="card-title">
-          <div class="list-header"><span>幕後花絮圖片</span><button class="btn-add" onclick="addBts()"><i class="fas fa-plus"></i> 新增</button></div>
+          <div class="list-header"><span>撟??梁筑??</span><button class="btn-add" onclick="addBts()"><i class="fas fa-plus"></i> ?啣?</button></div>
         </div>
         <div class="list-items" id="bts-list"></div>
       </div>
     </div>
 
-    <!-- 作品集 -->
+    <!-- 雿???-->
     <div class="panel" id="panel-works">
       <div class="card">
-        <div class="card-title">頁面標題</div>
+        <div class="card-title">?璅?</div>
         <div class="field-row">
-          <div class="field"><label>主標題</label><input type="text" id="works-title" placeholder="精選作品集"></div>
-          <div class="field"><label>副標題</label><input type="text" id="works-subtitle" placeholder="收錄歷年來的影像精華"></div>
+          <div class="field"><label>銝餅?憿?/label><input type="text" id="works-title" placeholder="蝎暸雿???></div>
+          <div class="field"><label>?舀?憿?/label><input type="text" id="works-subtitle" placeholder="?園?甇瑕僑靘?敶勗?蝎曇"></div>
         </div>
       </div>
       <div class="card">
         <div class="list-header">
           <div>
-            <div class="card-title" style="border:0;padding:0">作品分類</div>
-            <div class="field-hint" style="margin-top:8px">分類可以自由新增、改名、排序與刪除。</div>
+            <div class="card-title" style="border:0;padding:0">雿???</div>
+            <div class="field-hint" style="margin-top:8px">???臭誑?芰?啣????摨??芷??/div>
           </div>
-          <button class="btn-add" onclick="addWorkCategory()"><i class="fas fa-folder-plus"></i> 新增分類</button>
+          <button class="btn-add" onclick="addWorkCategory()"><i class="fas fa-folder-plus"></i> ?啣???</button>
         </div>
       </div>
       <div id="works-categories"></div>
     </div>
 
-    <!-- 團隊 -->
+    <!-- ?? -->
     <div class="panel" id="panel-team">
       <div class="card">
-        <div class="card-title">頁面標題</div>
+        <div class="card-title">?璅?</div>
         <div class="field-row">
-          <div class="field"><label>主標題</label><input type="text" id="team-title" placeholder="專業團隊"></div>
-          <div class="field"><label>副標題</label><input type="text" id="team-subtitle" placeholder=""></div>
+          <div class="field"><label>銝餅?憿?/label><input type="text" id="team-title" placeholder="撠平??"></div>
+          <div class="field"><label>?舀?憿?/label><input type="text" id="team-subtitle" placeholder=""></div>
         </div>
       </div>
       <div class="card">
-        <div class="card-title">Team / Member 視覺樣式</div>
+        <div class="card-title">Team / Member 閬死璅??</div>
         <div class="field-row">
           <div class="field">
-            <label>姓名字體</label>
+            <label>憪?摮?</label>
             <select id="team-style-name_font">
-              <option value="serif">明體標題 Serif</option>
-              <option value="sans">黑體 Sans</option>
-              <option value="display">義式 Display</option>
+              <option value="serif">??璅? Serif</option>
+              <option value="sans">暺? Sans</option>
+              <option value="display">蝢拙? Display</option>
             </select>
           </div>
           <div class="field">
-            <label>姓名大小（rem）</label>
+            <label>憪?憭批?嚗em嚗?/label>
             <input type="number" step="0.1" min="1.6" max="8" id="team-style-name_size" placeholder="2.45">
           </div>
         </div>
         <div class="field-row">
           <div class="field">
-            <label>職稱大小（rem）</label>
+            <label>?瑞迂憭批?嚗em嚗?/label>
             <input type="number" step="0.05" min="0.6" max="2" id="team-style-role_size" placeholder="0.78">
           </div>
           <div class="field">
-            <label>內文大小（rem）</label>
+            <label>?扳?憭批?嚗em嚗?/label>
             <input type="number" step="0.05" min="0.75" max="1.5" id="team-style-bio_size" placeholder="0.92">
           </div>
         </div>
         <div class="field">
-          <label>卡片密度</label>
+          <label>?∠?撖漲</label>
           <select id="team-style-card_density">
-            <option value="normal">標準</option>
-            <option value="compact">緊湊</option>
+            <option value="normal">璅?</option>
+            <option value="compact">蝺?</option>
           </select>
-          <div class="field-hint">這組設定會同時套用在 team.html 團隊頁與 member.html 個人頁。</div>
+          <div class="field-hint">??閮剖??????典 team.html ???? member.html ?犖??/div>
         </div>
         <div class="style-live-preview" id="team-style-preview">
           <h3 class="style-live-name">COVER STORY</h3>
           <div class="style-live-role">EDITORIAL PROFILE / DIRECTOR</div>
-          <div class="style-live-bio">這裡會即時顯示 Team 頁人物卡片的姓名、職稱與內文字體大小。</div>
+          <div class="style-live-bio">?ㄐ??＊蝷?Team ?犖?拙??憪??蝔梯??扳?摮?憭批???/div>
         </div>
       </div>
       <div class="card">
         <div class="card-title">
-          <div class="list-header"><span>成員列表</span><button class="btn-add" onclick="addMember()"><i class="fas fa-plus"></i> 新增成員</button></div>
+          <div class="list-header"><span>??”</span><button class="btn-add" onclick="addMember()"><i class="fas fa-plus"></i> ?啣??</button></div>
         </div>
         <div class="list-items" id="members-list"></div>
       </div>
     </div>
 
-    <!-- Member 頁面 -->
+    <!-- Member ? -->
     <div class="panel" id="panel-member">
       <div class="card">
-        <div class="card-title">Member 個人頁設定</div>
+        <div class="card-title">Member ?犖?身摰?/div>
         <p style="color:var(--muted);font-size:0.88rem;line-height:1.8">
-          個人頁內容來自「團隊成員」列表。每位成員的照片、詳細介紹、照片位置與縮放都可以在這裡或團隊頁調整。
-        </p>
+          ?犖?摰嫣??芥????～?銵具?雿??∠??抒??底蝝唬?蝝嫘??蝵株?蝮格?賢隞亙?ㄐ????隤踵??        </p>
       </div>
       <div class="card">
-        <div class="card-title">Member / Team 共用字體樣式</div>
+        <div class="card-title">Member / Team ?梁摮?璅??</div>
         <div class="field-row">
           <div class="field">
-            <label>姓名字體</label>
+            <label>憪?摮?</label>
             <select id="member-style-name_font">
-              <option value="serif">明體標題 Serif</option>
-              <option value="sans">黑體 Sans</option>
-              <option value="display">義式 Display</option>
+              <option value="serif">??璅? Serif</option>
+              <option value="sans">暺? Sans</option>
+              <option value="display">蝢拙? Display</option>
             </select>
           </div>
-          <div class="field"><label>Member 姓名大小（rem）</label><input type="number" step="0.1" min="3" max="12" id="member-style-member_name_size" placeholder="9.5"></div>
+          <div class="field"><label>Member 憪?憭批?嚗em嚗?/label><input type="number" step="0.1" min="3" max="12" id="member-style-member_name_size" placeholder="9.5"></div>
         </div>
         <div class="field-row">
-          <div class="field"><label>職稱大小（rem）</label><input type="number" step="0.05" min="0.6" max="2" id="member-style-role_size" placeholder="0.82"></div>
-          <div class="field"><label>內文大小（rem）</label><input type="number" step="0.05" min="0.75" max="1.6" id="member-style-bio_size" placeholder="0.98"></div>
+          <div class="field"><label>?瑞迂憭批?嚗em嚗?/label><input type="number" step="0.05" min="0.6" max="2" id="member-style-role_size" placeholder="0.82"></div>
+          <div class="field"><label>?扳?憭批?嚗em嚗?/label><input type="number" step="0.05" min="0.75" max="1.6" id="member-style-bio_size" placeholder="0.98"></div>
         </div>
         <div class="style-live-preview" id="member-style-preview">
           <h3 class="style-live-name">UPRISE PROFILE</h3>
           <div class="style-live-role">CREATIVE PROFILE / DIRECTOR</div>
-          <div class="style-live-bio">這裡會即時顯示 Member 個人頁標題、職稱與內文字體大小。</div>
+          <div class="style-live-bio">?ㄐ??＊蝷?Member ?犖??憿蝔梯??扳?摮?憭批???/div>
         </div>
       </div>
       <div class="card">
-        <div class="card-title">Member 內容與照片構圖</div>
+        <div class="card-title">Member ?批捆?????/div>
         <div class="list-items" id="member-page-list"></div>
       </div>
     </div>
 
-    <!-- 關於 -->
+    <!-- ? -->
     <div class="panel" id="panel-about">
       <div class="card">
-        <div class="card-title">關於我們</div>
+        <div class="card-title">???/div>
         <div class="field-row">
-          <div class="field"><label>標題</label><input type="text" id="about-title" placeholder="關於推手"></div>
-          <div class="field"><label>副標題</label><input type="text" id="about-subtitle" placeholder="探索我們對影像的熱情與堅持"></div>
+          <div class="field"><label>璅?</label><input type="text" id="about-title" placeholder="??冽?"></div>
+          <div class="field"><label>?舀?憿?/label><input type="text" id="about-subtitle" placeholder="?Ｙ揣??敶勗??????"></div>
         </div>
         <div class="field">
-          <label>頁面內文（支援 Markdown）</label>
-          <textarea id="about-body" style="min-height:280px" placeholder="# 我們的故事"></textarea>
+          <label>??扳?嚗??Markdown嚗?/label>
+          <textarea id="about-body" style="min-height:280px" placeholder="# ????"></textarea>
         </div>
       </div>
     </div>
 
-    <!-- 聯絡 -->
+    <!-- ?舐窗 -->
     <div class="panel" id="panel-contact">
       <div class="card">
-        <div class="card-title">聯絡資訊</div>
+        <div class="card-title">?舐窗鞈?</div>
         <div class="field-row">
-          <div class="field"><label>標題</label><input type="text" id="contact-title" placeholder="聯絡我們"></div>
-          <div class="field"><label>副標題</label><input type="text" id="contact-subtitle" placeholder=""></div>
+          <div class="field"><label>璅?</label><input type="text" id="contact-title" placeholder="?舐窗??></div>
+          <div class="field"><label>?舀?憿?/label><input type="text" id="contact-subtitle" placeholder=""></div>
         </div>
         <hr class="divider">
-        <div class="field"><label>地址</label><input type="text" id="contact-address" placeholder="台灣..."></div>
+        <div class="field"><label>?啣?</label><input type="text" id="contact-address" placeholder="?啁..."></div>
         <div class="field-row">
           <div class="field"><label>Email</label><input type="text" id="contact-email" placeholder="contact@uprise.com"></div>
-          <div class="field"><label>電話</label><input type="text" id="contact-phone" placeholder="+886..."></div>
+          <div class="field"><label>?餉店</label><input type="text" id="contact-phone" placeholder="+886..."></div>
         </div>
-        <div class="field"><label>Formspree ID</label><input type="text" id="contact-formspree_id" placeholder="movbylbl"><div class="field-hint">Formspree 表單 ID，例如 movbylbl</div></div>
+        <div class="field"><label>Formspree ID</label><input type="text" id="contact-formspree_id" placeholder="movbylbl"><div class="field-hint">Formspree 銵典 ID嚗?憒?movbylbl</div></div>
       </div>
     </div>
   </div>
@@ -508,17 +521,17 @@ hr.divider { border: none; border-top: 1px solid var(--border); }
   <aside id="preview-pane">
     <div class="preview-toolbar">
       <div>
-        <div class="preview-title">網站實際預覽</div>
-        <div class="preview-hint">儲存後自動重新整理</div>
+        <div class="preview-title">Live Preview</div>
+        <div class="preview-hint">Shows the front-end page with current draft data.</div>
       </div>
       <div class="preview-actions">
-        <button type="button" onclick="togglePreviewDevice()" title="切換電腦／手機預覽"><i class="fas fa-mobile-screen"></i></button>
-        <button type="button" onclick="refreshPreview()" title="重新整理預覽"><i class="fas fa-rotate-right"></i></button>
-        <a id="preview-open" href="../index.html" target="_blank" title="另開正式頁面"><i class="fas fa-arrow-up-right-from-square"></i></a>
+        <button type="button" onclick="togglePreviewDevice()" title="Toggle mobile preview"><i class="fas fa-mobile-screen"></i></button>
+        <button type="button" onclick="refreshPreview()" title="Refresh preview"><i class="fas fa-rotate-right"></i></button>
+        <a id="preview-open" href="../index.html" target="_blank" title="Open front-end page"><i class="fas fa-arrow-up-right-from-square"></i></a>
       </div>
     </div>
     <div class="preview-stage">
-      <iframe id="site-preview" src="../index.html" title="網站實際預覽"></iframe>
+      <iframe id="site-preview" src="../index.html" title="蝬脩?撖阡??汗"></iframe>
     </div>
   </aside>
 </div>
@@ -550,6 +563,7 @@ const db = getFirestore(app);
 const storage = getStorage(app);
 const provider = new GoogleAuthProvider();
 const ADMIN_UPLOAD_FLOW_VERSION = 'upload-v3-direct-member-persist';
+document.documentElement.dataset.adminModule = 'ready';
 
 window.showToast = (msg, type='success') => {
   const t = document.getElementById('toast');
@@ -592,7 +606,7 @@ window.data = {
 };
 
 async function loadAllData() {
-  showToast('載入資料中...', 'loading');
+  showToast('Loading data...', 'loading');
   try {
     for (const page of ['home','works','team','about','contact']) {
       const snap = await getDoc(doc(db,'pages',page));
@@ -601,8 +615,8 @@ async function loadAllData() {
     renderAll();
     updateStats();
     syncPreviewCache();
-    showToast('資料載入完成 ✓');
-  } catch(e) { showToast('載入失敗：'+e.message,'error'); }
+    showToast('Data loaded');
+  } catch(e) { showToast('Load failed: '+e.message,'error'); }
 }
 
 function renderAll() { renderHome(); renderWorks(); renderTeam(); renderAbout(); renderContact(); }
@@ -626,10 +640,50 @@ function stripVolatileImageUrls(value) {
 }
 
 let previewRefreshTimer = null;
+let currentPreviewMemberIndex = 0;
 function schedulePreviewRefresh() {
+  collectCurrentPanelDraft();
   syncPreviewCache();
   clearTimeout(previewRefreshTimer);
   previewRefreshTimer = setTimeout(() => refreshPreview(), 450);
+}
+
+function collectCurrentPanelDraft(panel = window.currentPanel) {
+  if (!window.data) return;
+  if (panel === 'home') {
+    ['hero_text','logo','hero_video','hero_video_mobile'].forEach(k => {
+      const el = document.getElementById('home-' + k);
+      if (el) window.data.home[k] = el.value;
+    });
+  }
+  if (panel === 'works') {
+    const title = document.getElementById('works-title');
+    const subtitle = document.getElementById('works-subtitle');
+    if (title) window.data.works.title = title.value;
+    if (subtitle) window.data.works.subtitle = subtitle.value;
+  }
+  if (panel === 'team') {
+    const title = document.getElementById('team-title');
+    const subtitle = document.getElementById('team-subtitle');
+    if (title) window.data.team.title = title.value;
+    if (subtitle) window.data.team.subtitle = subtitle.value;
+    if (typeof collectTeamStyleFromFields === 'function') collectTeamStyleFromFields('team');
+  }
+  if (panel === 'member') {
+    if (typeof collectTeamStyleFromFields === 'function') collectTeamStyleFromFields('member');
+  }
+  if (panel === 'about') {
+    ['title','subtitle','body'].forEach(k => {
+      const el = document.getElementById('about-' + k);
+      if (el) window.data.about[k] = el.value;
+    });
+  }
+  if (panel === 'contact') {
+    ['title','subtitle','address','email','phone','formspree_id'].forEach(k => {
+      const el = document.getElementById('contact-' + k);
+      if (el) window.data.contact[k] = el.value;
+    });
+  }
 }
 
 function setUploadStatus(key, message) {
@@ -640,9 +694,9 @@ function setUploadStatus(key, message) {
 
 function assertUploadAuth() {
   const user = auth.currentUser;
-  if (!user) throw new Error('尚未登入 Firebase，無法保存圖片。請重新登入後再上傳。');
+  if (!user) throw new Error('Please sign in to Firebase before uploading.');
   if (user.email !== ALLOWED_EMAIL) {
-    throw new Error(`目前登入帳號是 ${user.email}，Firebase 規則只允許 ${ALLOWED_EMAIL} 寫入。`);
+    throw new Error(`Unauthorized account: ${user.email}. Please sign in as ${ALLOWED_EMAIL}.`);
   }
   return user;
 }
@@ -678,7 +732,7 @@ function waitForImageLoad(url, timeout=10000) {
     const timer = setTimeout(() => {
       img.onload = null;
       img.onerror = null;
-      reject(new Error('圖片網址暫時無法讀取'));
+      reject(new Error('Image load timed out.'));
     }, timeout);
     img.onload = () => {
       clearTimeout(timer);
@@ -686,14 +740,14 @@ function waitForImageLoad(url, timeout=10000) {
     };
     img.onerror = () => {
       clearTimeout(timer);
-      reject(new Error('圖片網址載入失敗'));
+      reject(new Error('Image failed to load.'));
     };
     img.src = url;
   });
 }
 
 async function imageFileToCompressedDataUrl(file) {
-  if (!file.type.startsWith('image/')) throw new Error('只有圖片可以使用備援上傳');
+  if (!file.type.startsWith('image/')) throw new Error('Please choose an image file.');
   const src = await readFileAsDataUrl(file);
   const img = await new Promise((resolve, reject) => {
     const image = new Image();
@@ -715,7 +769,7 @@ async function imageFileToCompressedDataUrl(file) {
     dataUrl = canvas.toDataURL('image/jpeg', quality);
   }
   if (dataUrl.length > 560000) {
-    throw new Error('圖片太大，請換較小的圖片或到 Firebase Storage 開啟上傳權限');
+    throw new Error('Image is still too large after compression.');
   }
   return dataUrl;
 }
@@ -738,7 +792,7 @@ async function uploadFileToStorage(file, folder='images') {
 }
 
 async function persistTeamMemberImage(index, url) {
-  if (!url || url.startsWith('blob:')) throw new Error('圖片網址不是可保存的正式網址');
+  if (!url || url.startsWith('blob:')) throw new Error('Invalid image URL.');
   const teamRef = doc(db, 'pages', 'team');
   const snap = await getDoc(teamRef);
   const latestTeam = stripVolatileImageUrls(snap.exists() ? snap.data() : window.data.team) || {};
@@ -757,7 +811,7 @@ async function persistTeamMemberImage(index, url) {
   const savedMember = (verifiedTeam.members || [])[index] || {};
   const savedUrl = savedMember.avatar || savedMember.image || '';
   if (savedUrl !== url) {
-    throw new Error(`Firebase 寫入驗證失敗：讀回值是 ${savedUrl || '空值'}`);
+    throw new Error(`Firebase saved a different URL: ${savedUrl || 'empty'}`);
   }
   window.data.team = verifiedTeam;
   return verifiedTeam;
@@ -767,12 +821,11 @@ window.uploadHomeAsset = async (input, key, folder='images') => {
   const file = input.files && input.files[0];
   if (!file) return;
   const localUrl = URL.createObjectURL(file);
-  showToast('上傳中...', 'loading');
-  setUploadStatus(`home-${key}`, '已選擇圖片，正在處理...');
+  showToast('Uploading...', 'loading');
+  setUploadStatus(`home-${key}`, 'Uploading...');
   try {
     const el = document.getElementById('home-'+key);
     showImmediateImage(localUrl, [`#home-${key}-preview`]);
-
     const url = await uploadFileToStorage(file, folder);
     window.data.home[key] = url;
     if (el) el.value = url;
@@ -781,13 +834,16 @@ window.uploadHomeAsset = async (input, key, folder='images') => {
     refreshPreview();
     try {
       await setDoc(doc(db,'pages','home'), window.data.home);
-      setUploadStatus(`home-${key}`, 'Firebase 已同步');
-      showToast('上傳完成 ✓');
+      setUploadStatus(`home-${key}`, 'Saved to Firebase');
+      showToast('Upload complete');
     } catch(saveError) {
-      setUploadStatus(`home-${key}`, '已可預覽，但 Firebase 儲存失敗');
-      showToast('圖片已更新預覽，但 Firebase 儲存失敗：'+saveError.message, 'error');
+      setUploadStatus(`home-${key}`, 'Preview ready, Firebase save failed');
+      showToast('Firebase save failed: '+saveError.message, 'error');
     }
-  } catch(e) { setUploadStatus(`home-${key}`, '上傳失敗'); showToast('上傳失敗：'+e.message,'error'); }
+  } catch(e) {
+    setUploadStatus(`home-${key}`, 'Upload failed');
+    showToast('Upload failed: '+e.message,'error');
+  }
   input.value = '';
   URL.revokeObjectURL(localUrl);
 };
@@ -796,24 +852,26 @@ window.uploadBtsImage = async (input, index) => {
   const file = input.files && input.files[0];
   if (!file) return;
   const localUrl = URL.createObjectURL(file);
-  showToast('上傳中...', 'loading');
-  setUploadStatus(`bts-${index}`, '已選擇圖片，正在處理...');
+  showToast('Uploading...', 'loading');
+  setUploadStatus(`bts-${index}`, 'Uploading...');
   try {
-    setUploadStatus(`bts-${index}`, '已顯示本機預覽，正在上傳...');
-
-    window.data.home.behind_the_scenes[index].image = await uploadFileToStorage(file, 'home');
+    const url = await uploadFileToStorage(file, 'bts');
+    window.data.home.behind_the_scenes[index].image = url;
     renderBts();
     syncPreviewCache();
     refreshPreview();
     try {
       await setDoc(doc(db,'pages','home'), window.data.home);
-      setUploadStatus(`bts-${index}`, 'Firebase 已同步');
-      showToast('圖片上傳完成 ✓');
+      setUploadStatus(`bts-${index}`, 'Saved to Firebase');
+      showToast('Upload complete');
     } catch(saveError) {
-      setUploadStatus(`bts-${index}`, '已可預覽，但 Firebase 儲存失敗');
-      showToast('圖片已更新預覽，但 Firebase 儲存失敗：'+saveError.message, 'error');
+      setUploadStatus(`bts-${index}`, 'Preview ready, Firebase save failed');
+      showToast('Firebase save failed: '+saveError.message, 'error');
     }
-  } catch(e) { setUploadStatus(`bts-${index}`, '上傳失敗'); showToast('上傳失敗：'+e.message,'error'); }
+  } catch(e) {
+    setUploadStatus(`bts-${index}`, 'Upload failed');
+    showToast('Upload failed: '+e.message,'error');
+  }
   input.value = '';
   URL.revokeObjectURL(localUrl);
 };
@@ -821,42 +879,46 @@ window.uploadBtsImage = async (input, index) => {
 window.uploadMemberAvatar = async (input, index) => {
   const file = input.files && input.files[0];
   if (!file) return;
+  if (!window.data.team.members[index]) return;
   const localUrl = URL.createObjectURL(file);
-  showToast('上傳中...', 'loading');
-  setUploadStatus(`member-${index}`, `已選擇圖片，正在處理... (${ADMIN_UPLOAD_FLOW_VERSION})`);
+  window.data.team.members[index].avatar = localUrl;
+  window.data.team.members[index].image = localUrl;
+  updatePhotoPreviewImage(index, localUrl);
+  updateTeamPhotoPreviewImage(index, localUrl);
+  setUploadStatus(`member-${index}`, `Selected image. Uploading... (${ADMIN_UPLOAD_FLOW_VERSION})`);
+  syncPreviewCache();
+  refreshPreview();
   try {
-    const uploadUser = assertUploadAuth();
-    setUploadStatus(`member-${index}`, `登入確認：${uploadUser.email}；已顯示本機預覽，正在上傳到 Firebase Storage...`);
-    updateTeamPhotoPreviewImage(index, localUrl);
-    updatePhotoPreviewImage(index, localUrl);
-
+    assertUploadAuth();
     const url = await uploadFileToStorage(file, 'team');
-    const urlType = url.startsWith('https://') ? 'Firebase Storage URL' : (url.startsWith('data:') ? 'Firestore 圖片資料' : '圖片網址');
-    setUploadStatus(`member-${index}`, `已取得 ${urlType}，正在寫入 Firebase...`);
     window.data.team.members[index].avatar = url;
     window.data.team.members[index].image = url;
-    updateTeamPhotoPreviewImage(index, url);
     updatePhotoPreviewImage(index, url);
+    updateTeamPhotoPreviewImage(index, url);
+    syncPreviewCache();
+    refreshPreview();
     try {
-      await persistTeamMemberImage(index, url);
+      const verifiedTeam = await persistTeamMemberImage(index, url);
+      window.data.team = verifiedTeam;
       renderMembers();
       renderMemberPageList();
       syncPreviewCache();
       refreshPreview();
-      setUploadStatus(`member-${index}`, `Firebase 已同步：${urlType}`);
-      showToast('成員照片上傳完成 ✓');
+      setUploadStatus(`member-${index}`, 'Saved to Firebase');
+      showToast('Member image uploaded');
     } catch(saveError) {
       console.error('Team member image Firestore save failed:', saveError);
-      setUploadStatus(`member-${index}`, `已可預覽，但 Firebase 儲存失敗：${saveError.code || ''} ${saveError.message}`);
-      showToast('照片已更新預覽，但 Firebase 儲存失敗：'+saveError.message, 'error');
+      setUploadStatus(`member-${index}`, `Preview ready, Firebase save failed: ${saveError.message}`);
+      showToast('Firebase save failed: '+saveError.message, 'error');
     }
   } catch(e) {
     console.error('Team member image upload failed:', e);
-    setUploadStatus(`member-${index}`, `上傳失敗：${e.code || ''} ${e.message}`);
-    showToast('上傳失敗：'+e.message,'error');
+    setUploadStatus(`member-${index}`, `Upload failed: ${e.message}`);
+    showToast('Upload failed: '+e.message, 'error');
+  } finally {
+    input.value = '';
+    URL.revokeObjectURL(localUrl);
   }
-  input.value = '';
-  URL.revokeObjectURL(localUrl);
 };
 
 let activePhotoDrag = null;
@@ -944,7 +1006,7 @@ window.updatePhotoPreviewImage = (index, url) => {
   img.src = url;
 };
 
-// ── 首頁 ──
+// ?? 擐? ??
 function renderHome() {
   const d = window.data.home;
   ['hero_text','logo','hero_video','hero_video_mobile'].forEach(k => {
@@ -956,22 +1018,22 @@ function renderHome() {
 window.renderServices = () => {
   const items = window.data.home.services || [];
   document.getElementById('services-list').innerHTML = items.length === 0
-    ? '<div style="color:var(--muted);font-size:0.82rem">尚無服務項目</div>'
+    ? '<div style="color:var(--muted);font-size:0.82rem">No services yet</div>'
     : items.map((s,i) => `
     <div class="list-item">
       <div class="list-item-header">
-        <span class="list-item-title">${s.title||'（未命名）'}</span>
+        <span class="list-item-title">${s.title || 'Untitled service'}</span>
         <div class="list-item-actions">
-          <button class="btn-icon" onclick="moveArr('home','services',${i},-1);renderServices()" title="上移"><i class="fas fa-chevron-up"></i></button>
-          <button class="btn-icon" onclick="moveArr('home','services',${i},1);renderServices()" title="下移"><i class="fas fa-chevron-down"></i></button>
+          <button class="btn-icon" onclick="moveArr('home','services',${i},-1);renderServices()" title="Move up"><i class="fas fa-chevron-up"></i></button>
+          <button class="btn-icon" onclick="moveArr('home','services',${i},1);renderServices()" title="Move down"><i class="fas fa-chevron-down"></i></button>
           <button class="btn-icon danger" onclick="window.data.home.services.splice(${i},1);renderServices()"><i class="fas fa-trash"></i></button>
         </div>
       </div>
       <div class="field-row">
-        <div class="field"><label>服務名稱</label><input value="${s.title||''}" oninput="window.data.home.services[${i}].title=this.value"></div>
+        <div class="field"><label>Title</label><input value="${s.title||''}" oninput="window.data.home.services[${i}].title=this.value"></div>
         <div class="field"><label>FontAwesome Icon</label><input value="${s.iconClass||''}" placeholder="fa-solid fa-video" oninput="window.data.home.services[${i}].iconClass=this.value"></div>
       </div>
-      <div class="field"><label>服務描述</label><textarea oninput="window.data.home.services[${i}].description=this.value">${s.description||''}</textarea></div>
+      <div class="field"><label>Description</label><textarea oninput="window.data.home.services[${i}].description=this.value">${s.description||''}</textarea></div>
     </div>`).join('');
 };
 window.addService = () => { window.data.home.services.push({title:'',description:'',iconClass:''}); renderServices(); };
@@ -979,32 +1041,21 @@ window.addService = () => { window.data.home.services.push({title:'',description
 window.renderBts = () => {
   const items = window.data.home.behind_the_scenes || [];
   document.getElementById('bts-list').innerHTML = items.length === 0
-    ? '<div style="color:var(--muted);font-size:0.82rem">尚無圖片</div>'
+    ? '<div style="color:var(--muted);font-size:0.82rem">No images yet</div>'
     : items.map((b,i) => `
     <div class="list-item">
       <div class="list-item-header">
-        <div style="display:flex;align-items:center;gap:10px">
-          ${b.image?`<img class="img-preview" src="${b.image}" onerror="this.style.display='none'">`:''}
-          <span class="list-item-title">${b.caption||'（未命名）'}</span>
-        </div>
+        <span class="list-item-title">Behind the scenes ${i + 1}</span>
         <button class="btn-icon danger" onclick="window.data.home.behind_the_scenes.splice(${i},1);renderBts()"><i class="fas fa-trash"></i></button>
       </div>
       <div class="field-row">
-        <div class="field"><label>圖片網址</label><input value="${b.image||''}" oninput="window.data.home.behind_the_scenes[${i}].image=this.value"><input type="file" accept="image/*" onchange="uploadBtsImage(this,${i})" style="margin-top:8px"><div class="upload-status" data-upload-status="bts-${i}"></div></div>
-        <div class="field"><label>說明（供辨識）</label><input value="${b.caption||''}" oninput="window.data.home.behind_the_scenes[${i}].caption=this.value"></div>
+        <div class="field"><label>Image</label><input value="${b.image||''}" oninput="window.data.home.behind_the_scenes[${i}].image=this.value"><input type="file" accept="image/*" onchange="uploadBtsImage(this,${i})" style="margin-top:8px"><div class="upload-status" data-upload-status="bts-${i}"></div></div>
+        <div class="field"><label>Caption</label><input value="${b.caption||''}" oninput="window.data.home.behind_the_scenes[${i}].caption=this.value"></div>
       </div>
+      ${b.image?`<img class="img-preview" src="${b.image}" onerror="this.style.display='none'">`:''}
     </div>`).join('');
 };
 window.addBts = () => { window.data.home.behind_the_scenes.push({image:'',caption:''}); renderBts(); };
-
-// ── 作品集 ──
-const LEGACY_WORKS_CATS = [
-  {key:'portfolio_brand',name:'品牌形象廣告'},
-  {key:'portfolio_product',name:'產品形象廣告'},
-  {key:'portfolio_public',name:'公部門宣傳影片'},
-  {key:'portfolio_event',name:'活動紀錄'},
-  {key:'portfolio_other',name:'其他'}
-];
 
 function normalizeWorkCategories() {
   const works = window.data.works;
@@ -1022,72 +1073,77 @@ function normalizeWorkCategories() {
 function renderWorks() {
   const d = window.data.works;
   normalizeWorkCategories();
-  document.getElementById('works-title').value = d.title||'';
-  document.getElementById('works-subtitle').value = d.subtitle||'';
-  document.getElementById('works-categories').innerHTML = d.portfolio_categories.map((category,categoryIndex)=>`
+  document.getElementById('works-title').value = d.title || '';
+  document.getElementById('works-subtitle').value = d.subtitle || '';
+  document.getElementById('works-categories').innerHTML = d.portfolio_categories.map((category, categoryIndex) => `
     <div class="card works-card">
       <div class="card-title">
         <div class="list-header">
-          <div class="category-name"><i class="fas fa-folder"></i><input value="${category.name||''}" placeholder="分類名稱" oninput="window.data.works.portfolio_categories[${categoryIndex}].name=this.value"></div>
+          <div class="category-name"><i class="fas fa-folder"></i><input value="${category.name || ''}" placeholder="Category name" oninput="window.data.works.portfolio_categories[${categoryIndex}].name=this.value;schedulePreviewRefresh()"></div>
           <div class="list-item-actions">
-            <button class="btn-icon" onclick="moveWorkCategory(${categoryIndex},-1)" title="分類上移"><i class="fas fa-chevron-up"></i></button>
-            <button class="btn-icon" onclick="moveWorkCategory(${categoryIndex},1)" title="分類下移"><i class="fas fa-chevron-down"></i></button>
-            <button class="btn-add" onclick="addWork(${categoryIndex})"><i class="fas fa-plus"></i> 新增作品</button>
-            <button class="btn-icon danger" onclick="removeWorkCategory(${categoryIndex})" title="刪除分類"><i class="fas fa-trash"></i></button>
+            <button class="btn-icon" onclick="moveWorkCategory(${categoryIndex},-1)" title="Move up"><i class="fas fa-chevron-up"></i></button>
+            <button class="btn-icon" onclick="moveWorkCategory(${categoryIndex},1)" title="Move down"><i class="fas fa-chevron-down"></i></button>
+            <button class="btn-add" onclick="addWork(${categoryIndex})"><i class="fas fa-plus"></i> Add work</button>
+            <button class="btn-icon danger" onclick="removeWorkCategory(${categoryIndex})" title="Delete category"><i class="fas fa-trash"></i></button>
           </div>
         </div>
       </div>
       <div class="list-items" id="list-category-${categoryIndex}"></div>
     </div>`).join('');
-  d.portfolio_categories.forEach((category,index) => renderWorkList(index));
+  d.portfolio_categories.forEach((category, index) => renderWorkList(index));
 }
 
 window.renderWorkList = categoryIndex => {
   const items = window.data.works.portfolio_categories[categoryIndex].items;
-  document.getElementById('list-category-'+categoryIndex).innerHTML = items.length===0
-    ? '<div style="color:var(--muted);font-size:0.82rem">尚無作品</div>'
-    : items.map((w,i)=>`
+  document.getElementById('list-category-' + categoryIndex).innerHTML = items.length === 0
+    ? '<div style="color:var(--muted);font-size:0.82rem">No works yet</div>'
+    : items.map((w, i) => `
     <div class="list-item">
       <div class="list-item-header">
-        <span class="list-item-title">${w.title||'（未命名作品）'}</span>
+        <span class="list-item-title">${w.title || 'Untitled work'}</span>
         <div class="list-item-actions">
           <button class="btn-icon" onclick="moveCategoryItem(${categoryIndex},${i},-1)"><i class="fas fa-chevron-up"></i></button>
           <button class="btn-icon" onclick="moveCategoryItem(${categoryIndex},${i},1)"><i class="fas fa-chevron-down"></i></button>
-          <button class="btn-icon danger" onclick="window.data.works.portfolio_categories[${categoryIndex}].items.splice(${i},1);renderWorkList(${categoryIndex})"><i class="fas fa-trash"></i></button>
+          <button class="btn-icon danger" onclick="window.data.works.portfolio_categories[${categoryIndex}].items.splice(${i},1);renderWorkList(${categoryIndex});schedulePreviewRefresh()"><i class="fas fa-trash"></i></button>
         </div>
       </div>
       <div class="field-row">
-        <div class="field"><label>作品名稱</label><input value="${w.title||''}" oninput="window.data.works.portfolio_categories[${categoryIndex}].items[${i}].title=this.value"></div>
-        <div class="field"><label>客戶名稱</label><input value="${w.client||''}" oninput="window.data.works.portfolio_categories[${categoryIndex}].items[${i}].client=this.value"></div>
+        <div class="field"><label>Title</label><input value="${w.title || ''}" oninput="window.data.works.portfolio_categories[${categoryIndex}].items[${i}].title=this.value;schedulePreviewRefresh()"></div>
+        <div class="field"><label>Client</label><input value="${w.client || ''}" oninput="window.data.works.portfolio_categories[${categoryIndex}].items[${i}].client=this.value;schedulePreviewRefresh()"></div>
       </div>
-      <div class="field"><label>YouTube 影片連結</label><input value="${w.link||''}" placeholder="https://www.youtube.com/watch?v=..." oninput="window.data.works.portfolio_categories[${categoryIndex}].items[${i}].link=this.value"></div>
-      <div class="field"><label>封面圖片網址（選填，留空自動抓 YouTube 縮圖）</label><input value="${w.image||''}" oninput="window.data.works.portfolio_categories[${categoryIndex}].items[${i}].image=this.value"></div>
+      <div class="field"><label>YouTube URL</label><input value="${w.link || ''}" placeholder="https://www.youtube.com/watch?v=..." oninput="window.data.works.portfolio_categories[${categoryIndex}].items[${i}].link=this.value;schedulePreviewRefresh()"></div>
+      <div class="field"><label>Cover image URL</label><input value="${w.image || ''}" oninput="window.data.works.portfolio_categories[${categoryIndex}].items[${i}].image=this.value;schedulePreviewRefresh()"></div>
     </div>`).join('');
 };
 window.addWorkCategory = () => {
   normalizeWorkCategories();
-  window.data.works.portfolio_categories.push({name:'新分類',items:[]});
+  window.data.works.portfolio_categories.push({name:'New category', items:[]});
   renderWorks();
+  schedulePreviewRefresh();
 };
 window.removeWorkCategory = index => {
-  if (!confirm('確定要刪除這個分類與其中所有作品嗎？')) return;
-  window.data.works.portfolio_categories.splice(index,1);
+  if (!confirm('Delete this category and all works inside it?')) return;
+  window.data.works.portfolio_categories.splice(index, 1);
   renderWorks();
+  schedulePreviewRefresh();
 };
-window.moveWorkCategory = (index,dir) => {
-  moveItems(window.data.works.portfolio_categories,index,dir);
+window.moveWorkCategory = (index, dir) => {
+  moveItems(window.data.works.portfolio_categories, index, dir);
   renderWorks();
+  schedulePreviewRefresh();
 };
-window.moveCategoryItem = (categoryIndex,index,dir) => {
-  moveItems(window.data.works.portfolio_categories[categoryIndex].items,index,dir);
+window.moveCategoryItem = (categoryIndex, index, dir) => {
+  moveItems(window.data.works.portfolio_categories[categoryIndex].items, index, dir);
   renderWorkList(categoryIndex);
+  schedulePreviewRefresh();
 };
 window.addWork = categoryIndex => {
-  window.data.works.portfolio_categories[categoryIndex].items.push({title:'',client:'',link:'',image:''});
+  window.data.works.portfolio_categories[categoryIndex].items.push({title:'', client:'', link:'', image:''});
   renderWorkList(categoryIndex);
+  schedulePreviewRefresh();
 };
 
-// ── 團隊 ──
+// Team
 function renderTeam() {
   document.getElementById('team-title').value = window.data.team.title||'';
   document.getElementById('team-subtitle').value = window.data.team.subtitle||'';
@@ -1153,90 +1209,124 @@ function scheduleStyleSave(prefix) {
   styleSaveTimer = setTimeout(async () => {
     schedulePreviewRefresh();
     try {
-      await setDoc(doc(db,'pages','team'), window.data.team);
-      showToast('樣式已同步 ✓');
-    } catch(e) {
-      showToast('樣式同步失敗：'+e.message, 'error');
+      await setDoc(doc(db, 'pages', 'team'), window.data.team);
+      showToast('Style saved');
+    } catch (e) {
+      showToast('Style save failed: ' + e.message, 'error');
     }
   }, 550);
 }
 window.renderMembers = () => {
-  const items = window.data.team.members||[];
-  document.getElementById('members-list').innerHTML = items.length===0
-    ? '<div style="color:var(--muted);font-size:0.82rem">尚無成員</div>'
-    : items.map((m,i)=>`
+  const items = window.data.team.members || [];
+  document.getElementById('members-list').innerHTML = items.length === 0
+    ? '<div style="color:var(--muted);font-size:0.82rem">No team members yet</div>'
+    : items.map((m, i) => `
     <div class="list-item">
       <div class="list-item-header">
         <div style="display:flex;align-items:center;gap:10px">
-          ${m.avatar?`<img class="img-preview" src="${m.avatar}" onerror="this.style.display='none'" style="border-radius:50%">`: ''}
-          <span class="list-item-title">${m.name||'（未命名）'} ${m.role?`<span style="color:var(--muted);font-weight:300;font-size:0.8rem">— ${m.role}</span>`:''}</span>
+          ${m.avatar ? `<img class="img-preview" src="${m.avatar}" onerror="this.style.display='none'" style="border-radius:50%">` : ''}
+          <span class="list-item-title">${m.name || 'Untitled member'} ${m.role ? `<span style="color:var(--muted);font-weight:300;font-size:0.8rem">/ ${m.role}</span>` : ''}</span>
         </div>
         <div class="list-item-actions">
-          <button class="btn-icon" onclick="moveArr('team','members',${i},-1);renderMembers()"><i class="fas fa-chevron-up"></i></button>
-          <button class="btn-icon" onclick="moveArr('team','members',${i},1);renderMembers()"><i class="fas fa-chevron-down"></i></button>
-          <button class="btn-icon danger" onclick="window.data.team.members.splice(${i},1);renderMembers()"><i class="fas fa-trash"></i></button>
+          <button class="btn-icon" onclick="moveArr('team','members',${i},-1);renderMembers();renderMemberPageList();schedulePreviewRefresh()"><i class="fas fa-chevron-up"></i></button>
+          <button class="btn-icon" onclick="moveArr('team','members',${i},1);renderMembers();renderMemberPageList();schedulePreviewRefresh()"><i class="fas fa-chevron-down"></i></button>
+          <button class="btn-icon danger" onclick="window.data.team.members.splice(${i},1);renderMembers();renderMemberPageList();schedulePreviewRefresh()"><i class="fas fa-trash"></i></button>
         </div>
       </div>
       <div class="field-row">
-        <div class="field"><label>姓名</label><input value="${m.name||''}" oninput="window.data.team.members[${i}].name=this.value"></div>
-        <div class="field"><label>職稱</label><input value="${m.role||''}" oninput="window.data.team.members[${i}].role=this.value"></div>
+        <div class="field"><label>Name</label><input value="${m.name || ''}" oninput="window.data.team.members[${i}].name=this.value;renderMemberPageList();schedulePreviewRefresh()"></div>
+        <div class="field"><label>Role</label><input value="${m.role || ''}" oninput="window.data.team.members[${i}].role=this.value;schedulePreviewRefresh()"></div>
       </div>
-      <div class="field"><label>封面大字（例如 VISIONARY / STRATEGIST）</label><input value="${m.cover_title||''}" placeholder="留空則使用職稱" oninput="window.data.team.members[${i}].cover_title=this.value"></div>
+      <div class="field"><label>Cover title</label><input value="${m.cover_title || ''}" placeholder="VISIONARY / STRATEGIST" oninput="window.data.team.members[${i}].cover_title=this.value;schedulePreviewRefresh()"></div>
       <div class="photo-adjust-grid">
         <div class="team-photo-preview" data-team-photo-preview="${i}" style="--px:${m.photo_x ?? 50}%;--py:${m.photo_y ?? 20}%;--pz:${m.photo_zoom ?? 1}">
-          ${m.avatar||m.image ? `<img src="${m.avatar||m.image}" alt="">` : ''}
+          ${m.avatar || m.image ? `<img src="${m.avatar || m.image}" alt="">` : ''}
         </div>
         <div>
-          <div class="field"><label>頭像圖片網址</label><input value="${m.avatar||m.image||''}" oninput="window.data.team.members[${i}].avatar=this.value;window.data.team.members[${i}].image=this.value;updateTeamPhotoPreviewImage(${i},this.value)"><input type="file" accept="image/*" onchange="uploadMemberAvatar(this,${i})" style="margin-top:8px"><div class="upload-status" data-upload-status="member-${i}"></div></div>
+          <div class="field"><label>Photo URL / upload</label><input value="${m.avatar || m.image || ''}" oninput="window.data.team.members[${i}].avatar=this.value;window.data.team.members[${i}].image=this.value;updateTeamPhotoPreviewImage(${i},this.value);schedulePreviewRefresh()"><input type="file" accept="image/*" onchange="uploadMemberAvatar(this,${i})" style="margin-top:8px"><div class="upload-status" data-upload-status="member-${i}"></div></div>
           <div class="field-row">
-            <div class="field"><label>照片水平位置 X（0 左、50 中、100 右）</label><input type="range" min="0" max="100" value="${m.photo_x ?? 50}" oninput="window.data.team.members[${i}].photo_x=Number(this.value);this.nextElementSibling.textContent=this.value+'%';updateTeamPhotoPreview(${i})"><div class="field-hint">${m.photo_x ?? 50}%</div></div>
-            <div class="field"><label>照片垂直位置 Y（0 上、50 中、100 下）</label><input type="range" min="0" max="100" value="${m.photo_y ?? 20}" oninput="window.data.team.members[${i}].photo_y=Number(this.value);this.nextElementSibling.textContent=this.value+'%';updateTeamPhotoPreview(${i})"><div class="field-hint">${m.photo_y ?? 20}%</div></div>
+            <div class="field"><label>Photo X</label><input type="range" min="0" max="100" value="${m.photo_x ?? 50}" oninput="window.data.team.members[${i}].photo_x=Number(this.value);this.nextElementSibling.textContent=this.value+'%';updateTeamPhotoPreview(${i});schedulePreviewRefresh()"><div class="field-hint">${m.photo_x ?? 50}%</div></div>
+            <div class="field"><label>Photo Y</label><input type="range" min="0" max="100" value="${m.photo_y ?? 20}" oninput="window.data.team.members[${i}].photo_y=Number(this.value);this.nextElementSibling.textContent=this.value+'%';updateTeamPhotoPreview(${i});schedulePreviewRefresh()"><div class="field-hint">${m.photo_y ?? 20}%</div></div>
           </div>
-          <div class="field"><label>照片縮放</label><input type="range" min="1" max="1.8" step="0.05" value="${m.photo_zoom ?? 1}" oninput="window.data.team.members[${i}].photo_zoom=Number(this.value);this.nextElementSibling.textContent=this.value+'x';updateTeamPhotoPreview(${i})"><div class="field-hint">${m.photo_zoom ?? 1}x</div></div>
+          <div class="field"><label>Photo zoom</label><input type="range" min="1" max="1.8" step="0.05" value="${m.photo_zoom ?? 1}" oninput="window.data.team.members[${i}].photo_zoom=Number(this.value);this.nextElementSibling.textContent=this.value+'x';updateTeamPhotoPreview(${i});schedulePreviewRefresh()"><div class="field-hint">${m.photo_zoom ?? 1}x</div></div>
         </div>
       </div>
-      <div class="field"><label>簡介</label><textarea oninput="window.data.team.members[${i}].bio=this.value">${m.bio||''}</textarea></div>
-      <div class="field"><label>Member 詳細介紹（支援 Markdown）</label><textarea style="min-height:160px" oninput="window.data.team.members[${i}].full_bio=this.value">${m.full_bio||''}</textarea></div>
+      <div class="field"><label>Short bio</label><textarea oninput="window.data.team.members[${i}].bio=this.value;schedulePreviewRefresh()">${m.bio || ''}</textarea></div>
+      <div class="field"><label>Member full bio / links</label><textarea style="min-height:160px" oninput="window.data.team.members[${i}].full_bio=this.value;schedulePreviewRefresh()">${m.full_bio || ''}</textarea></div>
       <div class="field-row">
-        <div class="field"><label>Instagram 連結</label><input value="${m.ig_url||''}" oninput="window.data.team.members[${i}].ig_url=this.value"></div>
-        <div class="field"><label>作品集連結</label><input value="${m.portfolio_url||''}" oninput="window.data.team.members[${i}].portfolio_url=this.value"></div>
+        <div class="field"><label>Instagram URL</label><input value="${m.ig_url || ''}" oninput="window.data.team.members[${i}].ig_url=this.value;schedulePreviewRefresh()"></div>
+        <div class="field"><label>Portfolio URL</label><input value="${m.portfolio_url || ''}" oninput="window.data.team.members[${i}].portfolio_url=this.value;schedulePreviewRefresh()"></div>
       </div>
     </div>`).join('');
 };
-window.addMember = () => { window.data.team.members.push({name:'',role:'',cover_title:'',avatar:'',bio:'',full_bio:'',ig_url:'',portfolio_url:''}); renderMembers(); };
+window.addMember = () => {
+  window.data.team.members.push({name:'', role:'', cover_title:'', avatar:'', image:'', bio:'', full_bio:'', ig_url:'', portfolio_url:'', photo_x:50, photo_y:20, photo_zoom:1});
+  renderMembers();
+  renderMemberPageList();
+  schedulePreviewRefresh();
+};
 
 function renderMemberPageList() {
   const items = window.data.team.members || [];
   const el = document.getElementById('member-page-list');
   if (!el) return;
   el.innerHTML = items.length === 0
-    ? '<div style="color:var(--muted);font-size:0.82rem">尚無成員</div>'
-    : items.map((m,i)=>`
+    ? '<div style="color:var(--muted);font-size:0.82rem">No team members yet</div>'
+    : items.map((m, i) => `
     <div class="list-item">
       <div class="list-item-header">
         <div style="display:flex;align-items:center;gap:10px">
-          ${m.avatar||m.image ? `<img class="img-preview" src="${m.avatar||m.image}" onerror="this.style.display='none'" style="border-radius:6px">` : ''}
-          <span class="list-item-title">${m.name||'（未命名）'} 的 Member 頁</span>
+          ${m.avatar || m.image ? `<img class="img-preview" src="${m.avatar || m.image}" onerror="this.style.display='none'" style="border-radius:6px">` : ''}
+          <span class="list-item-title">${m.name || 'Untitled member'} / Member page</span>
         </div>
       </div>
       <div class="photo-adjust-grid">
         <div class="photo-adjust-preview" data-photo-preview="${i}" style="--px:${m.photo_x ?? 50}%;--py:${m.photo_y ?? 20}%;--pz:${m.photo_zoom ?? 1}" onpointerdown="startPhotoDrag(event,${i})" onpointermove="dragPhoto(event)" onpointerup="endPhotoDrag()" onpointerleave="endPhotoDrag()">
-          ${m.avatar||m.image ? `<img src="${m.avatar||m.image}" alt="">` : ''}
+          ${m.avatar || m.image ? `<img src="${m.avatar || m.image}" alt="">` : ''}
         </div>
         <div>
-          <div class="field"><label>Member 頁照片</label><input value="${m.avatar||m.image||''}" oninput="window.data.team.members[${i}].avatar=this.value;window.data.team.members[${i}].image=this.value;updatePhotoPreviewImage(${i},this.value);renderMemberPageList()"><input type="file" accept="image/*" onchange="uploadMemberAvatar(this,${i})" style="margin-top:8px"><div class="upload-status" data-upload-status="member-${i}"></div></div>
+          <div class="field"><label>Member photo URL / upload</label><input value="${m.avatar || m.image || ''}" oninput="window.data.team.members[${i}].avatar=this.value;window.data.team.members[${i}].image=this.value;updatePhotoPreviewImage(${i},this.value);renderMemberPageList();schedulePreviewRefresh()"><input type="file" accept="image/*" onchange="uploadMemberAvatar(this,${i})" style="margin-top:8px"><div class="upload-status" data-upload-status="member-${i}"></div></div>
           <div class="field-row">
-            <div class="field"><label>照片 X 位置</label><input id="member-photo-x-${i}" type="range" min="0" max="100" value="${m.photo_x ?? 50}" oninput="window.data.team.members[${i}].photo_x=Number(this.value);this.nextElementSibling.textContent=this.value+'%';updatePhotoPreview(${i})"><div class="field-hint">${m.photo_x ?? 50}%</div></div>
-            <div class="field"><label>照片 Y 位置</label><input id="member-photo-y-${i}" type="range" min="0" max="100" value="${m.photo_y ?? 20}" oninput="window.data.team.members[${i}].photo_y=Number(this.value);this.nextElementSibling.textContent=this.value+'%';updatePhotoPreview(${i})"><div class="field-hint">${m.photo_y ?? 20}%</div></div>
+            <div class="field"><label>Photo X</label><input id="member-photo-x-${i}" type="range" min="0" max="100" value="${m.photo_x ?? 50}" oninput="window.data.team.members[${i}].photo_x=Number(this.value);this.nextElementSibling.textContent=this.value+'%';updatePhotoPreview(${i});schedulePreviewRefresh()"><div class="field-hint">${m.photo_x ?? 50}%</div></div>
+            <div class="field"><label>Photo Y</label><input id="member-photo-y-${i}" type="range" min="0" max="100" value="${m.photo_y ?? 20}" oninput="window.data.team.members[${i}].photo_y=Number(this.value);this.nextElementSibling.textContent=this.value+'%';updatePhotoPreview(${i});schedulePreviewRefresh()"><div class="field-hint">${m.photo_y ?? 20}%</div></div>
           </div>
-          <div class="field"><label>照片縮放</label><input type="range" min="1" max="1.8" step="0.05" value="${m.photo_zoom ?? 1}" oninput="window.data.team.members[${i}].photo_zoom=Number(this.value);this.nextElementSibling.textContent=this.value+'x';updatePhotoPreview(${i})"><div class="field-hint">${m.photo_zoom ?? 1}x</div></div>
+          <div class="field"><label>Photo zoom</label><input type="range" min="1" max="1.8" step="0.05" value="${m.photo_zoom ?? 1}" oninput="window.data.team.members[${i}].photo_zoom=Number(this.value);this.nextElementSibling.textContent=this.value+'x';updatePhotoPreview(${i});schedulePreviewRefresh()"><div class="field-hint">${m.photo_zoom ?? 1}x</div></div>
         </div>
       </div>
-      <div class="field"><label>詳細介紹（支援 Markdown）</label><textarea style="min-height:220px" oninput="window.data.team.members[${i}].full_bio=this.value">${m.full_bio||''}</textarea></div>
+      <div class="field"><label>Member full bio / links</label><textarea style="min-height:220px" oninput="window.data.team.members[${i}].full_bio=this.value;schedulePreviewRefresh()">${m.full_bio || ''}</textarea></div>
     </div>`).join('');
 }
 
-// ── 聯絡 ──
+// Member preview selectorconst baseRenderMemberPageList = renderMemberPageList;
+renderMemberPageList = function() {
+  baseRenderMemberPageList();
+  injectMemberPreviewSelector();
+};
+
+function injectMemberPreviewSelector() {
+  const items = window.data.team.members || [];
+  const el = document.getElementById('member-page-list');
+  if (!el || !items.length) return;
+  if (currentPreviewMemberIndex >= items.length) currentPreviewMemberIndex = Math.max(0, items.length - 1);
+  const oldSelector = el.querySelector('.preview-member-select');
+  if (oldSelector) oldSelector.remove();
+  const selector = document.createElement('div');
+  selector.className = 'preview-member-select';
+  selector.innerHTML = `<span>預覽成員</span>${items.map((m,i)=>`<button type="button" class="preview-member-btn ${i === currentPreviewMemberIndex ? 'active' : ''}" data-member-preview-index="${i}">${m.name || `Member ${i + 1}`}</button>`).join('')}`;
+  el.prepend(selector);
+  selector.querySelectorAll('[data-member-preview-index]').forEach(btn => {
+    btn.addEventListener('click', () => setPreviewMember(Number(btn.dataset.memberPreviewIndex)));
+  });
+}
+
+window.setPreviewMember = index => {
+  const items = window.data.team.members || [];
+  currentPreviewMemberIndex = Math.max(0, Math.min(Number(index) || 0, Math.max(0, items.length - 1)));
+  syncPreviewCache();
+  updatePreviewPage('member');
+  injectMemberPreviewSelector();
+};
+
 function renderAbout() {
   const d = window.data.about;
   ['title','subtitle','body'].forEach(k=>{
@@ -1244,7 +1334,7 @@ function renderAbout() {
   });
 }
 
-// ── 聯絡 ──
+// ?? ?舐窗 ??
 function renderContact() {
   const d = window.data.contact;
   ['title','subtitle','address','email','phone','formspree_id'].forEach(k=>{
@@ -1252,7 +1342,7 @@ function renderContact() {
   });
 }
 
-// ── 共用：陣列移位 ──
+// ?? ?梁嚗?宏雿???
 function moveItems(arr, i, dir) {
   const j=i+dir;
   if(j<0||j>=arr.length) return;
@@ -1262,13 +1352,13 @@ window.moveArr = (page, key, i, dir) => {
   moveItems(window.data[page][key],i,dir);
 };
 
-// ── 儲存 ──
+// ?? ?脣? ??
 window.currentPanel = 'dashboard';
 window.saveCurrentPanel = async () => {
   const panel = window.currentPanel;
   if(panel==='dashboard') return;
   const btn = document.getElementById('btn-save');
-  btn.disabled=true; btn.innerHTML='<div class="spinner"></div> 儲存中...';
+  btn.disabled=true; btn.innerHTML='<div class="spinner"></div> Saving...';
 
   if(panel==='home') {
     ['hero_text','logo','hero_video','hero_video_mobile'].forEach(k=>{
@@ -1308,15 +1398,15 @@ window.saveCurrentPanel = async () => {
       window.data[panel] = stripVolatileImageUrls(window.data[panel]);
       await setDoc(doc(db,'pages',panel), window.data[panel]);
     }
-    showToast('✅ 儲存成功，網站已即時更新');
+    showToast('Saved and preview updated');
     updateStats();
     syncPreviewCache();
     refreshPreview();
-  } catch(e) { showToast('❌ 儲存失敗：'+e.message,'error'); }
-  btn.disabled=false; btn.innerHTML='<i class="fas fa-save"></i> 儲存變更';
+  } catch(e) { showToast('Save failed: ' + e.message, 'error'); }
+  btn.disabled=false; btn.innerHTML='<i class="fas fa-save"></i> Save changes';
 };
 
-// ── 統計 ──
+// ?? 蝯梯? ??
 function updateStats() {
   normalizeWorkCategories();
   const wc = window.data.works.portfolio_categories.reduce((count,category)=>count+category.items.length,0);
@@ -1326,9 +1416,21 @@ function updateStats() {
   document.getElementById('stat-bts').textContent = (window.data.home.behind_the_scenes||[]).length;
 }
 
-// ── 導航 ──
-const panelTitles = {dashboard:'總覽',home:'首頁',works:'作品集',team:'團隊成員',member:'Member 頁面',about:'關於我們',contact:'聯絡資訊'};
-const previewPages = {dashboard:'index.html',home:'index.html',works:'works.html',team:'team.html',member:'member.html?id=0',about:'about.html',contact:'contact.html'};
+// ?? 撠 ??
+const panelTitles = {
+  dashboard: 'Dashboard',
+  home: 'Home',
+  works: 'Works',
+  team: 'Team',
+  member: 'Member Page',
+  about: 'About',
+  contact: 'Contact'
+};
+const previewPages = {dashboard:'index.html',home:'index.html',works:'works.html',team:'team.html',member:'member.html',about:'about.html',contact:'contact.html'};
+function getPreviewPage(panel) {
+  if (panel === 'member') return `member.html?id=${currentPreviewMemberIndex}`;
+  return previewPages[panel] || 'index.html';
+}
 function withPreviewParam(href) {
   return href + (href.includes('?') ? '&' : '?') + 'preview=' + Date.now();
 }
@@ -1339,7 +1441,9 @@ window.refreshPreview = () => {
 };
 window.togglePreviewDevice = () => document.getElementById('preview-pane').classList.toggle('mobile');
 function updatePreviewPage(panel) {
-  const page=previewPages[panel]||'index.html';
+  collectCurrentPanelDraft(panel);
+  syncPreviewCache();
+  const page=getPreviewPage(panel);
   const href='../'+page;
   const iframe = document.getElementById('site-preview');
   iframe.dataset.previewPage = href;

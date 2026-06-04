@@ -536,6 +536,8 @@ hr.divider { border: none; border-top: 1px solid var(--border); }
 <script>
 (function () {
   if (location.protocol !== 'file:') return;
+  var localAdminUrl = 'http://127.0.0.1:8765/admin/index.html';
+  setTimeout(function () { location.replace(localAdminUrl); }, 600);
   window.__UPRISE_FILE_MODE__ = true;
   window.addEventListener('DOMContentLoaded', function () {
     var warning = document.getElementById('protocol-warning');
@@ -550,7 +552,6 @@ hr.divider { border: none; border-top: 1px solid var(--border); }
       loginButton.style.cursor = 'not-allowed';
       loginButton.title = 'Open the HTTP local server version to connect Firebase.';
     }
-    var localAdminUrl = 'http://127.0.0.1:8765/admin/index.html';
     var ping = new Image();
     ping.onload = function () { location.replace(localAdminUrl); };
     ping.src = 'http://127.0.0.1:8765/siteicon.png?adminPing=' + Date.now();
@@ -582,6 +583,13 @@ const db = getFirestore(app);
 const storage = getStorage(app);
 const provider = new GoogleAuthProvider();
 const ADMIN_UPLOAD_FLOW_VERSION = 'upload-v3-direct-member-persist';
+const LEGACY_WORKS_CATS = [
+  { key: 'portfolio_brand', name: '\u54c1\u724c\u5f62\u8c61\u5ee3\u544a' },
+  { key: 'portfolio_product', name: '\u7522\u54c1\u5f62\u8c61\u5ee3\u544a' },
+  { key: 'portfolio_public', name: '\u516c\u90e8\u9580\u5ba3\u50b3\u5f71\u7247' },
+  { key: 'portfolio_event', name: '\u6d3b\u52d5\u7d00\u9304' },
+  { key: 'portfolio_other', name: '\u5176\u4ed6' }
+];
 document.documentElement.dataset.adminModule = 'ready';
 
 window.showToast = (msg, type='success') => {

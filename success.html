@@ -223,8 +223,8 @@
   .btn-primary:hover { box-shadow: 0 20px 40px rgba(255, 140, 0, 0.4); filter: brightness(1.1); transform: translateY(-3px); }
 
 </style>
-<link rel="stylesheet" href="css/site-fixes.css">
-<link rel="stylesheet" href="css/interactive-pages.css">
+<link rel="stylesheet" href="css/site-fixes.css?v=sync-20260605b">
+<link rel="stylesheet" href="css/interactive-pages.css?v=sync-20260605b">
 </head>
 <body class="loading-state">
 
@@ -274,7 +274,7 @@
       }, 1400); 
       
       // 1. 全站通用設定讀取 (Logo & Favicon)
-      fetch('content/index.md')
+      fetch('content/index.md?t=' + new Date().getTime())
         .then(r => r.ok ? r.text() : Promise.reject())
         .then(text => {
           const parts = text.split('---');
@@ -344,8 +344,8 @@
         }); 
     }
   </script>
-<script type="module" src="admin/firebase-frontend-loader.js"></script>
-<script src="js/site-fixes.js" defer></script>
-<script src="js/interactive-pages.js" defer></script>
+<script type="module" src="admin/firebase-frontend-loader.js?v=sync-20260605b"></script>
+<script src="js/site-fixes.js?v=sync-20260605b" defer></script>
+<script src="js/interactive-pages.js?v=sync-20260605b" defer></script>
 </body>
 </html>

@@ -404,6 +404,7 @@
     await waitForFonts();
     await wait(900);
     await waitForStableTitleLayout();
+    await waitForLoadedState();
     await nextFrame();
     await nextFrame();
     document.body.classList.remove("uprise-interactive-pending");
@@ -439,6 +440,13 @@
       stableFrames = current === previous ? stableFrames + 1 : 0;
       previous = current;
       if (stableFrames >= 8) return;
+    }
+  }
+
+  async function waitForLoadedState() {
+    const started = Date.now();
+    while (!document.body.classList.contains("loaded-state") && Date.now() - started < 5600) {
+      await wait(80);
     }
   }
 

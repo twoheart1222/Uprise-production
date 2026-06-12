@@ -402,6 +402,8 @@
   async function revealInteractiveMain() {
     if (!document.body.classList.contains("uprise-interactive-pending")) return;
     await waitForFonts();
+    await wait(900);
+    await waitForStableTitleLayout();
     await nextFrame();
     await nextFrame();
     document.body.classList.remove("uprise-interactive-pending");
@@ -418,6 +420,26 @@
 
   function nextFrame() {
     return new Promise(resolve => requestAnimationFrame(resolve));
+  }
+
+  function wait(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
+  async function waitForStableTitleLayout() {
+    const title = document.querySelector(".editorial-title");
+    if (!title) return;
+    let stableFrames = 0;
+    let previous = "";
+    const started = Date.now();
+    while (Date.now() - started < 2600) {
+      await nextFrame();
+      const rect = title.getBoundingClientRect();
+      const current = `${Math.round(rect.left)}:${Math.round(rect.top)}:${Math.round(rect.width)}:${Math.round(rect.height)}`;
+      stableFrames = current === previous ? stableFrames + 1 : 0;
+      previous = current;
+      if (stableFrames >= 8) return;
+    }
   }
 
   function stableStringify(value) {

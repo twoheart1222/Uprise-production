@@ -19,7 +19,7 @@ body.uprise-interactive-pending main {
 body.uprise-interactive-ready main {
   visibility: visible;
   opacity: 1;
-  transition: opacity .28s ease;
+  transition: none !important;
 }
 
 .interactive-main::before {

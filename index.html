@@ -575,8 +575,8 @@
     #sound-btn { bottom: 20px; right: 20px; }
   }
 </style>
-<link rel="stylesheet" href="css/site-fixes.css?v=sync-20260612g">
-<link rel="stylesheet" href="css/interactive-pages.css?v=sync-20260612g">
+<link rel="stylesheet" href="css/site-fixes.css?v=sync-20260612h">
+<link rel="stylesheet" href="css/interactive-pages.css?v=sync-20260612h">
 </head>
 <body class="loading-state">
 
@@ -780,7 +780,7 @@
     async function loadFirestorePage(pageName) {
       try {
         if (window.loadFirebasePage) return await window.loadFirebasePage(pageName);
-        const module = await import('./admin/firebase-frontend-loader.js?v=sync-20260612g');
+        const module = await import('./admin/firebase-frontend-loader.js?v=sync-20260612h');
         return await module.loadFirebasePage(pageName);
       } catch (error) {
         console.warn(`[Firebase] ${pageName} fallback to markdown`, error);
@@ -1053,8 +1053,8 @@
       });
     }
   </script>
-<script type="module" src="admin/firebase-frontend-loader.js?v=sync-20260612g"></script>
-<script src="js/site-fixes.js?v=sync-20260612g" defer></script>
-<script src="js/interactive-pages.js?v=sync-20260612g" defer></script>
+<script type="module" src="admin/firebase-frontend-loader.js?v=sync-20260612h"></script>
+<script src="js/site-fixes.js?v=sync-20260612h" defer></script>
+<script src="js/interactive-pages.js?v=sync-20260612h" defer></script>
 </body>
 </html>

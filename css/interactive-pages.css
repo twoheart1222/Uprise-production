@@ -99,6 +99,12 @@ body.uprise-interactive-ready main {
   color: rgba(255,255,255,.76);
 }
 
+.editorial-title-static {
+  opacity: 1 !important;
+  transform: none !important;
+  transition: none !important;
+}
+
 .editorial-deck {
   max-width: 520px;
   color: rgba(255,255,255,.74);

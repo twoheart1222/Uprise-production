@@ -69,9 +69,13 @@
     const main = document.querySelector("main");
     if (!main) return;
     main.classList.add("interactive-main");
+    let lastRenderKey = "";
 
     const render = (incoming = {}) => {
       const data = incoming || {};
+      const renderKey = stableStringify(data);
+      if (renderKey && renderKey === lastRenderKey) return;
+      lastRenderKey = renderKey;
       const title = clean(data.title) || text.aboutTitle;
       const subtitle = clean(data.subtitle) || text.aboutSubtitle;
       const body = clean(data.body) || "\u5f71\u50cf\u4e0d\u53ea\u662f\u8a18\u9304\uff0c\u4e5f\u662f\u4e00\u7a2e\u7406\u89e3\u3002\u6211\u5011\u5728\u524d\u671f\u7b56\u5283\u3001\u62cd\u651d\u73fe\u5834\u8207\u5f8c\u671f\u88fd\u4f5c\u4e4b\u9593\uff0c\u627e\u5230\u6700\u80fd\u627f\u8f09\u60c5\u7dd2\u8207\u8a0a\u606f\u7684\u7bc0\u594f\u3002";
@@ -85,7 +89,7 @@
         <section class="editorial-hero about-hero">
           <div>
             <span class="editorial-kicker reveal-soft">ABOUT US</span>
-            <h1 class="editorial-title reveal-soft" id="page-title">${escapeHtml(title)}<span class="thin">Production</span></h1>
+            <h1 class="editorial-title editorial-title-static" id="page-title">${escapeHtml(title)}<span class="thin">Production</span></h1>
           </div>
           <div class="editorial-deck reveal-soft" id="page-subtitle">${escapeHtml(subtitle)}</div>
         </section>
@@ -130,9 +134,13 @@
     const main = document.querySelector("main");
     if (!main) return;
     main.classList.add("interactive-main");
+    let lastRenderKey = "";
 
     const render = (incoming = {}) => {
       const data = incoming || {};
+      const renderKey = stableStringify(data);
+      if (renderKey && renderKey === lastRenderKey) return;
+      lastRenderKey = renderKey;
       const title = clean(data.title) || text.contactTitle;
       const subtitle = clean(data.subtitle) || text.contactSubtitle;
       const email = clean(data.email) || "service@uprise.com";
@@ -144,7 +152,7 @@
         <section class="editorial-hero contact-hero">
           <div>
             <span class="editorial-kicker reveal-soft">CONTACT</span>
-            <h1 class="editorial-title reveal-soft" id="page-title">${escapeHtml(title)}<span class="thin">Let's Talk</span></h1>
+            <h1 class="editorial-title editorial-title-static" id="page-title">${escapeHtml(title)}<span class="thin">Let's Talk</span></h1>
           </div>
           <div class="editorial-deck reveal-soft" id="page-subtitle">${escapeHtml(subtitle)}</div>
         </section>
@@ -391,6 +399,25 @@
 
   function escapeAttr(value) {
     return escapeHtml(value).replace(/`/g, "&#96;");
+  }
+
+  function stableStringify(value) {
+    try {
+      return JSON.stringify(sortObject(value));
+    } catch (error) {
+      return "";
+    }
+  }
+
+  function sortObject(value) {
+    if (Array.isArray(value)) return value.map(sortObject);
+    if (value && typeof value === "object") {
+      return Object.keys(value).sort().reduce((output, key) => {
+        output[key] = sortObject(value[key]);
+        return output;
+      }, {});
+    }
+    return value;
   }
 })();
 

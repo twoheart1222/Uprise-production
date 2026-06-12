@@ -120,10 +120,9 @@
         </section>
       `;
 
-      document.body.classList.remove("uprise-interactive-pending");
-      document.body.classList.add("uprise-interactive-ready");
       refreshAos();
       initInteractiveMotion(main);
+      revealInteractiveMain();
     };
 
     render(await loadPage("about") || {});
@@ -200,10 +199,9 @@
 
       const form = document.getElementById("contact-form");
       form?.addEventListener("submit", submitContactForm);
-      document.body.classList.remove("uprise-interactive-pending");
-      document.body.classList.add("uprise-interactive-ready");
       refreshAos();
       initInteractiveMotion(main);
+      revealInteractiveMain();
     };
 
     render(await loadPage("contact") || {});
@@ -399,6 +397,27 @@
 
   function escapeAttr(value) {
     return escapeHtml(value).replace(/`/g, "&#96;");
+  }
+
+  async function revealInteractiveMain() {
+    if (!document.body.classList.contains("uprise-interactive-pending")) return;
+    await waitForFonts();
+    await nextFrame();
+    await nextFrame();
+    document.body.classList.remove("uprise-interactive-pending");
+    document.body.classList.add("uprise-interactive-ready");
+  }
+
+  async function waitForFonts() {
+    if (!document.fonts || !document.fonts.ready) return;
+    await Promise.race([
+      document.fonts.ready.catch(() => undefined),
+      new Promise(resolve => setTimeout(resolve, 5200))
+    ]);
+  }
+
+  function nextFrame() {
+    return new Promise(resolve => requestAnimationFrame(resolve));
   }
 
   function stableStringify(value) {

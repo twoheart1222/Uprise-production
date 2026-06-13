@@ -943,100 +943,6 @@ select:focus {
   transform: translateY(-1px);
 }
 
-.uprise-action-dock {
-  position: fixed;
-  left: 50%;
-  bottom: 22px;
-  z-index: 150;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  max-width: calc(100vw - 28px);
-  padding: 6px;
-  border: 1px solid rgba(255, 255, 255, 0.11);
-  border-radius: 999px;
-  background:
-    linear-gradient(135deg, rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.026)),
-    rgba(5, 5, 5, 0.7);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.12),
-    0 22px 80px rgba(0, 0, 0, 0.48),
-    0 0 0 1px rgba(0, 0, 0, 0.28);
-  opacity: 0;
-  transform: translate3d(-50%, 16px, 0) scale(0.98);
-  animation: dockEnter 0.72s var(--uprise-ease) 1.2s forwards;
-  backdrop-filter: blur(18px) saturate(1.16);
-}
-
-.uprise-dock-link,
-.uprise-dock-top {
-  min-width: 44px;
-  height: 38px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 999px;
-  color: rgba(255, 255, 255, 0.72);
-  font-size: 0.78rem;
-  font-weight: 600;
-  letter-spacing: 0.12em;
-  line-height: 1;
-  text-decoration: none;
-  white-space: nowrap;
-  transition:
-    color 0.28s var(--uprise-ease),
-    background 0.28s var(--uprise-ease),
-    transform 0.28s var(--uprise-ease),
-    box-shadow 0.28s var(--uprise-ease);
-}
-
-.uprise-dock-link {
-  padding: 0 14px;
-}
-
-.uprise-dock-link:hover,
-.uprise-dock-link.is-current,
-.uprise-dock-top:hover {
-  color: #fff;
-  background: rgba(255, 255, 255, 0.08);
-  transform: translateY(-1px);
-}
-
-.uprise-dock-link.is-primary {
-  color: #10100c;
-  background: linear-gradient(135deg, #ffe27a, #f0b35d 58%, #ff8c00);
-  box-shadow: 0 10px 30px rgba(240, 179, 93, 0.28);
-}
-
-.uprise-dock-link.is-primary:hover,
-.uprise-dock-link.is-primary.is-current {
-  color: #080808;
-  box-shadow: 0 14px 42px rgba(240, 179, 93, 0.36);
-}
-
-.uprise-dock-top {
-  padding: 0;
-  border: 0;
-  background: rgba(255, 255, 255, 0.045);
-}
-
-.uprise-dock-top svg {
-  width: 17px;
-  height: 17px;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 1.7;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-
-@keyframes dockEnter {
-  to {
-    opacity: 1;
-    transform: translate3d(-50%, 0, 0) scale(1);
-  }
-}
-
 .img-box img,
 .member-img,
 .bts-item img {
@@ -1219,23 +1125,6 @@ img {
     font-size: clamp(3.4rem, 18vw, 5.4rem) !important;
   }
 
-  .uprise-action-dock {
-    bottom: 12px;
-    gap: 4px;
-    padding: 5px;
-  }
-
-  .uprise-dock-link,
-  .uprise-dock-top {
-    min-width: 40px;
-    height: 36px;
-    font-size: 0.72rem;
-    letter-spacing: 0.08em;
-  }
-
-  .uprise-dock-link {
-    padding: 0 10px;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -1258,12 +1147,6 @@ img {
 
   .page-transition-curtain {
     display: none;
-  }
-
-  .uprise-action-dock {
-    opacity: 1;
-    animation: none;
-    transform: translate3d(-50%, 0, 0);
   }
 
   .ui-reveal {

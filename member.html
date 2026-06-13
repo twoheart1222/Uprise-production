@@ -622,7 +622,7 @@
     .bio-text { padding: 0 0 0 16px; text-align: left; }
   }
 </style>
-<link rel="stylesheet" href="css/site-fixes.css?v=sync-20260613ux3">
+<link rel="stylesheet" href="css/site-fixes.css?v=sync-20260613ux4">
 <style>
   /* Member page keeps the editorial language, but introduces the portrait sooner. */
   body.uprise-editorial .member-detail-section { padding-top: 104px; }
@@ -1568,7 +1568,7 @@
       try {
         const params = new URLSearchParams(window.location.search);
         if (params.has('preview')) return;
-        const module = await import('./admin/firebase-frontend-loader.js?v=sync-20260613ux3');
+        const module = await import('./admin/firebase-frontend-loader.js?v=sync-20260613ux4');
         const subscribe = window.subscribeFirebasePage || module.subscribeFirebasePage;
         if (typeof subscribe === 'function') {
           subscribe('team', data => {
@@ -1606,7 +1606,7 @@
     async function loadFirestorePage(pageName) {
       try {
         if (window.loadFirebasePage) return await window.loadFirebasePage(pageName);
-        const module = await import('./admin/firebase-frontend-loader.js?v=sync-20260613ux3');
+        const module = await import('./admin/firebase-frontend-loader.js?v=sync-20260613ux4');
         return await module.loadFirebasePage(pageName);
       } catch (error) {
         console.warn(`[Firebase] ${pageName} fallback to markdown`, error);
@@ -1848,7 +1848,7 @@
         }
     });
   </script>
-<script type="module" src="admin/firebase-frontend-loader.js?v=sync-20260613ux3"></script>
-<script src="js/site-fixes.js?v=sync-20260613ux3" defer></script>
+<script type="module" src="admin/firebase-frontend-loader.js?v=sync-20260613ux4"></script>
+<script src="js/site-fixes.js?v=sync-20260613ux4" defer></script>
 </body>
 </html>

@@ -6,7 +6,7 @@
 <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate"/>
 <meta http-equiv="Pragma" content="no-cache"/>
 <meta http-equiv="Expires" content="0"/>
-<title>Uprise Admin CMS</title>
+<title>推手影像後台 CMS</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Italiana&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -199,7 +199,7 @@ hr.divider { border: none; border-top: 1px solid var(--border); }
   pointer-events: none;
 }
 .photo-adjust-preview::after {
-  content: 'Drag to adjust photo';
+  content: '拖曳調整照片';
   position: absolute; left: 12px; bottom: 10px;
   padding: 4px 8px; border-radius: 999px; background: rgba(0,0,0,.58);
   color: rgba(255,255,255,.72); font-size: .72rem; letter-spacing: 1px;
@@ -217,11 +217,17 @@ hr.divider { border: none; border-top: 1px solid var(--border); }
   transform: scale(var(--pz, 1));
 }
 .team-photo-preview::after {
-  content: 'Drag to adjust photo';
+  content: '拖曳調整照片';
   position: absolute; left: 12px; bottom: 10px;
   padding: 4px 8px; border-radius: 999px; background: rgba(0,0,0,.58);
   color: rgba(255,255,255,.72); font-size: .72rem; letter-spacing: 1px;
 }
+.photo-device-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.photo-device-card { border: 1px solid var(--border); border-radius: 12px; padding: 12px; background: rgba(255,255,255,.025); }
+.photo-device-title { display:flex; justify-content:space-between; align-items:center; gap:10px; margin-bottom:10px; color:var(--text); font-size:.84rem; font-weight:600; }
+.photo-device-title span { color: var(--muted); font-size:.74rem; font-weight:400; }
+.photo-device-card.mobile .team-photo-preview,
+.photo-device-card.mobile .photo-adjust-preview { aspect-ratio: 9/16; height: auto; min-height: 300px; }
 .style-live-preview {
   margin-top: 18px; padding: 22px; border-radius: 14px; border: 1px solid var(--border);
   background: linear-gradient(135deg, rgba(255,255,255,.05), rgba(255,255,255,.015));
@@ -276,6 +282,7 @@ hr.divider { border: none; border-top: 1px solid var(--border); }
 @media (max-width: 1180px) {
   #preview-pane { min-width: 330px; width: 38vw; }
   .photo-adjust-grid { grid-template-columns: 1fr; }
+  .photo-device-grid { grid-template-columns: 1fr; }
 }
 </style>
 </head>
@@ -284,16 +291,16 @@ hr.divider { border: none; border-top: 1px solid var(--border); }
 <div id="login-screen">
   <div>
     <div class="logo-text">UPRISE</div>
-    <div class="subtitle">PRODUCTION CMS</div>
+    <div class="subtitle">網站內容管理</div>
   </div>
   <div class="login-card">
-    <h2>Admin CMS</h2>
-    <p>Please sign in with the authorized Google account.<br>After signing in, you can edit site content and preview the front-end.</p>
+    <h2>網站後台</h2>
+    <p>請使用已授權的 Google 帳號登入。<br>登入後可以編輯網站內容，並在右側即時預覽前台畫面。</p>
     <button class="btn-google" id="btn-google-login">
       <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google">
-      Sign in with Google
+      使用 Google 登入
     </button>
-    <div id="login-error">This account is not authorized. Please sign in with the admin account.</div>
+    <div id="login-error">此帳號未授權，請使用管理員帳號登入。</div>
     <div id="protocol-warning" style="display:none;margin-top:16px;padding:12px 14px;border:1px solid rgba(255,183,77,.45);border-radius:10px;background:rgba(255,183,77,.1);color:#ffd28a;font-size:.86rem;line-height:1.7"></div>
   </div>
 </div>
@@ -302,69 +309,69 @@ hr.divider { border: none; border-top: 1px solid var(--border); }
   <div id="sidebar">
     <div class="sidebar-brand">
       <div class="brand-name">UPRISE</div>
-      <div class="brand-sub">PRODUCTION CMS</div>
+      <div class="brand-sub">網站內容管理</div>
     </div>
     <div class="nav-section">
-      <div class="nav-label">Page Management</div>
-      <div class="nav-item active" data-panel="dashboard"><i class="fas fa-chart-line"></i> Dashboard</div>
-      <div class="nav-item" data-panel="home"><i class="fas fa-home"></i> Home</div>
-      <div class="nav-item" data-panel="works"><i class="fas fa-film"></i> Works</div>
-      <div class="nav-item" data-panel="team"><i class="fas fa-users"></i> Team</div>
-      <div class="nav-item" data-panel="member"><i class="fas fa-id-card"></i> Member Page</div>
-      <div class="nav-item" data-panel="about"><i class="fas fa-circle-info"></i> About</div>
-      <div class="nav-item" data-panel="contact"><i class="fas fa-envelope"></i> Contact</div>
+      <div class="nav-label">頁面管理</div>
+      <div class="nav-item active" data-panel="dashboard"><i class="fas fa-chart-line"></i> 總覽</div>
+      <div class="nav-item" data-panel="home"><i class="fas fa-home"></i> 首頁</div>
+      <div class="nav-item" data-panel="works"><i class="fas fa-film"></i> 作品</div>
+      <div class="nav-item" data-panel="team"><i class="fas fa-users"></i> 團隊</div>
+      <div class="nav-item" data-panel="member"><i class="fas fa-id-card"></i> 成員頁</div>
+      <div class="nav-item" data-panel="about"><i class="fas fa-circle-info"></i> 關於</div>
+      <div class="nav-item" data-panel="contact"><i class="fas fa-envelope"></i> 聯絡</div>
     </div>
     <div class="sidebar-footer">
       <div class="user-info">
         <img class="user-avatar" id="user-avatar" src="" alt="User avatar">
-        <div class="user-name" id="user-name">Loading...</div>
+        <div class="user-name" id="user-name">載入中...</div>
       </div>
-      <button class="btn-logout" id="btn-logout"><i class="fas fa-sign-out-alt"></i> Logout</button>
+      <button class="btn-logout" id="btn-logout"><i class="fas fa-sign-out-alt"></i> 登出</button>
     </div>
   </div>
 
   <div id="main">
     <div class="topbar">
-      <div class="page-title" id="page-title">Dashboard</div>
+      <div class="page-title" id="page-title">總覽</div>
       <button class="btn-save" id="btn-save" style="display:none" onclick="saveCurrentPanel()">
-        <i class="fas fa-save"></i> Save Changes
+        <i class="fas fa-save"></i> 儲存變更
       </button>
     </div>
 
     <div class="panel active" id="panel-dashboard">
       <div class="stats-grid">
-        <div class="stat-card"><div class="stat-num" id="stat-works">0</div><div class="stat-label">Works</div></div>
-        <div class="stat-card"><div class="stat-num" id="stat-team">0</div><div class="stat-label">Team Members</div></div>
-        <div class="stat-card"><div class="stat-num" id="stat-services">0</div><div class="stat-label">Services</div></div>
-        <div class="stat-card"><div class="stat-num" id="stat-bts">0</div><div class="stat-label">Behind the Scenes</div></div>
+        <div class="stat-card"><div class="stat-num" id="stat-works">0</div><div class="stat-label">作品數</div></div>
+        <div class="stat-card"><div class="stat-num" id="stat-team">0</div><div class="stat-label">團隊成員</div></div>
+        <div class="stat-card"><div class="stat-num" id="stat-services">0</div><div class="stat-label">服務項目</div></div>
+        <div class="stat-card"><div class="stat-num" id="stat-bts">0</div><div class="stat-label">幕後照片</div></div>
       </div>
       <div class="card">
-        <div class="card-title">Guide</div>
+        <div class="card-title">使用說明</div>
         <p style="color:var(--muted);font-size:0.88rem;line-height:1.8">
-          Welcome to the Uprise Admin CMS.<br>
-          Use the left navigation to edit each page. The right preview shows the front-end page with your current draft data.<br>
-          Click <strong style="color:var(--accent2)">Save Changes</strong> to sync updates to Firebase and the front-end.
+          歡迎使用推手影像網站後台。<br>
+          左側可以切換各頁內容，右側會用目前草稿即時預覽前台畫面。<br>
+          點擊 <strong style="color:var(--accent2)">儲存變更</strong> 後，內容會同步到 Firebase 與正式前台。
         </p>
       </div>
     </div>
 
     <div class="panel" id="panel-home">
       <div class="card">
-        <div class="card-title">Home Settings</div>
-        <div class="field"><label>Hero Text</label><input type="text" id="home-hero_text" placeholder="Enter hero text"></div>
-        <div class="field"><label>Logo URL / Upload</label><input type="text" id="home-logo" placeholder="https://..."><input type="file" accept="image/*" onchange="uploadHomeAsset(this,'logo','images')" style="margin-top:8px"><div class="upload-status" data-upload-status="home-logo"></div><div class="field-hint">Upload a logo directly to Firebase Storage.</div></div>
-        <div class="field"><label>Desktop Hero Video URL</label><input type="text" id="home-hero_video" placeholder="https://res.cloudinary.com/..."></div>
-        <div class="field"><label>Mobile Hero Video URL</label><input type="text" id="home-hero_video_mobile" placeholder="Optional 9:16 mobile video URL"><div class="field-hint">Recommended ratio: vertical 9:16.</div></div>
+        <div class="card-title">首頁設定</div>
+        <div class="field"><label>主視覺文字</label><input type="text" id="home-hero_text" placeholder="輸入首頁主標"></div>
+        <div class="field"><label>Logo 網址 / 上傳</label><input type="text" id="home-logo" placeholder="https://..."><input type="file" accept="image/*" onchange="uploadHomeAsset(this,'logo','images')" style="margin-top:8px"><div class="upload-status" data-upload-status="home-logo"></div><div class="field-hint">可直接上傳到 Firebase Storage。</div></div>
+        <div class="field"><label>電腦版主視覺影片網址</label><input type="text" id="home-hero_video" placeholder="https://res.cloudinary.com/..."></div>
+        <div class="field"><label>手機版主視覺影片網址</label><input type="text" id="home-hero_video_mobile" placeholder="選填，建議 9:16 直式影片"><div class="field-hint">建議比例：直式 9:16。</div></div>
       </div>
       <div class="card">
         <div class="card-title">
-          <div class="list-header"><span>Services</span><button class="btn-add" onclick="addService()"><i class="fas fa-plus"></i> Add</button></div>
+          <div class="list-header"><span>服務項目</span><button class="btn-add" onclick="addService()"><i class="fas fa-plus"></i> 新增</button></div>
         </div>
         <div class="list-items" id="services-list"></div>
       </div>
       <div class="card">
         <div class="card-title">
-          <div class="list-header"><span>Behind the Scenes Images</span><button class="btn-add" onclick="addBts()"><i class="fas fa-plus"></i> Add</button></div>
+          <div class="list-header"><span>幕後照片</span><button class="btn-add" onclick="addBts()"><i class="fas fa-plus"></i> 新增</button></div>
         </div>
         <div class="list-items" id="bts-list"></div>
       </div>
@@ -372,19 +379,19 @@ hr.divider { border: none; border-top: 1px solid var(--border); }
 
     <div class="panel" id="panel-works">
       <div class="card">
-        <div class="card-title">Works Settings</div>
+        <div class="card-title">作品頁設定</div>
         <div class="field-row">
-          <div class="field"><label>Title</label><input type="text" id="works-title" placeholder="Works"></div>
-          <div class="field"><label>Subtitle</label><input type="text" id="works-subtitle" placeholder="Short works page intro"></div>
+          <div class="field"><label>標題</label><input type="text" id="works-title" placeholder="作品集"></div>
+          <div class="field"><label>副標</label><input type="text" id="works-subtitle" placeholder="作品頁簡短介紹"></div>
         </div>
       </div>
       <div class="card">
         <div class="list-header">
           <div>
-            <div class="card-title" style="border:0;padding:0">Work Categories</div>
-            <div class="field-hint" style="margin-top:8px">Create, rename, sort, delete categories, and add works inside each category.</div>
+            <div class="card-title" style="border:0;padding:0">作品分類</div>
+            <div class="field-hint" style="margin-top:8px">可新增、重新命名、排序、刪除分類，並在分類內新增作品。</div>
           </div>
-          <button class="btn-add" onclick="addWorkCategory()"><i class="fas fa-folder-plus"></i> Add Category</button>
+          <button class="btn-add" onclick="addWorkCategory()"><i class="fas fa-folder-plus"></i> 新增分類</button>
         </div>
       </div>
       <div id="works-categories"></div>
@@ -392,55 +399,55 @@ hr.divider { border: none; border-top: 1px solid var(--border); }
 
     <div class="panel" id="panel-team">
       <div class="card">
-        <div class="card-title">Team Page Settings</div>
+        <div class="card-title">團隊頁設定</div>
         <div class="field-row">
-          <div class="field"><label>Title</label><input type="text" id="team-title" placeholder="Our Team"></div>
-          <div class="field"><label>Subtitle</label><input type="text" id="team-subtitle" placeholder="Short team page intro"></div>
+          <div class="field"><label>標題</label><input type="text" id="team-title" placeholder="專業團隊"></div>
+          <div class="field"><label>副標</label><input type="text" id="team-subtitle" placeholder="團隊頁簡短介紹"></div>
         </div>
       </div>
       <div class="card">
-        <div class="card-title">Team / Member Typography</div>
+        <div class="card-title">團隊 / 成員字體設定</div>
         <div class="field-row">
           <div class="field">
-            <label>Name Font</label>
+            <label>姓名字體</label>
             <select id="team-style-name_font">
-              <option value="serif">Elegant Serif</option>
-              <option value="sans">Clean Sans</option>
-              <option value="display">Editorial Display</option>
+              <option value="serif">正式襯線</option>
+              <option value="sans">乾淨黑體</option>
+              <option value="display">雜誌標題</option>
             </select>
           </div>
           <div class="field">
-            <label>Name Size (em)</label>
+            <label>姓名大小 (em)</label>
             <input type="number" step="0.1" min="1.6" max="8" id="team-style-name_size" placeholder="2.45">
           </div>
         </div>
         <div class="field-row">
           <div class="field">
-            <label>Role Size (em)</label>
+            <label>職稱大小 (em)</label>
             <input type="number" step="0.05" min="0.6" max="2" id="team-style-role_size" placeholder="0.78">
           </div>
           <div class="field">
-            <label>Bio Size (em)</label>
+            <label>簡介大小 (em)</label>
             <input type="number" step="0.05" min="0.75" max="1.5" id="team-style-bio_size" placeholder="0.92">
           </div>
         </div>
         <div class="field">
-          <label>Card Density</label>
+          <label>卡片密度</label>
           <select id="team-style-card_density">
-            <option value="normal">Normal</option>
-            <option value="compact">Compact</option>
+            <option value="normal">一般</option>
+            <option value="compact">緊湊</option>
           </select>
-          <div class="field-hint">These settings apply to team.html and member.html profile layouts.</div>
+          <div class="field-hint">這些設定會套用到團隊頁與成員詳細頁。</div>
         </div>
         <div class="style-live-preview" id="team-style-preview">
           <h3 class="style-live-name">COVER STORY</h3>
           <div class="style-live-role">EDITORIAL PROFILE / DIRECTOR</div>
-          <div class="style-live-bio">Preview the Team card typography, size, and bio style here.</div>
+          <div class="style-live-bio">這裡會預覽團隊卡片的字體、大小與簡介樣式。</div>
         </div>
       </div>
       <div class="card">
         <div class="card-title">
-          <div class="list-header"><span>Team Members</span><button class="btn-add" onclick="addMember()"><i class="fas fa-plus"></i> Add Member</button></div>
+          <div class="list-header"><span>團隊成員</span><button class="btn-add" onclick="addMember()"><i class="fas fa-plus"></i> 新增成員</button></div>
         </div>
         <div class="list-items" id="members-list"></div>
       </div>
@@ -448,66 +455,66 @@ hr.divider { border: none; border-top: 1px solid var(--border); }
 
     <div class="panel" id="panel-member">
       <div class="card">
-        <div class="card-title">Member Detail Page Settings</div>
+        <div class="card-title">成員詳細頁設定</div>
         <p style="color:var(--muted);font-size:0.88rem;line-height:1.8">
-          Adjust each member detail page image position, zoom, and full profile text. Use the right preview selector to switch between members.
+          可調整每位成員詳細頁照片位置、縮放與完整介紹。右側預覽可切換不同成員。
         </p>
       </div>
       <div class="card">
-        <div class="card-title">Member / Team Typography</div>
+        <div class="card-title">成員 / 團隊字體設定</div>
         <div class="field-row">
           <div class="field">
-            <label>Name Font</label>
+            <label>姓名字體</label>
             <select id="member-style-name_font">
-              <option value="serif">Elegant Serif</option>
-              <option value="sans">Clean Sans</option>
-              <option value="display">Editorial Display</option>
+              <option value="serif">正式襯線</option>
+              <option value="sans">乾淨黑體</option>
+              <option value="display">雜誌標題</option>
             </select>
           </div>
-          <div class="field"><label>Member Name Size (em)</label><input type="number" step="0.1" min="3" max="12" id="member-style-member_name_size" placeholder="9.5"></div>
+          <div class="field"><label>成員姓名大小 (em)</label><input type="number" step="0.1" min="3" max="12" id="member-style-member_name_size" placeholder="9.5"></div>
         </div>
         <div class="field-row">
-          <div class="field"><label>Role Size (em)</label><input type="number" step="0.05" min="0.6" max="2" id="member-style-role_size" placeholder="0.82"></div>
-          <div class="field"><label>Bio Size (em)</label><input type="number" step="0.05" min="0.75" max="1.6" id="member-style-bio_size" placeholder="0.98"></div>
+          <div class="field"><label>職稱大小 (em)</label><input type="number" step="0.05" min="0.6" max="2" id="member-style-role_size" placeholder="0.82"></div>
+          <div class="field"><label>內文大小 (em)</label><input type="number" step="0.05" min="0.75" max="1.6" id="member-style-bio_size" placeholder="0.98"></div>
         </div>
         <div class="style-live-preview" id="member-style-preview">
           <h3 class="style-live-name">UPRISE PROFILE</h3>
           <div class="style-live-role">CREATIVE PROFILE / DIRECTOR</div>
-          <div class="style-live-bio">Preview the Member detail page name, role, and bio style here.</div>
+          <div class="style-live-bio">這裡會預覽成員詳細頁的姓名、職稱與內文樣式。</div>
         </div>
       </div>
       <div class="card">
-        <div class="card-title">Member Photos and Detail Text</div>
+        <div class="card-title">成員照片與詳細文字</div>
         <div class="list-items" id="member-page-list"></div>
       </div>
     </div>
 
     <div class="panel" id="panel-about">
       <div class="card">
-        <div class="card-title">About</div>
+        <div class="card-title">關於頁</div>
         <div class="field-row">
-          <div class="field"><label>Title</label><input type="text" id="about-title" placeholder="About Uprise"></div>
-          <div class="field"><label>Subtitle</label><input type="text" id="about-subtitle" placeholder="Short about page intro"></div>
+          <div class="field"><label>標題</label><input type="text" id="about-title" placeholder="關於推手"></div>
+          <div class="field"><label>副標</label><input type="text" id="about-subtitle" placeholder="關於頁簡短介紹"></div>
         </div>
         <div class="field">
-          <label>Page Content (Markdown supported)</label>
-          <textarea id="about-body" style="min-height:280px" placeholder="# About Us"></textarea>
+          <label>頁面內容（支援 Markdown）</label>
+          <textarea id="about-body" style="min-height:280px" placeholder="# 關於我們"></textarea>
         </div>
       </div>
     </div>
 
     <div class="panel" id="panel-contact">
       <div class="card">
-        <div class="card-title">Contact</div>
+        <div class="card-title">聯絡頁</div>
         <div class="field-row">
-          <div class="field"><label>Title</label><input type="text" id="contact-title" placeholder="Contact Us"></div>
-          <div class="field"><label>Subtitle</label><input type="text" id="contact-subtitle" placeholder="Short contact page intro"></div>
+          <div class="field"><label>標題</label><input type="text" id="contact-title" placeholder="聯絡我們"></div>
+          <div class="field"><label>副標</label><input type="text" id="contact-subtitle" placeholder="聯絡頁簡短介紹"></div>
         </div>
         <hr class="divider">
-        <div class="field"><label>Address</label><input type="text" id="contact-address" placeholder="Enter address..."></div>
+        <div class="field"><label>地址</label><input type="text" id="contact-address" placeholder="輸入地址..."></div>
         <div class="field-row">
           <div class="field"><label>Email</label><input type="text" id="contact-email" placeholder="contact@uprise.com"></div>
-          <div class="field"><label>Phone</label><input type="text" id="contact-phone" placeholder="+886..."></div>
+          <div class="field"><label>電話</label><input type="text" id="contact-phone" placeholder="+886..."></div>
         </div>
         <div class="field"><label>Formspree ID</label><input type="text" id="contact-formspree_id" placeholder="movbylbl"><div class="field-hint">Enter the Formspree form ID, for example movbylbl.</div></div>
       </div>
@@ -774,7 +781,7 @@ function waitForImageLoad(url, timeout=10000) {
 }
 
 async function imageFileToCompressedDataUrl(file) {
-  if (!file.type.startsWith('image/')) throw new Error('Please choose an image file.');
+  if (!file.type.startsWith('image/')) throw new Error('請選擇圖片檔案。');
   const src = await readFileAsDataUrl(file);
   const img = await new Promise((resolve, reject) => {
     const image = new Image();
@@ -819,7 +826,7 @@ async function uploadFileToStorage(file, folder='images') {
 }
 
 async function persistTeamMemberImage(index, url) {
-  if (!url || url.startsWith('blob:')) throw new Error('Invalid image URL.');
+  if (!url || url.startsWith('blob:')) throw new Error('圖片網址無效。');
   const teamRef = doc(db, 'pages', 'team');
   const snap = await getDoc(teamRef);
   const latestTeam = stripVolatileImageUrls(snap.exists() ? snap.data() : window.data.team) || {};
@@ -861,15 +868,15 @@ window.uploadHomeAsset = async (input, key, folder='images') => {
     refreshPreview();
     try {
       await setDoc(doc(db,'pages','home'), window.data.home);
-      setUploadStatus(`home-${key}`, 'Saved to Firebase');
+      setUploadStatus(`home-${key}`, '已儲存到 Firebase');
       showToast('Upload complete');
     } catch(saveError) {
       setUploadStatus(`home-${key}`, 'Preview ready, Firebase save failed');
-      showToast('Firebase save failed: '+saveError.message, 'error');
+      showToast('Firebase 儲存失敗：'+saveError.message, 'error');
     }
   } catch(e) {
     setUploadStatus(`home-${key}`, 'Upload failed');
-    showToast('Upload failed: '+e.message,'error');
+    showToast('上傳失敗：'+e.message,'error');
   }
   input.value = '';
   URL.revokeObjectURL(localUrl);
@@ -889,15 +896,15 @@ window.uploadBtsImage = async (input, index) => {
     refreshPreview();
     try {
       await setDoc(doc(db,'pages','home'), window.data.home);
-      setUploadStatus(`bts-${index}`, 'Saved to Firebase');
+      setUploadStatus(`bts-${index}`, '已儲存到 Firebase');
       showToast('Upload complete');
     } catch(saveError) {
       setUploadStatus(`bts-${index}`, 'Preview ready, Firebase save failed');
-      showToast('Firebase save failed: '+saveError.message, 'error');
+      showToast('Firebase 儲存失敗：'+saveError.message, 'error');
     }
   } catch(e) {
     setUploadStatus(`bts-${index}`, 'Upload failed');
-    showToast('Upload failed: '+e.message,'error');
+    showToast('上傳失敗：'+e.message,'error');
   }
   input.value = '';
   URL.revokeObjectURL(localUrl);
@@ -912,7 +919,7 @@ window.uploadMemberAvatar = async (input, index) => {
   window.data.team.members[index].image = localUrl;
   updatePhotoPreviewImage(index, localUrl);
   updateTeamPhotoPreviewImage(index, localUrl);
-  setUploadStatus(`member-${index}`, `Selected image. Uploading... (${ADMIN_UPLOAD_FLOW_VERSION})`);
+  setUploadStatus(`member-${index}`, `已選擇圖片，正在上傳... (${ADMIN_UPLOAD_FLOW_VERSION})`);
   syncPreviewCache();
   refreshPreview();
   try {
@@ -931,17 +938,17 @@ window.uploadMemberAvatar = async (input, index) => {
       renderMemberPageList();
       syncPreviewCache();
       refreshPreview();
-      setUploadStatus(`member-${index}`, 'Saved to Firebase');
-      showToast('Member image uploaded');
+      setUploadStatus(`member-${index}`, '已儲存到 Firebase');
+      showToast('成員照片已上傳');
     } catch(saveError) {
       console.error('Team member image Firestore save failed:', saveError);
-      setUploadStatus(`member-${index}`, `Preview ready, Firebase save failed: ${saveError.message}`);
-      showToast('Firebase save failed: '+saveError.message, 'error');
+      setUploadStatus(`member-${index}`, `預覽已更新，但 Firebase 儲存失敗：${saveError.message}`);
+      showToast('Firebase 儲存失敗：'+saveError.message, 'error');
     }
   } catch(e) {
     console.error('Team member image upload failed:', e);
-    setUploadStatus(`member-${index}`, `Upload failed: ${e.message}`);
-    showToast('Upload failed: '+e.message, 'error');
+    setUploadStatus(`member-${index}`, `上傳失敗：${e.message}`);
+    showToast('上傳失敗：'+e.message, 'error');
   } finally {
     input.value = '';
     URL.revokeObjectURL(localUrl);
@@ -949,16 +956,42 @@ window.uploadMemberAvatar = async (input, index) => {
 };
 
 let activePhotoDrag = null;
-window.startPhotoDrag = (event, index) => {
+function photoKeys(device) {
+  return device === 'mobile'
+    ? { x: 'photo_mobile_x', y: 'photo_mobile_y', z: 'photo_mobile_zoom' }
+    : { x: 'photo_x', y: 'photo_y', z: 'photo_zoom' };
+}
+function getPhotoValue(member, device, axis) {
+  const keys = photoKeys(device);
+  if (axis === 'x') return Number(member[keys.x] ?? member.photo_x ?? 50);
+  if (axis === 'y') return Number(member[keys.y] ?? member.photo_y ?? 20);
+  return Number(member[keys.z] ?? member.photo_zoom ?? 1);
+}
+function setPhotoValue(member, device, axis, value) {
+  const keys = photoKeys(device);
+  member[keys[axis]] = value;
+}
+window.setPhotoValue = setPhotoValue;
+function updatePhotoInputs(index, device) {
+  const m = window.data.team.members[index];
+  ['x','y','z'].forEach(axis => {
+    const input = document.getElementById(`member-photo-${device}-${axis}-${index}`);
+    if (!input) return;
+    const value = getPhotoValue(m, device, axis);
+    input.value = value;
+    if (input.nextElementSibling) input.nextElementSibling.textContent = axis === 'z' ? `${value}x` : `${value}%`;
+  });
+}
+window.startPhotoDrag = (event, index, device = 'desktop') => {
   event.preventDefault();
   const member = window.data.team.members[index];
   const rect = event.currentTarget.getBoundingClientRect();
   activePhotoDrag = {
-    index, rect,
+    index, rect, device,
     startX: event.clientX,
     startY: event.clientY,
-    photoX: Number(member.photo_x ?? 50),
-    photoY: Number(member.photo_y ?? 20)
+    photoX: getPhotoValue(member, device, 'x'),
+    photoY: getPhotoValue(member, device, 'y')
   };
   event.currentTarget.setPointerCapture(event.pointerId);
 };
@@ -967,70 +1000,67 @@ window.dragPhoto = (event) => {
   const m = window.data.team.members[activePhotoDrag.index];
   const nextX = Math.max(0, Math.min(100, activePhotoDrag.photoX + ((event.clientX - activePhotoDrag.startX) / activePhotoDrag.rect.width) * 100));
   const nextY = Math.max(0, Math.min(100, activePhotoDrag.photoY + ((event.clientY - activePhotoDrag.startY) / activePhotoDrag.rect.height) * 100));
-  m.photo_x = Math.round(nextX);
-  m.photo_y = Math.round(nextY);
-  const preview = document.querySelector(`[data-photo-preview="${activePhotoDrag.index}"]`);
+  setPhotoValue(m, activePhotoDrag.device, 'x', Math.round(nextX));
+  setPhotoValue(m, activePhotoDrag.device, 'y', Math.round(nextY));
+  const preview = document.querySelector(`[data-photo-preview="${activePhotoDrag.index}"][data-photo-device="${activePhotoDrag.device}"]`);
   if (preview) {
-    preview.style.setProperty('--px', `${m.photo_x}%`);
-    preview.style.setProperty('--py', `${m.photo_y}%`);
+    preview.style.setProperty('--px', `${getPhotoValue(m, activePhotoDrag.device, 'x')}%`);
+    preview.style.setProperty('--py', `${getPhotoValue(m, activePhotoDrag.device, 'y')}%`);
   }
-  const xInput = document.getElementById(`member-photo-x-${activePhotoDrag.index}`);
-  const yInput = document.getElementById(`member-photo-y-${activePhotoDrag.index}`);
-  if (xInput) { xInput.value = m.photo_x; xInput.nextElementSibling.textContent = `${m.photo_x}%`; }
-  if (yInput) { yInput.value = m.photo_y; yInput.nextElementSibling.textContent = `${m.photo_y}%`; }
+  updatePhotoInputs(activePhotoDrag.index, activePhotoDrag.device);
+  schedulePreviewRefresh();
 };
 window.endPhotoDrag = () => { activePhotoDrag = null; };
 
-window.updatePhotoPreview = (index) => {
+window.updatePhotoPreview = (index, device = 'desktop') => {
   const m = window.data.team.members[index];
-  const preview = document.querySelector(`[data-photo-preview="${index}"]`);
+  const preview = document.querySelector(`[data-photo-preview="${index}"][data-photo-device="${device}"]`);
   if (!preview) return;
-  preview.style.setProperty('--px', `${m.photo_x ?? 50}%`);
-  preview.style.setProperty('--py', `${m.photo_y ?? 20}%`);
-  preview.style.setProperty('--pz', `${m.photo_zoom ?? 1}`);
+  preview.style.setProperty('--px', `${getPhotoValue(m, device, 'x')}%`);
+  preview.style.setProperty('--py', `${getPhotoValue(m, device, 'y')}%`);
+  preview.style.setProperty('--pz', `${getPhotoValue(m, device, 'z')}`);
   schedulePreviewRefresh();
 };
 
-window.updateTeamPhotoPreview = (index) => {
+window.updateTeamPhotoPreview = (index, device = 'desktop') => {
   const m = window.data.team.members[index];
-  const preview = document.querySelector(`[data-team-photo-preview="${index}"]`);
+  const preview = document.querySelector(`[data-team-photo-preview="${index}"][data-photo-device="${device}"]`);
   if (!preview) return;
-  preview.style.setProperty('--px', `${m.photo_x ?? 50}%`);
-  preview.style.setProperty('--py', `${m.photo_y ?? 20}%`);
-  preview.style.setProperty('--pz', `${m.photo_zoom ?? 1}`);
-  updatePhotoPreview(index);
+  preview.style.setProperty('--px', `${getPhotoValue(m, device, 'x')}%`);
+  preview.style.setProperty('--py', `${getPhotoValue(m, device, 'y')}%`);
+  preview.style.setProperty('--pz', `${getPhotoValue(m, device, 'z')}`);
+  updatePhotoPreview(index, device);
 };
 
 window.updateTeamPhotoPreviewImage = (index, url) => {
-  const preview = document.querySelector(`[data-team-photo-preview="${index}"]`);
-  if (!preview) return;
-  let img = preview.querySelector('img');
-  if (!url) {
-    if (img) img.remove();
-    updatePhotoPreviewImage(index, url);
-    return;
-  }
-  if (!img) {
-    img = document.createElement('img');
-    preview.appendChild(img);
-  }
-  img.src = url;
+  document.querySelectorAll(`[data-team-photo-preview="${index}"]`).forEach(preview => {
+    let img = preview.querySelector('img');
+    if (!url) {
+      if (img) img.remove();
+      return;
+    }
+    if (!img) {
+      img = document.createElement('img');
+      preview.appendChild(img);
+    }
+    img.src = url;
+  });
   updatePhotoPreviewImage(index, url);
 };
 
 window.updatePhotoPreviewImage = (index, url) => {
-  const preview = document.querySelector(`[data-photo-preview="${index}"]`);
-  if (!preview) return;
-  let img = preview.querySelector('img');
-  if (!url) {
-    if (img) img.remove();
-    return;
-  }
-  if (!img) {
-    img = document.createElement('img');
-    preview.appendChild(img);
-  }
-  img.src = url;
+  document.querySelectorAll(`[data-photo-preview="${index}"]`).forEach(preview => {
+    let img = preview.querySelector('img');
+    if (!url) {
+      if (img) img.remove();
+      return;
+    }
+    if (!img) {
+      img = document.createElement('img');
+      preview.appendChild(img);
+    }
+    img.src = url;
+  });
 };
 
 // Home
@@ -1045,22 +1075,22 @@ function renderHome() {
 window.renderServices = () => {
   const items = window.data.home.services || [];
   document.getElementById('services-list').innerHTML = items.length === 0
-    ? '<div style="color:var(--muted);font-size:0.82rem">No services yet</div>'
+    ? '<div style="color:var(--muted);font-size:0.82rem">尚無服務項目</div>'
     : items.map((s,i) => `
     <div class="list-item">
       <div class="list-item-header">
-        <span class="list-item-title">${s.title || 'Untitled service'}</span>
+        <span class="list-item-title">${s.title || '未命名服務'}</span>
         <div class="list-item-actions">
-          <button class="btn-icon" onclick="moveArr('home','services',${i},-1);renderServices()" title="Move up"><i class="fas fa-chevron-up"></i></button>
-          <button class="btn-icon" onclick="moveArr('home','services',${i},1);renderServices()" title="Move down"><i class="fas fa-chevron-down"></i></button>
+          <button class="btn-icon" onclick="moveArr('home','services',${i},-1);renderServices()" title="上移"><i class="fas fa-chevron-up"></i></button>
+          <button class="btn-icon" onclick="moveArr('home','services',${i},1);renderServices()" title="下移"><i class="fas fa-chevron-down"></i></button>
           <button class="btn-icon danger" onclick="window.data.home.services.splice(${i},1);renderServices()"><i class="fas fa-trash"></i></button>
         </div>
       </div>
       <div class="field-row">
-        <div class="field"><label>Title</label><input value="${s.title||''}" oninput="window.data.home.services[${i}].title=this.value"></div>
-        <div class="field"><label>FontAwesome Icon</label><input value="${s.iconClass||''}" placeholder="fa-solid fa-video" oninput="window.data.home.services[${i}].iconClass=this.value"></div>
+        <div class="field"><label>標題</label><input value="${s.title||''}" oninput="window.data.home.services[${i}].title=this.value"></div>
+        <div class="field"><label>FontAwesome 圖示</label><input value="${s.iconClass||''}" placeholder="fa-solid fa-video" oninput="window.data.home.services[${i}].iconClass=this.value"></div>
       </div>
-      <div class="field"><label>Description</label><textarea oninput="window.data.home.services[${i}].description=this.value">${s.description||''}</textarea></div>
+      <div class="field"><label>描述</label><textarea oninput="window.data.home.services[${i}].description=this.value">${s.description||''}</textarea></div>
     </div>`).join('');
 };
 window.addService = () => { window.data.home.services.push({title:'',description:'',iconClass:''}); renderServices(); };
@@ -1068,16 +1098,16 @@ window.addService = () => { window.data.home.services.push({title:'',description
 window.renderBts = () => {
   const items = window.data.home.behind_the_scenes || [];
   document.getElementById('bts-list').innerHTML = items.length === 0
-    ? '<div style="color:var(--muted);font-size:0.82rem">No images yet</div>'
+    ? '<div style="color:var(--muted);font-size:0.82rem">尚無圖片</div>'
     : items.map((b,i) => `
     <div class="list-item">
       <div class="list-item-header">
-        <span class="list-item-title">Behind the scenes ${i + 1}</span>
+        <span class="list-item-title">幕後照片 ${i + 1}</span>
         <button class="btn-icon danger" onclick="window.data.home.behind_the_scenes.splice(${i},1);renderBts()"><i class="fas fa-trash"></i></button>
       </div>
       <div class="field-row">
-        <div class="field"><label>Image</label><input value="${b.image||''}" oninput="window.data.home.behind_the_scenes[${i}].image=this.value"><input type="file" accept="image/*" onchange="uploadBtsImage(this,${i})" style="margin-top:8px"><div class="upload-status" data-upload-status="bts-${i}"></div></div>
-        <div class="field"><label>Caption</label><input value="${b.caption||''}" oninput="window.data.home.behind_the_scenes[${i}].caption=this.value"></div>
+        <div class="field"><label>圖片</label><input value="${b.image||''}" oninput="window.data.home.behind_the_scenes[${i}].image=this.value"><input type="file" accept="image/*" onchange="uploadBtsImage(this,${i})" style="margin-top:8px"><div class="upload-status" data-upload-status="bts-${i}"></div></div>
+        <div class="field"><label>說明文字</label><input value="${b.caption||''}" oninput="window.data.home.behind_the_scenes[${i}].caption=this.value"></div>
       </div>
       ${b.image?`<img class="img-preview" src="${b.image}" onerror="this.style.display='none'">`:''}
     </div>`).join('');
@@ -1106,11 +1136,11 @@ function renderWorks() {
     <div class="card works-card">
       <div class="card-title">
         <div class="list-header">
-          <div class="category-name"><i class="fas fa-folder"></i><input value="${category.name || ''}" placeholder="Category name" oninput="window.data.works.portfolio_categories[${categoryIndex}].name=this.value;schedulePreviewRefresh()"></div>
+          <div class="category-name"><i class="fas fa-folder"></i><input value="${category.name || ''}" placeholder="分類名稱" oninput="window.data.works.portfolio_categories[${categoryIndex}].name=this.value;schedulePreviewRefresh()"></div>
           <div class="list-item-actions">
-            <button class="btn-icon" onclick="moveWorkCategory(${categoryIndex},-1)" title="Move up"><i class="fas fa-chevron-up"></i></button>
-            <button class="btn-icon" onclick="moveWorkCategory(${categoryIndex},1)" title="Move down"><i class="fas fa-chevron-down"></i></button>
-            <button class="btn-add" onclick="addWork(${categoryIndex})"><i class="fas fa-plus"></i> Add work</button>
+            <button class="btn-icon" onclick="moveWorkCategory(${categoryIndex},-1)" title="上移"><i class="fas fa-chevron-up"></i></button>
+            <button class="btn-icon" onclick="moveWorkCategory(${categoryIndex},1)" title="下移"><i class="fas fa-chevron-down"></i></button>
+            <button class="btn-add" onclick="addWork(${categoryIndex})"><i class="fas fa-plus"></i> 新增作品</button>
             <button class="btn-icon danger" onclick="removeWorkCategory(${categoryIndex})" title="Delete category"><i class="fas fa-trash"></i></button>
           </div>
         </div>
@@ -1123,11 +1153,11 @@ function renderWorks() {
 window.renderWorkList = categoryIndex => {
   const items = window.data.works.portfolio_categories[categoryIndex].items;
   document.getElementById('list-category-' + categoryIndex).innerHTML = items.length === 0
-    ? '<div style="color:var(--muted);font-size:0.82rem">No works yet</div>'
+    ? '<div style="color:var(--muted);font-size:0.82rem">尚無作品</div>'
     : items.map((w, i) => `
     <div class="list-item">
       <div class="list-item-header">
-        <span class="list-item-title">${w.title || 'Untitled work'}</span>
+        <span class="list-item-title">${w.title || '未命名作品'}</span>
         <div class="list-item-actions">
           <button class="btn-icon" onclick="moveCategoryItem(${categoryIndex},${i},-1)"><i class="fas fa-chevron-up"></i></button>
           <button class="btn-icon" onclick="moveCategoryItem(${categoryIndex},${i},1)"><i class="fas fa-chevron-down"></i></button>
@@ -1135,7 +1165,7 @@ window.renderWorkList = categoryIndex => {
         </div>
       </div>
       <div class="field-row">
-        <div class="field"><label>Title</label><input value="${w.title || ''}" oninput="window.data.works.portfolio_categories[${categoryIndex}].items[${i}].title=this.value;schedulePreviewRefresh()"></div>
+        <div class="field"><label>標題</label><input value="${w.title || ''}" oninput="window.data.works.portfolio_categories[${categoryIndex}].items[${i}].title=this.value;schedulePreviewRefresh()"></div>
         <div class="field"><label>Client</label><input value="${w.client || ''}" oninput="window.data.works.portfolio_categories[${categoryIndex}].items[${i}].client=this.value;schedulePreviewRefresh()"></div>
       </div>
       <div class="field"><label>YouTube URL</label><input value="${w.link || ''}" placeholder="https://www.youtube.com/watch?v=..." oninput="window.data.works.portfolio_categories[${categoryIndex}].items[${i}].link=this.value;schedulePreviewRefresh()"></div>
@@ -1144,12 +1174,12 @@ window.renderWorkList = categoryIndex => {
 };
 window.addWorkCategory = () => {
   normalizeWorkCategories();
-  window.data.works.portfolio_categories.push({name:'New category', items:[]});
+  window.data.works.portfolio_categories.push({name:'新分類', items:[]});
   renderWorks();
   schedulePreviewRefresh();
 };
 window.removeWorkCategory = index => {
-  if (!confirm('Delete this category and all works inside it?')) return;
+  if (!confirm('確定刪除此分類與其中所有作品？')) return;
   window.data.works.portfolio_categories.splice(index, 1);
   renderWorks();
   schedulePreviewRefresh();
@@ -1237,22 +1267,44 @@ function scheduleStyleSave(prefix) {
     schedulePreviewRefresh();
     try {
       await setDoc(doc(db, 'pages', 'team'), window.data.team);
-      showToast('Style saved');
+      showToast('樣式已儲存');
     } catch (e) {
-      showToast('Style save failed: ' + e.message, 'error');
+      showToast('樣式儲存失敗：' + e.message, 'error');
     }
   }, 550);
 }
+
+function renderPhotoDeviceControls(index, member, target, device) {
+  const isMobile = device === 'mobile';
+  const previewAttr = target === 'team' ? 'data-team-photo-preview' : 'data-photo-preview';
+  const previewClass = target === 'team' ? 'team-photo-preview' : 'photo-adjust-preview';
+  const updateFn = target === 'team' ? 'updateTeamPhotoPreview' : 'updatePhotoPreview';
+  const title = isMobile ? '手機版照片位置' : '電腦版照片位置';
+  const ratio = isMobile ? '9:16 預覽' : (target === 'team' ? '團隊卡片預覽' : '詳細頁預覽');
+  return `
+    <div class="photo-device-card ${isMobile ? 'mobile' : 'desktop'}">
+      <div class="photo-device-title">${title}<span>${ratio}</span></div>
+      <div class="${previewClass}" ${previewAttr}="${index}" data-photo-device="${device}" style="--px:${getPhotoValue(member, device, 'x')}%;--py:${getPhotoValue(member, device, 'y')}%;--pz:${getPhotoValue(member, device, 'z')}" onpointerdown="startPhotoDrag(event,${index},'${device}')" onpointermove="dragPhoto(event)" onpointerup="endPhotoDrag()" onpointerleave="endPhotoDrag()">
+        ${member.avatar || member.image ? `<img src="${member.avatar || member.image}" alt="">` : ''}
+      </div>
+      <div class="field-row" style="margin-top:12px">
+        <div class="field"><label>左右位置</label><input id="member-photo-${device}-x-${index}" type="range" min="0" max="100" value="${getPhotoValue(member, device, 'x')}" oninput="setPhotoValue(window.data.team.members[${index}], '${device}', 'x', Number(this.value));this.nextElementSibling.textContent=this.value+'%';${updateFn}(${index},'${device}');schedulePreviewRefresh()"><div class="field-hint">${getPhotoValue(member, device, 'x')}%</div></div>
+        <div class="field"><label>上下位置</label><input id="member-photo-${device}-y-${index}" type="range" min="0" max="100" value="${getPhotoValue(member, device, 'y')}" oninput="setPhotoValue(window.data.team.members[${index}], '${device}', 'y', Number(this.value));this.nextElementSibling.textContent=this.value+'%';${updateFn}(${index},'${device}');schedulePreviewRefresh()"><div class="field-hint">${getPhotoValue(member, device, 'y')}%</div></div>
+      </div>
+      <div class="field"><label>縮放</label><input id="member-photo-${device}-z-${index}" type="range" min="1" max="1.8" step="0.05" value="${getPhotoValue(member, device, 'z')}" oninput="setPhotoValue(window.data.team.members[${index}], '${device}', 'z', Number(this.value));this.nextElementSibling.textContent=this.value+'x';${updateFn}(${index},'${device}');schedulePreviewRefresh()"><div class="field-hint">${getPhotoValue(member, device, 'z')}x</div></div>
+    </div>`;
+}
+
 window.renderMembers = () => {
   const items = window.data.team.members || [];
   document.getElementById('members-list').innerHTML = items.length === 0
-    ? '<div style="color:var(--muted);font-size:0.82rem">No team members yet</div>'
+    ? '<div style="color:var(--muted);font-size:0.82rem">尚無團隊成員</div>'
     : items.map((m, i) => `
     <div class="list-item">
       <div class="list-item-header">
         <div style="display:flex;align-items:center;gap:10px">
           ${m.avatar ? `<img class="img-preview" src="${m.avatar}" onerror="this.style.display='none'" style="border-radius:50%">` : ''}
-          <span class="list-item-title">${m.name || 'Untitled member'} ${m.role ? `<span style="color:var(--muted);font-weight:300;font-size:0.8rem">/ ${m.role}</span>` : ''}</span>
+          <span class="list-item-title">${m.name || '未命名成員'} ${m.role ? `<span style="color:var(--muted);font-weight:300;font-size:0.8rem">/ ${m.role}</span>` : ''}</span>
         </div>
         <div class="list-item-actions">
           <button class="btn-icon" onclick="moveArr('team','members',${i},-1);renderMembers();renderMemberPageList();schedulePreviewRefresh()"><i class="fas fa-chevron-up"></i></button>
@@ -1261,33 +1313,25 @@ window.renderMembers = () => {
         </div>
       </div>
       <div class="field-row">
-        <div class="field"><label>Name</label><input value="${m.name || ''}" oninput="window.data.team.members[${i}].name=this.value;renderMemberPageList();schedulePreviewRefresh()"></div>
-        <div class="field"><label>Role</label><input value="${m.role || ''}" oninput="window.data.team.members[${i}].role=this.value;schedulePreviewRefresh()"></div>
+        <div class="field"><label>姓名</label><input value="${m.name || ''}" oninput="window.data.team.members[${i}].name=this.value;renderMemberPageList();schedulePreviewRefresh()"></div>
+        <div class="field"><label>職稱</label><input value="${m.role || ''}" oninput="window.data.team.members[${i}].role=this.value;schedulePreviewRefresh()"></div>
       </div>
-      <div class="field"><label>Cover title</label><input value="${m.cover_title || ''}" placeholder="VISIONARY / STRATEGIST" oninput="window.data.team.members[${i}].cover_title=this.value;schedulePreviewRefresh()"></div>
-      <div class="photo-adjust-grid">
-        <div class="team-photo-preview" data-team-photo-preview="${i}" style="--px:${m.photo_x ?? 50}%;--py:${m.photo_y ?? 20}%;--pz:${m.photo_zoom ?? 1}">
-          ${m.avatar || m.image ? `<img src="${m.avatar || m.image}" alt="">` : ''}
-        </div>
-        <div>
-          <div class="field"><label>Photo URL / upload</label><input value="${m.avatar || m.image || ''}" oninput="window.data.team.members[${i}].avatar=this.value;window.data.team.members[${i}].image=this.value;updateTeamPhotoPreviewImage(${i},this.value);schedulePreviewRefresh()"><input type="file" accept="image/*" onchange="uploadMemberAvatar(this,${i})" style="margin-top:8px"><div class="upload-status" data-upload-status="member-${i}"></div></div>
-          <div class="field-row">
-            <div class="field"><label>Photo X</label><input type="range" min="0" max="100" value="${m.photo_x ?? 50}" oninput="window.data.team.members[${i}].photo_x=Number(this.value);this.nextElementSibling.textContent=this.value+'%';updateTeamPhotoPreview(${i});schedulePreviewRefresh()"><div class="field-hint">${m.photo_x ?? 50}%</div></div>
-            <div class="field"><label>Photo Y</label><input type="range" min="0" max="100" value="${m.photo_y ?? 20}" oninput="window.data.team.members[${i}].photo_y=Number(this.value);this.nextElementSibling.textContent=this.value+'%';updateTeamPhotoPreview(${i});schedulePreviewRefresh()"><div class="field-hint">${m.photo_y ?? 20}%</div></div>
-          </div>
-          <div class="field"><label>Photo zoom</label><input type="range" min="1" max="1.8" step="0.05" value="${m.photo_zoom ?? 1}" oninput="window.data.team.members[${i}].photo_zoom=Number(this.value);this.nextElementSibling.textContent=this.value+'x';updateTeamPhotoPreview(${i});schedulePreviewRefresh()"><div class="field-hint">${m.photo_zoom ?? 1}x</div></div>
-        </div>
+      <div class="field"><label>封面標題</label><input value="${m.cover_title || ''}" placeholder="VISIONARY / STRATEGIST" oninput="window.data.team.members[${i}].cover_title=this.value;schedulePreviewRefresh()"></div>
+      <div class="field"><label>照片 URL / 上傳</label><input value="${m.avatar || m.image || ''}" oninput="window.data.team.members[${i}].avatar=this.value;window.data.team.members[${i}].image=this.value;updateTeamPhotoPreviewImage(${i},this.value);schedulePreviewRefresh()"><input type="file" accept="image/*" onchange="uploadMemberAvatar(this,${i})" style="margin-top:8px"><div class="upload-status" data-upload-status="member-${i}"></div></div>
+      <div class="photo-device-grid">
+        ${renderPhotoDeviceControls(i, m, 'team', 'desktop')}
+        ${renderPhotoDeviceControls(i, m, 'team', 'mobile')}
       </div>
-      <div class="field"><label>Short bio</label><textarea oninput="window.data.team.members[${i}].bio=this.value;schedulePreviewRefresh()">${m.bio || ''}</textarea></div>
-      <div class="field"><label>Member full bio / links</label><textarea style="min-height:160px" oninput="window.data.team.members[${i}].full_bio=this.value;schedulePreviewRefresh()">${m.full_bio || ''}</textarea></div>
+      <div class="field"><label>簡短介紹</label><textarea oninput="window.data.team.members[${i}].bio=this.value;schedulePreviewRefresh()">${m.bio || ''}</textarea></div>
+      <div class="field"><label>完整介紹 / 連結</label><textarea style="min-height:160px" oninput="window.data.team.members[${i}].full_bio=this.value;schedulePreviewRefresh()">${m.full_bio || ''}</textarea></div>
       <div class="field-row">
-        <div class="field"><label>Instagram URL</label><input value="${m.ig_url || ''}" oninput="window.data.team.members[${i}].ig_url=this.value;schedulePreviewRefresh()"></div>
-        <div class="field"><label>Portfolio URL</label><input value="${m.portfolio_url || ''}" oninput="window.data.team.members[${i}].portfolio_url=this.value;schedulePreviewRefresh()"></div>
+        <div class="field"><label>Instagram 網址</label><input value="${m.ig_url || ''}" oninput="window.data.team.members[${i}].ig_url=this.value;schedulePreviewRefresh()"></div>
+        <div class="field"><label>作品集網址</label><input value="${m.portfolio_url || ''}" oninput="window.data.team.members[${i}].portfolio_url=this.value;schedulePreviewRefresh()"></div>
       </div>
     </div>`).join('');
 };
 window.addMember = () => {
-  window.data.team.members.push({name:'', role:'', cover_title:'', avatar:'', image:'', bio:'', full_bio:'', ig_url:'', portfolio_url:'', photo_x:50, photo_y:20, photo_zoom:1});
+  window.data.team.members.push({name:'', role:'', cover_title:'', avatar:'', image:'', bio:'', full_bio:'', ig_url:'', portfolio_url:'', photo_x:50, photo_y:20, photo_zoom:1, photo_mobile_x:50, photo_mobile_y:20, photo_mobile_zoom:1});
   renderMembers();
   renderMemberPageList();
   schedulePreviewRefresh();
@@ -1298,33 +1342,25 @@ function renderMemberPageList() {
   const el = document.getElementById('member-page-list');
   if (!el) return;
   el.innerHTML = items.length === 0
-    ? '<div style="color:var(--muted);font-size:0.82rem">No team members yet</div>'
+    ? '<div style="color:var(--muted);font-size:0.82rem">尚無團隊成員</div>'
     : items.map((m, i) => `
     <div class="list-item">
       <div class="list-item-header">
         <div style="display:flex;align-items:center;gap:10px">
           ${m.avatar || m.image ? `<img class="img-preview" src="${m.avatar || m.image}" onerror="this.style.display='none'" style="border-radius:6px">` : ''}
-          <span class="list-item-title">${m.name || 'Untitled member'} / Member page</span>
+          <span class="list-item-title">${m.name || '未命名成員'} / 成員頁</span>
         </div>
       </div>
-      <div class="photo-adjust-grid">
-        <div class="photo-adjust-preview" data-photo-preview="${i}" style="--px:${m.photo_x ?? 50}%;--py:${m.photo_y ?? 20}%;--pz:${m.photo_zoom ?? 1}" onpointerdown="startPhotoDrag(event,${i})" onpointermove="dragPhoto(event)" onpointerup="endPhotoDrag()" onpointerleave="endPhotoDrag()">
-          ${m.avatar || m.image ? `<img src="${m.avatar || m.image}" alt="">` : ''}
-        </div>
-        <div>
-          <div class="field"><label>Member photo URL / upload</label><input value="${m.avatar || m.image || ''}" oninput="window.data.team.members[${i}].avatar=this.value;window.data.team.members[${i}].image=this.value;updatePhotoPreviewImage(${i},this.value);renderMemberPageList();schedulePreviewRefresh()"><input type="file" accept="image/*" onchange="uploadMemberAvatar(this,${i})" style="margin-top:8px"><div class="upload-status" data-upload-status="member-${i}"></div></div>
-          <div class="field-row">
-            <div class="field"><label>Photo X</label><input id="member-photo-x-${i}" type="range" min="0" max="100" value="${m.photo_x ?? 50}" oninput="window.data.team.members[${i}].photo_x=Number(this.value);this.nextElementSibling.textContent=this.value+'%';updatePhotoPreview(${i});schedulePreviewRefresh()"><div class="field-hint">${m.photo_x ?? 50}%</div></div>
-            <div class="field"><label>Photo Y</label><input id="member-photo-y-${i}" type="range" min="0" max="100" value="${m.photo_y ?? 20}" oninput="window.data.team.members[${i}].photo_y=Number(this.value);this.nextElementSibling.textContent=this.value+'%';updatePhotoPreview(${i});schedulePreviewRefresh()"><div class="field-hint">${m.photo_y ?? 20}%</div></div>
-          </div>
-          <div class="field"><label>Photo zoom</label><input type="range" min="1" max="1.8" step="0.05" value="${m.photo_zoom ?? 1}" oninput="window.data.team.members[${i}].photo_zoom=Number(this.value);this.nextElementSibling.textContent=this.value+'x';updatePhotoPreview(${i});schedulePreviewRefresh()"><div class="field-hint">${m.photo_zoom ?? 1}x</div></div>
-        </div>
+      <div class="field"><label>成員照片 URL / 上傳</label><input value="${m.avatar || m.image || ''}" oninput="window.data.team.members[${i}].avatar=this.value;window.data.team.members[${i}].image=this.value;updatePhotoPreviewImage(${i},this.value);renderMemberPageList();schedulePreviewRefresh()"><input type="file" accept="image/*" onchange="uploadMemberAvatar(this,${i})" style="margin-top:8px"><div class="upload-status" data-upload-status="member-${i}"></div></div>
+      <div class="photo-device-grid">
+        ${renderPhotoDeviceControls(i, m, 'member', 'desktop')}
+        ${renderPhotoDeviceControls(i, m, 'member', 'mobile')}
       </div>
-      <div class="field"><label>Member full bio / links</label><textarea style="min-height:220px" oninput="window.data.team.members[${i}].full_bio=this.value;schedulePreviewRefresh()">${m.full_bio || ''}</textarea></div>
+      <div class="field"><label>完整介紹 / 連結</label><textarea style="min-height:220px" oninput="window.data.team.members[${i}].full_bio=this.value;schedulePreviewRefresh()">${m.full_bio || ''}</textarea></div>
     </div>`).join('');
 }
 
-// Member preview selector
+// 成員 preview selector
 const baseRenderMemberPageList = renderMemberPageList;
 renderMemberPageList = function() {
   baseRenderMemberPageList();
@@ -1340,7 +1376,7 @@ function injectMemberPreviewSelector() {
   if (oldSelector) oldSelector.remove();
   const selector = document.createElement('div');
   selector.className = 'preview-member-select';
-  selector.innerHTML = `<span>Preview member</span>${items.map((m,i)=>`<button type="button" class="preview-member-btn ${i === currentPreviewMemberIndex ? 'active' : ''}" data-member-preview-index="${i}">${m.name || `Member ${i + 1}`}</button>`).join('')}`;
+  selector.innerHTML = `<span>預覽成員</span>${items.map((m,i)=>`<button type="button" class="preview-member-btn ${i === currentPreviewMemberIndex ? 'active' : ''}" data-member-preview-index="${i}">${m.name || `成員 ${i + 1}`}</button>`).join('')}`;
   el.prepend(selector);
   selector.querySelectorAll('[data-member-preview-index]').forEach(btn => {
     btn.addEventListener('click', () => setPreviewMember(Number(btn.dataset.memberPreviewIndex)));
@@ -1386,7 +1422,7 @@ window.saveCurrentPanel = async () => {
   const panel = window.currentPanel;
   if(panel==='dashboard') return;
   const btn = document.getElementById('btn-save');
-  btn.disabled=true; btn.innerHTML='<div class="spinner"></div> Saving...';
+  btn.disabled=true; btn.innerHTML='<div class="spinner"></div> 儲存中...';
 
   if(panel==='home') {
     ['hero_text','logo','hero_video','hero_video_mobile'].forEach(k=>{
@@ -1426,12 +1462,12 @@ window.saveCurrentPanel = async () => {
       window.data[panel] = stripVolatileImageUrls(window.data[panel]);
       await setDoc(doc(db,'pages',panel), window.data[panel]);
     }
-    showToast('Saved and preview updated');
+    showToast('\u5df2\u5132\u5b58\u4e26\u66f4\u65b0\u9810\u89bd');
     updateStats();
     syncPreviewCache();
     refreshPreview();
-  } catch(e) { showToast('Save failed: ' + e.message, 'error'); }
-  btn.disabled=false; btn.innerHTML='<i class="fas fa-save"></i> Save changes';
+  } catch(e) { showToast('\u5132\u5b58\u5931\u6557\uff1a' + e.message, 'error'); }
+  btn.disabled=false; btn.innerHTML='<i class="fas fa-save"></i> \u5132\u5b58\u8b8a\u66f4';
 };
 
 // Stats
@@ -1446,13 +1482,13 @@ function updateStats() {
 
 // Navigation and preview
 const panelTitles = {
-  dashboard: 'Dashboard',
-  home: 'Home',
-  works: 'Works',
-  team: 'Team',
-  member: 'Member Page',
-  about: 'About',
-  contact: 'Contact'
+  dashboard: '\u7e3d\u89bd',
+  home: '\u9996\u9801',
+  works: '\u4f5c\u54c1',
+  team: '\u5718\u968a',
+  member: '\u6210\u54e1\u9801',
+  about: '\u95dc\u65bc',
+  contact: '\u806f\u7d61'
 };
 const previewPages = {dashboard:'index.html',home:'index.html',works:'works.html',team:'team.html',member:'member.html',about:'about.html',contact:'contact.html'};
 function getPreviewPage(panel) {

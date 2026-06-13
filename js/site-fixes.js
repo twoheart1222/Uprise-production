@@ -256,7 +256,7 @@
 
       window.setTimeout(function () {
         window.location.href = destination;
-      }, prefersReducedMotion ? 0 : 760);
+      }, prefersReducedMotion ? 0 : 360);
     }, true);
 
     window.addEventListener('pageshow', function () {

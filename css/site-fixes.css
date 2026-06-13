@@ -226,7 +226,7 @@ button,
     linear-gradient(135deg, rgba(255, 215, 0, 0.08), transparent 36%),
     linear-gradient(90deg, #020202, rgba(8, 8, 8, 0.98));
   box-shadow: 0 0 54px rgba(0, 0, 0, 0.7);
-  transition: transform 0.76s cubic-bezier(0.19, 1, 0.22, 1);
+  transition: transform 0.36s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.36s cubic-bezier(0.19, 1, 0.22, 1);
   will-change: transform;
   z-index: 1;
 }
@@ -245,9 +245,8 @@ button,
 
 #main-wrapper {
   transition:
-    opacity 0.42s cubic-bezier(0.19, 1, 0.22, 1),
-    filter 0.42s cubic-bezier(0.19, 1, 0.22, 1),
-    transform 0.42s cubic-bezier(0.19, 1, 0.22, 1) !important;
+    opacity 0.26s cubic-bezier(0.19, 1, 0.22, 1),
+    transform 0.26s cubic-bezier(0.19, 1, 0.22, 1) !important;
 }
 
 body.exiting .page-transition-curtain {
@@ -271,12 +270,11 @@ body.exiting .page-transition-curtain::after {
   max-width: min(240px, 48vw);
   object-fit: contain;
   opacity: 0;
-  transform: translate(-50%, -42%) scale(0.94);
-  filter: blur(8px);
+  transform: translate(-50%, -48%) scale(0.98);
+  filter: none;
   transition:
-    opacity 0.34s cubic-bezier(0.19, 1, 0.22, 1) 0.2s,
-    transform 0.58s cubic-bezier(0.19, 1, 0.22, 1) 0.2s,
-    filter 0.58s cubic-bezier(0.19, 1, 0.22, 1) 0.2s;
+    opacity 0.18s cubic-bezier(0.19, 1, 0.22, 1) 0.08s,
+    transform 0.28s cubic-bezier(0.19, 1, 0.22, 1) 0.08s;
 }
 
 body.exiting .page-transition-logo {
@@ -286,9 +284,8 @@ body.exiting .page-transition-logo {
 }
 
 body.exiting #main-wrapper {
-  opacity: 0.28 !important;
-  filter: saturate(0.82) brightness(0.62) !important;
-  transform: scale(0.985) !important;
+  opacity: 0.55 !important;
+  transform: scale(0.992) !important;
 }
 
 body.internal-navigation .loader {
@@ -570,9 +567,31 @@ body.uprise-editorial .success-card > :not(.uprise-hero-word) {
 body.uprise-editorial .hero-title,
 body.uprise-editorial .page-title,
 body.uprise-editorial .page-main-title {
+  font-family: var(--font-serif, "Noto Serif TC", serif) !important;
+  color: #f6f1e8 !important;
+  background: none !important;
+  background-clip: border-box !important;
+  -webkit-background-clip: border-box !important;
+  -webkit-text-fill-color: #f6f1e8 !important;
   letter-spacing: 0.04em !important;
-  text-shadow: 0 20px 64px rgba(0, 0, 0, 0.62);
+  text-shadow:
+    0 20px 64px rgba(0, 0, 0, 0.62),
+    0 0 28px rgba(216, 168, 79, 0.12);
   filter: none !important;
+}
+
+body.uprise-editorial .section-title,
+body.uprise-editorial .block-title,
+body.uprise-editorial .category-title,
+body.uprise-editorial .footer h2,
+body.uprise-editorial .member-name,
+body.uprise-editorial .work-title {
+  font-family: var(--font-serif, "Noto Serif TC", serif) !important;
+  color: #f6f1e8 !important;
+  background: none !important;
+  -webkit-background-clip: border-box !important;
+  background-clip: border-box !important;
+  -webkit-text-fill-color: #f6f1e8 !important;
 }
 
 body.uprise-editorial .hero-title {
@@ -789,6 +808,12 @@ body.uprise-editorial .member-image-wrap {
 
 body.uprise-editorial .member-img {
   object-position: center 22%;
+}
+
+body.uprise-editorial .people-stage .member-img,
+body.uprise-editorial .people-stage .member-card.featured-card .member-img {
+  object-position: var(--photo-x, 50%) var(--photo-y, 20%) !important;
+  transform: scale(var(--photo-zoom, 1.02)) !important;
 }
 
 body.uprise-editorial .contact-container {
@@ -1123,6 +1148,22 @@ img {
   body.uprise-editorial .hero-title,
   body.uprise-editorial .page-main-title {
     font-size: clamp(3.4rem, 18vw, 5.4rem) !important;
+  }
+
+  body.uprise-editorial .people-stage .member-img,
+  body.uprise-editorial .people-stage .member-card.featured-card .member-img {
+    object-position: var(--photo-mobile-x, var(--photo-x, 50%)) var(--photo-mobile-y, var(--photo-y, 20%)) !important;
+    transform: scale(calc(var(--photo-mobile-zoom, var(--photo-zoom, 1.02)) + .08)) !important;
+  }
+
+  body.uprise-editorial .member-detail-section .profile-img {
+    object-position: var(--member-photo-mobile-x, var(--member-photo-x, 50%)) var(--member-photo-mobile-y, var(--member-photo-y, 20%)) !important;
+    transform: scale(calc(var(--member-photo-mobile-zoom, var(--member-photo-zoom, 1)) + .08)) !important;
+  }
+
+  body.uprise-editorial .member-detail-section .photo-frame.fashion-visible .profile-img,
+  body.uprise-editorial .member-detail-section .photo-section.aos-animate .profile-img {
+    animation: none !important;
   }
 
 }

@@ -25,10 +25,10 @@
 
 <style>
   /* --- 核心變數 --- */
-  :root { 
-    --bg-color: #050505; --card-bg: rgba(20, 20, 20, 0.4); 
-    --text-main: #FFFFFF; --text-sub: #B0B0B0; 
-    --brand-primary: #FF8C00; --brand-light: #FFD700; 
+  :root {
+    --bg-color: #050505; --card-bg: rgba(20, 20, 20, 0.4);
+    --text-main: #FFFFFF; --text-sub: #B0B0B0;
+    --brand-primary: #FF8C00; --brand-light: #FFD700;
     --brand-gradient: linear-gradient(135deg, #FFD700, #FF8C00);
     --silver-gradient: linear-gradient(to bottom, #ffffff 40%, #a0a0a0 100%);
     --font-display: 'Italiana', serif; --font-body: 'Noto Sans TC', sans-serif; --font-serif: 'Noto Serif TC', serif;
@@ -43,7 +43,7 @@
   ::-webkit-scrollbar-thumb:hover { background: var(--brand-primary); }
   ::selection { background: var(--brand-light); color: #000; }
   body { margin: 0; padding: 0; font-family: var(--font-body); background-color: var(--bg-color); color: var(--text-main); overflow-x: hidden; -webkit-font-smoothing: antialiased; }
-  
+
   /* 禁止圖片拖曳，但允許點擊穿透 */
   img { -webkit-user-drag: none; pointer-events: none; }
 
@@ -60,18 +60,18 @@
   .loader.hidden { opacity: 0; visibility: hidden; }
   /* Logo 動畫 */
   .loader-logo-img { width: auto; height: 70px; max-width: 200px; object-fit: contain; opacity: 0; transform: scale(0.9); filter: blur(8px); animation: loaderReveal 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
-  @keyframes loaderReveal { 
-    0%   { opacity: 0; transform: scale(0.9); filter: blur(8px); } 
+  @keyframes loaderReveal {
+    0%   { opacity: 0; transform: scale(0.9); filter: blur(8px); }
     40%  { opacity: 1; transform: scale(1);   filter: blur(0); }
     80%  { opacity: 1; transform: scale(1);   filter: blur(0); }
-    100% { opacity: 0; transform: scale(1.05); filter: blur(4px); } 
+    100% { opacity: 0; transform: scale(1.05); filter: blur(4px); }
   }
 
   /* 游標 */
   .cursor { position: fixed; top: 0; left: 0; width: 12px; height: 12px; background: var(--brand-light); border-radius: 50%; pointer-events: none; z-index: 2147483647; transform: translate(-50%, -50%); box-shadow: 0 0 15px rgba(255, 215, 0, 0.9); transition: width 0.3s, height 0.3s; will-change: transform; }
   body.hovered .cursor { width: 60px; height: 60px; background: rgba(255, 215, 0, 0.05); border: 1px solid rgba(255, 215, 0, 0.8); box-shadow: 0 0 30px rgba(255, 215, 0, 0.4); }
   body.clicking .cursor { transform: translate(-50%, -50%) scale(0.9); background: var(--brand-primary); }
-  
+
   /* 環境 */
   .ambient-light { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; overflow: hidden; }
   .ambient-blob { position: absolute; width: 900px; height: 900px; background: radial-gradient(circle, rgba(255, 140, 0, 0.04) 0%, transparent 60%); border-radius: 50%; filter: blur(80px); opacity: 0.5; animation: moveBlob 25s infinite alternate ease-in-out; }
@@ -87,7 +87,7 @@
   .logo { display: flex; align-items: center; gap: 12px; text-decoration: none; color: #fff; }
   .logo img { height: 38px; width: auto; max-width: 140px; transition: transform 0.5s; object-fit: contain; }
   .logo:hover img { transform: rotate(5deg) scale(1.05); }
-  .nav { display: flex; gap: 30px; } 
+  .nav { display: flex; gap: 30px; }
   .nav-item { position: relative; overflow: hidden; height: 24px; cursor: pointer; display: block; color: rgba(255,255,255,0.8); font-family: var(--font-body); font-size: 0.95rem; letter-spacing: 2px; font-weight: 500; text-decoration: none; }
   .nav-item span { display: block; transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1); }
   .nav-item .hover-text { position: absolute; top: 100%; left: 0; width: 100%; color: var(--brand-light); }
@@ -135,41 +135,41 @@
 
   /* Team Grid */
   .team-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 50px; max-width: 1200px; margin: 0 auto 100px; padding: 0 40px; position: relative; z-index: 10; }
-  
+
   /* Member Card - 互動設定 */
-  .member-card { 
-    background: var(--card-bg); 
-    border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 12px; 
-    transition: 0.4s var(--ease-out-expo); 
-    position: relative; backdrop-filter: blur(10px); 
-    display: flex; flex-direction: column; align-items: center; text-align: center; 
-    padding: 50px 30px; 
+  .member-card {
+    background: var(--card-bg);
+    border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 12px;
+    transition: 0.4s var(--ease-out-expo);
+    position: relative; backdrop-filter: blur(10px);
+    display: flex; flex-direction: column; align-items: center; text-align: center;
+    padding: 50px 30px;
     cursor: pointer; /* 🔴 強制顯示手型游標 */
   }
-  
+
   .member-image-wrap { width: 180px; height: 180px; border-radius: 50%; overflow: hidden; position: relative; border: 3px solid transparent; background: linear-gradient(135deg, #333, #111) padding-box, var(--brand-gradient) border-box; margin-bottom: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); transition: transform 0.4s; }
-  
-  .member-img { 
-    width: 100%; height: 100%; 
-    object-fit: cover; object-position: center 25%; 
-    filter: none; transition: transform 0.8s; 
+
+  .member-img {
+    width: 100%; height: 100%;
+    object-fit: cover; object-position: center 25%;
+    filter: none; transition: transform 0.8s;
   }
-  
+
   .member-info { width: 100%; }
   .member-name { font-family: var(--font-serif); font-size: 1.8rem; color: #fff; margin: 0 0 10px; font-weight: 700; letter-spacing: 1px; }
   .member-role { font-family: var(--font-body); font-size: 0.85rem; color: var(--brand-light); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 20px; display: block; font-weight: 600; }
-  
-  .member-bio { 
-    font-family: var(--font-body); font-size: 0.95rem; color: #aaa; line-height: 1.8; margin-bottom: 30px; 
+
+  .member-bio {
+    font-family: var(--font-body); font-size: 0.95rem; color: #aaa; line-height: 1.8; margin-bottom: 30px;
     white-space: pre-wrap; /* 支援後台換行 */
   }
-  
+
   .action-row { display: flex; gap: 15px; justify-content: center; align-items: center; }
   .portfolio-link { font-size: 0.85rem; color: #000; text-decoration: none; background: var(--brand-gradient); padding: 10px 24px; border-radius: 50px; font-weight: 600; letter-spacing: 1px; transition: 0.3s; display: inline-flex; align-items: center; justify-content: center; }
   .portfolio-link:hover { box-shadow: 0 0 20px rgba(255, 140, 0, 0.6); transform: translateY(-2px); filter: brightness(1.1); }
   .portfolio-link.ig-btn { background: transparent; border: 1px solid rgba(255, 255, 255, 0.2); color: rgba(255, 255, 255, 0.8); }
   .portfolio-link.ig-btn:hover { background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); border-color: transparent; color: #fff; box-shadow: 0 0 20px rgba(220, 39, 67, 0.6); }
-  
+
   .member-card:hover { transform: translateY(-10px); box-shadow: 0 20px 60px rgba(0,0,0,0.6); border-color: rgba(255, 183, 0, 0.4); background: rgba(30, 30, 30, 0.6); }
   .member-card:hover .member-image-wrap { transform: scale(1.05); box-shadow: 0 0 30px rgba(255, 140, 0, 0.3); }
   .member-card:hover .member-img { transform: scale(1.1); }
@@ -185,14 +185,14 @@
 
   @media (max-width: 768px) {
     .cursor { display: none; }
-    .header { padding: 20px; } .nav { display: none; } 
+    .header { padding: 20px; } .nav { display: none; }
     .hamburger { display: flex; }
     .team-hero { padding-top: 140px; } .page-title { font-size: 3rem; }
     .footer h2 { font-size: 2.5rem; letter-spacing: 5px; }
     .member-card { max-width: 350px; margin: 0 auto; }
   }
 </style>
-<link rel="stylesheet" href="css/site-fixes.css?v=sync-20260613ux5">
+<link rel="stylesheet" href="css/site-fixes.css?v=sync-20260613ux6">
 <style>
   /* Magazine cover direction */
   body.uprise-editorial {
@@ -1144,6 +1144,11 @@
       opacity: 1;
       filter: none;
     }
+    .people-stage .member-img,
+    .people-stage .member-card.featured-card .member-img {
+      object-position: var(--photo-mobile-x, var(--photo-x, 50%)) var(--photo-mobile-y, var(--photo-y, 18%));
+      transform: scale(calc(var(--photo-mobile-zoom, var(--photo-zoom, 1.02)) + .14));
+    }
   }
 </style>
 
@@ -1152,11 +1157,11 @@
 
   <div class="page-transition-curtain"></div>
   <div class="cursor"></div>
-  
+
   <div class="loader">
     <img src="siteicon.png" class="loader-logo-img" alt="Uprise">
   </div>
-  
+
   <div class="ambient-light"><div class="ambient-blob"></div><div class="ambient-blob"></div></div>
   <div class="particles-container" id="particles"></div>
 
@@ -1181,7 +1186,7 @@
         <img src="siteicon.png" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'" alt="Logo">
         <span class="logo-text" style="display:none;">Uprise<span>.</span></span>
       </a>
-      
+
       <nav class="nav">
         <a href="index.html" class="nav-item hover-trigger page-link"><span class="original-text">首頁</span><span class="hover-text">首頁</span></a>
         <a href="works.html" class="nav-item hover-trigger page-link"><span class="original-text">作品</span><span class="hover-text">作品</span></a>
@@ -1327,7 +1332,7 @@
     async function loadFirestorePage(pageName) {
         try {
             if (window.loadFirebasePage) return await window.loadFirebasePage(pageName);
-            const module = await import('./admin/firebase-frontend-loader.js?v=sync-20260613ux5');
+            const module = await import('./admin/firebase-frontend-loader.js?v=sync-20260613ux6');
             return await module.loadFirebasePage(pageName);
         } catch (error) {
             console.warn(`[Firebase] ${pageName} fallback to markdown`, error);
@@ -1339,7 +1344,7 @@
         try {
             const params = new URLSearchParams(window.location.search);
             if (params.has('preview')) return;
-            const module = await import('./admin/firebase-frontend-loader.js?v=sync-20260613ux5');
+            const module = await import('./admin/firebase-frontend-loader.js?v=sync-20260613ux6');
             const subscribe = window.subscribeFirebasePage || module.subscribeFirebasePage;
             if (typeof subscribe === 'function') {
                 subscribe('team', data => {
@@ -1389,7 +1394,7 @@
         if (data.subtitle) document.getElementById('page-subtitle').innerText = data.subtitle;
 
         const container = document.getElementById('team-container');
-        container.innerHTML = ''; 
+        container.innerHTML = '';
 
         if (data.members && data.members.length > 0) {
             data.members.forEach((m, index) => {
@@ -1404,7 +1409,7 @@
                 card.dataset.index = index;
                 card.setAttribute('data-aos', 'fade-up');
                 card.setAttribute('data-aos-delay', index * 100);
-                
+
                 card.onclick = function() {
                     if (index !== activePeopleIndex) {
                         setFeaturedPerson(index, true);
@@ -1412,10 +1417,10 @@
                     }
                     window.location.href = `member.html?id=${index}`;
                 };
-                
+
                 card.innerHTML = `
                     <span class="member-cover-kicker">COVER STORY</span>
-                    <div class="member-image-wrap" data-cover-title="${coverTitle}" style="--photo-x:${m.photo_x ?? 50}%;--photo-y:${m.photo_y ?? 20}%;--photo-zoom:${m.photo_zoom ?? 1.02}"><img src="${avatar}" class="member-img" alt="${m.name}" onerror="console.warn('Team image failed:', this.src); this.src='https://dummyimage.com/400x500/333/fff&text=No+Img';"></div>
+                    <div class="member-image-wrap" data-cover-title="${coverTitle}" style="--photo-x:${m.photo_x ?? 50}%;--photo-y:${m.photo_y ?? 20}%;--photo-zoom:${m.photo_zoom ?? 1.02};--photo-mobile-x:${m.photo_mobile_x ?? m.photo_x ?? 50}%;--photo-mobile-y:${m.photo_mobile_y ?? m.photo_y ?? 20}%;--photo-mobile-zoom:${m.photo_mobile_zoom ?? m.photo_zoom ?? 1.02}"><img src="${avatar}" class="member-img" alt="${m.name}" onerror="console.warn('Team image failed:', this.src); this.src='https://dummyimage.com/400x500/333/fff&text=No+Img';"></div>
                     <div class="member-info">
                         <h3 class="member-name">${m.name}</h3><span class="member-role">${m.role}</span>
                         <div class="member-bio">${m.bio || ''}</div>
@@ -1426,7 +1431,7 @@
             activePeopleIndex = 0;
             setFeaturedPerson(activePeopleIndex, false);
         } else { container.innerHTML = '<p style="text-align:center; color:#666;">尚無成員資料。</p>'; }
-        
+
         setTimeout(() => { AOS.refresh(); initMagneticButtons(); }, 100);
         initPeopleWheel();
     }
@@ -1533,7 +1538,7 @@
         if(footerMark) { const footerOffset = document.querySelector('footer').offsetTop; if(window.scrollY > footerOffset - window.innerHeight) { const delta = window.scrollY - (footerOffset - window.innerHeight); footerMark.style.transform = `translate(-50%, -50%) translateY(${delta * -0.1}px)`; } }
     });
   </script>
-<script type="module" src="admin/firebase-frontend-loader.js?v=sync-20260613ux5"></script>
-<script src="js/site-fixes.js?v=sync-20260613ux5" defer></script>
+<script type="module" src="admin/firebase-frontend-loader.js?v=sync-20260613ux6"></script>
+<script src="js/site-fixes.js?v=sync-20260613ux6" defer></script>
 </body>
 </html>

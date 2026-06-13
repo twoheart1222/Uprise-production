@@ -206,8 +206,8 @@
   body.uprise-interactive-pending main { visibility: hidden !important; opacity: 0 !important; }
   body.uprise-interactive-ready main { visibility: visible; opacity: 1; transition: none !important; }
 </style>
-<link rel="stylesheet" href="css/site-fixes.css?v=sync-20260613ux5">
-<link rel="stylesheet" href="css/interactive-pages.css?v=sync-20260613ux5">
+<link rel="stylesheet" href="css/site-fixes.css?v=sync-20260613ux6">
+<link rel="stylesheet" href="css/interactive-pages.css?v=sync-20260613ux6">
 </head>
 <body class="loading-state uprise-interactive-pending">
 
@@ -352,7 +352,7 @@
     async function loadFirestorePage(pageName) {
         try {
             if (window.loadFirebasePage) return await window.loadFirebasePage(pageName);
-            const module = await import('./admin/firebase-frontend-loader.js?v=sync-20260613ux5');
+            const module = await import('./admin/firebase-frontend-loader.js?v=sync-20260613ux6');
             return await module.loadFirebasePage(pageName);
         } catch (error) {
             console.warn(`[Firebase] ${pageName} fallback to markdown`, error);
@@ -456,8 +456,8 @@
         if(footerMark) { const footerOffset = document.querySelector('footer').offsetTop; if(window.scrollY > footerOffset - window.innerHeight) { const delta = window.scrollY - (footerOffset - window.innerHeight); footerMark.style.transform = `translate(-50%, -50%) translateY(${delta * -0.1}px)`; } }
     });
   </script>
-<script type="module" src="admin/firebase-frontend-loader.js?v=sync-20260613ux5"></script>
-<script src="js/site-fixes.js?v=sync-20260613ux5" defer></script>
-<script src="js/interactive-pages.js?v=sync-20260613ux5" defer></script>
+<script type="module" src="admin/firebase-frontend-loader.js?v=sync-20260613ux6"></script>
+<script src="js/site-fixes.js?v=sync-20260613ux6" defer></script>
+<script src="js/interactive-pages.js?v=sync-20260613ux6" defer></script>
 </body>
 </html>

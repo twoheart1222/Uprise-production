@@ -91,18 +91,19 @@
   }
 
   function getPageMeta() {
-    var page = (window.location.pathname.split('/').pop() || 'index.html').toLowerCase();
+    var rawPage = (window.location.pathname.replace(/\/+$/, '').split('/').pop() || 'index').toLowerCase();
+    var page = rawPage.replace(/\.html?$/, '') || 'index';
     var map = {
-      'index.html': { key: 'home', rail: 'HOME', word: 'UPRISE', kicker: 'Cinematic Production' },
-      'works.html': { key: 'works', rail: 'WORKS', word: 'WORKS', kicker: 'Selected Films' },
-      'team.html': { key: 'team', rail: 'TEAM', word: 'CREW', kicker: 'Behind The Lens' },
-      'about.html': { key: 'about', rail: 'ABOUT', word: 'STORY', kicker: 'Studio Profile' },
-      'contact.html': { key: 'contact', rail: 'CONTACT', word: 'BRIEF', kicker: 'Start A Project' },
-      'member.html': { key: 'member', rail: 'PROFILE', word: 'PROFILE', kicker: 'Film Profile' },
-      'success.html': { key: 'success', rail: 'SENT', word: 'SENT', kicker: 'Message Received' }
+      index: { key: 'home', rail: 'HOME', word: 'UPRISE', kicker: 'Cinematic Production' },
+      works: { key: 'works', rail: 'WORKS', word: 'WORKS', kicker: 'Selected Films' },
+      team: { key: 'team', rail: 'TEAM', word: 'CREW', kicker: 'Behind The Lens' },
+      about: { key: 'about', rail: 'ABOUT', word: 'STORY', kicker: 'Studio Profile' },
+      contact: { key: 'contact', rail: 'CONTACT', word: 'BRIEF', kicker: 'Start A Project' },
+      member: { key: 'member', rail: 'PROFILE', word: 'PROFILE', kicker: 'Film Profile' },
+      success: { key: 'success', rail: 'SENT', word: 'SENT', kicker: 'Message Received' }
     };
 
-    return map[page] || map['index.html'];
+    return map[page] || map.index;
   }
 
   function getHeroElement() {
@@ -147,6 +148,45 @@
         hero.appendChild(word);
       }
     }
+  }
+
+  function initActionDock() {
+    if (document.querySelector('.uprise-action-dock')) return;
+
+    var meta = getPageMeta();
+    var dock = document.createElement('nav');
+    dock.className = 'uprise-action-dock';
+    dock.setAttribute('aria-label', '快速操作');
+
+    var links = [
+      { key: 'works', label: '作品', href: 'works.html' },
+      { key: 'about', label: '關於', href: 'about.html' },
+      { key: 'contact', label: '聯絡', href: 'contact.html', primary: true }
+    ];
+
+    links.forEach(function (item) {
+      var link = document.createElement('a');
+      link.className = 'page-link uprise-dock-link' + (item.primary ? ' is-primary' : '');
+      link.href = item.href;
+      link.textContent = item.label;
+      if (meta.key === item.key) {
+        link.classList.add('is-current');
+        link.setAttribute('aria-current', 'page');
+      }
+      dock.appendChild(link);
+    });
+
+    var topButton = document.createElement('button');
+    topButton.className = 'uprise-dock-top';
+    topButton.type = 'button';
+    topButton.setAttribute('aria-label', '回到頁首');
+    topButton.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 5l-7 7m7-7l7 7M12 5v14"/></svg>';
+    topButton.addEventListener('click', function () {
+      window.scrollTo({ top: 0, behavior: prefersReducedMotion ? 'auto' : 'smooth' });
+    });
+    dock.appendChild(topButton);
+
+    document.body.appendChild(dock);
   }
 
   function updateEditorialScroll() {
@@ -194,6 +234,7 @@
 
   function initEditorialSystem() {
     ensureEditorialChrome();
+    initActionDock();
     initEditorialScroll();
     annotateEditorialItems();
 
@@ -309,7 +350,7 @@
   }
 
   function initPointerSpotlight() {
-    var selector = '.service-card, .work-card, .member-card, .glass-card, .process-item, .bts-item';
+    var selector = '.service-card, .work-card, .member-card, .glass-card, .process-item, .bts-item, .category-card, .contact-panel, .interactive-list-item, .editorial-card';
     var cards = Array.prototype.slice.call(document.querySelectorAll(selector));
     if (!cards.length || prefersReducedMotion || !window.matchMedia('(pointer: fine)').matches) return;
 

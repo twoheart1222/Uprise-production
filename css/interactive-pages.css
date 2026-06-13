@@ -16,10 +16,22 @@ body.uprise-interactive-pending main {
   opacity: 0 !important;
 }
 
+body.uprise-interactive-pending .page-title,
+body.uprise-interactive-pending .editorial-title,
+body:not(.uprise-interactive-ready) .interactive-main .editorial-title {
+  visibility: hidden !important;
+  opacity: 0 !important;
+}
+
 body.uprise-interactive-ready main {
   visibility: visible;
   opacity: 1;
   transition: none !important;
+}
+
+body.uprise-interactive-ready .interactive-main .editorial-title {
+  visibility: visible;
+  opacity: 1 !important;
 }
 
 .interactive-main::before {

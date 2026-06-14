@@ -1196,3 +1196,279 @@ img {
     filter: none;
   }
 }
+
+/* Unified heading scale loaded last to keep page titles consistent. */
+body.uprise-editorial {
+  --heading-primary: #f6f1e8;
+  --heading-secondary: #efe5d4;
+  --heading-accent: #d8a84f;
+  --heading-muted: rgba(255, 255, 255, 0.72);
+}
+
+body.uprise-editorial .hero-title,
+body.uprise-editorial .page-title,
+body.uprise-editorial .page-main-title,
+body.uprise-editorial .editorial-title,
+body.uprise-editorial .success-card h1 {
+  max-width: min(980px, 100%) !important;
+  font-family: var(--font-serif, "Noto Serif TC", serif) !important;
+  font-size: clamp(3.2rem, 8.6vw, 7.4rem) !important;
+  font-weight: 700 !important;
+  line-height: 1.02 !important;
+  letter-spacing: 0.03em !important;
+  color: var(--heading-primary) !important;
+  background: none !important;
+  background-clip: border-box !important;
+  -webkit-background-clip: border-box !important;
+  -webkit-text-fill-color: var(--heading-primary) !important;
+  text-transform: none !important;
+  text-shadow:
+    0 18px 58px rgba(0, 0, 0, 0.58),
+    0 0 24px rgba(216, 168, 79, 0.12) !important;
+  filter: none !important;
+  text-wrap: balance;
+}
+
+body.uprise-editorial .hero-title span,
+body.uprise-editorial .editorial-title .thin {
+  display: inline !important;
+  font-family: inherit !important;
+  font-weight: inherit !important;
+  letter-spacing: inherit !important;
+  color: inherit !important;
+  -webkit-text-fill-color: currentColor !important;
+}
+
+body.uprise-editorial .hero-subtitle,
+body.uprise-editorial .page-subtitle,
+body.uprise-editorial .editorial-deck,
+body.uprise-editorial .success-card p {
+  max-width: 760px !important;
+  font-family: var(--font-body, "Noto Sans TC", sans-serif) !important;
+  font-size: clamp(1rem, 1.45vw, 1.22rem) !important;
+  font-weight: 400 !important;
+  line-height: 1.9 !important;
+  letter-spacing: 0.08em !important;
+  color: var(--heading-muted) !important;
+  -webkit-text-fill-color: var(--heading-muted) !important;
+}
+
+body.uprise-editorial .section-title,
+body.uprise-editorial .block-title,
+body.uprise-editorial .category-title,
+body.uprise-editorial .footer h2,
+body.uprise-editorial footer h2,
+body.uprise-editorial .interactive-cms h2,
+body.uprise-editorial .contact-panel h2 {
+  font-family: var(--font-serif, "Noto Serif TC", serif) !important;
+  font-size: clamp(2rem, 4.1vw, 3.4rem) !important;
+  font-weight: 700 !important;
+  line-height: 1.18 !important;
+  letter-spacing: 0.04em !important;
+  color: var(--heading-secondary) !important;
+  background: none !important;
+  -webkit-background-clip: border-box !important;
+  background-clip: border-box !important;
+  -webkit-text-fill-color: var(--heading-secondary) !important;
+  text-transform: none !important;
+  text-shadow: 0 14px 40px rgba(0, 0, 0, 0.38) !important;
+}
+
+body.uprise-editorial .service-card h3,
+body.uprise-editorial .process-item h3,
+body.uprise-editorial .work-title,
+body.uprise-editorial .member-name,
+body.uprise-editorial .interactive-cms h3 {
+  font-family: var(--font-serif, "Noto Serif TC", serif) !important;
+  font-size: clamp(1.26rem, 2vw, 1.62rem) !important;
+  font-weight: 700 !important;
+  line-height: 1.38 !important;
+  letter-spacing: 0.03em !important;
+  color: var(--heading-secondary) !important;
+  -webkit-text-fill-color: var(--heading-secondary) !important;
+  text-transform: none !important;
+}
+
+body.uprise-editorial .editorial-kicker,
+body.uprise-editorial .member-cover-kicker,
+body.uprise-editorial .job-title,
+body.uprise-editorial .client,
+body.uprise-editorial .contact-method label {
+  font-family: var(--font-body, "Noto Sans TC", sans-serif) !important;
+  color: var(--heading-accent) !important;
+  -webkit-text-fill-color: var(--heading-accent) !important;
+}
+
+body.uprise-editorial .footer h2 span,
+body.uprise-editorial footer h2 span {
+  color: inherit !important;
+  -webkit-text-fill-color: currentColor !important;
+}
+
+@media (pointer: coarse), (max-width: 768px) {
+  body.uprise-editorial .hero-title,
+  body.uprise-editorial .page-title,
+  body.uprise-editorial .page-main-title,
+  body.uprise-editorial .editorial-title,
+  body.uprise-editorial .success-card h1 {
+    font-size: clamp(2.7rem, 13vw, 4.9rem) !important;
+    line-height: 1.08 !important;
+    letter-spacing: 0.02em !important;
+  }
+
+  body.uprise-editorial .section-title,
+  body.uprise-editorial .block-title,
+  body.uprise-editorial .category-title,
+  body.uprise-editorial .footer h2,
+  body.uprise-editorial footer h2,
+  body.uprise-editorial .interactive-cms h2,
+  body.uprise-editorial .contact-panel h2 {
+    font-size: clamp(1.8rem, 8vw, 2.7rem) !important;
+    line-height: 1.22 !important;
+  }
+}
+
+/* Final heading normalization for page-specific high-specificity overrides. */
+body.uprise-editorial #main-wrapper main .hero-title,
+body.uprise-editorial #main-wrapper main .page-title,
+body.uprise-editorial #main-wrapper main .page-main-title,
+body.uprise-editorial #main-wrapper main .editorial-title,
+body.uprise-editorial #main-wrapper main .works-hero #page-title,
+body.uprise-editorial #main-wrapper main .team-hero #page-title,
+body.uprise-editorial #main-wrapper main .member-page-header .page-main-title,
+body.uprise-editorial #main-wrapper main .success-card h1 {
+  max-width: min(980px, 100%) !important;
+  font-family: var(--font-serif, "Noto Serif TC", serif) !important;
+  font-size: clamp(3.4rem, 8.2vw, 7.2rem) !important;
+  font-weight: 800 !important;
+  line-height: 1.04 !important;
+  letter-spacing: 0.035em !important;
+  color: var(--heading-primary) !important;
+  background: none !important;
+  background-image: none !important;
+  background-clip: border-box !important;
+  -webkit-background-clip: border-box !important;
+  -webkit-text-fill-color: var(--heading-primary) !important;
+  text-transform: none !important;
+  filter: none !important;
+  text-shadow:
+    0 18px 58px rgba(0, 0, 0, 0.58),
+    0 0 24px rgba(216, 168, 79, 0.12) !important;
+}
+
+body.uprise-editorial #main-wrapper main .hero-title span,
+body.uprise-editorial #main-wrapper main .editorial-title .thin {
+  display: inline !important;
+  font-family: inherit !important;
+  font-size: inherit !important;
+  font-weight: inherit !important;
+  line-height: inherit !important;
+  letter-spacing: inherit !important;
+  color: inherit !important;
+  background: none !important;
+  background-image: none !important;
+  -webkit-background-clip: border-box !important;
+  background-clip: border-box !important;
+  -webkit-text-fill-color: currentColor !important;
+}
+
+body.uprise-editorial #main-wrapper main .section-title,
+body.uprise-editorial #main-wrapper main .block-title,
+body.uprise-editorial #main-wrapper main .category-title,
+body.uprise-editorial #main-wrapper main .interactive-cms h2,
+body.uprise-editorial #main-wrapper main .contact-panel h2,
+body.uprise-editorial #main-wrapper footer h2,
+body.uprise-editorial #main-wrapper .footer h2 {
+  font-family: var(--font-serif, "Noto Serif TC", serif) !important;
+  font-size: clamp(2.35rem, 4.8vw, 4.2rem) !important;
+  font-weight: 800 !important;
+  line-height: 1.16 !important;
+  letter-spacing: 0.04em !important;
+  color: var(--heading-primary) !important;
+  background: none !important;
+  background-image: none !important;
+  -webkit-background-clip: border-box !important;
+  background-clip: border-box !important;
+  -webkit-text-fill-color: var(--heading-primary) !important;
+  text-transform: none !important;
+  filter: none !important;
+  text-shadow: 0 14px 40px rgba(0, 0, 0, 0.38) !important;
+}
+
+body.uprise-editorial #main-wrapper main .service-card h3,
+body.uprise-editorial #main-wrapper main .process-item h3,
+body.uprise-editorial #main-wrapper main .work-card h3.work-title,
+body.uprise-editorial #main-wrapper main .people-stage .member-card .member-name,
+body.uprise-editorial #main-wrapper main .interactive-cms h3 {
+  font-family: var(--font-serif, "Noto Serif TC", serif) !important;
+  font-size: clamp(1.32rem, 2vw, 1.75rem) !important;
+  font-weight: 700 !important;
+  line-height: 1.34 !important;
+  letter-spacing: 0.03em !important;
+  color: var(--heading-secondary) !important;
+  background: none !important;
+  background-image: none !important;
+  -webkit-background-clip: border-box !important;
+  background-clip: border-box !important;
+  -webkit-text-fill-color: var(--heading-secondary) !important;
+  text-transform: none !important;
+  filter: none !important;
+}
+
+body.uprise-editorial #main-wrapper main .member-detail-section .member-name {
+  font-family: var(--font-serif, "Noto Serif TC", serif) !important;
+  font-size: clamp(3rem, 6vw, 5.6rem) !important;
+  font-weight: 800 !important;
+  line-height: 1.08 !important;
+  letter-spacing: 0.02em !important;
+  color: var(--heading-primary) !important;
+  background: none !important;
+  background-image: none !important;
+  -webkit-background-clip: border-box !important;
+  background-clip: border-box !important;
+  -webkit-text-fill-color: var(--heading-primary) !important;
+  text-transform: none !important;
+  filter: none !important;
+}
+
+body.uprise-editorial #main-wrapper footer h2 span,
+body.uprise-editorial #main-wrapper .footer h2 span {
+  color: inherit !important;
+  background: none !important;
+  background-image: none !important;
+  -webkit-background-clip: border-box !important;
+  background-clip: border-box !important;
+  -webkit-text-fill-color: currentColor !important;
+  filter: none !important;
+}
+
+@media (pointer: coarse), (max-width: 768px) {
+  body.uprise-editorial #main-wrapper main .hero-title,
+  body.uprise-editorial #main-wrapper main .page-title,
+  body.uprise-editorial #main-wrapper main .page-main-title,
+  body.uprise-editorial #main-wrapper main .editorial-title,
+  body.uprise-editorial #main-wrapper main .works-hero #page-title,
+  body.uprise-editorial #main-wrapper main .team-hero #page-title,
+  body.uprise-editorial #main-wrapper main .member-page-header .page-main-title,
+  body.uprise-editorial #main-wrapper main .success-card h1 {
+    font-size: clamp(2.75rem, 12vw, 4.8rem) !important;
+    line-height: 1.1 !important;
+    letter-spacing: 0.02em !important;
+  }
+
+  body.uprise-editorial #main-wrapper main .section-title,
+  body.uprise-editorial #main-wrapper main .block-title,
+  body.uprise-editorial #main-wrapper main .category-title,
+  body.uprise-editorial #main-wrapper main .interactive-cms h2,
+  body.uprise-editorial #main-wrapper main .contact-panel h2,
+  body.uprise-editorial #main-wrapper footer h2,
+  body.uprise-editorial #main-wrapper .footer h2 {
+    font-size: clamp(2rem, 8vw, 3.2rem) !important;
+    line-height: 1.22 !important;
+  }
+
+  body.uprise-editorial #main-wrapper main .member-detail-section .member-name {
+    font-size: clamp(2.5rem, 12vw, 4.4rem) !important;
+    line-height: 1.12 !important;
+  }
+}

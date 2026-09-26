@@ -360,8 +360,9 @@ hr.divider { border: none; border-top: 1px solid var(--border); }
         <div class="card-title">首頁設定</div>
         <div class="field"><label>主視覺文字</label><input type="text" id="home-hero_text" placeholder="輸入首頁主標"></div>
         <div class="field"><label>Logo 網址 / 上傳</label><input type="text" id="home-logo" placeholder="https://..."><input type="file" accept="image/*" onchange="uploadHomeAsset(this,'logo','images')" style="margin-top:8px"><div class="upload-status" data-upload-status="home-logo"></div><div class="field-hint">可直接上傳到 Firebase Storage。</div></div>
-        <div class="field"><label>電腦版主視覺影片（橫式 16:9）</label><input type="text" id="home-hero_video" placeholder="上傳後自動填入，或貼上影片網址"><input type="file" accept="video/mp4,video/webm" onchange="uploadHomeVideo(this,'hero_video')" style="margin-top:8px"><div class="upload-status" data-upload-status="home-hero_video"></div><div class="field-hint">請上傳 MP4（H.264）。建議 1920×1080、20–40 秒、50MB 以內，不需要聲音可先去除音軌。</div></div>
-        <div class="field"><label>手機版主視覺影片網址</label><input type="text" id="home-hero_video_mobile" placeholder="選填，建議 9:16 直式影片"><input type="file" accept="video/mp4,video/webm" onchange="uploadHomeVideo(this,'hero_video_mobile')" style="margin-top:8px"><div class="upload-status" data-upload-status="home-hero_video_mobile"></div><div class="field-hint">建議比例：直式 9:16。</div></div>
+        <div class="field"><label>電腦版主視覺影片（橫式 16:9）</label><input type="text" id="home-hero_video" placeholder="上傳後自動填入，或貼上影片網址"><input type="file" accept="video/mp4,video/webm,video/quicktime" onchange="uploadHomeVideo(this,'hero_video')" style="margin-top:8px"><div class="upload-status" data-upload-status="home-hero_video"></div><div class="field-hint">請上傳 MP4（H.264）。建議 1920×1080、20–40 秒、50MB 以內，不需要聲音可先去除音軌。</div></div>
+        <div class="field"><label>Cloudinary upload preset（建議填寫）</label><input type="text" id="home-cloudinary_preset" placeholder="例如：uprise_unsigned"><div class="field-hint">填了之後影片會上傳到你的 Cloudinary（dfnfcyglu），速度快、會自動轉成各裝置可播放的格式，也能上傳 .mov。建立方式：Cloudinary 後台 → Settings → Upload → Add upload preset → Signing mode 選「Unsigned」→ 儲存後把名稱貼在這裡。留白則改用 Firebase Storage。</div></div>
+        <div class="field"><label>手機版主視覺影片網址</label><input type="text" id="home-hero_video_mobile" placeholder="選填，建議 9:16 直式影片"><input type="file" accept="video/mp4,video/webm,video/quicktime" onchange="uploadHomeVideo(this,'hero_video_mobile')" style="margin-top:8px"><div class="upload-status" data-upload-status="home-hero_video_mobile"></div><div class="field-hint">建議比例：直式 9:16。</div></div>
       </div>
       <div class="card">
         <div class="card-title">首頁版面文字（新版網站）</div>
@@ -893,35 +894,78 @@ window.uploadHomeAsset = async (input, key, folder='images') => {
   URL.revokeObjectURL(localUrl);
 };
 
+// 影片上傳：優先用 Cloudinary（填了 upload preset 時），否則用 Firebase Storage
+const CLOUDINARY_CLOUD = 'dfnfcyglu';
+storage.maxUploadRetryTime = 30000;
+storage.maxOperationRetryTime = 30000;
+
+function uploadVideoToCloudinary(file, preset, onProgress) {
+  return new Promise((resolve, reject) => {
+    const fd = new FormData();
+    fd.append('file', file);
+    fd.append('upload_preset', preset);
+    fd.append('folder', 'uprise');
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', 'https://api.cloudinary.com/v1_1/' + CLOUDINARY_CLOUD + '/video/upload');
+    xhr.upload.onprogress = (ev) => { if (ev.lengthComputable) onProgress(ev.loaded / ev.total); };
+    xhr.onload = () => {
+      let res = {}; try { res = JSON.parse(xhr.responseText); } catch (err) {}
+      if (xhr.status >= 200 && xhr.status < 300 && res.secure_url) {
+        resolve(res.secure_url.replace('/video/upload/', '/video/upload/q_auto,vc_h264/').replace(/\.[a-z0-9]+$/i, '.mp4'));
+      } else reject(new Error((res.error && res.error.message) || ('Cloudinary HTTP ' + xhr.status)));
+    };
+    xhr.onerror = () => reject(new Error('網路連線失敗'));
+    xhr.send(fd);
+  });
+}
+
+function uploadVideoToFirebase(file, onProgress) {
+  return new Promise((resolve, reject) => {
+    const path = 'uploads/videos/' + Date.now() + '-' + safeFileName(file.name);
+    const task = uploadBytesResumable(ref(storage, path), file, { contentType: file.type, cacheControl: 'public,max-age=31536000' });
+    let moved = false;
+    const watchdog = setTimeout(() => {
+      if (!moved) { task.cancel(); reject(new Error('Firebase Storage 沒有回應（20 秒內 0%）。通常是 Storage 尚未啟用、需升級 Blaze 方案，或 storage.rules 尚未部署。建議改用 Cloudinary 上傳（見下方說明）。')); }
+    }, 20000);
+    task.on('state_changed',
+      (snap) => { if (snap.bytesTransferred > 0) moved = true; onProgress(snap.bytesTransferred / snap.totalBytes); },
+      (err) => { clearTimeout(watchdog); reject(err); },
+      async () => { clearTimeout(watchdog); try { resolve(await getDownloadURL(task.snapshot.ref)); } catch (err) { reject(err); } });
+  });
+}
+
 window.uploadHomeVideo = async (input, key) => {
   const file = input.files && input.files[0];
   if (!file) return;
   const status = (m) => setUploadStatus('home-' + key, m);
-  if (!/^video\/(mp4|webm)$/.test(file.type)) {
-    showToast('請上傳 MP4 或 WebM 影片（iPhone 的 .mov 請先轉成 MP4）', 'error'); input.value = ''; return;
+  if (!/^video\/(mp4|webm|quicktime)$/.test(file.type)) {
+    showToast('請上傳 MP4 影片', 'error'); input.value = ''; return;
   }
-  if (file.size > 200 * 1024 * 1024) {
-    showToast('影片超過 200MB，請先壓縮（建議 50MB 以內）', 'error'); input.value = ''; return;
+  if (file.size > 100 * 1024 * 1024) {
+    showToast('影片超過 100MB，請先壓縮（建議 50MB 以內）', 'error'); input.value = ''; return;
   }
+  const presetEl = document.getElementById('home-cloudinary_preset');
+  const preset = (presetEl && presetEl.value.trim()) || window.data.home.cloudinary_preset || '';
+  const mb = (file.size / 1048576).toFixed(1);
+  const prog = (r) => status('上傳中 ' + Math.round(r * 100) + '%（' + mb + 'MB）' + (preset ? ' · Cloudinary' : ' · Firebase'));
   try {
+    if (!preset && file.type === 'video/quicktime') throw new Error('.mov 檔請先轉成 MP4，或填入 Cloudinary upload preset（Cloudinary 會自動轉檔）');
     assertUploadAuth();
-    const path = 'uploads/videos/' + Date.now() + '-' + safeFileName(file.name);
-    const task = uploadBytesResumable(ref(storage, path), file, { contentType: file.type, cacheControl: 'public,max-age=31536000' });
+    prog(0);
     showToast('影片上傳中…', 'loading');
-    await new Promise((resolve, reject) => task.on('state_changed',
-      (s) => status('上傳中 ' + Math.round(s.bytesTransferred / s.totalBytes * 100) + '%（' + (s.totalBytes / 1048576).toFixed(1) + 'MB）'),
-      reject, resolve));
-    const url = await getDownloadURL(task.snapshot.ref);
+    const url = preset ? await uploadVideoToCloudinary(file, preset, prog) : await uploadVideoToFirebase(file, prog);
     window.data.home[key] = url;
+    if (preset) window.data.home.cloudinary_preset = preset;
     const el = document.getElementById('home-' + key); if (el) el.value = url;
+    status('儲存中…');
     await setDoc(doc(db, 'pages', 'home'), stripVolatileImageUrls(window.data.home));
-    status('已上傳並儲存，前台已更新');
+    status('已上傳並儲存，前台已更新 ✓');
     showToast('影片上傳完成');
     syncPreviewCache(); refreshPreview();
-  } catch (e) {
-    console.error(e);
-    status('上傳失敗：' + (e.code || e.message));
-    showToast('上傳失敗：' + (e.code === 'storage/unauthorized' ? 'Storage 規則不允許上傳，請更新 storage.rules' : e.message), 'error');
+  } catch (err) {
+    console.error(err);
+    status('上傳失敗：' + (err.code === 'storage/unauthorized' ? 'Storage 規則不允許上傳（請部署 storage.rules）' : err.message));
+    showToast('上傳失敗', 'error');
   }
   input.value = '';
 };
@@ -1110,7 +1154,7 @@ window.updatePhotoPreviewImage = (index, url) => {
 // Home
 function renderHome() {
   const d = window.data.home;
-  ['hero_text','logo','hero_video','hero_video_mobile','hero_word','intro','manifesto','featured'].forEach(k => {
+  ['hero_text','logo','hero_video','hero_video_mobile','hero_word','intro','manifesto','featured','cloudinary_preset'].forEach(k => {
     const el = document.getElementById('home-'+k); if(el) el.value = Array.isArray(d[k]) ? d[k].join('\n') : (d[k]||'');
   });
   renderServices(); renderBts();
@@ -1501,7 +1545,7 @@ window.saveCurrentPanel = async () => {
   btn.disabled=true; btn.innerHTML='<div class="spinner"></div> 儲存中...';
 
   if(panel==='home') {
-    ['hero_text','logo','hero_video','hero_video_mobile','hero_word','intro','manifesto'].forEach(k=>{
+    ['hero_text','logo','hero_video','hero_video_mobile','hero_word','intro','manifesto','cloudinary_preset'].forEach(k=>{
       const el=document.getElementById('home-'+k); if(el) window.data.home[k]=el.value;
     });
     const fe=document.getElementById('home-featured'); if(fe) window.data.home.featured=fe.value.split(/\n+/).map(s=>s.trim()).filter(Boolean);

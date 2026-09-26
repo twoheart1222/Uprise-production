@@ -114,7 +114,20 @@ async function home() {
   }));
   // hero
   const E = { hero: $("[data-hero]"), knock: $("[data-knock]"), h1: $("[data-h1]"), vid: $("[data-hero-video]"), dim: $("[data-dim]"), ui: $("[data-hero-ui]"), mani: $("[data-mani]"), cue: $("[data-cue]"), frame: $("[data-frame]"), reel: $("[data-reel]"), eqs: $$(".eq i") };
-  const pr = E.vid.play && E.vid.play(); if (pr && pr.catch) pr.catch(() => {});
+  // 影片自動播放：各瀏覽器（特別是 iOS / 省電模式）需要靜音＋行內播放，失敗時在第一次互動再試
+  const DEF_VIDEO = "https://res.cloudinary.com/dfnfcyglu/video/upload/v1763893930/hero_bg_ickrbe.mp4";
+  const v = E.vid;
+  v.muted = true; v.defaultMuted = true; v.playsInline = true;
+  v.setAttribute("muted", ""); v.setAttribute("playsinline", ""); v.setAttribute("webkit-playsinline", "");
+  const tryPlay = () => { if (!v.paused) return; const q = v.play(); if (q && q.catch) q.catch(() => {}); };
+  v.addEventListener("loadeddata", tryPlay);
+  v.addEventListener("canplay", tryPlay);
+  v.addEventListener("error", () => { if (v.src !== DEF_VIDEO) { v.src = DEF_VIDEO; v.load(); tryPlay(); } });
+  const kick = () => { tryPlay(); if (!v.paused) ["touchstart", "click", "scroll", "wheel", "keydown"].forEach((ev) => removeEventListener(ev, kick)); };
+  ["touchstart", "click", "scroll", "wheel", "keydown"].forEach((ev) => addEventListener(ev, kick, { passive: true }));
+  document.addEventListener("visibilitychange", () => { if (!document.hidden) tryPlay(); });
+  v.load(); tryPlay();
+  onEnter(tryPlay);
   const h2 = $("[data-chars]"), txt = h2.textContent; h2.textContent = "";
   const chars = [...txt].map((ch) => { const s = document.createElement("span"); s.textContent = ch; s.style.opacity = ".2"; h2.appendChild(s); return s; });
   const fit = () => {

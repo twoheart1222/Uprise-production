@@ -364,14 +364,23 @@ hr.divider { border: none; border-top: 1px solid var(--border); }
         <div class="field"><label>手機版主視覺影片網址</label><input type="text" id="home-hero_video_mobile" placeholder="選填，建議 9:16 直式影片"><div class="field-hint">建議比例：直式 9:16。</div></div>
       </div>
       <div class="card">
+        <div class="card-title">首頁版面文字（新版網站）</div>
+        <div class="field-row">
+          <div class="field"><label>主視覺大字</label><input type="text" id="home-hero_word" placeholder="推手"><div class="field-hint">影片會在這幾個字裡播放，建議 2–4 個字。</div></div>
+          <div class="field"><label>主視覺短介紹</label><input type="text" id="home-intro" placeholder="電影級影像製作。從策劃、拍攝到後期…"></div>
+        </div>
+        <div class="field"><label>理念標語</label><textarea id="home-manifesto" placeholder="影像不只是紀錄，而是能被感受、被記住、被分享的故事。"></textarea></div>
+        <div class="field"><label>首頁精選作品（YouTube 連結，一行一個，最多 6 個）</label><textarea id="home-featured" style="min-height:120px" placeholder="https://youtu.be/-wELkE0IQwc"></textarea><div class="field-hint">需是「作品」頁已存在的影片。留白時自動取每個分類的第一部。</div></div>
+      </div>
+      <div class="card">
         <div class="card-title">
-          <div class="list-header"><span>服務項目</span><button class="btn-add" onclick="addService()"><i class="fas fa-plus"></i> 新增</button></div>
+          <div class="list-header"><span>服務項目／製作流程</span><button class="btn-add" onclick="addService()"><i class="fas fa-plus"></i> 新增</button></div>
         </div>
         <div class="list-items" id="services-list"></div>
       </div>
       <div class="card">
         <div class="card-title">
-          <div class="list-header"><span>幕後照片</span><button class="btn-add" onclick="addBts()"><i class="fas fa-plus"></i> 新增</button></div>
+          <div class="list-header"><span>幕後照片（關於頁「片場花絮」）</span><button class="btn-add" onclick="addBts()"><i class="fas fa-plus"></i> 新增</button></div>
         </div>
         <div class="list-items" id="bts-list"></div>
       </div>
@@ -496,9 +505,10 @@ hr.divider { border: none; border-top: 1px solid var(--border); }
           <div class="field"><label>標題</label><input type="text" id="about-title" placeholder="關於推手"></div>
           <div class="field"><label>副標</label><input type="text" id="about-subtitle" placeholder="關於頁簡短介紹"></div>
         </div>
+        <div class="field"><label>大標（用 | 換行）</label><input type="text" id="about-headline" placeholder="每一幀畫面，|都有自己的靈魂。"></div>
         <div class="field">
           <label>頁面內容（支援 Markdown）</label>
-          <textarea id="about-body" style="min-height:280px" placeholder="# 關於我們"></textarea>
+          <textarea id="about-body" style="min-height:280px" placeholder="# 關於我們"></textarea><div class="field-hint">新版網站會顯示前兩段文字（段落之間空一行）。</div>
         </div>
       </div>
     </div>
@@ -507,7 +517,7 @@ hr.divider { border: none; border-top: 1px solid var(--border); }
       <div class="card">
         <div class="card-title">聯絡頁</div>
         <div class="field-row">
-          <div class="field"><label>標題</label><input type="text" id="contact-title" placeholder="聯絡我們"></div>
+          <div class="field"><label>標題</label><input type="text" id="contact-title" placeholder="有故事？|我們開機。" title="用 | 換行"></div>
           <div class="field"><label>副標</label><input type="text" id="contact-subtitle" placeholder="聯絡頁簡短介紹"></div>
         </div>
         <hr class="divider">
@@ -1066,12 +1076,13 @@ window.updatePhotoPreviewImage = (index, url) => {
 // Home
 function renderHome() {
   const d = window.data.home;
-  ['hero_text','logo','hero_video','hero_video_mobile'].forEach(k => {
-    const el = document.getElementById('home-'+k); if(el) el.value = d[k]||'';
+  ['hero_text','logo','hero_video','hero_video_mobile','hero_word','intro','manifesto','featured'].forEach(k => {
+    const el = document.getElementById('home-'+k); if(el) el.value = Array.isArray(d[k]) ? d[k].join('\n') : (d[k]||'');
   });
   renderServices(); renderBts();
 }
 
+// 服務項目同時用於：首頁「我們做什麼」與關於頁「製作流程」
 window.renderServices = () => {
   const items = window.data.home.services || [];
   document.getElementById('services-list').innerHTML = items.length === 0
@@ -1136,7 +1147,7 @@ function renderWorks() {
     <div class="card works-card">
       <div class="card-title">
         <div class="list-header">
-          <div class="category-name"><i class="fas fa-folder"></i><input value="${category.name || ''}" placeholder="分類名稱" oninput="window.data.works.portfolio_categories[${categoryIndex}].name=this.value;schedulePreviewRefresh()"></div>
+          <div class="category-name"><i class="fas fa-folder"></i><input value="${category.name || ''}" placeholder="分類名稱" oninput="window.data.works.portfolio_categories[${categoryIndex}].name=this.value;schedulePreviewRefresh()"><input value="${category.en || ''}" placeholder="英文標籤（例：BRAND）" style="max-width:170px" oninput="window.data.works.portfolio_categories[${categoryIndex}].en=this.value;schedulePreviewRefresh()"></div>
           <div class="list-item-actions">
             <button class="btn-icon" onclick="moveWorkCategory(${categoryIndex},-1)" title="上移"><i class="fas fa-chevron-up"></i></button>
             <button class="btn-icon" onclick="moveWorkCategory(${categoryIndex},1)" title="下移"><i class="fas fa-chevron-down"></i></button>
@@ -1323,13 +1334,44 @@ window.renderMembers = () => {
         ${renderPhotoDeviceControls(i, m, 'team', 'mobile')}
       </div>
       <div class="field"><label>簡短介紹</label><textarea oninput="window.data.team.members[${i}].bio=this.value;schedulePreviewRefresh()">${m.bio || ''}</textarea></div>
-      <div class="field"><label>完整介紹 / 連結</label><textarea style="min-height:160px" oninput="window.data.team.members[${i}].full_bio=this.value;schedulePreviewRefresh()">${m.full_bio || ''}</textarea></div>
+      <div class="field-row">
+        <div class="field"><label>英文職稱</label><input value="${m.role_en || ''}" placeholder="DIRECTOR / FOUNDER" oninput="window.data.team.members[${i}].role_en=this.value;schedulePreviewRefresh()"></div>
+        <div class="field"><label>照片上的短職稱</label><input value="${m.role_short || ''}" placeholder="DIRECTOR" oninput="window.data.team.members[${i}].role_short=this.value;schedulePreviewRefresh()"></div>
+      </div>
+      <div class="field"><label>介紹段落（顯示在展開的介紹裡，留白則用簡短介紹）</label><textarea oninput="window.data.team.members[${i}].lead=this.value;schedulePreviewRefresh()">${m.lead || ''}</textarea></div>
+      <div class="field"><label>專長標籤（用逗號分隔）</label><input value="${Array.isArray(m.tags) ? m.tags.join('、') : (m.tags || '')}" placeholder="商業廣告、品牌形象、FPV 空拍" oninput="window.data.team.members[${i}].tags=this.value.split(/[,，、]/).map(s=>s.trim()).filter(Boolean);schedulePreviewRefresh()"></div>
+      <div class="field"><div class="list-header"><label>經歷與作品（同類別會自動合併）</label><button class="btn-add" onclick="addCredit(${i})"><i class="fas fa-plus"></i> 新增經歷</button></div><div class="list-items" id="credits-${i}"></div></div>
+      <div class="field"><label>舊版完整介紹（新版網站只在「經歷與作品」留白時讀取）</label><textarea style="min-height:100px" oninput="window.data.team.members[${i}].full_bio=this.value;schedulePreviewRefresh()">${m.full_bio || ''}</textarea></div>
       <div class="field-row">
         <div class="field"><label>Instagram 網址</label><input value="${m.ig_url || ''}" oninput="window.data.team.members[${i}].ig_url=this.value;schedulePreviewRefresh()"></div>
         <div class="field"><label>作品集網址</label><input value="${m.portfolio_url || ''}" oninput="window.data.team.members[${i}].portfolio_url=this.value;schedulePreviewRefresh()"></div>
       </div>
     </div>`).join('');
+  items.forEach((m, i) => renderCredits(i));
 };
+const CREDIT_TYPES = ["創辦","學歷","經歷","專長","肯定","短片導演","短片剪輯","短片攝影","廣告導演","攝影","得獎"];
+const escAttr = s => String(s ?? '').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');
+window.renderCredits = i => {
+  const box = document.getElementById('credits-' + i); if (!box) return;
+  const list = window.data.team.members[i].credits || [];
+  box.innerHTML = list.length === 0 ? '<div style="color:var(--muted);font-size:0.82rem">尚無經歷（前台會先讀取舊版完整介紹）</div>' : list.map((c, j) => `
+    <div class="field-row" style="align-items:end">
+      <div class="field" style="max-width:150px"><label>類別</label><select onchange="window.data.team.members[${i}].credits[${j}].type=this.value;schedulePreviewRefresh()">${CREDIT_TYPES.concat(CREDIT_TYPES.includes(c.type)||!c.type?[]:[c.type]).map(t=>`<option${t===c.type?' selected':''}>${t}</option>`).join('')}</select></div>
+      <div class="field"><label>作品／項目</label><input value="${escAttr(c.title)}" placeholder="《作品名稱》" oninput="window.data.team.members[${i}].credits[${j}].title=this.value;schedulePreviewRefresh()"></div>
+      <div class="field"><label>備註（獎項、單位）</label><input value="${escAttr(c.note)}" placeholder="入圍 藝美獎" oninput="window.data.team.members[${i}].credits[${j}].note=this.value;schedulePreviewRefresh()"></div>
+      <div class="list-item-actions" style="padding-bottom:6px">
+        <button class="btn-icon" onclick="moveItems(window.data.team.members[${i}].credits,${j},-1);renderCredits(${i});schedulePreviewRefresh()"><i class="fas fa-chevron-up"></i></button>
+        <button class="btn-icon danger" onclick="window.data.team.members[${i}].credits.splice(${j},1);renderCredits(${i});schedulePreviewRefresh()"><i class="fas fa-trash"></i></button>
+      </div>
+    </div>`).join('');
+};
+window.addCredit = i => {
+  const m = window.data.team.members[i];
+  if (!Array.isArray(m.credits)) m.credits = [];
+  m.credits.push({ type: CREDIT_TYPES[0], title: '', note: '' });
+  renderCredits(i); schedulePreviewRefresh();
+};
+window.moveItems = moveItems;
 window.addMember = () => {
   window.data.team.members.push({name:'', role:'', cover_title:'', avatar:'', image:'', bio:'', full_bio:'', ig_url:'', portfolio_url:'', photo_x:50, photo_y:20, photo_zoom:1, photo_mobile_x:50, photo_mobile_y:20, photo_mobile_zoom:1});
   renderMembers();
@@ -1393,7 +1435,7 @@ window.setPreviewMember = index => {
 
 function renderAbout() {
   const d = window.data.about;
-  ['title','subtitle','body'].forEach(k=>{
+  ['title','subtitle','body','headline'].forEach(k=>{
     const el=document.getElementById('about-'+k); if(el) el.value=d[k]||'';
   });
 }
@@ -1425,9 +1467,10 @@ window.saveCurrentPanel = async () => {
   btn.disabled=true; btn.innerHTML='<div class="spinner"></div> 儲存中...';
 
   if(panel==='home') {
-    ['hero_text','logo','hero_video','hero_video_mobile'].forEach(k=>{
+    ['hero_text','logo','hero_video','hero_video_mobile','hero_word','intro','manifesto'].forEach(k=>{
       const el=document.getElementById('home-'+k); if(el) window.data.home[k]=el.value;
     });
+    const fe=document.getElementById('home-featured'); if(fe) window.data.home.featured=fe.value.split(/\n+/).map(s=>s.trim()).filter(Boolean);
   }
   if(panel==='works') {
     window.data.works.title=document.getElementById('works-title').value;
@@ -1443,7 +1486,7 @@ window.saveCurrentPanel = async () => {
     collectTeamStyleFromFields('member');
   }
   if(panel==='about') {
-    ['title','subtitle','body'].forEach(k=>{
+    ['title','subtitle','body','headline'].forEach(k=>{
       const el=document.getElementById('about-'+k); if(el) window.data.about[k]=el.value;
     });
   }
@@ -1490,13 +1533,13 @@ const panelTitles = {
   about: '\u95dc\u65bc',
   contact: '\u806f\u7d61'
 };
-const previewPages = {dashboard:'index.html',home:'index.html',works:'works.html',team:'team.html',member:'member.html',about:'about.html',contact:'contact.html'};
+const previewPages = {dashboard:'index.html',home:'index.html',works:'works.html',team:'about.html#crew',member:'about.html#crew',about:'about.html',contact:'contact.html'};
 function getPreviewPage(panel) {
-  if (panel === 'member') return `member.html?id=${currentPreviewMemberIndex}`;
   return previewPages[panel] || 'index.html';
 }
 function withPreviewParam(href) {
-  return href + (href.includes('?') ? '&' : '?') + 'preview=' + Date.now();
+  const [base, hash] = href.split('#');
+  return base + (base.includes('?') ? '&' : '?') + 'preview=' + Date.now() + (hash ? '#' + hash : '');
 }
 window.refreshPreview = () => {
   const iframe=document.getElementById('site-preview');

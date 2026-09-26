@@ -59,7 +59,7 @@ async function home() {
   const svc = h.services || [];
   document.getElementById("app").innerHTML = nav("home") + `
   <section class="hero" data-hero><div class="hero-stick">
-    <div data-frame class="abs0" style="overflow:hidden;will-change:clip-path"><video data-hero-video autoplay muted loop playsinline preload="auto" poster="${esc(poster)}" src="${esc(video)}"></video></div>
+    <div data-frame class="abs0" style="overflow:hidden;will-change:clip-path"><video data-hero-video autoplay muted loop playsinline webkit-playsinline preload="auto" poster="${esc(poster)}"><source src="${esc(video)}" type="video/mp4"></video></div>
     <div data-knock class="knock"><h1 data-h1 class="hero-word">${word.map((ch, i) => `<span><span data-l${i === word.length - 1 ? " data-origin" : ""}>${esc(ch)}</span></span>`).join("")}</h1></div>
     <div data-dim class="abs0" style="background:#0b0b0b;opacity:0;pointer-events:none"></div>
     <div data-hero-ui class="hero-ui">
@@ -122,7 +122,11 @@ async function home() {
   const tryPlay = () => { if (!v.paused) return; const q = v.play(); if (q && q.catch) q.catch(() => {}); };
   v.addEventListener("loadeddata", tryPlay);
   v.addEventListener("canplay", tryPlay);
-  v.addEventListener("error", () => { if (v.src !== DEF_VIDEO) { v.src = DEF_VIDEO; v.load(); tryPlay(); } });
+  let fell = false;
+  const fallback = () => { if (fell || (v.currentSrc || "").indexOf(DEF_VIDEO) === 0) return; fell = true; console.warn("[uprise] hero video failed, using default:", v.currentSrc); v.innerHTML = ""; v.src = DEF_VIDEO; v.load(); tryPlay(); };
+  v.addEventListener("error", fallback, true);
+  const srcEl = v.querySelector("source"); if (srcEl) srcEl.addEventListener("error", fallback);
+  setTimeout(() => { if (v.readyState < 2) fallback(); }, 8000);
   const kick = () => { tryPlay(); if (!v.paused) ["touchstart", "click", "scroll", "wheel", "keydown"].forEach((ev) => removeEventListener(ev, kick)); };
   ["touchstart", "click", "scroll", "wheel", "keydown"].forEach((ev) => addEventListener(ev, kick, { passive: true }));
   document.addEventListener("visibilitychange", () => { if (!document.hidden) tryPlay(); });

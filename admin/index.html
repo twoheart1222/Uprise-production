@@ -360,14 +360,15 @@ hr.divider { border: none; border-top: 1px solid var(--border); }
         <div class="card-title">首頁設定</div>
         <div class="field"><label>主視覺文字</label><input type="text" id="home-hero_text" placeholder="輸入首頁主標"></div>
         <div class="field"><label>Logo 網址 / 上傳</label><input type="text" id="home-logo" placeholder="https://..."><input type="file" accept="image/*" onchange="uploadHomeAsset(this,'logo','images')" style="margin-top:8px"><div class="upload-status" data-upload-status="home-logo"></div><div class="field-hint">可直接上傳到 Firebase Storage。</div></div>
-        <div class="field"><label>電腦版主視覺影片網址</label><input type="text" id="home-hero_video" placeholder="https://res.cloudinary.com/..."></div>
-        <div class="field"><label>手機版主視覺影片網址</label><input type="text" id="home-hero_video_mobile" placeholder="選填，建議 9:16 直式影片"><div class="field-hint">建議比例：直式 9:16。</div></div>
+        <div class="field"><label>電腦版主視覺影片（橫式 16:9）</label><input type="text" id="home-hero_video" placeholder="上傳後自動填入，或貼上影片網址"><input type="file" accept="video/mp4,video/webm" onchange="uploadHomeVideo(this,'hero_video')" style="margin-top:8px"><div class="upload-status" data-upload-status="home-hero_video"></div><div class="field-hint">請上傳 MP4（H.264）。建議 1920×1080、20–40 秒、50MB 以內，不需要聲音可先去除音軌。</div></div>
+        <div class="field"><label>手機版主視覺影片網址</label><input type="text" id="home-hero_video_mobile" placeholder="選填，建議 9:16 直式影片"><input type="file" accept="video/mp4,video/webm" onchange="uploadHomeVideo(this,'hero_video_mobile')" style="margin-top:8px"><div class="upload-status" data-upload-status="home-hero_video_mobile"></div><div class="field-hint">建議比例：直式 9:16。</div></div>
       </div>
       <div class="card">
         <div class="card-title">首頁版面文字（新版網站）</div>
+        <div class="field-hint" style="margin-bottom:10px">所有多行文字欄位按 Enter 換行，前台會照著換行顯示。</div>
         <div class="field-row">
           <div class="field"><label>主視覺大字</label><input type="text" id="home-hero_word" placeholder="推手"><div class="field-hint">影片會在這幾個字裡播放，建議 2–4 個字。</div></div>
-          <div class="field"><label>主視覺短介紹</label><input type="text" id="home-intro" placeholder="電影級影像製作。從策劃、拍攝到後期…"></div>
+          <div class="field"><label>主視覺短介紹</label><textarea id="home-intro" style="min-height:70px" placeholder="電影級影像製作。從策劃、拍攝到後期…"></textarea></div>
         </div>
         <div class="field"><label>理念標語</label><textarea id="home-manifesto" placeholder="影像不只是紀錄，而是能被感受、被記住、被分享的故事。"></textarea></div>
         <div class="field"><label>首頁精選作品（YouTube 連結，一行一個，最多 6 個）</label><textarea id="home-featured" style="min-height:120px" placeholder="https://youtu.be/-wELkE0IQwc"></textarea><div class="field-hint">需是「作品」頁已存在的影片。留白時自動取每個分類的第一部。</div></div>
@@ -505,7 +506,7 @@ hr.divider { border: none; border-top: 1px solid var(--border); }
           <div class="field"><label>標題</label><input type="text" id="about-title" placeholder="關於推手"></div>
           <div class="field"><label>副標</label><input type="text" id="about-subtitle" placeholder="關於頁簡短介紹"></div>
         </div>
-        <div class="field"><label>大標（用 | 換行）</label><input type="text" id="about-headline" placeholder="每一幀畫面，|都有自己的靈魂。"></div>
+        <div class="field"><label>大標（按 Enter 換行）</label><textarea id="about-headline" style="min-height:70px" placeholder="每一幀畫面，&#10;都有自己的靈魂。"></textarea></div>
         <div class="field">
           <label>頁面內容（支援 Markdown）</label>
           <textarea id="about-body" style="min-height:280px" placeholder="# 關於我們"></textarea><div class="field-hint">新版網站會顯示前兩段文字（段落之間空一行）。</div>
@@ -517,8 +518,8 @@ hr.divider { border: none; border-top: 1px solid var(--border); }
       <div class="card">
         <div class="card-title">聯絡頁</div>
         <div class="field-row">
-          <div class="field"><label>標題</label><input type="text" id="contact-title" placeholder="有故事？|我們開機。" title="用 | 換行"></div>
-          <div class="field"><label>副標</label><input type="text" id="contact-subtitle" placeholder="聯絡頁簡短介紹"></div>
+          <div class="field"><label>標題</label><textarea id="contact-title" style="min-height:70px" placeholder="有故事？&#10;我們開機。"></textarea></div>
+          <div class="field"><label>副標</label><textarea id="contact-subtitle" style="min-height:70px" placeholder="聯絡頁簡短介紹"></textarea></div>
         </div>
         <hr class="divider">
         <div class="field"><label>地址</label><input type="text" id="contact-address" placeholder="輸入地址..."></div>
@@ -581,7 +582,7 @@ import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChang
   from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
 import { getFirestore, doc, getDoc, setDoc }
   from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
-import { getStorage, ref, uploadBytes, getDownloadURL }
+import { getStorage, ref, uploadBytes, uploadBytesResumable, getDownloadURL }
   from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js';
 
 const firebaseConfig = {
@@ -890,6 +891,39 @@ window.uploadHomeAsset = async (input, key, folder='images') => {
   }
   input.value = '';
   URL.revokeObjectURL(localUrl);
+};
+
+window.uploadHomeVideo = async (input, key) => {
+  const file = input.files && input.files[0];
+  if (!file) return;
+  const status = (m) => setUploadStatus('home-' + key, m);
+  if (!/^video\/(mp4|webm)$/.test(file.type)) {
+    showToast('請上傳 MP4 或 WebM 影片（iPhone 的 .mov 請先轉成 MP4）', 'error'); input.value = ''; return;
+  }
+  if (file.size > 200 * 1024 * 1024) {
+    showToast('影片超過 200MB，請先壓縮（建議 50MB 以內）', 'error'); input.value = ''; return;
+  }
+  try {
+    assertUploadAuth();
+    const path = 'uploads/videos/' + Date.now() + '-' + safeFileName(file.name);
+    const task = uploadBytesResumable(ref(storage, path), file, { contentType: file.type, cacheControl: 'public,max-age=31536000' });
+    showToast('影片上傳中…', 'loading');
+    await new Promise((resolve, reject) => task.on('state_changed',
+      (s) => status('上傳中 ' + Math.round(s.bytesTransferred / s.totalBytes * 100) + '%（' + (s.totalBytes / 1048576).toFixed(1) + 'MB）'),
+      reject, resolve));
+    const url = await getDownloadURL(task.snapshot.ref);
+    window.data.home[key] = url;
+    const el = document.getElementById('home-' + key); if (el) el.value = url;
+    await setDoc(doc(db, 'pages', 'home'), stripVolatileImageUrls(window.data.home));
+    status('已上傳並儲存，前台已更新');
+    showToast('影片上傳完成');
+    syncPreviewCache(); refreshPreview();
+  } catch (e) {
+    console.error(e);
+    status('上傳失敗：' + (e.code || e.message));
+    showToast('上傳失敗：' + (e.code === 'storage/unauthorized' ? 'Storage 規則不允許上傳，請更新 storage.rules' : e.message), 'error');
+  }
+  input.value = '';
 };
 
 window.uploadBtsImage = async (input, index) => {

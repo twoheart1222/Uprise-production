@@ -4,7 +4,7 @@ const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "
 const pad = (n) => String(n).padStart(2, "0");
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
-const lines = (s) => String(s || "").split("|").map((l, i) => `<span class="mask"><span data-rise="${i * 100}">${esc(l)}</span></span>`).join("");
+const lines = (s) => String(s || "").replace(/\r/g, "").split(/\||\n/).map((l, i) => `<span class="mask"><span data-rise="${i * 100}">${esc(l)}</span></span>`).join("");
 const PAGE = document.body.dataset.page;
 const LOGO = "images/uploads/logo.png";
 
@@ -64,7 +64,7 @@ async function home() {
     <div data-dim class="abs0" style="background:#0b0b0b;opacity:0;pointer-events:none"></div>
     <div data-hero-ui class="hero-ui">
       <div style="display:grid;gap:8px"><span style="color:var(--acc);display:flex;align-items:center;gap:8px"><i class="rec"></i>${esc(h.hero_text || "推手影像")} — EST. 2025</span>
-      <span style="font-family:'Noto Sans TC',sans-serif;font-size:15px;letter-spacing:.04em;line-height:1.7;max-width:22em">${esc(h.intro)}</span></div>
+      <span class="nl" style="font-family:'Noto Sans TC',sans-serif;font-size:15px;letter-spacing:.04em;line-height:1.7;max-width:22em">${esc(h.intro)}</span></div>
       <span style="justify-self:center;display:flex;flex-direction:column;align-items:center;gap:10px">滑動進入<span data-cue style="width:1px;height:42px;background:linear-gradient(#efece6,transparent);transform-origin:top"></span></span>
     </div>
     <div data-reel class="reel"><div style="display:grid;gap:10px"><span style="display:flex;align-items:center;gap:8px;color:var(--acc)"><i class="rec"></i>SHOWREEL</span>
@@ -83,7 +83,7 @@ async function home() {
   <section class="px" style="padding-bottom:clamp(40px,6vh,70px)"><div class="wrap" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:clamp(30px,4vw,70px);align-items:center">
     <div data-reveal="0" style="display:grid;border-bottom:1px solid var(--line)">${feats.map((f, i) => `
       <a href="works.html#${ytId(f.link)}" data-to="Play" data-cursor="▶ 播放" data-fi="${i}" class="feat-row${i === 0 ? " on" : ""}"><span class="n">${pad(i + 1)}</span>
-        <span class="t"><b>${esc(f.title)}</b><span class="mono mute" style="font-size:11px;letter-spacing:.12em">${esc(f.client)}</span></span><span class="tag">${esc(f.cat)}</span></a>`).join("")}</div>
+        <span class="t"><b class="nl">${esc(f.title)}</b><span class="mono mute" style="font-size:11px;letter-spacing:.12em">${esc(f.client)}</span></span><span class="tag">${esc(f.cat)}</span></a>`).join("")}</div>
     <div data-reveal="150"><div class="prev">${feats.map((f, i) => `<img data-yt="${ytId(f.link)}" data-pi="${i}" src="${esc(f.image || thumb(f, "maxresdefault"))}" alt="${esc(f.title)}"${i === 0 ? ' class="on"' : ""}>`).join("")}
       <div class="mono" style="position:absolute;left:0;right:0;bottom:0;z-index:10;display:flex;justify-content:space-between;gap:12px;padding:16px 18px;background:linear-gradient(transparent,rgba(11,11,11,.7));font-size:10.5px;letter-spacing:.18em"><span style="display:flex;align-items:center;gap:8px"><i class="rec" style="animation:none"></i>PREVIEW <b data-pn>01</b> / ${pad(feats.length)}</span><span data-pc>${esc(feats[0] ? feats[0].catEn || feats[0].cat : "")}</span></div></div></div>
   </div></section>
@@ -98,8 +98,8 @@ async function home() {
     </div>
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));border-top:1px solid #0b0b0b">${svc.map((s, i) => `
       <div data-reveal="${i * 100}" style="display:grid;gap:14px;align-content:start;padding:28px 24px 28px 0"><span class="mono" style="font-size:12px">(${pad(i + 1)})</span>
-        <h3 style="margin:0;font-size:clamp(26px,2.4vw,36px);font-weight:900;letter-spacing:-.02em">${esc(s.title)}</h3>
-        <p style="margin:0;font-size:15px;line-height:1.8;color:#3d3b37">${esc(s.description)}</p></div>`).join("")}</div>
+        <h3 class="nl" style="margin:0;font-size:clamp(26px,2.4vw,36px);font-weight:900;letter-spacing:-.02em">${esc(s.title)}</h3>
+        <p class="nl" style="margin:0;font-size:15px;line-height:1.8;color:#3d3b37">${esc(s.description)}</p></div>`).join("")}</div>
   </div></section>` + footer(c, "有故事？|我們開機。");
 
   fixThumbs();
@@ -227,7 +227,7 @@ async function works() {
     const L = list();
     bg.innerHTML = L.map((x) => `<img src="${esc(thumb(x))}" alt="">`).join("");
     tilt.innerHTML = L.map((x, i) => `<div class="w-card" data-i="${i}"><img data-yt="${ytId(x.link)}" src="${esc(x.image || thumb(x, "maxresdefault"))}" alt="${esc(x.title)}"></div>`).join("");
-    tbox.innerHTML = L.map((x, i) => `<div class="w-txt"><span class="mono" style="font-size:11px;letter-spacing:.24em;color:var(--acc)">${pad(i + 1)} — ${esc(x.catEn || x.cat)}</span><h1>${esc(x.title)}</h1></div>`).join("");
+    tbox.innerHTML = L.map((x, i) => `<div class="w-txt"><span class="mono" style="font-size:11px;letter-spacing:.24em;color:var(--acc)">${pad(i + 1)} — ${esc(x.catEn || x.cat)}</span><h1 class="nl">${esc(x.title)}</h1></div>`).join("");
     ibox.innerHTML = L.map((x) => `<div class="w-txt" style="gap:10px"><span class="mono" style="font-size:11px;letter-spacing:.2em;color:#c9c5bc">CLIENT</span><span style="font-size:18px;font-weight:700;line-height:1.5">${esc(x.client || "—")}</span><span style="font-size:14px;line-height:1.8;color:#d8d4cb">${esc(x.cat)} · 點擊畫面播放完整影片</span></div>`).join("");
     $$(".w-card", tilt).forEach((el) => el.addEventListener("click", () => { const i = +el.dataset.i; if (i === idx) open(list()[i]); else go(i - idx); }));
     fixThumbs(tilt);
@@ -300,7 +300,7 @@ async function about() {
   startFx("About", { onFrame: (f) => frame && frame(f) });
   const [a, h, t, c] = await Promise.all([getPage("about"), getPage("home"), getPage("team"), getPage("contact")]);
   const M = members(t), bts = (h.behind_the_scenes || []).filter((b) => b && b.image);
-  const paras = String(a.body || "").replace(/^#+.*$/gm, "").replace(/^>\s?/gm, "").replace(/\*\*/g, "").split(/\n\s*\n/).map((s) => s.trim()).filter(Boolean);
+  const paras = String(a.body || "").replace(/^#+.*$/gm, "").replace(/^>\s?/gm, "").replace(/\*\*/g, "").replace(/\r/g, "").split(/\n[ \t]*\n/).map((s) => s.trim()).filter(Boolean);
   const sizes = [["62vh", "16/10"], ["48vh", "4/5"], ["58vh", "3/2"], ["44vh", "3/4"], ["56vh", "16/10"]];
   const dossier = (m, i) => `<div class="dos-in">
       <span class="mono" style="font-size:11px;letter-spacing:.24em;color:var(--acc)">${pad(i + 1)} — ${esc(m.role)}</span>
@@ -315,7 +315,7 @@ async function about() {
   <header class="px wrap" style="padding-top:clamp(140px,22vh,230px);padding-bottom:clamp(60px,8vw,110px);display:grid;gap:clamp(40px,5vw,70px)">
     <span class="label" data-reveal="0">${esc(a.title || "關於推手")} — ABOUT</span>
     <h1 class="h-xl" style="font-size:clamp(46px,8.4vw,150px);line-height:1.04">${lines(a.headline || "每一幀畫面，|都有自己的靈魂。")}</h1>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:30px 60px">${paras.slice(0, 2).map((p, i) => `<p data-reveal="${200 + i * 100}" style="margin:0;font-size:${i ? "16px" : "clamp(17px,1.4vw,20px)"};line-height:1.9;color:${i ? "#a8a49b" : "#efece6"};text-wrap:pretty">${esc(p)}</p>`).join("")}</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:30px 60px">${paras.slice(0, 2).map((p, i) => `<p class="nl" data-reveal="${200 + i * 100}" style="margin:0;font-size:${i ? "16px" : "clamp(17px,1.4vw,20px)"};line-height:1.9;color:${i ? "#a8a49b" : "#efece6"};text-wrap:pretty">${esc(p)}</p>`).join("")}</div>
   </header>
   ${heroImg ? `<div style="margin:0 var(--pad)"><div data-clip style="overflow:hidden;height:clamp(320px,70vh,760px)"><img src="${esc(heroImg)}" alt="拍攝現場" data-par="90" style="width:100%;height:130%;object-fit:cover;margin-top:-15%"></div></div>` : ""}
   <section class="px wrap" style="padding-top:clamp(110px,17vh,200px);padding-bottom:clamp(110px,17vh,200px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,360px),1fr));gap:clamp(40px,6vw,100px);align-items:start">
@@ -363,7 +363,7 @@ async function contact() {
   const TYPES = ["品牌形象", "活動紀錄", "產品影片", "公部門專案", "FPV / 空拍", "其他"], BUD = ["10 萬以下", "10–30 萬", "30–60 萬", "60 萬以上", "尚未確定"], TIME = ["一個月內", "1–3 個月", "3 個月以上", "尚未確定"];
   const chips = (name, arr, multi) => `<div style="display:flex;flex-wrap:wrap;gap:10px" data-group="${name}" data-multi="${multi ? 1 : 0}">${arr.map((x) => `<button type="button" class="chip" data-v="${esc(x)}">${esc(x)}</button>`).join("")}</div>`;
   const leg = (n, t) => `<legend><span class="mono" style="font-size:12px;color:var(--acc)">${n}</span><b>${t}</b></legend>`;
-  const title = String(c.title || "").includes("|") ? c.title : "有故事？|我們開機。";
+  const title = /[|\n]/.test(String(c.title || "")) ? c.title : "有故事？|我們開機。";
   document.getElementById("app").innerHTML = nav("contact") + `
   <header class="px wrap" style="padding-top:clamp(140px,22vh,230px);padding-bottom:clamp(60px,8vw,100px);display:grid;gap:clamp(40px,5vw,60px)">
     <span class="label" data-reveal="0">聯絡我們 — CONTACT</span>
@@ -371,7 +371,7 @@ async function contact() {
   </header>
   <main class="px wrap" style="padding-bottom:clamp(100px,15vh,170px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,360px),1fr));gap:clamp(50px,7vw,110px);align-items:start">
     <aside data-sticky-wide style="position:sticky;top:16vh;display:grid;gap:34px;font-family:var(--mono);font-size:12.5px;letter-spacing:.06em;line-height:1.9">
-      <p data-reveal="0" style="margin:0;font-family:'Noto Sans TC',sans-serif;font-size:17px;letter-spacing:0;line-height:1.9;color:#a8a49b;max-width:24em">${esc(c.subtitle)}</p>
+      <p class="nl" data-reveal="0" style="margin:0;font-family:'Noto Sans TC',sans-serif;font-size:17px;letter-spacing:0;line-height:1.9;color:#a8a49b;max-width:24em">${esc(c.subtitle)}</p>
       <div data-reveal="80" style="display:grid;border-top:1px solid var(--line);padding-top:18px"><span class="mute">EMAIL</span><a href="mailto:${esc(c.email)}" style="font-size:clamp(15px,1.4vw,19px)">${esc(c.email)}</a></div>
       <div data-reveal="160" style="display:grid;border-top:1px solid var(--line);padding-top:18px"><span class="mute">PHONE</span><a href="tel:${esc(String(c.phone).replace(/[^0-9+]/g, ""))}" style="font-size:clamp(15px,1.4vw,19px)">${esc(c.phone)}</a></div>
       <div data-reveal="240" style="display:grid;border-top:1px solid var(--line);padding-top:18px"><span class="mute">STUDIO</span><a href="https://maps.google.com/?q=${encodeURIComponent(c.address)}" target="_blank" rel="noopener" data-cursor="地圖">${esc(c.address)} ↗</a></div>

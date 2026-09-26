@@ -111,7 +111,7 @@ export async function getPage(name) {
 
 export const ytId = (url) => { const m = String(url || "").match(/(?:youtu\.be\/|[?&]v=|shorts\/|embed\/)([A-Za-z0-9_-]{11})/); return m ? m[1] : ""; };
 export const thumb = (it, q) => it.image || (ytId(it.link) ? "https://i.ytimg.com/vi/" + ytId(it.link) + "/" + (q || "hqdefault") + ".jpg" : "");
-export const oneLine = (s) => String(s || "").replace(/\s*\n\s*/g, "").trim();
+export const oneLine = (s) => String(s || "").replace(/\r/g, "").replace(/[ \t]+\n/g, "\n").trim();
 
 export function categories(w) {
   let cats = Array.isArray(w.portfolio_categories) && w.portfolio_categories.length ? w.portfolio_categories

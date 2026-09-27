@@ -334,9 +334,16 @@ async function about() {
       <span class="mono mute" data-reveal="100" style="font-size:11px;letter-spacing:.3em"><span style="color:var(--acc)">03 / THE CREW</span> — 點選照片，看完整介紹</span></div>
     <div data-crew-wide class="crew">${M.map((m, i) => `<div class="cp${i === 0 ? " on" : ""}" data-cp="${i}" data-cursor="${i === 0 ? esc(m.name) : "展開"}">
         <div class="ph"><img src="${esc(m.img)}" alt="${esc(m.name)}" style="object-position:${m.px}% ${m.py}%"><div class="shade"></div>
-          <div class="vt"><b>${esc(m.name)}</b><span class="mono" style="font-size:11px;letter-spacing:.2em">${pad(i + 1)} +</span></div><span class="rs">${esc(m.roleShort)}</span></div>
+          <div class="vt"><b>${[...m.name].map((ch) => `<span>${esc(ch)}</span>`).join("")}</b><span class="mono" style="font-size:11px;letter-spacing:.2em">${pad(i + 1)} +</span></div><span class="rs">${esc(m.roleShort)}</span></div>
         <div class="dos" data-native-scroll>${dossier(m, i)}</div></div>`).join("")}</div>
-    <div data-crew-narrow class="crew-m" style="display:none">${M.map((m, i) => `<div style="display:grid;gap:24px"><div style="aspect-ratio:4/5;overflow:hidden;background:#141412"><img src="${esc(m.img)}" alt="${esc(m.name)}" style="width:100%;height:100%;object-fit:cover;object-position:${m.px}% ${m.py}%"></div>${dossier(m, i)}</div>`).join("")}</div>
+    <div data-crew-narrow class="crew-m" style="display:none">${M.map((m, i) => `<div class="mb${i === 0 ? " on" : ""}" data-mb="${i}">
+      <button type="button" class="mb-head" data-mbh="${i}" aria-expanded="${i === 0}">
+        <span class="mb-ph"><img src="${esc(m.img)}" alt="${esc(m.name)}" style="object-position:${m.px}% ${m.py}%"></span>
+        <span class="mb-shade"></span>
+        <span class="mb-t"><span class="mono" style="font-size:10.5px;letter-spacing:.2em;color:var(--acc)">${pad(i + 1)} — ${esc(m.roleShort || m.role)}</span><b>${esc(m.name)}</b></span>
+        <span class="mb-x">+</span>
+      </button>
+      <div class="mb-body"><div class="mb-in">${dossier(m, i)}</div></div></div>`).join("")}</div>
   </div></section>` + footer(c, "有故事？|我們開機。");
 
   const cps = $$("[data-cp]");
@@ -344,6 +351,15 @@ async function about() {
   cps.forEach((el) => { el.addEventListener("click", () => pick(el)); });
   const crewLayout = () => { const n = innerWidth < 900; $("[data-crew-wide]").style.display = n ? "none" : "flex"; $("[data-crew-narrow]").style.display = n ? "grid" : "none"; };
   crewLayout(); addEventListener("resize", crewLayout);
+  const mbs = $$("[data-mb]");
+  const setMb = () => mbs.forEach((el) => { const b = $(".mb-body", el); b.style.height = el.classList.contains("on") ? $(".mb-in", el).scrollHeight + "px" : "0px"; });
+  $$("[data-mbh]").forEach((btn) => btn.addEventListener("click", () => {
+    const el = btn.parentElement, was = el.classList.contains("on");
+    mbs.forEach((x) => { x.classList.toggle("on", x === el && !was); $(".mb-head", x).setAttribute("aria-expanded", String(x === el && !was)); });
+    setMb();
+    if (!was) setTimeout(() => { const y = el.getBoundingClientRect().top + scrollY - 70; scrollTo({ top: y, behavior: "smooth" }); }, 420);
+  }));
+  setMb(); addEventListener("resize", setMb); document.fonts && document.fonts.ready.then(setMb);
   if (location.hash === "#crew") setTimeout(() => { const el = $("#crew"); scrollTo(0, el.getBoundingClientRect().top + scrollY - 40); }, 900);
   const g = $("[data-gal]"), tr = g && $("[data-gtrack]", g);
   frame = (f) => {

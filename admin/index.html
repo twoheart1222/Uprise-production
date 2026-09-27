@@ -320,6 +320,7 @@ hr.divider { border: none; border-top: 1px solid var(--border); }
       <div class="nav-item" data-panel="member"><i class="fas fa-id-card"></i> 成員頁</div>
       <div class="nav-item" data-panel="about"><i class="fas fa-circle-info"></i> 關於</div>
       <div class="nav-item" data-panel="contact"><i class="fas fa-envelope"></i> 聯絡</div>
+      <div class="nav-item" data-panel="site"><i class="fas fa-font"></i> 網站文字</div>
     </div>
     <div class="sidebar-footer">
       <div class="user-info">
@@ -515,6 +516,11 @@ hr.divider { border: none; border-top: 1px solid var(--border); }
       </div>
     </div>
 
+    <div class="panel" id="panel-site">
+      <div class="card"><div class="card-title">網站文字</div><div class="field-hint">網站上所有固定的標題、按鈕、提示文字都在這裡。按 Enter 換行，前台會照著換行；留白就使用灰色的預設文字。</div></div>
+      <div id="site-copy"></div>
+    </div>
+
     <div class="panel" id="panel-contact">
       <div class="card">
         <div class="card-title">聯絡頁</div>
@@ -578,6 +584,7 @@ hr.divider { border: none; border-top: 1px solid var(--border); }
 })();
 </script>
 <script type="module">
+import { COPY } from '../js/uprise-copy.js';
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
 import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged }
   from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
@@ -644,6 +651,7 @@ onAuthStateChanged(auth, async user => {
 });
 
 window.data = {
+  site: {},
   home: { hero_text:'', logo:'', hero_video:'', hero_video_mobile:'', services:[], behind_the_scenes:[] },
   works: { title:'', subtitle:'', portfolio_categories:[] },
   team: { title:'', subtitle:'', members:[], style:{name_font:'serif',name_size:2.45,role_size:0.78,bio_size:0.92,card_density:'normal'} },
@@ -654,7 +662,7 @@ window.data = {
 async function loadAllData() {
   showToast('Loading data...', 'loading');
   try {
-    for (const page of ['home','works','team','about','contact']) {
+    for (const page of ['home','works','team','about','contact','site']) {
       const snap = await getDoc(doc(db,'pages',page));
       if (snap.exists()) window.data[page] = stripVolatileImageUrls(snap.data());
     }
@@ -665,7 +673,16 @@ async function loadAllData() {
   } catch(e) { showToast('Load failed: '+e.message,'error'); }
 }
 
-function renderAll() { renderHome(); renderWorks(); renderTeam(); renderAbout(); renderContact(); }
+function renderAll() { renderHome(); renderWorks(); renderTeam(); renderAbout(); renderContact(); renderSite(); }
+function renderSite() {
+  const box = document.getElementById('site-copy'); if (!box) return;
+  const d = window.data.site || (window.data.site = {});
+  const ea = s => String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;');
+  box.innerHTML = COPY.map(g => `<div class="card"><div class="card-title">${g.group}</div>${g.items.map(([k, label, def]) => {
+    const rows = Math.max(1, String(def).split('\n').length, String(d[k] || '').split('\n').length);
+    return `<div class="field"><label>${label}</label><textarea data-copy="${k}" rows="${rows}" style="min-height:0" placeholder="${ea(def)}" oninput="window.data.site['${k}']=this.value;schedulePreviewRefresh()">${ea(d[k] || '')}</textarea></div>`;
+  }).join('')}</div>`).join('');
+}
 
 function syncPreviewCache() {
   try {
@@ -1568,6 +1585,9 @@ window.saveCurrentPanel = async () => {
       const el=document.getElementById('about-'+k); if(el) window.data.about[k]=el.value;
     });
   }
+  if(panel==='site') {
+    document.querySelectorAll('[data-copy]').forEach(el => { window.data.site[el.dataset.copy] = el.value; });
+  }
   if(panel==='contact') {
     ['title','subtitle','address','email','phone','formspree_id'].forEach(k=>{
       const el=document.getElementById('contact-'+k); if(el) window.data.contact[k]=el.value;
@@ -1603,6 +1623,7 @@ function updateStats() {
 
 // Navigation and preview
 const panelTitles = {
+  site: '網站文字',
   dashboard: '\u7e3d\u89bd',
   home: '\u9996\u9801',
   works: '\u4f5c\u54c1',
@@ -1611,7 +1632,7 @@ const panelTitles = {
   about: '\u95dc\u65bc',
   contact: '\u806f\u7d61'
 };
-const previewPages = {dashboard:'index.html',home:'index.html',works:'works.html',team:'about.html#crew',member:'about.html#crew',about:'about.html',contact:'contact.html'};
+const previewPages = {site:'index.html',dashboard:'index.html',home:'index.html',works:'works.html',team:'about.html#crew',member:'about.html#crew',about:'about.html',contact:'contact.html'};
 function getPreviewPage(panel) {
   return previewPages[panel] || 'index.html';
 }

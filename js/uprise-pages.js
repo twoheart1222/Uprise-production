@@ -208,6 +208,7 @@ async function works() {
     </div>
     <div data-hint class="mono" style="position:absolute;left:var(--pad);bottom:clamp(84px,12vh,120px);z-index:30;display:flex;flex-direction:column;gap:10px;font-size:10.5px;letter-spacing:.2em;color:#c9c5bc">
       <button data-prev data-cursor="上一部" style="background:none;border:0;padding:0;text-align:left;letter-spacing:.2em">↑ PREV</button><span>滾動切換</span><button data-next data-cursor="下一部" style="background:none;border:0;padding:0;text-align:left;letter-spacing:.2em">↓ NEXT</button></div>
+    <div data-mhint class="mono" style="position:absolute;left:0;right:0;top:calc(60% + 86vw * .5625 / 2 + 22px);display:none;justify-content:center;gap:10px;z-index:30;font-size:10.5px;letter-spacing:.2em;color:#c9c5bc;pointer-events:none">↑ 上下滑動切換作品 ↓</div>
     <div class="w-cats"><span style="position:absolute;left:var(--pad);right:var(--pad);top:0;height:1px;background:linear-gradient(90deg,#e60012,#ff8c00,#ffd700);opacity:.7"></span>
       <span class="x">+</span>${TABS.map((t, i) => `<button class="w-cat${i === 0 ? " on" : ""}" data-tab="${i}" data-cursor="分類">${esc(t.name)}<small>${pad(t.items.length)}</small></button><span class="x">+</span>`).join("")}</div>
   </main><div data-modal></div>`;
@@ -218,10 +219,12 @@ async function works() {
     const n = narrow();
     stage.style.setProperty("--bw", n ? "86vw" : "min(50vw, 118vh)");
     stage.style.setProperty("--bh", "calc(var(--bw) * .5625)");
-    tbox.style.top = n ? "calc(50% - 86vw * .5625 / 2 - 150px)" : "50%";
+    stage.style.setProperty("--cy", n ? "60%" : "50%");
+    tbox.style.top = n ? "calc(60% - 86vw * .5625 / 2 - 90px)" : "50%";
     tbox.style.width = n ? "calc(100% - 36px)" : "min(24vw, 400px)";
     ibox.style.display = n ? "none" : "";
     $("[data-hint]").style.display = n ? "none" : "flex";
+    $("[data-mhint]").style.display = n ? "flex" : "none";
   };
   const build = () => {
     const L = list();
@@ -240,7 +243,7 @@ async function works() {
       const o = i - idx, a = Math.abs(o), sg = Math.sign(o);
       const k = a === 0 ? 0 : a === 1 ? sg * 0.74 : sg * (0.74 + (a - 1) * 0.36);
       el.style.zIndex = String(20 - a);
-      el.style.opacity = a === 0 ? "1" : a === 1 ? ".55" : "0";
+      el.style.opacity = a === 0 ? "1" : a === 1 && !narrow() ? ".55" : "0";
       el.style.filter = "brightness(" + (a === 0 ? 1 : 0.7) + ")";
       el.style.transform = "translate(-50%,-50%) translateY(calc(var(--bh) * " + k + ")) scale(" + (a === 0 ? 1 : 0.3) + ")";
       el.style.pointerEvents = a <= 1 ? "auto" : "none";
@@ -268,7 +271,9 @@ async function works() {
   $$("[data-tab]").forEach((b) => b.addEventListener("click", () => {
     const t = +b.dataset.tab; if (t === tab) return;
     tab = t; idx = 0; lock = performance.now();
-    $$("[data-tab]").forEach((x) => x.classList.toggle("on", x === b)); build();
+    $$("[data-tab]").forEach((x) => x.classList.toggle("on", x === b));
+    const bar = b.parentElement; bar.scrollTo({ left: b.offsetLeft - 18, behavior: "smooth" });
+    build();
   }));
   $("[data-prev]").addEventListener("click", () => go(-1));
   $("[data-next]").addEventListener("click", () => go(1));

@@ -20,33 +20,49 @@
     const enter = () => o.onEnter && o.onEnter();
     let t1;
     let first = false;
-    try { first = !sessionStorage.getItem("upriseIntro"); sessionStorage.setItem("upriseIntro", "1"); } catch (e) {}
+    // 從外部進站（網址列、搜尋、社群連結）或重新整理首頁時都播放開場
+    try {
+      const ref = document.referrer ? new URL(document.referrer) : null;
+      const internal = ref && ref.origin === location.origin;
+      const reload = performance.getEntriesByType && (performance.getEntriesByType("navigation")[0] || {}).type === "reload";
+      first = !internal || (reload && o.page === "Uprise");
+    } catch (e) { first = true; }
     let intro = null;
     if (first && o.intro !== false) {
-      const EZI = "cubic-bezier(.76,0,.24,1)";
+      // Apple 風格開場：模糊→清晰、柔和光澤掃過、淡出放大
+      const AP = "cubic-bezier(.16,1,.3,1)";
       intro = document.createElement("div");
-      intro.style.cssText = "position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:clamp(18px,3vh,32px);background:#0b0b0b";
+      intro.style.cssText = "position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:clamp(22px,3.4vh,36px);background:#000;transition:opacity 1s " + AP + ",transform 1.4s " + AP + ",filter 1s " + AP;
       intro.innerHTML =
-        '<img src="images/uploads/logo.png" alt="" style="width:clamp(110px,14vw,200px);height:auto;clip-path:inset(0 100% 0 0);transform:scale(.85) rotate(-8deg);transition:clip-path 1.1s ' + EZI + ',transform 1.4s ' + EZI + '">' +
-        '<div style="display:flex;font-family:\'Noto Sans TC\',sans-serif;font-weight:900;font-size:clamp(72px,11vw,170px);line-height:1;letter-spacing:.04em;color:#efece6">' +
-        '<span style="display:block;overflow:hidden;padding:.04em 0"><span data-ic style="display:block;transform:translateY(110%);transition:transform 1.1s ' + EZI + ' .45s">推</span></span>' +
-        '<span style="display:block;overflow:hidden;padding:.04em 0"><span data-ic style="display:block;transform:translateY(110%);transition:transform 1.1s ' + EZI + ' .57s">手</span></span></div>' +
-        '<span data-it style="font-family:\'JetBrains Mono\',monospace;font-size:11px;letter-spacing:.4em;color:#8a877f;opacity:0;transform:translateY(10px);transition:opacity 1s ' + EZI + ' .9s,transform 1s ' + EZI + ' .9s">推手影像 · UPRISE PRODUCTION</span>' +
-        '<span data-ib style="position:absolute;left:0;bottom:0;height:2px;width:100%;transform:scaleX(0);transform-origin:left;background:linear-gradient(90deg,#e60012,#ff8c00,#ffd700);transition:transform 2s ' + EZI + ' .2s"></span>';
+        '<div data-il style="position:relative;width:clamp(120px,15vw,210px);opacity:0;filter:blur(24px);transform:scale(1.14);transition:opacity 1.6s ' + AP + ',filter 1.8s ' + AP + ',transform 2.2s ' + AP + '">' +
+          '<img src="images/uploads/logo.png" alt="" style="display:block;width:100%;height:auto">' +
+          '<span data-ish style="position:absolute;inset:0;-webkit-mask:url(images/uploads/logo.png) center/contain no-repeat;mask:url(images/uploads/logo.png) center/contain no-repeat;background:linear-gradient(105deg,transparent 35%,rgba(255,255,255,.85) 50%,transparent 65%);background-size:250% 100%;background-position:120% 0;transition:background-position 1.6s cubic-bezier(.45,0,.2,1) 1.1s"></span>' +
+        '</div>' +
+        '<div style="display:grid;justify-items:center;gap:12px">' +
+          '<span data-intro-t style="font-family:\'Noto Sans TC\',sans-serif;font-weight:700;font-size:clamp(22px,2.6vw,34px);letter-spacing:.6em;padding-left:.6em;color:#f5f5f7;opacity:0;filter:blur(8px);transition:opacity 1.4s ' + AP + ' .7s,letter-spacing 2s ' + AP + ' .7s,padding-left 2s ' + AP + ' .7s,filter 1.4s ' + AP + ' .7s">推手影像</span>' +
+          '<span data-intro-s style="font-family:-apple-system,BlinkMacSystemFont,\'SF Pro Text\',\'Helvetica Neue\',sans-serif;font-weight:500;font-size:11px;letter-spacing:.32em;color:#86868b;opacity:0;transform:translateY(6px);transition:opacity 1.2s ' + AP + ' 1.2s,transform 1.2s ' + AP + ' 1.2s">UPRISE PRODUCTION</span>' +
+        '</div>';
+      curtain.style.background = "#000";
       curtain.appendChild(intro);
       requestAnimationFrame(() => requestAnimationFrame(() => {
-        const im = intro.querySelector("img"); im.style.clipPath = "inset(0 0% 0 0)"; im.style.transform = "none";
-        intro.querySelectorAll("[data-ic]").forEach((c) => { c.style.transform = "none"; });
-        const it = intro.querySelector("[data-it]"); it.style.opacity = "1"; it.style.transform = "none";
-        intro.querySelector("[data-ib]").style.transform = "scaleX(1)";
+        const il = intro.querySelector("[data-il]"); il.style.opacity = "1"; il.style.filter = "blur(0)"; il.style.transform = "none";
+        intro.querySelector("[data-ish]").style.backgroundPosition = "-20% 0";
+        const t = intro.querySelector("[data-intro-t]"); t.style.opacity = "1"; t.style.filter = "blur(0)"; t.style.letterSpacing = ".18em"; t.style.paddingLeft = ".18em";
+        const st = intro.querySelector("[data-intro-s]"); st.style.opacity = "1"; st.style.transform = "none";
       }));
     }
-    const hold = intro ? 2500 : 450;
+    const hold = intro ? 2900 : 450;
     if (o.transition === false && !intro) { curtain.style.transform = "translateY(-100%)"; enter(); }
+    else if (intro) t1 = setTimeout(() => {
+      intro.style.opacity = "0"; intro.style.transform = "scale(1.06)"; intro.style.filter = "blur(10px)";
+      curtain.style.transition = "opacity 1.2s cubic-bezier(.16,1,.3,1)";
+      curtain.style.opacity = "0";
+      setTimeout(enter, 250);
+      setTimeout(() => { if (intro) { intro.remove(); intro = null; } curtain.style.transition = "none"; curtain.style.transform = "translateY(-100%)"; curtain.style.opacity = "1"; curtain.style.background = "#0b0b0b"; }, 1300);
+    }, hold);
     else t1 = setTimeout(() => {
       curtain.style.transition = "transform 1.1s cubic-bezier(.76,0,.24,1)";
       curtain.style.transform = "translateY(-100%)";
-      setTimeout(() => { if (intro) { intro.remove(); intro = null; } }, 1200);
       setTimeout(enter, 300);
     }, hold);
     const onClick = (e) => {
@@ -59,6 +75,7 @@
       e.preventDefault();
       if (o.transition === false) { location.href = h; return; }
       if (intro) { intro.remove(); intro = null; }
+      curtain.style.opacity = "1"; curtain.style.background = "#0b0b0b";
       cn.textContent = a.dataset.to || "";
       curtain.style.transition = "none";
       curtain.style.transform = "translateY(100%)";

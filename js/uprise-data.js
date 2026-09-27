@@ -7,6 +7,7 @@ const LEGACY = [["portfolio_brand", "品牌形象廣告"], ["portfolio_product",
 export const CREDIT_TYPES = ["創辦", "學歷", "經歷", "專長", "肯定", "短片導演", "短片剪輯", "短片攝影", "廣告導演", "攝影", "得獎"];
 
 const DEFAULTS = {
+  site: {},
   home: {
     hero_word: "推手", hero_text: "推手影像",
     hero_video: "https://res.cloudinary.com/dfnfcyglu/video/upload/v1763893930/hero_bg_ickrbe.mp4", hero_video_mobile: "",

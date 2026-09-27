@@ -1,6 +1,10 @@
 import { getPage, categories, allWorks, featured, members, ytId, thumb, oneLine } from "./uprise-data.js";
+import { COPY_DEF } from "./uprise-copy.js";
+let S = {};
+const T = (k) => { const v = S[k]; return String(v != null && String(v).trim() !== "" ? v : COPY_DEF[k] ?? "").replace(/\r/g, ""); };
 
 const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const tx = (k) => esc(T(k)).replace(/\n/g, "<br>");
 const pad = (n) => String(n).padStart(2, "0");
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
@@ -9,21 +13,21 @@ const PAGE = document.body.dataset.page;
 const LOGO = "images/uploads/logo.png";
 
 function nav(on) {
-  const L = [["index.html", "Home", "首頁", "home"], ["works.html", "Works", "作品", "works"], ["about.html", "About", "關於", "about"], ["contact.html", "Contact", "聯絡", "contact"]];
-  return `<nav class="site-nav"><a class="brand" href="index.html" data-to="Uprise"><img src="${LOGO}" alt="推手影像"><span>UPRISE®</span></a>
-  <div class="links">${L.map(([h, to, t, k]) => `<a href="${h}" data-to="${to}"${k === on ? ' class="on"' : ""}>${t}</a>`).join("")}</div></nav>`;
+  const L = [["index.html", "Home", T("nav_home"), "home"], ["works.html", "Works", T("nav_works"), "works"], ["about.html", "About", T("nav_about"), "about"], ["contact.html", "Contact", T("nav_contact"), "contact"]];
+  return `<nav class="site-nav"><a class="brand" href="index.html" data-to="Uprise"><img src="${LOGO}" alt="推手影像"><span>${esc(T("brand"))}</span></a>
+  <div class="links">${L.map(([h, to, t, k]) => `<a href="${h}" data-to="${to}"${k === on ? ' class="on"' : ""}>${esc(t)}</a>`).join("")}</div></nav>`;
 }
 
 function footer(c, cta) {
   return `<footer class="site-foot"><div class="in">
-    ${cta ? `<div class="foot-top"><h2 class="h-xl">${lines(cta)}</h2><div style="justify-self:end"><a href="contact.html" data-to="Contact" data-magnet data-cursor="開始" class="circle-cta">開始合作<br>↗</a></div></div>` : ""}
+    ${cta ? `<div class="foot-top"><h2 class="h-xl">${lines(cta)}</h2><div style="justify-self:end"><a href="contact.html" data-to="Contact" data-magnet data-cursor="開始" class="circle-cta">${tx("foot_btn")}<br>↗</a></div></div>` : ""}
     <div class="foot-grid">
-      <div><span class="mute">頁面</span><a href="index.html" data-to="Home">首頁</a><a href="works.html" data-to="Works">作品</a><a href="about.html" data-to="About">關於</a><a href="contact.html" data-to="Contact">聯絡</a></div>
-      <div><span class="mute">EMAIL</span><a href="mailto:${esc(c.email)}">${esc(c.email)}</a></div>
-      <div><span class="mute">PHONE</span><a href="tel:${esc(String(c.phone).replace(/[^0-9+]/g, ""))}">${esc(c.phone)}</a></div>
-      <div><span class="mute">STUDIO</span><span>${esc(c.address)}</span></div>
+      <div><span class="mute">${tx("foot_pages")}</span><a href="index.html" data-to="Home">${tx("nav_home")}</a><a href="works.html" data-to="Works">${tx("nav_works")}</a><a href="about.html" data-to="About">${tx("nav_about")}</a><a href="contact.html" data-to="Contact">${tx("nav_contact")}</a></div>
+      <div><span class="mute">${tx("lbl_email")}</span><a href="mailto:${esc(c.email)}">${esc(c.email)}</a></div>
+      <div><span class="mute">${tx("lbl_phone")}</span><a href="tel:${esc(String(c.phone).replace(/[^0-9+]/g, ""))}">${esc(c.phone)}</a></div>
+      <div><span class="mute">${tx("lbl_studio")}</span><span>${esc(c.address)}</span></div>
     </div>
-    <div class="foot-bot"><span>推手影像製作有限公司</span><span>© ${new Date().getFullYear()} UPRISE-PRODUCTION</span></div>
+    <div class="foot-bot"><span>${tx("foot_company")}</span><span>© ${new Date().getFullYear()} ${tx("foot_copyright")}</span></div>
   </div></footer>`;
 }
 
@@ -63,21 +67,21 @@ async function home() {
     <div data-knock class="knock"><h1 data-h1 class="hero-word">${word.map((ch, i) => `<span><span data-l${i === word.length - 1 ? " data-origin" : ""}>${esc(ch)}</span></span>`).join("")}</h1></div>
     <div data-dim class="abs0" style="background:#0b0b0b;opacity:0;pointer-events:none"></div>
     <div data-hero-ui class="hero-ui">
-      <div style="display:grid;gap:8px"><span style="color:var(--acc);display:flex;align-items:center;gap:8px"><i class="rec"></i>${esc(h.hero_text || "推手影像")} — EST. 2025</span>
+      <div style="display:grid;gap:8px"><span style="color:var(--acc);display:flex;align-items:center;gap:8px"><i class="rec"></i>${esc(h.hero_text || "推手影像")} — ${tx("home_est")}</span>
       <span class="nl" style="font-family:'Noto Sans TC',sans-serif;font-size:15px;letter-spacing:.04em;line-height:1.7;max-width:22em">${esc(h.intro)}</span></div>
-      <span style="justify-self:center;display:flex;flex-direction:column;align-items:center;gap:10px">滑動進入<span data-cue style="width:1px;height:42px;background:linear-gradient(#efece6,transparent);transform-origin:top"></span></span>
+      <span style="justify-self:center;display:flex;flex-direction:column;align-items:center;gap:10px">${tx("home_scroll")}<span data-cue style="width:1px;height:42px;background:linear-gradient(#efece6,transparent);transform-origin:top"></span></span>
     </div>
-    <div data-reel class="reel"><div style="display:grid;gap:10px"><span style="display:flex;align-items:center;gap:8px;color:var(--acc)"><i class="rec"></i>SHOWREEL</span>
-      <span style="font-family:'Noto Sans TC',sans-serif;font-size:clamp(22px,2.4vw,36px);font-weight:900">${esc(h.hero_text || "推手影像")} 作品精華</span></div>
-      <a href="works.html" data-to="Works" data-cursor="作品" style="border-bottom:1px solid #efece6;padding-bottom:4px">看完整作品 →</a></div>
-    <button class="sound" data-sound data-cursor="開聲音"><span class="eq"><i style="height:30%"></i><i style="height:70%"></i><i style="height:45%"></i><i style="height:90%"></i></span><span data-sound-t>SOUND OFF</span></button>
-    <div data-mani class="mani"><span class="label" style="margin-bottom:28px">01 / 我們相信</span><h2 data-chars>${esc(h.manifesto)}</h2></div>
+    <div data-reel class="reel"><div style="display:grid;gap:10px"><span style="display:flex;align-items:center;gap:8px;color:var(--acc)"><i class="rec"></i>${tx("home_reel_label")}</span>
+      <span style="font-family:'Noto Sans TC',sans-serif;font-size:clamp(22px,2.4vw,36px);font-weight:900">${tx("home_reel_title")}</span></div>
+      <a href="works.html" data-to="Works" data-cursor="作品" style="border-bottom:1px solid #efece6;padding-bottom:4px">${tx("home_reel_link")}</a></div>
+    <button class="sound" data-sound data-cursor="開聲音"><span class="eq"><i style="height:30%"></i><i style="height:70%"></i><i style="height:45%"></i><i style="height:90%"></i></span><span data-sound-t>${tx("home_sound_off")}</span></button>
+    <div data-mani class="mani"><span class="label" style="margin-bottom:28px">${tx("home_mani_label")}</span><h2 data-chars>${esc(h.manifesto)}</h2></div>
   </div></section>
 
   <section class="px" style="padding-top:clamp(110px,18vh,200px);padding-bottom:clamp(40px,6vh,70px)"><div class="wrap" style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:28px">
-    <div style="display:grid;gap:24px"><span class="label" data-reveal="0">02 / 精選作品</span>
-      <h2 style="margin:0;font-family:Archivo,sans-serif;font-weight:900;font-variation-settings:'wdth' 70;font-size:clamp(72px,12vw,200px);line-height:.84;letter-spacing:-.02em;text-transform:uppercase"><span class="mask"><span data-rise="0">Selected</span></span><span class="mask"><span data-rise="90">Works <sup style="font-size:.22em;vertical-align:top;color:var(--acc)">(${pad(feats.length)})</sup></span></span></h2></div>
-    <a href="works.html" data-to="Works" data-magnet data-cursor="全部作品" class="pill" style="padding:18px 28px">查看全部 ${allWorks(cats).length} 部作品 →</a>
+    <div style="display:grid;gap:24px"><span class="label" data-reveal="0">${tx("home_sel_label")}</span>
+      <h2 style="margin:0;font-family:Archivo,sans-serif;font-weight:900;font-variation-settings:'wdth' 70;font-size:clamp(72px,12vw,200px);line-height:.84;letter-spacing:-.02em;text-transform:uppercase">${lines(T("home_sel_title"))}</h2></div>
+    <a href="works.html" data-to="Works" data-magnet data-cursor="全部作品" class="pill" style="padding:18px 28px">${tx("home_sel_btn").replace("{n}", allWorks(cats).length)}</a>
   </div></section>
 
   <section class="px" style="padding-bottom:clamp(40px,6vh,70px)"><div class="wrap" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:clamp(30px,4vw,70px);align-items:center">
@@ -85,22 +89,22 @@ async function home() {
       <a href="works.html#${ytId(f.link)}" data-to="Play" data-cursor="▶ 播放" data-fi="${i}" class="feat-row${i === 0 ? " on" : ""}"><span class="n">${pad(i + 1)}</span>
         <span class="t"><b class="nl">${esc(f.title)}</b><span class="mono mute" style="font-size:11px;letter-spacing:.12em">${esc(f.client)}</span></span><span class="tag">${esc(f.cat)}</span></a>`).join("")}</div>
     <div data-reveal="150"><div class="prev">${feats.map((f, i) => `<img data-yt="${ytId(f.link)}" data-pi="${i}" src="${esc(f.image || thumb(f, "maxresdefault"))}" alt="${esc(f.title)}"${i === 0 ? ' class="on"' : ""}>`).join("")}
-      <div class="mono" style="position:absolute;left:0;right:0;bottom:0;z-index:10;display:flex;justify-content:space-between;gap:12px;padding:16px 18px;background:linear-gradient(transparent,rgba(11,11,11,.7));font-size:10.5px;letter-spacing:.18em"><span style="display:flex;align-items:center;gap:8px"><i class="rec" style="animation:none"></i>PREVIEW <b data-pn>01</b> / ${pad(feats.length)}</span><span data-pc>${esc(feats[0] ? feats[0].catEn || feats[0].cat : "")}</span></div></div></div>
+      <div class="mono" style="position:absolute;left:0;right:0;bottom:0;z-index:10;display:flex;justify-content:space-between;gap:12px;padding:16px 18px;background:linear-gradient(transparent,rgba(11,11,11,.7));font-size:10.5px;letter-spacing:.18em"><span style="display:flex;align-items:center;gap:8px"><i class="rec" style="animation:none"></i>${tx("home_preview")} <b data-pn>01</b> / ${pad(feats.length)}</span><span data-pc>${esc(feats[0] ? feats[0].catEn || feats[0].cat : "")}</span></div></div></div>
   </div></section>
 
   <div style="overflow:hidden;padding:clamp(50px,8vw,110px) 0"><div class="mq-band"><div class="mq" data-marquee>${mq}${mq}</div></div></div>
 
   <section class="px" style="background:#efece6;color:#0b0b0b;padding-top:clamp(100px,15vh,180px);padding-bottom:clamp(100px,15vh,180px)"><div class="wrap" style="display:grid;gap:clamp(60px,8vw,110px)">
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:28px 60px;align-items:end">
-      <h2 class="h-xl" style="font-size:clamp(48px,7.5vw,128px);letter-spacing:-.04em">${lines("從一個想法|到最後一格。")}</h2>
-      <div data-reveal="150" style="display:grid;gap:22px;justify-items:start"><span class="mono" style="font-size:11px;letter-spacing:.3em;color:#6d6a63">03 / 我們做什麼</span>
-        <a href="about.html" data-to="About" data-cursor="認識我們" class="mono" style="color:#0b0b0b;border-bottom:1px solid #0b0b0b;padding-bottom:6px;font-size:12px;letter-spacing:.18em">認識團隊與流程 →</a></div>
+      <h2 class="h-xl" style="font-size:clamp(48px,7.5vw,128px);letter-spacing:-.04em">${lines(T("home_svc_title"))}</h2>
+      <div data-reveal="150" style="display:grid;gap:22px;justify-items:start"><span class="mono" style="font-size:11px;letter-spacing:.3em;color:#6d6a63">${tx("home_svc_label")}</span>
+        <a href="about.html" data-to="About" data-cursor="認識我們" class="mono" style="color:#0b0b0b;border-bottom:1px solid #0b0b0b;padding-bottom:6px;font-size:12px;letter-spacing:.18em">${tx("home_svc_link")}</a></div>
     </div>
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));border-top:1px solid #0b0b0b">${svc.map((s, i) => `
       <div data-reveal="${i * 100}" style="display:grid;gap:14px;align-content:start;padding:28px 24px 28px 0"><span class="mono" style="font-size:12px">(${pad(i + 1)})</span>
         <h3 class="nl" style="margin:0;font-size:clamp(26px,2.4vw,36px);font-weight:900;letter-spacing:-.02em">${esc(s.title)}</h3>
         <p class="nl" style="margin:0;font-size:15px;line-height:1.8;color:#3d3b37">${esc(s.description)}</p></div>`).join("")}</div>
-  </div></section>` + footer(c, "有故事？|我們開機。");
+  </div></section>` + footer(c, T("foot_cta"));
 
   fixThumbs();
   // featured hover
@@ -153,7 +157,7 @@ async function home() {
   const sb = $("[data-sound]");
   sb.addEventListener("click", () => {
     sound = !sound; E.vid.muted = !sound; if (sound) { const q = E.vid.play(); if (q && q.catch) q.catch(() => {}); }
-    $("[data-sound-t]").textContent = sound ? "SOUND ON" : "SOUND OFF"; sb.dataset.cursor = sound ? "靜音" : "開聲音";
+    $("[data-sound-t]").textContent = sound ? T("home_sound_on") : T("home_sound_off"); sb.dataset.cursor = sound ? "靜音" : "開聲音";
   });
   frame = (f) => {
     const cl = f.cl, vh = f.vh, ease = f.ease, hr = E.hero.getBoundingClientRect();
@@ -185,7 +189,7 @@ async function works() {
   startFx("Works", { smooth: false, onFrame: (f) => tiltFrame && tiltFrame(f) });
   const [w, c] = await Promise.all([getPage("works"), getPage("contact")]);
   const cats = categories(w), ALL = allWorks(cats);
-  const TABS = [{ name: "全部", items: ALL }, ...cats];
+  const TABS = [{ name: T("works_all"), items: ALL }, ...cats];
   let tab = 0, idx = 0, lock = 0, playing = null;
   const hash = decodeURIComponent(location.hash.slice(1));
   const hit = ALL.findIndex((x) => ytId(x.link) === hash);
@@ -207,8 +211,8 @@ async function works() {
       <div class="abs0" style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px"><span data-cur style="font-family:Archivo,sans-serif;font-weight:700;font-size:26px;line-height:1">01</span><span data-cnt class="mono" style="font-size:9.5px;letter-spacing:.16em;color:#c9c5bc">/ 01</span></div>
     </div>
     <div data-hint class="mono" style="position:absolute;left:var(--pad);bottom:clamp(84px,12vh,120px);z-index:30;display:flex;flex-direction:column;gap:10px;font-size:10.5px;letter-spacing:.2em;color:#c9c5bc">
-      <button data-prev data-cursor="上一部" style="background:none;border:0;padding:0;text-align:left;letter-spacing:.2em">↑ PREV</button><span>滾動切換</span><button data-next data-cursor="下一部" style="background:none;border:0;padding:0;text-align:left;letter-spacing:.2em">↓ NEXT</button></div>
-    <div data-mhint class="mono" style="position:absolute;left:0;right:0;top:calc(60% + 86vw * .5625 / 2 + 22px);display:none;justify-content:center;gap:10px;z-index:30;font-size:10.5px;letter-spacing:.2em;color:#c9c5bc;pointer-events:none">↑ 上下滑動切換作品 ↓</div>
+      <button data-prev data-cursor="上一部" style="background:none;border:0;padding:0;text-align:left;letter-spacing:.2em">${tx("works_prev")}</button><span>${tx("works_hint")}</span><button data-next data-cursor="下一部" style="background:none;border:0;padding:0;text-align:left;letter-spacing:.2em">${tx("works_next")}</button></div>
+    <div data-mhint class="mono" style="position:absolute;left:0;right:0;top:calc(60% + 86vw * .5625 / 2 + 22px);display:none;justify-content:center;gap:10px;z-index:30;font-size:10.5px;letter-spacing:.2em;color:#c9c5bc;pointer-events:none">${tx("works_mhint")}</div>
     <div class="w-cats"><span style="position:absolute;left:var(--pad);right:var(--pad);top:0;height:1px;background:linear-gradient(90deg,#e60012,#ff8c00,#ffd700);opacity:.7"></span>
       <span class="x">+</span>${TABS.map((t, i) => `<button class="w-cat${i === 0 ? " on" : ""}" data-tab="${i}" data-cursor="分類">${esc(t.name)}<small>${pad(t.items.length)}</small></button><span class="x">+</span>`).join("")}</div>
   </main><div data-modal></div>`;
@@ -231,7 +235,7 @@ async function works() {
     bg.innerHTML = L.map((x) => `<img src="${esc(thumb(x))}" alt="">`).join("");
     tilt.innerHTML = L.map((x, i) => `<div class="w-card" data-i="${i}"><img data-yt="${ytId(x.link)}" src="${esc(x.image || thumb(x, "maxresdefault"))}" alt="${esc(x.title)}"></div>`).join("");
     tbox.innerHTML = L.map((x, i) => `<div class="w-txt"><span class="mono" style="font-size:11px;letter-spacing:.24em;color:var(--acc)">${pad(i + 1)} — ${esc(x.catEn || x.cat)}</span><h1 class="nl">${esc(x.title)}</h1></div>`).join("");
-    ibox.innerHTML = L.map((x) => `<div class="w-txt" style="gap:10px"><span class="mono" style="font-size:11px;letter-spacing:.2em;color:#c9c5bc">CLIENT</span><span style="font-size:18px;font-weight:700;line-height:1.5">${esc(x.client || "—")}</span><span style="font-size:14px;line-height:1.8;color:#d8d4cb">${esc(x.cat)} · 點擊畫面播放完整影片</span></div>`).join("");
+    ibox.innerHTML = L.map((x) => `<div class="w-txt" style="gap:10px"><span class="mono" style="font-size:11px;letter-spacing:.2em;color:#c9c5bc">${tx("works_client")}</span><span style="font-size:18px;font-weight:700;line-height:1.5">${esc(x.client || "—")}</span><span style="font-size:14px;line-height:1.8;color:#d8d4cb">${esc(x.cat)} · ${tx("works_play")}</span></div>`).join("");
     $$(".w-card", tilt).forEach((el) => el.addEventListener("click", () => { const i = +el.dataset.i; if (i === idx) open(list()[i]); else go(i - idx); }));
     fixThumbs(tilt);
     $("[data-cnt]").textContent = "/ " + pad(L.length);
@@ -312,31 +316,31 @@ async function about() {
       <h3>${esc(m.name)}</h3>${m.roleEn ? `<span class="mono mute" style="font-size:11px;letter-spacing:.16em;margin-top:-14px">${esc(m.roleEn)}</span>` : ""}
       ${m.lead ? `<p class="lead">${esc(m.lead)}</p>` : ""}
       ${m.tags.length ? `<div class="chips">${m.tags.map((x) => `<span>${esc(x)}</span>`).join("")}</div>` : ""}
-      ${m.credits.length ? `<div><span class="mono mute" style="display:block;font-size:10.5px;letter-spacing:.24em;padding-bottom:10px">CREDITS — 經歷與作品</span>${m.credits.map((cr) => `<div class="cr${cr.first ? "" : " cont"}"><span>${esc(cr.label)}</span><span><b>${esc(cr.title)}</b>${cr.note ? `<small>${esc(cr.note)}</small>` : ""}</span></div>`).join("")}</div>` : ""}
+      ${m.credits.length ? `<div><span class="mono mute" style="display:block;font-size:10.5px;letter-spacing:.24em;padding-bottom:10px">${tx("about_credits")}</span>${m.credits.map((cr) => `<div class="cr${cr.first ? "" : " cont"}"><span>${esc(cr.label)}</span><span><b>${esc(cr.title)}</b>${cr.note ? `<small>${esc(cr.note)}</small>` : ""}</span></div>`).join("")}</div>` : ""}
       ${m.links.length ? `<div style="display:flex;flex-wrap:wrap;gap:10px">${m.links.map((l) => `<a href="${esc(l.href)}" target="_blank" rel="noopener" data-cursor="開啟" class="pill solid">${esc(l.label)} ↗</a>`).join("")}</div>` : ""}
     </div>`;
   const heroImg = bts[0] ? bts[0].image : "";
   document.getElementById("app").innerHTML = nav("about") + `
   <header class="px wrap" style="padding-top:clamp(140px,22vh,230px);padding-bottom:clamp(60px,8vw,110px);display:grid;gap:clamp(40px,5vw,70px)">
-    <span class="label" data-reveal="0">${esc(a.title || "關於推手")} — ABOUT</span>
+    <span class="label" data-reveal="0">${esc(a.title || "關於推手")} — ${tx("about_label")}</span>
     <h1 class="h-xl" style="font-size:clamp(46px,8.4vw,150px);line-height:1.04">${lines(a.headline || "每一幀畫面，|都有自己的靈魂。")}</h1>
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:30px 60px">${paras.slice(0, 2).map((p, i) => `<p class="nl" data-reveal="${200 + i * 100}" style="margin:0;font-size:${i ? "16px" : "clamp(17px,1.4vw,20px)"};line-height:1.9;color:${i ? "#a8a49b" : "#efece6"};text-wrap:pretty">${esc(p)}</p>`).join("")}</div>
   </header>
   ${heroImg ? `<div style="margin:0 var(--pad)"><div data-clip style="overflow:hidden;height:clamp(320px,70vh,760px)"><img src="${esc(heroImg)}" alt="拍攝現場" data-par="90" style="width:100%;height:130%;object-fit:cover;margin-top:-15%"></div></div>` : ""}
   <section class="px wrap" style="padding-top:clamp(110px,17vh,200px);padding-bottom:clamp(110px,17vh,200px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,360px),1fr));gap:clamp(40px,6vw,100px);align-items:start">
-    <div data-sticky-wide style="position:sticky;top:16vh;display:grid;gap:24px"><span class="label">01 / 製作流程</span>
-      <h2 style="margin:0;font-family:Archivo,sans-serif;font-weight:900;font-variation-settings:'wdth' 70;font-size:clamp(80px,11vw,190px);line-height:.82;letter-spacing:-.02em"><span class="mask"><span data-rise="0">PRO—</span></span><span class="mask"><span data-rise="100">CESS</span></span></h2>
-      <p style="margin:0;max-width:22em;font-size:16px;line-height:1.9;color:#a8a49b">從一個想法，到最後一格。每一步都與你同步。</p></div>
+    <div data-sticky-wide style="position:sticky;top:16vh;display:grid;gap:24px"><span class="label">${tx("about_proc_label")}</span>
+      <h2 style="margin:0;font-family:Archivo,sans-serif;font-weight:900;font-variation-settings:'wdth' 70;font-size:clamp(80px,11vw,190px);line-height:.82;letter-spacing:-.02em">${lines(T("about_proc_title"))}</h2>
+      <p style="margin:0;max-width:22em;font-size:16px;line-height:1.9;color:#a8a49b">${tx("about_proc_text")}</p></div>
     <div>${(h.services || []).map((s, i) => `<div class="step" data-reveal="0"><div style="display:flex;align-items:baseline;gap:20px"><span class="num">${pad(i + 1)}</span><h3>${esc(s.title)}</h3></div><p>${esc(s.description)}</p></div>`).join("")}</div>
   </section>
   ${bts.length ? `<section class="gal" data-gal><div class="gal-stick">
-    <div class="px" style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:20px"><div style="display:grid;gap:16px"><span class="label">02 / 片場花絮 ON SET</span><h2 class="h-xl" style="font-size:clamp(44px,6vw,104px);letter-spacing:-.04em">${lines("鏡頭之外。")}</h2></div>
-      <p style="margin:0;max-width:24em;font-size:15px;line-height:1.85;color:#a8a49b">燈光、走位、一次又一次的 Take——畫面之外的每個細節，都是成片的一部分。</p></div>
+    <div class="px" style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:20px"><div style="display:grid;gap:16px"><span class="label">${tx("about_bts_label")}</span><h2 class="h-xl" style="font-size:clamp(44px,6vw,104px);letter-spacing:-.04em">${lines(T("about_bts_title"))}</h2></div>
+      <p style="margin:0;max-width:24em;font-size:15px;line-height:1.85;color:#a8a49b">${tx("about_bts_text")}</p></div>
     <div class="gal-track" data-gtrack>${bts.map((b, i) => { const s = sizes[i % sizes.length]; return `<figure><div style="height:${s[0]};aspect-ratio:${s[1]}"><img data-gimg src="${esc(b.image)}" alt="${esc(b.caption || "拍攝花絮")}" loading="lazy"></div><figcaption><span>TAKE ${pad(i + 1)}</span><span>${esc(b.caption || "推手影像")}</span></figcaption></figure>`; }).join("")}</div>
   </div></section>` : ""}
   <section id="crew" class="px" style="border-top:1px solid var(--line);padding-top:clamp(100px,15vh,180px);padding-bottom:clamp(100px,15vh,180px)"><div style="max-width:1720px;margin:0 auto;display:grid;gap:clamp(40px,5vw,70px)">
-    <div style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:24px"><h2 class="h-xl" style="font-size:clamp(52px,8vw,140px)">${lines(t.title && t.title !== "我的團隊" ? t.title : "影像職人")}</h2>
-      <span class="mono mute" data-reveal="100" style="font-size:11px;letter-spacing:.3em"><span style="color:var(--acc)">03 / THE CREW</span> — 點選照片，看完整介紹</span></div>
+    <div style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:24px"><h2 class="h-xl" style="font-size:clamp(52px,8vw,140px)">${lines(t.title && t.title !== "我的團隊" ? t.title : T("about_crew_title"))}</h2>
+      <span class="mono mute" data-reveal="100" style="font-size:11px;letter-spacing:.3em"><span style="color:var(--acc)">${tx("about_crew_label")}</span> — ${tx("about_crew_hint")}</span></div>
     <div data-crew-wide class="crew">${M.map((m, i) => `<div class="cp${i === 0 ? " on" : ""}" data-cp="${i}" data-cursor="${i === 0 ? esc(m.name) : "展開"}">
         <div class="ph"><img src="${esc(m.img)}" alt="${esc(m.name)}" style="object-position:${m.px}% ${m.py}%"><div class="shade"></div>
           <div class="vt"><b>${[...m.name].map((ch) => `<span>${esc(ch)}</span>`).join("")}</b><span class="mono" style="font-size:11px;letter-spacing:.2em">${pad(i + 1)} +</span></div><span class="rs">${esc(m.roleShort)}</span></div>
@@ -349,7 +353,7 @@ async function about() {
         <span class="mb-x">+</span>
       </button>
       <div class="mb-body"><div class="mb-in">${dossier(m, i)}</div></div></div>`).join("")}</div>
-  </div></section>` + footer(c, "有故事？|我們開機。");
+  </div></section>` + footer(c, T("foot_cta"));
 
   const cps = $$("[data-cp]");
   const pick = (el) => { if (el.classList.contains("on")) return; cps.forEach((x) => { x.classList.toggle("on", x === el); x.dataset.cursor = x === el ? M[+x.dataset.cp].name : "展開"; }); };
@@ -381,42 +385,43 @@ async function about() {
 async function contact() {
   startFx("Contact");
   const c = await getPage("contact");
-  const TYPES = ["品牌形象", "活動紀錄", "產品影片", "公部門專案", "FPV / 空拍", "其他"], BUD = ["10 萬以下", "10–30 萬", "30–60 萬", "60 萬以上", "尚未確定"], TIME = ["一個月內", "1–3 個月", "3 個月以上", "尚未確定"];
+  const LS = (k) => T(k).split(/\n+/).map((s) => s.trim()).filter(Boolean);
+  const TYPES = LS("contact_types"), BUD = LS("contact_budgets"), TIME = LS("contact_times");
   const chips = (name, arr, multi) => `<div style="display:flex;flex-wrap:wrap;gap:10px" data-group="${name}" data-multi="${multi ? 1 : 0}">${arr.map((x) => `<button type="button" class="chip" data-v="${esc(x)}">${esc(x)}</button>`).join("")}</div>`;
   const leg = (n, t) => `<legend><span class="mono" style="font-size:12px;color:var(--acc)">${n}</span><b>${t}</b></legend>`;
-  const title = /[|\n]/.test(String(c.title || "")) ? c.title : "有故事？|我們開機。";
+  const title = c.title && c.title.trim() !== "聯絡我們" ? c.title : T("foot_cta");
   document.getElementById("app").innerHTML = nav("contact") + `
   <header class="px wrap" style="padding-top:clamp(140px,22vh,230px);padding-bottom:clamp(60px,8vw,100px);display:grid;gap:clamp(40px,5vw,60px)">
-    <span class="label" data-reveal="0">聯絡我們 — CONTACT</span>
+    <span class="label" data-reveal="0">${tx("contact_label")}</span>
     <h1 class="h-xl" style="font-size:clamp(60px,11vw,200px);line-height:.98;letter-spacing:-.05em">${lines(title)}</h1>
   </header>
   <main class="px wrap" style="padding-bottom:clamp(100px,15vh,170px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,360px),1fr));gap:clamp(50px,7vw,110px);align-items:start">
     <aside data-sticky-wide style="position:sticky;top:16vh;display:grid;gap:34px;font-family:var(--mono);font-size:12.5px;letter-spacing:.06em;line-height:1.9">
       <p class="nl" data-reveal="0" style="margin:0;font-family:'Noto Sans TC',sans-serif;font-size:17px;letter-spacing:0;line-height:1.9;color:#a8a49b;max-width:24em">${esc(c.subtitle)}</p>
-      <div data-reveal="80" style="display:grid;border-top:1px solid var(--line);padding-top:18px"><span class="mute">EMAIL</span><a href="mailto:${esc(c.email)}" style="font-size:clamp(15px,1.4vw,19px)">${esc(c.email)}</a></div>
-      <div data-reveal="160" style="display:grid;border-top:1px solid var(--line);padding-top:18px"><span class="mute">PHONE</span><a href="tel:${esc(String(c.phone).replace(/[^0-9+]/g, ""))}" style="font-size:clamp(15px,1.4vw,19px)">${esc(c.phone)}</a></div>
-      <div data-reveal="240" style="display:grid;border-top:1px solid var(--line);padding-top:18px"><span class="mute">STUDIO</span><a href="https://maps.google.com/?q=${encodeURIComponent(c.address)}" target="_blank" rel="noopener" data-cursor="地圖">${esc(c.address)} ↗</a></div>
+      <div data-reveal="80" style="display:grid;border-top:1px solid var(--line);padding-top:18px"><span class="mute">${tx("lbl_email")}</span><a href="mailto:${esc(c.email)}" style="font-size:clamp(15px,1.4vw,19px)">${esc(c.email)}</a></div>
+      <div data-reveal="160" style="display:grid;border-top:1px solid var(--line);padding-top:18px"><span class="mute">${tx("lbl_phone")}</span><a href="tel:${esc(String(c.phone).replace(/[^0-9+]/g, ""))}" style="font-size:clamp(15px,1.4vw,19px)">${esc(c.phone)}</a></div>
+      <div data-reveal="240" style="display:grid;border-top:1px solid var(--line);padding-top:18px"><span class="mute">${tx("lbl_studio")}</span><a href="https://maps.google.com/?q=${encodeURIComponent(c.address)}" target="_blank" rel="noopener" data-cursor="地圖">${esc(c.address)} ↗</a></div>
     </aside>
     <div data-formbox>
       <form data-form style="display:grid;gap:clamp(44px,5vw,64px)">
-        <fieldset data-reveal="0">${leg("01", "專案類型（可複選）")}${chips("type", TYPES, true)}</fieldset>
-        <fieldset data-reveal="0">${leg("02", "預算範圍")}${chips("budget", BUD, false)}</fieldset>
-        <fieldset data-reveal="0">${leg("03", "預計上線時間")}${chips("timeline", TIME, false)}</fieldset>
-        <fieldset data-reveal="0" style="gap:26px">${leg("04", "你的資訊")}
+        <fieldset data-reveal="0">${leg("01", tx("contact_q1"))}${chips("type", TYPES, true)}</fieldset>
+        <fieldset data-reveal="0">${leg("02", tx("contact_q2"))}${chips("budget", BUD, false)}</fieldset>
+        <fieldset data-reveal="0">${leg("03", tx("contact_q3"))}${chips("timeline", TIME, false)}</fieldset>
+        <fieldset data-reveal="0" style="gap:26px">${leg("04", tx("contact_q4"))}
           <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:26px 24px">
-            <label class="f-l">姓名 *<input required name="name" placeholder="王小明"></label>
-            <label class="f-l">公司 / 單位<input name="company" placeholder="選填"></label>
-            <label class="f-l">EMAIL *<input required type="email" name="email" placeholder="you@company.com"></label>
-            <label class="f-l">電話<input type="tel" name="phone" placeholder="選填"></label>
+            <label class="f-l">${tx("contact_f_name")}<input required name="name" placeholder="王小明"></label>
+            <label class="f-l">${tx("contact_f_company")}<input name="company" placeholder="選填"></label>
+            <label class="f-l">${tx("contact_f_email")}<input required type="email" name="email" placeholder="you@company.com"></label>
+            <label class="f-l">${tx("contact_f_phone")}<input type="tel" name="phone" placeholder="選填"></label>
           </div>
-          <label class="f-l">想說的話<textarea name="message" rows="4" placeholder="簡單描述你的想法、參考影片或需要的交付格式"></textarea></label>
+          <label class="f-l">${tx("contact_f_msg")}<textarea name="message" rows="4" placeholder="${esc(T("contact_msg_ph"))}"></textarea></label>
         </fieldset>
-        <div style="display:flex;align-items:center;gap:28px;flex-wrap:wrap"><button type="submit" data-magnet data-cursor="送出" class="circle-cta" data-submit>送出需求<br>↗</button><span data-msg class="mono mute" style="font-size:11px;letter-spacing:.12em;max-width:26em;line-height:1.8">我們會在兩個工作天內回覆。</span></div>
+        <div style="display:flex;align-items:center;gap:28px;flex-wrap:wrap"><button type="submit" data-magnet data-cursor="送出" class="circle-cta" data-submit>${tx("contact_submit")}<br>↗</button><span data-msg class="mono mute" style="font-size:11px;letter-spacing:.12em;max-width:26em;line-height:1.8">${tx("contact_note")}</span></div>
       </form>
     </div>
   </main>
-  <div style="overflow:hidden;border-top:1px solid var(--line)"><div data-big style="font-family:'Noto Sans TC',sans-serif;font-weight:900;font-size:24vw;line-height:.9;letter-spacing:-.04em;white-space:nowrap;width:max-content;margin:0 auto;padding-top:.08em;color:var(--acc);transform:translateY(8%)">推手影像</div></div>
-  <div class="foot-bot px" style="padding-top:18px;padding-bottom:18px;border-top:1px solid var(--line)"><span>推手影像製作有限公司</span><span>© ${new Date().getFullYear()} UPRISE-PRODUCTION</span></div>`;
+  <div style="overflow:hidden;border-top:1px solid var(--line)"><div data-big style="font-family:'Noto Sans TC',sans-serif;font-weight:900;font-size:24vw;line-height:.9;letter-spacing:-.04em;white-space:nowrap;width:max-content;margin:0 auto;padding-top:.08em;color:var(--acc);transform:translateY(8%)">${esc(T("contact_big"))}</div></div>
+  <div class="foot-bot px" style="padding-top:18px;padding-bottom:18px;border-top:1px solid var(--line)"><span>${tx("foot_company")}</span><span>© ${new Date().getFullYear()} ${tx("foot_copyright")}</span></div>`;
 
   $$("[data-group]").forEach((g) => g.addEventListener("click", (e) => {
     const b = e.target.closest(".chip"); if (!b) return;
@@ -434,7 +439,7 @@ async function contact() {
     fd.set("專案類型", pickd("type") || "—"); fd.set("預算範圍", pickd("budget") || "—"); fd.set("預計上線", pickd("timeline") || "—");
     fd.set("_subject", "影像製作需求｜" + (fd.get("company") || fd.get("name") || ""));
     const btn = $("[data-submit]"), msg = $("[data-msg]");
-    btn.disabled = true; msg.textContent = "傳送中…";
+    btn.disabled = true; msg.textContent = T("contact_sending");
     let ok = false;
     if (c.formspree_id) {
       try { const r = await fetch("https://formspree.io/f/" + c.formspree_id, { method: "POST", body: fd, headers: { Accept: "application/json" } }); ok = r.ok; } catch (err) { ok = false; }
@@ -443,12 +448,18 @@ async function contact() {
       const body = [...fd.entries()].filter(([k]) => k[0] !== "_").map(([k, v]) => k + "：" + v).join("\n");
       location.href = "mailto:" + c.email + "?subject=" + encodeURIComponent(fd.get("_subject")) + "&body=" + encodeURIComponent(body);
     }
-    $("[data-formbox]").innerHTML = `<div style="display:grid;gap:24px;align-content:start;padding-top:20px"><span class="label">● REC — 已收到</span>
-      <h2 class="h-xl" style="font-size:clamp(44px,6vw,96px);line-height:1.05;letter-spacing:-.04em">謝謝，${esc(fd.get("name"))}。<br>我們很快聯絡你。</h2>
-      <p style="margin:0;font-size:16px;line-height:1.9;color:#a8a49b;max-width:28em">${ok ? "需求已送出，我們會盡快回覆。" : "已開啟你的郵件程式；若沒有自動開啟，請直接寄信至 " + esc(c.email) + "。"}</p>
-      <div style="display:flex;gap:12px;flex-wrap:wrap"><a href="works.html" data-to="Works" class="pill">先看看作品 →</a></div></div>`;
+    $("[data-formbox]").innerHTML = `<div style="display:grid;gap:24px;align-content:start;padding-top:20px"><span class="label">${tx("contact_thanks_label")}</span>
+      <h2 class="h-xl" style="font-size:clamp(44px,6vw,96px);line-height:1.05;letter-spacing:-.04em">${tx("contact_thanks_title").replace("{name}", esc(fd.get("name")))}</h2>
+      <p style="margin:0;font-size:16px;line-height:1.9;color:#a8a49b;max-width:28em">${ok ? tx("contact_thanks_ok") : tx("contact_thanks_mail").replace("{email}", esc(c.email))}</p>
+      <div style="display:flex;gap:12px;flex-wrap:wrap"><a href="works.html" data-to="Works" class="pill">${tx("contact_after")}</a></div></div>`;
     scrollTo({ top: 0, behavior: "smooth" });
   });
 }
 
-({ home, works, about, contact }[PAGE] || home)();
+getPage("site").then((s) => {
+  S = s || {};
+  const it = document.querySelector("[data-intro-t]"), is = document.querySelector("[data-intro-s]");
+  if (it) it.textContent = T("intro_title");
+  if (is) is.textContent = T("intro_sub");
+  ({ home, works, about, contact }[PAGE] || home)();
+});

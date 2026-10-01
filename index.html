@@ -2,10 +2,11 @@
 <html lang="zh-Hant">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>推手影像 Uprise-Production｜台中影像製作・商業廣告・品牌形象影片</title>
 <meta name="description" content="推手影像 (Uprise-Production) 由導演林家佑創立，專注於商業廣告、品牌形象影片與電影製作。">
 <meta name="keywords" content="林家佑, 林家佑導演, 推手影像, Uprise Production, 廣告導演, 電影導演, 台中影像製作">
+<meta property="og:type" content="website">
 <meta property="og:title" content="推手影像 Uprise-Production｜台中影像製作・商業廣告・品牌形象影片">
 <meta property="og:description" content="推手影像 (Uprise-Production) 由導演林家佑創立，專注於商業廣告、品牌形象影片與電影製作。">
 <meta property="og:image" content="/icon-512.png">
@@ -16,13 +17,188 @@
 <link rel="manifest" href="/site.webmanifest">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=Noto+Sans+TC:wght@400;500;700;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/uprise.css?v=mujkzatk">
+<link rel="preconnect" href="https://res.cloudinary.com" crossorigin>
+<link rel="preconnect" href="https://i.ytimg.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..900&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@600;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/home.css?v=2">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"LocalBusiness","name":"推手影像製作有限公司 Uprise Production","url":"https://www.uprise-videoproduction.com/","image":"https://www.uprise-videoproduction.com/icon-512.png","founder":{"@type":"Person","name":"林家佑"},"foundingDate":"2025","email":"uprisevideoproduction@gmail.com","telephone":"+886-937-672-279","address":{"@type":"PostalAddress","streetAddress":"臺灣大道二段285號31樓","addressLocality":"台中市西區","addressCountry":"TW"},"description":"商業廣告、品牌形象影片與電影製作。"}
+</script>
 </head>
-<body data-page="home">
-<div id="app"></div>
-<noscript><p style="padding:40px;color:#efece6">請開啟 JavaScript 以瀏覽推手影像網站。</p></noscript>
-<script src="js/uprise-fx.js?v=mujkzatk"></script>
-<script type="module" src="js/uprise-pages.js?v=mujkzatk"></script>
+<body data-page="home" class="is-loading">
+<a class="skip" href="#main">跳到主要內容</a>
+
+<!-- Loader：場記板倒數 -->
+<div class="loader" data-loader aria-hidden="true">
+  <div class="loader-bars"><i></i><i></i></div>
+  <div class="loader-top mono"><span>UPRISE PRODUCTION</span><span>SCENE 01 — TAKE 01</span></div>
+  <div class="loader-mid">
+    <div class="loader-tc" data-loader-tc>00:00:00<span>:00</span></div>
+    <div class="loader-line"><i data-loader-line></i></div>
+  </div>
+  <div class="loader-bot mono"><span data-intro-t>推手影像</span><span>ROLLING<span class="dot blink" style="margin-left:10px"></span></span></div>
+</div>
+
+<div class="grain" aria-hidden="true"></div>
+<div class="cursor hide" data-cursor-el aria-hidden="true"><div class="cursor-dot"></div><div class="cursor-frame"><i></i><i></i><i></i><i></i></div><div class="cursor-ring" data-cursor-t>PLAY</div></div>
+
+<!-- Nav -->
+<nav class="nav" data-nav aria-label="主選單">
+  <a class="brand" href="index.html" aria-label="推手影像 首頁"><img src="images/uploads/logo.png" alt="" width="34" height="22"><span data-t="brand">UPRISE<sup>®</sup></span></a>
+  <ul class="nav-links">
+    <li><a href="index.html" aria-current="page" data-cursor="link"><span class="roll"><span data-t-roll="nav_home" data-t="首頁">首頁</span></span></a></li>
+    <li><a href="works.html" data-cursor="link"><span class="roll"><span data-t-roll="nav_works" data-t="作品">作品</span></span></a></li>
+    <li><a href="about.html" data-cursor="link"><span class="roll"><span data-t-roll="nav_about" data-t="關於">關於</span></span></a></li>
+    <li><a href="contact.html" data-cursor="link"><span class="roll"><span data-t-roll="nav_contact" data-t="聯絡">聯絡</span></span></a></li>
+  </ul>
+  <div class="nav-meta">
+    <span class="nav-clock mono"><span>TAICHUNG</span><span data-clock>--:--:--</span></span>
+    <button class="menu-btn" data-menu aria-expanded="false" aria-controls="mnav"><span data-menu-t>MENU</span><i></i></button>
+  </div>
+</nav>
+<div class="mnav" id="mnav" data-mnav>
+  <ul>
+    <li><a href="index.html"><span data-tx="nav_home">首頁</span><small>01 — HOME</small></a></li>
+    <li><a href="works.html"><span data-tx="nav_works">作品</span><small>02 — WORKS</small></a></li>
+    <li><a href="about.html"><span data-tx="nav_about">關於</span><small>03 — ABOUT</small></a></li>
+    <li><a href="contact.html"><span data-tx="nav_contact">聯絡</span><small>04 — CONTACT</small></a></li>
+  </ul>
+  <div class="mnav-foot mono"><a href="mailto:uprisevideoproduction@gmail.com" data-email>uprisevideoproduction@gmail.com</a><a href="tel:0937672279" data-phone>0937-672-279</a><span>TAICHUNG, TW</span></div>
+</div>
+
+<main id="main">
+  <!-- 01 Hero：觀景窗 -->
+  <header class="hero" data-hero>
+    <div class="hero-frame" data-hero-frame>
+      <video class="hero-video" data-hero-video autoplay muted loop playsinline preload="auto" aria-label="推手影像作品精華背景影片"></video>
+      <div class="hero-shade"></div>
+    </div>
+    <div class="vf" data-vf aria-hidden="true">
+      <i class="vf-c tl"></i><i class="vf-c tr"></i><i class="vf-c bl"></i><i class="vf-c br"></i>
+      <div class="vf-top mono">
+        <span><i class="dot blink"></i>REC <span class="vf-tc" data-tc>00:00:00:00</span></span>
+        <span class="vf-hide-m">A-CAM · 4K · 23.976 · 2.39:1</span>
+        <span data-hero-sound-tag>SOUND OFF</span>
+      </div>
+      <div class="vf-cross"></div>
+      <div class="vf-meter" data-meter></div>
+    </div>
+    <div class="hero-content wrap" data-hero-content>
+      <p class="hero-eyebrow mono"><span class="dot"></span><span><span data-hero-text>推手影像</span> — <span data-tx="home_est">EST. 2025</span> · TAICHUNG, TW</span></p>
+      <h1 class="hero-title" data-hero-title><span class="sr">推手影像 Uprise Production — </span><span data-split aria-hidden="true">推手影像</span><span class="en" aria-hidden="true">Uprise Production</span></h1>
+      <div class="hero-side" data-hero-side>
+        <p class="hero-intro" data-intro>電影級影像製作。從策劃、拍攝到後期，把想法推向更清晰的畫面。</p>
+        <div class="hero-actions">
+          <a class="pill solid" href="#works" data-scroll data-cursor="link">觀看作品 <span class="arw">↓</span></a>
+          <button class="sound" data-sound aria-pressed="false" data-cursor="link"><span class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span class="mono" data-sound-t>SOUND OFF</span></button>
+        </div>
+      </div>
+      <div class="hero-foot mono">
+        <span class="scroll-cue"><i></i><span data-tx="home_scroll">滑動進入</span></span>
+        <span class="hide-s">商業廣告 · 品牌形象 · 電影製作</span>
+        <span>24.1477°N 120.6736°E</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- 02 Manifesto -->
+  <section class="manifesto wrap" data-mani aria-labelledby="mani-h">
+    <div class="mani-grid">
+      <p class="label mono"><span data-tx="home_mani_label">01 / 我們相信</span><span class="en">BELIEF</span></p>
+      <h2 class="mani-text" id="mani-h" data-mani-text>影像不只是記錄，而是能被感受、被記住、被分享的故事。</h2>
+      <div class="mani-sign"><span class="mono">— SINCE 2025</span><p>我們以電影的標準對待每一次拍攝。策劃、拍攝、後期一條龍完成，含 FPV 穿越機與空拍。</p></div>
+    </div>
+  </section>
+
+  <!-- 03 Selected works -->
+  <section class="works wrap" id="works" aria-labelledby="works-h">
+    <div class="sec-head">
+      <p class="label mono"><span data-tx="home_sel_label">02 / 精選作品</span><span class="en">SELECTED WORKS</span></p>
+      <h2 class="sec-title" id="works-h" data-lines><span class="ln"><span>Selected</span></span><span class="ln"><span><span class="it">Works</span> <sup class="mono" style="font-size:12px;vertical-align:top;letter-spacing:.1em;color:var(--acc)" data-feat-count>(04)</sup></span></span></h2>
+      <div class="sec-aside"><p>品牌、產品、公部門與活動紀錄——每一部，都從一個要被看見的理由開始。</p></div>
+    </div>
+    <div class="works-grid" data-works></div>
+    <div class="works-more"><a class="big-link" href="works.html" data-cursor="link"><span class="zh" data-works-all>查看全部作品</span><sup data-works-n>19</sup><span aria-hidden="true">→</span></a></div>
+  </section>
+
+  <!-- 04 Clients marquee -->
+  <section class="marquee" aria-label="合作客戶" data-marquee>
+    <span class="mq-label mono">CLIENTS &amp; COLLABORATORS</span>
+    <div class="mq-row" data-mq-row="1"></div>
+    <div class="mq-row alt" data-mq-row="-1"></div>
+  </section>
+
+  <!-- 05 Process：剪輯時間軸 -->
+  <section class="process" id="process" data-process aria-labelledby="proc-h">
+    <div class="process-pin wrap" data-process-pin>
+      <div class="sec-head">
+        <p class="label mono"><span data-tx="home_svc_label">03 / 我們做什麼</span><span class="en">PROCESS</span></p>
+        <h2 class="sec-title" id="proc-h" data-lines data-svc-title><span class="ln"><span>從一個想法</span></span><span class="ln"><span>到最後一格。</span></span></h2>
+        <div class="sec-aside"><a class="pill" href="about.html" data-cursor="link"><span data-tx="home_svc_link">認識團隊與流程 →</span></a></div>
+      </div>
+      <div class="ps-stage">
+        <div class="ps-num" aria-hidden="true"><span class="roller"><span data-ps-roller><b>01</b><b>02</b><b>03</b><b>04</b></span></span><small data-ps-total>/ 04</small></div>
+        <div class="ps-body" data-ps-body></div>
+      </div>
+      <div class="timeline" data-timeline aria-hidden="true">
+        <div class="tl-head mono"><span>V1 · UPRISE_MASTER_v01.prproj</span><span class="tl-tc" data-ptc>00:00:00:00</span></div>
+        <div class="tl-body" data-tl-body>
+          <div class="tl-ruler"></div>
+          <div class="tl-track" data-tl-track></div>
+          <div class="tl-track"><div class="tl-audio" data-wave style="flex:1"></div></div>
+          <div class="playhead" data-playhead></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 06 Behind the scenes -->
+  <section class="bts" aria-labelledby="bts-h" data-bts>
+    <div class="wrap sec-head">
+      <p class="label mono"><span>04 / 片場</span><span class="en">ON SET</span></p>
+      <h2 class="sec-title" id="bts-h" data-lines><span class="ln"><span>Behind</span></span><span class="ln"><span><span class="it">the</span> Frame</span></span></h2>
+      <div class="sec-aside"><p>燈光、走位、一次又一次的 Take——畫面之外的每個細節，都是成片的一部分。</p></div>
+    </div>
+    <div class="strip"><div class="strip-track" data-strip></div></div>
+  </section>
+
+  <!-- 07 CTA -->
+  <section class="cta wrap" id="contact" aria-labelledby="cta-h">
+    <div class="cta-grid">
+      <p class="label mono"><span>05 / 聯絡</span><span class="en">LET'S ROLL</span></p>
+      <h2 class="cta-title" id="cta-h" data-cta-title><span class="ln"><span>有故事？</span></span><span class="ln"><span>我們<em>開機</em>。</span></span></h2>
+      <div class="cta-btn-wrap"><a class="cta-btn" href="contact.html" data-magnet data-cursor="hide"><span class="cta-btn-in" data-magnet-in><span class="rec-tag"><span class="dot"></span>STANDBY</span><span data-tx="foot_btn">開始合作</span><span class="arw" aria-hidden="true">↗</span></span></a></div>
+      <div class="cta-info">
+        <div><span class="mono mute" data-tx="lbl_email">EMAIL</span><button class="copy val" data-copy data-cursor="link"><span class="u-line" data-email-t>uprisevideoproduction@gmail.com</span><span class="tip" data-copy-tip>COPY</span></button></div>
+        <div><span class="mono mute" data-tx="lbl_phone">PHONE</span><a class="val" href="tel:0937672279" data-phone data-cursor="link"><span class="u-line" data-phone-t>0937-672-279</span></a></div>
+        <div><span class="mono mute" data-tx="lbl_studio">STUDIO</span><span class="val" data-address>台中市西區臺灣大道二段285號31樓</span></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="foot-row mono">
+    <div class="foot-c1"><span data-tx="foot_pages">頁面</span><a href="index.html" data-tx="nav_home">首頁</a><a href="works.html" data-tx="nav_works">作品</a><a href="about.html" data-tx="nav_about">關於</a><a href="contact.html" data-tx="nav_contact">聯絡</a></div>
+    <div class="foot-c2"><span>SOCIAL</span><a href="https://www.instagram.com/harry.lin_jiayou" target="_blank" rel="noopener">Instagram ↗</a><a href="works.html">YouTube 作品 ↗</a></div>
+    <div class="foot-c3"><span>LOCAL TIME</span><span style="color:var(--paper)">TPE <span data-clock>--:--:--</span> GMT+8</span></div>
+    <div class="foot-c4"><span>&nbsp;</span><button class="to-top" data-top data-cursor="link">BACK TO TOP <i aria-hidden="true">↑</i></button></div>
+  </div>
+  <div class="wordmark" data-wordmark aria-hidden="true">UPRISE</div>
+  <div class="foot-legal mono"><span data-tx="foot_company">推手影像製作有限公司</span><span>© <span data-year>2026</span> <span data-tx="foot_copyright">UPRISE-PRODUCTION</span></span></div>
+</footer>
+
+<!-- Lightbox -->
+<dialog class="lb" data-lb aria-label="影片播放">
+  <div class="lb-bar mono"><span><span class="dot blink" style="margin-right:10px"></span>NOW PLAYING <span data-lb-no></span></span><button class="lb-close mono" data-lb-close data-cursor="link">CLOSE <span aria-hidden="true">✕</span></button></div>
+  <div class="lb-frame"><iframe data-lb-iframe title="作品影片" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe></div>
+  <div class="lb-meta"><h3 data-lb-title></h3><a class="mono u-line" data-lb-link href="works.html">在作品頁查看 →</a></div>
+</dialog>
+
+<noscript><style>.loader{display:none}body{overflow:auto}</style></noscript>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+<script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js" defer></script>
+<script type="module" src="js/home.js?v=2"></script>
 </body>
 </html>
